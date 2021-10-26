@@ -89,7 +89,7 @@ namespace DLL.DAO.Operaciones
         }
 
 
-        public List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut)
+        public List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut, DateTime fechaIni, DateTime fechaFin)
         {
             try
             {
@@ -97,24 +97,32 @@ namespace DLL.DAO.Operaciones
                 {
 
                     // Obtengo datos del usuario, perfiles y permisos
-                    List<DTO_HorarioConductorMostrar> usuario = (from usr in context.USUARIOS_SISTEMA
-                                                           join hrcon in context.HORARIO_CONDUCTOR on usr.ID_USUARIO equals hrcon.ID_USUARIO
-                                                           select new DTO_HorarioConductorMostrar
-                                                           {
-                                                               ID_USUARIO = usr.ID_USUARIO,
-                                                               RUT = usr.RUT,
-                                                               NOMBRE = usr.NOMBRE,
-                                                               SEGUNDO_NOMBRE = usr.SEGUNDO_NOMBRE,
-                                                               APELLIDO_PATERNO = usr.APELLIDO_PATERNO,
-                                                               APELLIDO_MATERNO = usr.APELLIDO_MATERNO,
-                                                               ESTADO = usr.ESTADO,
-                                                               ID_TERMINAL = hrcon.ID_TERMINAL_INICIO,
-                                                               NUMERO_JORNADA = hrcon.NUMERO_JORNADA,
-                                                               FECHA_HORA_INICIO = hrcon.FECHA_INICIO
-                                                           }).Where(x => x.RUT == rut && x.ESTADO == true).ToList();
+                    List<DTO_HorarioConductorMostrar> dtoHorario = (from usr in context.USUARIOS_SISTEMA
+                                                                 join hrcon in context.HORARIO_CONDUCTOR on usr.ID_USUARIO equals hrcon.ID_USUARIO
+                                                                 select new DTO_HorarioConductorMostrar
+                                                                 {
+                                                                     ID_USUARIO = usr.ID_USUARIO,
+                                                                     RUT = usr.RUT,
+                                                                     NOMBRE = usr.NOMBRE,
+                                                                     SEGUNDO_NOMBRE = usr.SEGUNDO_NOMBRE,
+                                                                     APELLIDO_PATERNO = usr.APELLIDO_PATERNO,
+                                                                     APELLIDO_MATERNO = usr.APELLIDO_MATERNO,
+                                                                     ESTADO = usr.ESTADO,
+                                                                     ID_TERMINAL = hrcon.ID_TERMINAL_INICIO,
+                                                                     NUMERO_JORNADA = hrcon.NUMERO_JORNADA,
+                                                                     FECHA_HORA_INICIO = hrcon.FECHA_INICIO
+                                                                 }).Where(x => x.RUT == rut
+                                                                 && x.ESTADO == true &&
+                                                                 ( x.FECHA_HORA_INICIO.Day >= fechaIni.Day
+                                                                 && x.FECHA_HORA_INICIO.Month >= fechaIni.Month
+                                                                 && x.FECHA_HORA_INICIO.Year >= fechaIni.Year)
+                                                                 && (x.FECHA_HORA_INICIO.Day <= fechaFin.Day
+                                                                 && x.FECHA_HORA_INICIO.Month <= fechaFin.Month
+                                                                 && x.FECHA_HORA_INICIO.Year <= fechaFin.Year
+                                                                 )).ToList();
 
 
-                    return usuario;
+                    return dtoHorario;
                 }
             }
             catch (Exception ex)

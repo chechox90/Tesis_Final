@@ -22,9 +22,9 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_HorarioConductor.SetGuardarHorarioConductor(list, nombreCarga, fechaCarga, descripcion);
         }
 
-        public List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut)
+        public List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut, DateTime fechaIni, DateTime fechaFin)
         {
-            return I_DAO_HorarioConductor.GetHorarioConductorByRut(rut);
+            return I_DAO_HorarioConductor.GetHorarioConductorByRut(rut, fechaIni, fechaFin);
         }
     }
 }

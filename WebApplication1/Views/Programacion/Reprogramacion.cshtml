@@ -54,7 +54,7 @@
                     <input type="text" id="txtRutConductor" placeholder="Ingrese un R.U.N." onclick="Limpiar();" class="form-control borderInput" />
                 </div>
                 <div class="borderInput">
-                    <button id="btnBuscar" class="btn btn-primary borderInput" onclick="BuscarConductorHorario();">Buscar</button>
+                    <button id="btnBuscar" class="btn btn-primary borderInput" onclick="BuscarConductorHorarioClick();">Buscar</button>
                 </div>
 
             </div>
@@ -74,8 +74,8 @@
                         <div class="card-header">
                             <h4 class="text-primary">Jornada 1</h4>
                         </div>
-                        <div class="form-row">
-                            <button class="btn btn-info" id="btnSemanaAnterior">Semana anterior</button>
+                        <div class="form-row ocultar">
+                            <button class="btn btn-default" id="btnSemanaAnterior" onclick="SiguienteSemana(this);">Semana anterior</button>
                         </div>
                         <div class="form-row">
                             <label class="col-md-3" id="idLunesT1"></label>
@@ -123,7 +123,7 @@
                 </div>
             </div>
 
-            
+
 
             @*JORNADA TARDE*@
 
@@ -134,9 +134,9 @@
                         <div class="clearfix"></div>
 
                     </div>
-                    <div class="form-row">
-                        <button class="btn btn-info" type="button" id="btnSemanaActual">Volver a semana actual</button>
-                        <button class="btn btn-info" type="button" id="btnSemanaSiguiente">Próximos 7 dias >></button>
+                    <div class="form-row ocultar">
+                        <button class="btn btn-default" type="button" id="btnSemanaActual" onclick="SiguienteSemana(this)">Volver a semana actual</button>
+                        <button class="btn btn-default" type="button" id="btnSemanaSiguiente" onclick="SiguienteSemana(this)">Próximos 7 dias >></button>
                     </div>
                     <div class="form-row">
                         <label class="col-md-3" id="idLunesT2"></label>
@@ -203,9 +203,10 @@
 
     <script>
         $(document).ready(function () {
-            CargaFechasDias();
+            CargaFechasLabel();
 
             CargarTerminalesCmb();
+            $(".ocultar").css("display", "none");
 
             $(".input-num").keypress(function (e) {
                 if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
@@ -296,9 +297,10 @@
             });
         }
 
-        function CargaFechasDias() {
+
+        function CargaFechasLabel() {
             $.ajax({
-                url: '../Reprogramacion/ObtenerFechaLunes',
+                url: '../Reprogramacion/ObtenerFechaSemanas',
                 type: 'post',
                 datatype: 'json',
                 contentType: false,
@@ -339,9 +341,9 @@
             });
         }
 
-        function BuscarConductorHorario() {
-
-            let txtRun = $("#txtRutConductor").val();
+        function SiguienteSemana(btn) {
+            let txtRun = $("#lblRutConductor").text();
+            var fechaString = $(btn).text();
 
             if (txtRun != "") {
                 $.ajax({
@@ -350,7 +352,66 @@
                     datatype: 'json',
                     async: false,
                     data: {
-                        "RutConductor": $("#txtRutConductor").val()
+                        "RutConductor": txtRun,
+                        "fechasConsultas": fechaString
+                    },
+                    success: function (data) {
+                        $(".ocultar").css("display", "");
+
+                        //DATOS
+                        $("#lblNombreConductor").text(data.data[0]["NOMBRE_COMPLETO"]);
+                        $("#lblRutConductor").text(data.data[0]["RUT"]);
+                        $("#txtRutConductor").val("");
+                        $("#lblIdUsuario").text(data.data[0]["ID_USUARIO"]);
+
+                        CargaElementos(data);
+
+                        ObtenerFechaBotones(fechaString);
+                    }
+
+                });
+
+
+            } else {
+                alertDanger1("Ingrese un R.U.N. válido para realizar una búsqueda")
+            }
+
+
+        }
+
+        function ObtenerFechaBotones(fecha) {
+            console.log(fecha)
+            $.ajax({
+                url: '../Reprogramacion/ObtenerFechaBotones',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "fechaSemanas": fecha
+                },
+                success: function (data) {
+                    $("#btnSemanaAnterior").text(data.data[0]);
+                    $("#btnSemanaActual").text(data.data[1]);
+                    $("#btnSemanaSiguiente").text(data.data[2]);
+
+                },
+                error: function () {
+                    alertDanger("Ups! algo ha salido mal, pero lo estamos solucionando");
+                }
+            });
+        }
+
+        function BuscarConductorHorarioClick() {
+            let txtRun = $("#txtRutConductor").val();
+            if (txtRun != "") {
+                $.ajax({
+                    url: '../Reprogramacion/GetConductorHorario',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "RutConductor": txtRun,
+                        "fechasConsultas": $("#btnSemanaActual").text()
                     },
                     success: function (data) {
                         $(".ocultar").css("display", "");
@@ -360,60 +421,8 @@
                         $("#txtRutConductor").val("");
                         $("#lblIdUsuario").text(data.data[0]["ID_USUARIO"]);
 
+                        CargaElementos(data);
 
-                        //Fechas
-
-                        $("#idLunesT1").text("Lunes " + data.data[0]["FECHA_INICIO"]);
-                        $("#idMartesT1").text("Martes " + data.data[2]["FECHA_INICIO"]);
-                        $("#idMiercolesT1").text("Miércoles " + data.data[4]["FECHA_INICIO"]);
-                        $("#idJuevesT1").text("Jueves " + data.data[6]["FECHA_INICIO"]);
-                        $("#idViernesT1").text("Viernes " + data.data[8]["FECHA_INICIO"]);
-                        $("#idSabadoT1").text("Sábado " + data.data[10]["FECHA_INICIO"]);
-                        $("#idDomingoT1").text("Domingo " + data.data[12]["FECHA_INICIO"]);
-
-                        $("#idLunesT2").text("Lunes " + data.data[1]["FECHA_INICIO"]);
-                        $("#idMartesT2").text("Martes " + data.data[3]["FECHA_INICIO"]);
-                        $("#idMiercolesT2").text("Miércoles " + data.data[5]["FECHA_INICIO"]);
-                        $("#idJuevesT2").text("Jueves " + data.data[7]["FECHA_INICIO"]);
-                        $("#idViernesT2").text("Viernes " + data.data[9]["FECHA_INICIO"]);
-                        $("#idSabadoT2").text("Sábado " + data.data[11]["FECHA_INICIO"]);
-                        $("#idDomingoT2").text("Domingo " + data.data[13]["FECHA_INICIO"]);
-
-                        //Horas
-                        $("#txtHoraLunes1").val(data.data[0]["HORA_INICIO"]);
-                        $("#txtHoraMartes1").val(data.data[2]["HORA_INICIO"]);
-                        $("#txtHoraMiercoles1").val(data.data[4]["HORA_INICIO"]);
-                        $("#txtHoraJueves1").val(data.data[6]["HORA_INICIO"]);
-                        $("#txtHoraViernes1").val(data.data[8]["HORA_INICIO"]);
-                        $("#txtHoraSabado1").val(data.data[10]["HORA_INICIO"]);
-                        $("#txtHoraDomingo1").val(data.data[12]["HORA_INICIO"]);
-
-                        $("#txtHoraLunes2").val(data.data[1]["HORA_INICIO"]);
-                        $("#txtHoraMartes2").val(data.data[3]["HORA_INICIO"]);
-                        $("#txtHoraMiercoles2").val(data.data[5]["HORA_INICIO"]);
-                        $("#txtHoraJueves2").val(data.data[7]["HORA_INICIO"]);
-                        $("#txtHoraViernes2").val(data.data[9]["HORA_INICIO"]);
-                        $("#txtHoraSabado2").val(data.data[11]["HORA_INICIO"]);
-                        $("#txtHoraDomingo2").val(data.data[13]["HORA_INICIO"]);
-
-                        //CMB_TERMINAL
-                        //MAÑANA
-                        $("#ddlTerminalLu1 option[value='" + data.data[0]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalMa1 option[value='" + data.data[2]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalMi1 option[value='" + data.data[4]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalJu1 option[value='" + data.data[6]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalVi1 option[value='" + data.data[8]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalSa1 option[value='" + data.data[10]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalDo1 option[value='" + data.data[12]["ID_TERMINAL"] + "']").attr("selected", "selected");
-
-                        //TARDE
-                        $("#ddlTerminalLu2 option[value='" + data.data[1]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalMa2 option[value='" + data.data[3]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalMi2 option[value='" + data.data[5]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalJu2 option[value='" + data.data[7]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalVi2 option[value='" + data.data[9]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalSa2 option[value='" + data.data[11]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalDo2 option[value='" + data.data[13]["ID_TERMINAL"] + "']").attr("selected", "selected");
                     }
                 });
 
@@ -492,11 +501,65 @@
 
         }
 
+        function CargaElementos(data) {
+            $("#idLunesT1").text("Lunes " + data.data[0]["FECHA_INICIO"]);
+            $("#idMartesT1").text("Martes " + data.data[1]["FECHA_INICIO"]);
+            $("#idMiercolesT1").text("Miércoles " + data.data[2]["FECHA_INICIO"]);
+            $("#idJuevesT1").text("Jueves " + data.data[3]["FECHA_INICIO"]);
+            $("#idViernesT1").text("Viernes " + data.data[4]["FECHA_INICIO"]);
+            $("#idSabadoT1").text("Sábado " + data.data[5]["FECHA_INICIO"]);
+            $("#idDomingoT1").text("Domingo " + data.data[6]["FECHA_INICIO"]);
+
+            $("#idLunesT2").text("Lunes " + data.data[7]["FECHA_INICIO"]);
+            $("#idMartesT2").text("Martes " + data.data[8]["FECHA_INICIO"]);
+            $("#idMiercolesT2").text("Miércoles " + data.data[9]["FECHA_INICIO"]);
+            $("#idJuevesT2").text("Jueves " + data.data[10]["FECHA_INICIO"]);
+            $("#idViernesT2").text("Viernes " + data.data[11]["FECHA_INICIO"]);
+            $("#idSabadoT2").text("Sábado " + data.data[12]["FECHA_INICIO"]);
+            $("#idDomingoT2").text("Domingo " + data.data[13]["FECHA_INICIO"]);
+
+            //Horas
+            $("#txtHoraLunes1").val(data.data[0]["HORA_INICIO"]);
+            $("#txtHoraMartes1").val(data.data[1]["HORA_INICIO"]);
+            $("#txtHoraMiercoles1").val(data.data[2]["HORA_INICIO"]);
+            $("#txtHoraJueves1").val(data.data[3]["HORA_INICIO"]);
+            $("#txtHoraViernes1").val(data.data[4]["HORA_INICIO"]);
+            $("#txtHoraSabado1").val(data.data[5]["HORA_INICIO"]);
+            $("#txtHoraDomingo1").val(data.data[6]["HORA_INICIO"]);
+
+            $("#txtHoraLunes2").val(data.data[7]["HORA_INICIO"]);
+            $("#txtHoraMartes2").val(data.data[8]["HORA_INICIO"]);
+            $("#txtHoraMiercoles2").val(data.data[9]["HORA_INICIO"]);
+            $("#txtHoraJueves2").val(data.data[10]["HORA_INICIO"]);
+            $("#txtHoraViernes2").val(data.data[11]["HORA_INICIO"]);
+            $("#txtHoraSabado2").val(data.data[12]["HORA_INICIO"]);
+            $("#txtHoraDomingo2").val(data.data[13]["HORA_INICIO"]);
+
+            //CMB_TERMINAL
+            //MAÑANA
+            $("#ddlTerminalLu1 option[value='" + data.data[0]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalMa1 option[value='" + data.data[1]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalMi1 option[value='" + data.data[2]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalJu1 option[value='" + data.data[3]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalVi1 option[value='" + data.data[4]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalSa1 option[value='" + data.data[5]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalDo1 option[value='" + data.data[6]["ID_TERMINAL"] + "']").attr("selected", "selected");
+
+            //TARDE
+            $("#ddlTerminalLu2 option[value='" + data.data[7]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalMa2 option[value='" + data.data[8]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalMi2 option[value='" + data.data[9]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalJu2 option[value='" + data.data[10]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalVi2 option[value='" + data.data[11]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalSa2 option[value='" + data.data[12]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalDo2 option[value='" + data.data[13]["ID_TERMINAL"] + "']").attr("selected", "selected");
+        }
+
 
         function Limpiar() {
-            CargaFechasDias();
+            //  CargaFechasLabel();
             CargarTerminalesCmb();
-            $(".ocultar").css("display", "none");
+            //$(".ocultar").css("display", "none");
 
             $("#txtHoraLunes1").val("");
             $("#txtHoraMartes1").val("");

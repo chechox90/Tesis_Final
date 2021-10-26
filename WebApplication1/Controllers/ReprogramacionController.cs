@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -23,6 +22,7 @@ namespace WebApplication1.Controllers
         private readonly I_N_HorarioConductor _i_n_HorarioConductor;
         private readonly I_N_Terminal _i_n_Terminal;
         private readonly I_N_Usuario _i_n_usuario;
+
         public ReprogramacionController(I_N_HorarioConductor i_n_HorarioConductor,
             I_N_Terminal i_n_Terminal,
             I_N_Usuario i_n_usuario)
@@ -37,27 +37,22 @@ namespace WebApplication1.Controllers
             return View("~/Views/Programacion/CargarProgramacion.cshtml");
         }
 
-
         public ActionResult ModificarReprogramacion(string id)
         {
             return View("~/Views/Programacion/Reprogramacion.cshtml");
         }
 
-
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-
         [HttpPost]
-        public ActionResult GetConductorHorario(string RutConductor)
+        public ActionResult GetConductorHorario(string RutConductor, string fechasConsultas)
         {
             try
             {
-                if (ValidaRut(RutConductor))
+                if (ValidarRutCompleto(RutConductor))
                 {
-                    List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut(RutConductor);
+                    DateTime fechaIni = DateTime.Parse(fechasConsultas.Split('-')[0].Trim());
+                    DateTime fechaFin = DateTime.Parse(fechasConsultas.Split('-')[1].Trim());
+
+                    List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut(RutConductor, fechaIni, fechaFin);
                     List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
 
                     if (dto_Horario.Count > 0)
@@ -96,8 +91,6 @@ namespace WebApplication1.Controllers
                             ind++;
                         }
                     }
-
-                    list = list.OrderByDescending(x => x.FECHA_HORA_INICIO).ToList();
 
                     if (list.Count > 0)
                     {
@@ -221,7 +214,7 @@ namespace WebApplication1.Controllers
                         int sinGuion = int.Parse(rutString.Split('-')[0]);
                         string guion = resultadoTabla.Rows[i][0].ToString().Split('-')[1];
 
-                        if (!ValidaRut(rutString))
+                        if (!ValidarRutCompleto(rutString))
                         {
                             mensajeError = "Se ha detecato que la fila " + (i + 1) + " no contiene un formato valido de R.U.N.";
                             break;
@@ -301,6 +294,31 @@ namespace WebApplication1.Controllers
             }
         }
 
+        public static bool ValidarRutCompleto(string rut)
+        {
+            string rutConGuion = "";
+            rut = rut.Replace(".", "");
+            if (!rut.Contains("-"))
+                rutConGuion = rut = rut.Substring(0, rut.Length - 1) + "-" + rut.Substring(rut.Length - 1, 1);
+            else
+                rutConGuion = rut;
+
+            Regex expresion = new Regex("^([0-9]+-[0-9K])$");
+            string dv = rut.Substring(rutConGuion.Length - 1, 1);
+
+            if (!expresion.IsMatch(rut))
+            {
+                return false;
+            }
+            char[] charCorte = { '-' };
+            string[] rutTemp = rut.Split(charCorte);
+            if (dv != Digito(int.Parse(rutTemp[0])))
+            {
+                return false;
+            }
+            return true;
+        }
+
         public static string Digito(int rut)
         {
             int suma = 0;
@@ -326,23 +344,6 @@ namespace WebApplication1.Controllers
             {
                 return suma.ToString();
             }
-        }
-
-        public static bool ValidaRut(string rut)
-        {
-            Regex expresion = new Regex("^([0-9]+-[0-9K])$");
-            string dv = rut.Substring(rut.Length - 1, 1);
-            if (!expresion.IsMatch(rut))
-            {
-                return false;
-            }
-            char[] charCorte = { '-' };
-            string[] rutTemp = rut.Split(charCorte);
-            if (dv != Digito(int.Parse(rutTemp[0])))
-            {
-                return false;
-            }
-            return true;
         }
 
         private void ExcelConn(string filepath)
@@ -377,33 +378,34 @@ namespace WebApplication1.Controllers
 
         }
 
-        public ActionResult ObtenerFechaLunes(string FECHA)
+        [HttpPost]
+        public ActionResult ObtenerFechaSemanas()
         {
             DateTime fechaHoy = DateTime.Now;
 
             int dia = Convert.ToInt32(fechaHoy.DayOfWeek);
             dia = dia - 1;
 
-            
             string fechaList = "";
+
             List<string> list = new List<string>();
 
             //semana anterior a la fecha de la semana actual
             DateTime fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(-7);
             DateTime fechaSemActDomingo = fechaSemActLunnes.AddDays((dia) * (-1)).AddDays(7);
-            fechaList = fechaSemActLunnes.ToString("dd/MM") + " - " + fechaSemActDomingo.ToString("dd/MM");
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
             list.Add(fechaList);
 
             //semana actual de lunes a domingo
             fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1));
             fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(6);
-            fechaList = fechaSemActLunnes.ToString("dd/MM") + " - " + fechaSemActDomingo.ToString("dd/MM");
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
             list.Add(fechaList);
 
             //semana siguiente a la semana actual
             fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(7);
             fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(13);
-            fechaList = fechaSemActLunnes.ToString("dd/MM") + " - " + fechaSemActDomingo.ToString("dd/MM");
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
             list.Add(fechaList);
 
             string fechaFormaList = fechaHoy.AddDays((dia) * (-1)).ToString("dd/MM/yyyy");
@@ -430,6 +432,56 @@ namespace WebApplication1.Controllers
 
         }
 
+        public ActionResult ObtenerFechaBotones(string fechaSemanas)
+        {
+            DateTime fechaHoy = DateTime.Parse(fechaSemanas.Split('-')[0].ToString().Trim());
+
+
+            int dia = Convert.ToInt32(fechaHoy.DayOfWeek);
+            dia = dia - 1;
+
+            string fechaList = "";
+
+            List<string> list = new List<string>();
+
+            //semana anterior a la fecha de la semana actual
+            DateTime fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(-7);
+            DateTime fechaSemActDomingo = fechaSemActLunnes.AddDays((dia) * (-1)).AddDays(6);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            //semana actual de lunes a domingo
+            fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1));
+            fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(6);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            //semana siguiente a la semana actual
+            fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(7);
+            fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(13);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            if (list.Count > 1)
+            {
+                return Json(new
+                {
+                    data = list,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    EnableError = true,
+                    ErrorTitle = "Error",
+                    ErrorMsg = "Se ha producido un error por favor <b>vuelva a intentarlo</b>"
+                });
+            }
+
+        }
 
         [HttpPost]
         public ActionResult SetGuardarHorarioConductor()
@@ -459,7 +511,7 @@ namespace WebApplication1.Controllers
                         string rutString = resultadoTabla.Rows[i][0].ToString().Replace(".", "");
                         int sinGuion = int.Parse(rutString.Split('-')[0]);
                         string guion = resultadoTabla.Rows[i][0].ToString().Split('-')[1];
-                        if (ValidaRut(rutString))
+                        if (ValidarRutCompleto(rutString))
                             carga.ID_CONDUCTOR = _i_n_usuario.GetUsuarioByRut(rutString);
 
                         carga.TERMINAL_INICIO = _i_n_Terminal.GetTerminalByNombre(resultadoTabla.Rows[i][3].ToString(), 1);
