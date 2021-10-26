@@ -1,0 +1,492 @@
+﻿<style>
+    .borderInput {
+        margin: 10px;
+    }
+
+    .divFlot {
+        text-align: right
+    }
+</style>
+
+<div class="page-title">
+    <div class="content-title">
+        <h3>Modificación Horario</h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Modificación Horario</a></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="form-row">
+                <div class="borderInput">
+                    <input type="text" id="txtRutConductor" placeholder="Ingres un R.U.N." onclick="Limpiar();" class="form-control borderInput" />
+                </div>
+                <div class="borderInput">
+                    <button id="btnBuscar" class="btn btn-primary borderInput" onclick="BuscarConductorHorario();">Buscar</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-row">
+                <div style="display:none" class="col-12 col-md-12 ocultar">
+                    <div>
+                        <label class="text-primary"><b>Nombre completo:</b></label>
+                        <label class="text-info" id="lblNombreConductor"></label>
+                    </div>
+                    <div>
+                        <label class="text-primary"><b>R.U.N.:</b></label> <label class="text-info" id="lblRutConductor"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-row">
+                <div style="display:none" class="col-12 col-md-12 ocultar">
+                    <div>
+                        <label class="text-primary"><b>Tipo de Contrato:</b></label>
+                        <label class="text-info" id="lblContratoConductor"></label>
+                    </div>
+                    <div>
+                        <labe class="text-primary"><b>Horas extras: </b></labe> <label class="text-info" id="lblTotalHorasExtras"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+@*JORNADA MAÑANA*@
+
+<div class="panel">
+    <div class="card">
+        <div class="form-row">
+            <div class="col-md-6">
+                <div class="borderInput">
+                    <div>
+                        <div class="card-header">
+                            <h4 class="text-primary">Jornada 1</h4>
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idLunesT1"></label>
+                            <input class="form-control col-md-2 format-time bg-white" type="text" id="txtHoraLunes1" maxlength="5" placeholder="HH:mm" />
+                            <select id="ddlTerminalLu1" class="form-control col-md-4"></select>
+                            <input class="col-md-3" type="text" />
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idMartesT1"></label>
+                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraMartes1" maxlength="5" placeholder="HH:mm" />
+                            <select id="ddlTerminalMa1" class="form-control col-md-4"></select>
+                            <input class="col-md-3" type="text" />
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idMiercolesT1"></label>
+                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraMiercoles1" maxlength="5" placeholder="HH:mm" />
+                            <select id="ddlTerminalMi1" class="form-control col-md-4"></select>
+                            <input class="col-md-3" type="text" />
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idJuevesT1"></label>
+                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraJueves1" maxlength="5" placeholder="HH:mm" />
+                            <select id="ddlTerminalJu1" class="form-control col-md-4"></select>
+                            <input class="col-md-3" type="text" />
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idViernesT1"></label>
+                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraViernes1" maxlength="5" placeholder="HH:mm" />
+                            <select id="ddlTerminalVi1" class="form-control col-md-4"></select>
+                            <input class="col-md-3" type="text" />
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idSabadoT1"></label>
+                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraSabado1" maxlength="5" placeholder="HH:mm" />
+                            <select id="ddlTerminalSa1" class="form-control col-md-4"></select>
+                            <input class="col-md-3" type="text" />
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idDomingoT1"></label>
+                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraDomingo1" maxlength="5" placeholder="HH:mm" />
+                            <select id="ddlTerminalDo1" class="form-control col-md-4"></select>
+                            <input class="col-3 col-md-3" type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            @*JORNADA TARDE*@
+
+            <div class="col-md-6">
+                <div class="borderInput">
+                    <div class="card-header">
+                        <h4 class="text-primary">Jornada 2</h4>
+                        <div class="clearfix"></div>
+
+                    </div>
+                    <div class="form-row">
+                        <label class="col-md-3" id="idLunesT2"></label>
+                        <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraLunes2" maxlength="5" placeholder="HH:mm" />
+                        <select id="ddlTerminalLu2" class="form-control col-md-4"></select>
+                        <input class="col-md-3" type="text" />
+                    </div>
+
+                    <div class="form-row">
+                        <label class="col-md-3" id="idMartesT2"></label>
+                        <input class="form-control col-md-2 format-time bg-white" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMartes2" />
+                        <select id="ddlTerminalMa2" class="form-control col-md-4"></select>
+                        <input class="col-md-3" type="text" />
+                    </div>
+                    <div class="form-row">
+                        <label class="col-md-3" id="idMiercolesT2"></label>
+                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMiercoles2" />
+                        <select id="ddlTerminalMi2" class="form-control col-md-4"></select>
+                        <input class="col-md-3" type="text" />
+                    </div>
+                    <div class="form-row">
+                        <label class="col-md-3" id="idJuevesT2"></label>
+                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraJueves2" />
+                        <select id="ddlTerminalJu2" class="form-control col-md-4"></select>
+                        <input class="col-md-3" type="text" />
+                    </div>
+                    <div class="form-row">
+                        <label class="col-md-3" id="idViernesT2"></label>
+                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraViernes2" />
+                        <select id="ddlTerminalVi2" class="form-control col-md-4"></select>
+                        <input class="col-md-3" type="text" />
+                    </div>
+                    <div class="form-row">
+                        <label class="col-md-3" id="idSabadoT2"></label>
+                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraSabado2" />
+                        <select id="ddlTerminalSa2" class="form-control col-md-4"></select>
+                        <input class="col-md-3" type="text" />
+                    </div>
+                    <div class="form-row">
+                        <label style="display:none" id="lblIdUsuario"></label>
+                        <label class="col-md-3" id="idDomingoT2"></label>
+                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraDomingo2" />
+                        <select id="ddlTerminalDo2" class="form-control col-md-4"></select>
+                        <input class="col-md-3" type="text" id="txtComentarioD2" />
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="borderInput ">
+                <div class="divFlot">
+                    <button class="btn btn-success" onclick="GuaradarCambioHorario();">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/general-functions.js")"></script>
+
+    <script>
+        $(document).ready(function () {
+            CargaFechasDias();
+
+            CargarTerminalesCmb();
+
+            $(".input-num").keypress(function (e) {
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            });
+
+        });
+
+        function CargarTerminalesCmb() {
+            $.ajax({
+                url: '../Reprogramacion/GetCargarTerminalesCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "RutConductor": $("#txtRutConductor").val()
+                },
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionLu1 = $(document.createElement('option'));
+                        var optionMa1 = $(document.createElement('option'));
+                        var optionMi1 = $(document.createElement('option'));
+                        var optionJu1 = $(document.createElement('option'));
+                        var optionVi1 = $(document.createElement('option'));
+                        var optionSa1 = $(document.createElement('option'));
+                        var optionDo1 = $(document.createElement('option'));
+
+                        optionLu1.val(data.data[i]["ID_TERMINAL"]);
+                        optionLu1.text(data.data[i]["NOMBRE_TERMINAL"]);
+                        optionMa1.val(data.data[i]["ID_TERMINAL"]);
+                        optionMa1.text(data.data[i]["NOMBRE_TERMINAL"]);
+                        optionMi1.val(data.data[i]["ID_TERMINAL"]);
+                        optionMi1.text(data.data[i]["NOMBRE_TERMINAL"]);
+                        optionJu1.val(data.data[i]["ID_TERMINAL"]);
+                        optionJu1.text(data.data[i]["NOMBRE_TERMINAL"]);
+                        optionVi1.val(data.data[i]["ID_TERMINAL"]);
+                        optionVi1.text(data.data[i]["NOMBRE_TERMINAL"]);
+                        optionSa1.val(data.data[i]["ID_TERMINAL"]);
+                        optionSa1.text(data.data[i]["NOMBRE_TERMINAL"]);
+                        optionDo1.val(data.data[i]["ID_TERMINAL"]);
+                        optionDo1.text(data.data[i]["NOMBRE_TERMINAL"]);
+
+                        var optionLu2 = $(document.createElement('option'));
+                        var optionMa2 = $(document.createElement('option'));
+                        var optionMi2 = $(document.createElement('option'));
+                        var optionJu2 = $(document.createElement('option'));
+                        var optionVi2 = $(document.createElement('option'));
+                        var optionSa2 = $(document.createElement('option'));
+                        var optionDo2 = $(document.createElement('option'));
+
+                        optionLu2.text(data.data[i]["NOMBRE_TERMINAL"]);
+                        optionLu2.val(data.data[i]["ID_TERMINAL"]);
+                        optionMa2.text(data.data[i]["NOMBRE_TERMINAL"]);
+                        optionMa2.val(data.data[i]["ID_TERMINAL"]);
+                        optionMi2.text(data.data[i]["NOMBRE_TERMINAL"]);
+                        optionJu2.val(data.data[i]["ID_TERMINAL"]);
+                        optionJu2.text(data.data[i]["NOMBRE_TERMINAL"]);
+                        optionVi2.val(data.data[i]["ID_TERMINAL"]);
+                        optionVi2.text(data.data[i]["NOMBRE_TERMINAL"]);
+                        optionSa2.val(data.data[i]["ID_TERMINAL"]);
+                        optionSa2.text(data.data[i]["NOMBRE_TERMINAL"]);
+                        optionDo2.val(data.data[i]["ID_TERMINAL"]);
+                        optionDo2.text(data.data[i]["NOMBRE_TERMINAL"]);
+
+                        //COMBOBOX TERMINALES
+                        //MAÑANA
+                        $("#ddlTerminalLu1").append(optionLu1);
+                        $("#ddlTerminalMa1").append(optionMa1);
+                        $("#ddlTerminalMi1").append(optionMi1);
+                        $("#ddlTerminalJu1").append(optionJu1);
+                        $("#ddlTerminalVi1").append(optionVi1);
+                        $("#ddlTerminalSa1").append(optionSa1);
+                        $("#ddlTerminalDo1").append(optionDo1);
+
+                        //TARDE
+                        $("#ddlTerminalLu2").append(optionLu2);
+                        $("#ddlTerminalMa2").append(optionMa2);
+                        $("#ddlTerminalMi2").append(optionMi2);
+                        $("#ddlTerminalJu2").append(optionJu2);
+                        $("#ddlTerminalVi2").append(optionVi2);
+                        $("#ddlTerminalSa2").append(optionSa2);
+                        $("#ddlTerminalDo2").append(optionDo2);
+                    }
+
+                }
+
+            });
+        }
+
+        function CargaFechasDias() {
+            $.ajax({
+                url: '../Reprogramacion/ObtenerFechaLunes',
+                type: 'post',
+                datatype: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                data: null,
+                success: function (data) {
+                    let fechaLunes = data.data.split(' ')[0];
+
+                    let dia = fechaLunes.split('/')[0];
+                    let mes = fechaLunes.split('/')[1];
+                    let anio = fechaLunes.split('/')[2];
+
+                    $("#idLunesT1").text("Lunes " + parseInt(dia) + "/" + mes + "/" + anio);
+                    $("#idMartesT1").text("Martes " + (parseInt(dia) + 1) + "/" + mes + "/" + anio);
+                    $("#idMiercolesT1").text("Miércoles " + (parseInt(dia) + 2) + "/" + mes + "/" + anio);
+                    $("#idJuevesT1").text("Jueves " + (parseInt(dia) + 3) + "/" + mes + "/" + anio);
+                    $("#idViernesT1").text("Viernes " + (parseInt(dia) + 4) + "/" + mes + "/" + anio);
+                    $("#idSabadoT1").text("Sábado " + (parseInt(dia) + 5) + "/" + mes + "/" + anio);
+                    $("#idDomingoT1").text("Domingo " + (parseInt(dia) + 6) + "/" + mes + "/" + anio);
+
+
+                    $("#idLunesT2").text("Lunes " + parseInt(dia) + "/" + mes + "/" + anio);
+                    $("#idMartesT2").text("Martes " + (parseInt(dia) + 1) + "/" + mes + "/" + anio);
+                    $("#idMiercolesT2").text("Miércoles " + (parseInt(dia) + 2) + "/" + mes + "/" + anio);
+                    $("#idJuevesT2").text("Jueves " + (parseInt(dia) + 3) + "/" + mes + "/" + anio);
+                    $("#idViernesT2").text("Viernes " + (parseInt(dia) + 4) + "/" + mes + "/" + anio);
+                    $("#idSabadoT2").text("Sábado " + (parseInt(dia) + 5) + "/" + mes + "/" + anio);
+                    $("#idDomingoT2").text("Domingo " + (parseInt(dia) + 6) + "/" + mes + "/" + anio);
+                },
+                error: function () {
+                    alertDanger("Ups! algo ha salido mal, pero lo estamos solucionando");
+                }
+            });
+        }
+
+        function BuscarConductorHorario() {
+
+            let txtRun = $("#txtRutConductor").val();
+
+            if (txtRun != "") {
+                $.ajax({
+                    url: '../Reprogramacion/GetConductorHorario',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "RutConductor": $("#txtRutConductor").val()
+                    },
+                    success: function (data) {
+                        $(".ocultar").css("display", "");
+                        //DATOS
+                        $("#lblNombreConductor").text(data.data[0]["NOMBRE_COMPLETO"]);
+                        $("#lblRutConductor").text(data.data[0]["RUT"]);
+                        $("#txtRutConductor").val("");
+                        $("#lblIdUsuario").text(data.data[0]["ID_USUARIO"]);
+
+
+                        //Fechas
+
+                        $("#idLunesT1").text("Lunes " + data.data[0]["FECHA_INICIO"]);
+                        $("#idMartesT1").text("Martes " + data.data[2]["FECHA_INICIO"]);
+                        $("#idMiercolesT1").text("Miércoles " + data.data[4]["FECHA_INICIO"]);
+                        $("#idJuevesT1").text("Jueves " + data.data[6]["FECHA_INICIO"]);
+                        $("#idViernesT1").text("Viernes " + data.data[8]["FECHA_INICIO"]);
+                        $("#idSabadoT1").text("Sábado " + data.data[10]["FECHA_INICIO"]);
+                        $("#idDomingoT1").text("Domingo " + data.data[12]["FECHA_INICIO"]);
+
+                        $("#idLunesT2").text("Lunes " + data.data[1]["FECHA_INICIO"]);
+                        $("#idMartesT2").text("Martes " + data.data[3]["FECHA_INICIO"]);
+                        $("#idMiercolesT2").text("Miércoles " + data.data[5]["FECHA_INICIO"]);
+                        $("#idJuevesT2").text("Jueves " + data.data[7]["FECHA_INICIO"]);
+                        $("#idViernesT2").text("Viernes " + data.data[9]["FECHA_INICIO"]);
+                        $("#idSabadoT2").text("Sábado " + data.data[11]["FECHA_INICIO"]);
+                        $("#idDomingoT2").text("Domingo " + data.data[13]["FECHA_INICIO"]);
+
+                        //Horas
+                        $("#txtHoraLunes1").val(data.data[0]["HORA_INICIO"]);
+                        $("#txtHoraMartes1").val(data.data[2]["HORA_INICIO"]);
+                        $("#txtHoraMiercoles1").val(data.data[4]["HORA_INICIO"]);
+                        $("#txtHoraJueves1").val(data.data[6]["HORA_INICIO"]);
+                        $("#txtHoraViernes1").val(data.data[8]["HORA_INICIO"]);
+                        $("#txtHoraSabado1").val(data.data[10]["HORA_INICIO"]);
+                        $("#txtHoraDomingo1").val(data.data[12]["HORA_INICIO"]);
+
+                        $("#txtHoraLunes2").val(data.data[1]["HORA_INICIO"]);
+                        $("#txtHoraMartes2").val(data.data[3]["HORA_INICIO"]);
+                        $("#txtHoraMiercoles2").val(data.data[5]["HORA_INICIO"]);
+                        $("#txtHoraJueves2").val(data.data[7]["HORA_INICIO"]);
+                        $("#txtHoraViernes2").val(data.data[9]["HORA_INICIO"]);
+                        $("#txtHoraSabado2").val(data.data[11]["HORA_INICIO"]);
+                        $("#txtHoraDomingo2").val(data.data[13]["HORA_INICIO"]);
+
+                        //CMB_TERMINAL
+                        //MAÑANA
+                        console.log(data.data[2]["ID_TERMINAL"])
+                        $("#ddlTerminalLu1 option[value='" + data.data[0]["ID_TERMINAL"] + "']").attr("selected", "selected");
+                        $("#ddlTerminalMa1 option[value='" + data.data[2]["ID_TERMINAL"] + "']").attr("selected", "selected");
+                        $("#ddlTerminalMi1 option[value='" + data.data[4]["ID_TERMINAL"] + "']").attr("selected", true);
+                        $("#ddlTerminalJu1 option[value='" + data.data[6]["ID_TERMINAL"] + "']").attr("selected", true);
+                        $("#ddlTerminalVi1 option[value='" + data.data[8]["ID_TERMINAL"] + "']").attr("selected", true);
+                        $("#ddlTerminalSa1 option[value='" + data.data[10]["ID_TERMINAL"] + "']").attr("selected", true);
+                        $("#ddlTerminalDo1 option[value='" + data.data[12]["ID_TERMINAL"] + "']").attr("selected", true);
+
+                        //TARDE
+                        $("#ddlTerminalLu2 option[value='" + data.data[1]["ID_TERMINAL"] + "']").attr("selected", true);
+                        $("#ddlTerminalMa2 option[value='" + data.data[3]["ID_TERMINAL"] + "']").attr("selected", true);
+                        $("#ddlTerminalMi2 option[value='" + data.data[5]["ID_TERMINAL"] + "']").attr("selected", true);
+                        $("#ddlTerminalJu2 option[value='" + data.data[7]["ID_TERMINAL"] + "']").attr("selected", true);
+                        $("#ddlTerminalVi2 option[value='" + data.data[9]["ID_TERMINAL"] + "']").attr("selected", true);
+                        $("#ddlTerminalSa2 option[value='" + data.data[11]["ID_TERMINAL"] + "']").attr("selected", true);
+                        $("#ddlTerminalDo2 option[value='" + data.data[13]["ID_TERMINAL"] + "']").attr("selected", true);
+                    }
+                });
+
+            } else {
+                alertDanger1("Ingrese un R.U.N. válido para realizar una búsqueda")
+            }
+
+
+        }
+
+        function GuaradarCambioHorario() {
+            let DTO_HorarioReprogramado = {
+                'DTO_HorarioReprogramado': [
+                    {
+                        ID_USUARIO: $("#lblIdUsuario").val(),
+                        ID_TERMINAL: $("#ddlTerminalDo2").val(),
+                        RUT: $("#ddlTerminalSa2").val(),
+                        NUMERO_JORNADA: 2,
+                        FECHA_INICIO: $("#idDomingoT2").text(),
+                        FECHA_INICIO: $("#idDomingoT2").text(),
+                        COMENTARIO: $("#txtComentarioD2").val()
+                    },
+                    [{
+                        ID_USUARIO: $("#lblIdUsuario").val(),
+                        ID_TERMINAL: $("#ddlTerminalDo2").val(),
+                        RUT: $("#ddlTerminalSa2").val(),
+                        NUMERO_JORNADA: 2,
+                        FECHA_INICIO: $("#idDomingoT2").text(),
+                        FECHA_INICIO: $("#idDomingoT2").text(),
+                        COMENTARIO: $("#txtComentarioD2").val()
+                    }]
+                ]
+            }
+
+
+            $.ajax({
+                url: '../Reprogramacion/SetGuaradarCambioHorario',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    ObjetoHorario: DTO_HorarioReprogramado
+                },
+                success: function (data) {
+                }
+            });
+        }
+
+        function alertDanger1(msg) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                background: '#EF3737',
+                timer: 4000
+            });
+
+            Toast.fire({
+                type: 'error',
+                html: msg
+            })
+        }
+
+        function alertSuccess1(msg) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                background: '#00CA18',
+                timer: 4000
+            });
+
+            Toast.fire({
+                type: 'success',
+                html: msg
+            });
+
+        }
+
+
+        function Limpiar() {
+            CargaFechasDias();
+            CargarTerminalesCmb();
+            $("#divInfoConductor").css("display", "none");
+        }
+
+    </script>
+}

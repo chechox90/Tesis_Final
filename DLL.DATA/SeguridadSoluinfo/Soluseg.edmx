@@ -1,0 +1,2055 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SoluinfoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ACCIONES">
+          <Key>
+            <PropertyRef Name="ID_ACCION" />
+          </Key>
+          <Property Name="ID_ACCION" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_MENU" Type="int" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ITEM_MENU" Type="bit" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AREAS">
+          <Key>
+            <PropertyRef Name="ID_AREA" />
+          </Key>
+          <Property Name="ID_AREA" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MENU">
+          <Key>
+            <PropertyRef Name="ID_MENU" />
+          </Key>
+          <Property Name="ID_MENU" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_PADRE" Type="int" />
+          <Property Name="ORDEN" Type="int" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+          <Property Name="CONTROLADOR" Type="varchar" MaxLength="100" />
+          <Property Name="ICONO_URL" Type="varchar" MaxLength="100" />
+          <Property Name="URL" Type="varchar" MaxLength="100" />
+          <Property Name="ID_PROYECTO" Type="smallint" />
+        </EntityType>
+        <EntityType Name="NOVEDADES">
+          <Key>
+            <PropertyRef Name="ORDEN" />
+          </Key>
+          <Property Name="ORDEN" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TITULO" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="ID_TIPO_NOVEDAD" Type="tinyint" Nullable="false" />
+          <Property Name="ID_PROYECTO" Type="smallint" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PERFIL_ACCION' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="PERFIL_ACCION">
+          <Key>
+            <PropertyRef Name="ID_PERFIL" />
+            <PropertyRef Name="ID_ACCION" />
+          </Key>
+          <Property Name="ID_PERFIL" Type="smallint" Nullable="false" />
+          <Property Name="ID_ACCION" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PERFIL_USUARIO_SISTEMA' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="PERFIL_USUARIO_SISTEMA">
+          <Key>
+            <PropertyRef Name="ID_PERFIL" />
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_PERFIL" Type="smallint" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PERFILES">
+          <Key>
+            <PropertyRef Name="ID_PERFIL" />
+          </Key>
+          <Property Name="ID_PERFIL" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_AREA" Type="smallint" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PERMISOS_ESPECIALES' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="PERMISOS_ESPECIALES">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+            <PropertyRef Name="ID_ACCION" />
+            <PropertyRef Name="ID_PROYECTO" />
+            <PropertyRef Name="TIPO_PERMISO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="ID_ACCION" Type="int" Nullable="false" />
+          <Property Name="ID_PROYECTO" Type="smallint" Nullable="false" />
+          <Property Name="TIPO_PERMISO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PLATAFORMAS">
+          <Key>
+            <PropertyRef Name="ID_PLATAFORMA" />
+          </Key>
+          <Property Name="ID_PLATAFORMA" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PROYECTO_AGRUPACION">
+          <Key>
+            <PropertyRef Name="ID_PROYECTO_AGRUPACION" />
+          </Key>
+          <Property Name="ID_PROYECTO_AGRUPACION" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_INTERNO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NOMBRE_VISIBLE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTO_AGRUPACION_PROYECTOS' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="PROYECTO_AGRUPACION_PROYECTOS">
+          <Key>
+            <PropertyRef Name="ID_PROYECTO_AGRUPACION" />
+            <PropertyRef Name="ID_PROYECTO" />
+          </Key>
+          <Property Name="ID_PROYECTO_AGRUPACION" Type="tinyint" Nullable="false" />
+          <Property Name="ID_PROYECTO" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PROYECTOS">
+          <Key>
+            <PropertyRef Name="ID_PROYECTO" />
+          </Key>
+          <Property Name="ID_PROYECTO" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_PLATAFORMA" Type="tinyint" Nullable="false" />
+          <Property Name="NOMBRE_INTERNO" Type="varchar" MaxLength="50" />
+          <Property Name="NOMBRE_VISIBLE" Type="varchar" MaxLength="50" />
+          <Property Name="PAGINA_INICIO" Type="varchar" MaxLength="100" />
+          <Property Name="URL_PROYECTO" Type="varchar" MaxLength="100" />
+          <Property Name="ICON_UNO" Type="varchar" MaxLength="100" />
+          <Property Name="ICON_DOS" Type="varchar" MaxLength="100" />
+          <Property Name="FECHA_VERSION" Type="datetime" Nullable="false" />
+          <Property Name="VERSION" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="PROYECTOS_AREAS">
+          <Key>
+            <PropertyRef Name="ID_PROYECTO" />
+            <PropertyRef Name="ID_AREA" />
+          </Key>
+          <Property Name="ID_PROYECTO" Type="smallint" Nullable="false" />
+          <Property Name="ID_AREA" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TIPOS_NOVEDADES">
+          <Key>
+            <PropertyRef Name="ID_TIPO_NOVEDAD" />
+          </Key>
+          <Property Name="ID_TIPO_NOVEDAD" Type="tinyint" Nullable="false" />
+          <Property Name="ID_VERSION" Type="int" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="COLOR" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIOS_SISTEMA">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_EMPRESA" Type="int" Nullable="false" />
+          <Property Name="ID_COMUNA" Type="int" Nullable="false" />
+          <Property Name="ID_TIPO_CONTRATO" Type="int" Nullable="false" />
+          <Property Name="CLAVE" Type="varchar" MaxLength="50" />
+          <Property Name="CORREO" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="CORREO_ALTERNATIVO" Type="varchar" MaxLength="30" />
+          <Property Name="CODIGO_BARRA" Type="varchar" MaxLength="30" />
+          <Property Name="RUT" Type="varchar" MaxLength="20" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" />
+          <Property Name="SEGUNDO_NOMBRE" Type="varchar" MaxLength="50" />
+          <Property Name="APELLIDO_PATERNO" Type="varchar" MaxLength="50" />
+          <Property Name="APELLIDO_MATERNO" Type="varchar" MaxLength="50" />
+          <Property Name="CAMBIO_PASSWORD" Type="datetime" />
+          <Property Name="MULTITERMINAL" Type="bit" Nullable="false" />
+          <Property Name="ADMINISTRADOR" Type="bit" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VERSION_PROYECTO">
+          <Key>
+            <PropertyRef Name="ID_VERSION" />
+          </Key>
+          <Property Name="ID_VERSION" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_PROYECTO" Type="smallint" Nullable="false" />
+          <Property Name="V1" Type="smallint" />
+          <Property Name="V2" Type="smallint" />
+          <Property Name="V3" Type="smallint" />
+          <Property Name="V4" Type="smallint" />
+          <Property Name="USER_CREACION" Type="int" />
+          <Property Name="FECHA_CREACION" Type="datetime" />
+          <Property Name="USER_MODIFICA" Type="int" />
+          <Property Name="FECHA_MODIFICA" Type="datetime" />
+          <Property Name="FECHA_PUESTA_EN_MARCHA" Type="datetime" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BITACORA_MOVIMIENTOS">
+          <Key>
+            <PropertyRef Name="ID_BITACORA" />
+          </Key>
+          <Property Name="ID_BITACORA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_HORARIO_CONDUCTOR" Type="int" Nullable="false" />
+          <Property Name="ID_TIPO_MOVIMIENTO" Type="int" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TIPO_MOVIEMIENTO_HORARIO">
+          <Key>
+            <PropertyRef Name="ID_TIPO_MOVIMIENTO" />
+          </Key>
+          <Property Name="ID_TIPO_MOVIMIENTO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_MOVIMEINTO" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BUS">
+          <Key>
+            <PropertyRef Name="ID_BUS" />
+          </Key>
+          <Property Name="ID_BUS" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_TERMINAL" Type="int" Nullable="false" />
+          <Property Name="ID_INTERNO_BUS" Type="int" Nullable="false" />
+          <Property Name="PPU" Type="varchar" MaxLength="10" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CARGA_HORARIO">
+          <Key>
+            <PropertyRef Name="ID_CARGA_HORARIO" />
+          </Key>
+          <Property Name="ID_CARGA_HORARIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_USUARIO_CARGA" Type="int" Nullable="false" />
+          <Property Name="NUMERO_JORNADA" Type="smallint" />
+          <Property Name="NOMBRE_CARGA" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="COMENTARIO_CARGA" Type="varchar" MaxLength="100" />
+          <Property Name="FECHA_CARGA" Type="datetime" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="COMUNA">
+          <Key>
+            <PropertyRef Name="ID_COMUNA" />
+          </Key>
+          <Property Name="ID_COMUNA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_COMUNA" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" />
+        </EntityType>
+        <EntityType Name="EMPRESA">
+          <Key>
+            <PropertyRef Name="ID_EMPRESA" />
+          </Key>
+          <Property Name="ID_EMPRESA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_EMPRESA" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="UBICACION_EMPRESA" Type="varchar" MaxLength="100" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HORARIO_CONDUCTOR">
+          <Key>
+            <PropertyRef Name="ID_HORARIO" />
+          </Key>
+          <Property Name="ID_HORARIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_CARGA_HORARIO" Type="int" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="ID_TERMINAL_INICIO" Type="int" Nullable="false" />
+          <Property Name="NUMERO_JORNADA" Type="smallint" Nullable="false" />
+          <Property Name="FECHA_INICIO" Type="datetime" Nullable="false" />
+          <Property Name="HORARIO_CUBIERTO" Type="bit" Nullable="false" />
+          <Property Name="ID_BUS_INICIO" Type="int" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PARAMETROS">
+          <Key>
+            <PropertyRef Name="ID_PARAMETRO" />
+          </Key>
+          <Property Name="ID_PARAMETRO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_PARAMETRO" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="DESCRIPCION_PARAMATRO" Type="varchar" MaxLength="300" />
+          <Property Name="VALOR_1" Type="varchar" MaxLength="200" />
+          <Property Name="VALOR_2" Type="varchar" MaxLength="200" />
+          <Property Name="VALOR_3" Type="bit" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SENTIDO">
+          <Key>
+            <PropertyRef Name="ID_SENTIDO" />
+          </Key>
+          <Property Name="ID_SENTIDO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_SENTIDO" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="NOMBRE_CORTO_SENTIDO" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" />
+        </EntityType>
+        <EntityType Name="SERVICIO">
+          <Key>
+            <PropertyRef Name="ID_SERVICIO" />
+          </Key>
+          <Property Name="ID_SERVICIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_EMPRESA" Type="int" Nullable="false" />
+          <Property Name="NOMBRE_SERVICIO" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="HORARIO_INICIO_SERVICO" Type="time" Precision="6" />
+          <Property Name="HORARIO_FIN_SERVICO" Type="time" Precision="6" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SERVICIO_REALIZADO">
+          <Key>
+            <PropertyRef Name="ID_RECORRIDO" />
+          </Key>
+          <Property Name="ID_RECORRIDO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_HORARIO" Type="int" Nullable="false" />
+          <Property Name="ID_TERMINAL" Type="int" Nullable="false" />
+          <Property Name="ID_SERVICIO" Type="int" Nullable="false" />
+          <Property Name="ID_SENTIDO" Type="int" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="HORA_INICIO" Type="datetime" Nullable="false" />
+          <Property Name="HORA_FIN" Type="datetime" />
+          <Property Name="HORAS_EXTRAS" Type="time" Precision="5" />
+          <Property Name="ID_BUS" Type="int" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TERMINAL">
+          <Key>
+            <PropertyRef Name="ID_TERMINAL" />
+          </Key>
+          <Property Name="ID_TERMINAL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_EMPRESA" Type="int" Nullable="false" />
+          <Property Name="NOMBRE_TERMINAL" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DIRECCION" Type="varchar" MaxLength="200" />
+          <Property Name="NUM_DIRECCION" Type="int" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TIPO_CONTRATO">
+          <Key>
+            <PropertyRef Name="ID_TIPO_CONTRATO" />
+          </Key>
+          <Property Name="ID_TIPO_CONTRATO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_TIPO_CONTRATO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NOMBRE_CORTO_CONTRATRO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CANTIDAD_HORAS_CONTRATO" Type="time" Precision="5" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ACCIONES_MENU">
+          <End Role="MENU" Type="Self.MENU" Multiplicity="1" />
+          <End Role="ACCIONES" Type="Self.ACCIONES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MENU">
+              <PropertyRef Name="ID_MENU" />
+            </Principal>
+            <Dependent Role="ACCIONES">
+              <PropertyRef Name="ID_MENU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BITACORA_MOVIMIENTOS_TIPO_MOVIEMIENTO_HORARIO">
+          <End Role="TIPO_MOVIEMIENTO_HORARIO" Type="Self.TIPO_MOVIEMIENTO_HORARIO" Multiplicity="1" />
+          <End Role="BITACORA_MOVIMIENTOS" Type="Self.BITACORA_MOVIMIENTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_MOVIEMIENTO_HORARIO">
+              <PropertyRef Name="ID_TIPO_MOVIMIENTO" />
+            </Principal>
+            <Dependent Role="BITACORA_MOVIMIENTOS">
+              <PropertyRef Name="ID_HORARIO_CONDUCTOR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CARGA_HORARIO_USUARIOS_SISTEMA">
+          <End Role="USUARIOS_SISTEMA" Type="Self.USUARIOS_SISTEMA" Multiplicity="1" />
+          <End Role="CARGA_HORARIO" Type="Self.CARGA_HORARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="CARGA_HORARIO">
+              <PropertyRef Name="ID_USUARIO_CARGA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HORARIO_CONDUCTOR_CARGA_HORARIO">
+          <End Role="CARGA_HORARIO" Type="Self.CARGA_HORARIO" Multiplicity="1" />
+          <End Role="HORARIO_CONDUCTOR" Type="Self.HORARIO_CONDUCTOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARGA_HORARIO">
+              <PropertyRef Name="ID_CARGA_HORARIO" />
+            </Principal>
+            <Dependent Role="HORARIO_CONDUCTOR">
+              <PropertyRef Name="ID_CARGA_HORARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MENU_PROYECTOS">
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="0..1" />
+          <End Role="MENU" Type="Self.MENU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Principal>
+            <Dependent Role="MENU">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOVEDADES_PROYECTOS">
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="1" />
+          <End Role="NOVEDADES" Type="Self.NOVEDADES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Principal>
+            <Dependent Role="NOVEDADES">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOVEDADES_TIPOS_NOVEDADES">
+          <End Role="TIPOS_NOVEDADES" Type="Self.TIPOS_NOVEDADES" Multiplicity="1" />
+          <End Role="NOVEDADES" Type="Self.NOVEDADES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPOS_NOVEDADES">
+              <PropertyRef Name="ID_TIPO_NOVEDAD" />
+            </Principal>
+            <Dependent Role="NOVEDADES">
+              <PropertyRef Name="ID_TIPO_NOVEDAD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERFIL_ACCION_ACCIONES">
+          <End Role="ACCIONES" Type="Self.ACCIONES" Multiplicity="1" />
+          <End Role="PERFIL_ACCION" Type="Self.PERFIL_ACCION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACCIONES">
+              <PropertyRef Name="ID_ACCION" />
+            </Principal>
+            <Dependent Role="PERFIL_ACCION">
+              <PropertyRef Name="ID_ACCION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERFIL_ACCION_PERFILES">
+          <End Role="PERFILES" Type="Self.PERFILES" Multiplicity="1" />
+          <End Role="PERFIL_ACCION" Type="Self.PERFIL_ACCION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERFILES">
+              <PropertyRef Name="ID_PERFIL" />
+            </Principal>
+            <Dependent Role="PERFIL_ACCION">
+              <PropertyRef Name="ID_PERFIL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERFIL_USUARIO_SISTEMA_PERFILES">
+          <End Role="PERFILES" Type="Self.PERFILES" Multiplicity="1" />
+          <End Role="PERFIL_USUARIO_SISTEMA" Type="Self.PERFIL_USUARIO_SISTEMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERFILES">
+              <PropertyRef Name="ID_PERFIL" />
+            </Principal>
+            <Dependent Role="PERFIL_USUARIO_SISTEMA">
+              <PropertyRef Name="ID_PERFIL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERFIL_USUARIO_SISTEMA_USUARIOS_SISTEMA">
+          <End Role="USUARIOS_SISTEMA" Type="Self.USUARIOS_SISTEMA" Multiplicity="1" />
+          <End Role="PERFIL_USUARIO_SISTEMA" Type="Self.PERFIL_USUARIO_SISTEMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="PERFIL_USUARIO_SISTEMA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERFILES_AREAS1">
+          <End Role="AREAS" Type="Self.AREAS" Multiplicity="1" />
+          <End Role="PERFILES" Type="Self.PERFILES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AREAS">
+              <PropertyRef Name="ID_AREA" />
+            </Principal>
+            <Dependent Role="PERFILES">
+              <PropertyRef Name="ID_AREA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_ESPECIALES_ACCIONES">
+          <End Role="ACCIONES" Type="Self.ACCIONES" Multiplicity="1" />
+          <End Role="PERMISOS_ESPECIALES" Type="Self.PERMISOS_ESPECIALES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACCIONES">
+              <PropertyRef Name="ID_ACCION" />
+            </Principal>
+            <Dependent Role="PERMISOS_ESPECIALES">
+              <PropertyRef Name="ID_ACCION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_ESPECIALES_PROYECTOS">
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="1" />
+          <End Role="PERMISOS_ESPECIALES" Type="Self.PERMISOS_ESPECIALES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Principal>
+            <Dependent Role="PERMISOS_ESPECIALES">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_ESPECIALES_USUARIOS_SISTEMA">
+          <End Role="USUARIOS_SISTEMA" Type="Self.USUARIOS_SISTEMA" Multiplicity="1" />
+          <End Role="PERMISOS_ESPECIALES" Type="Self.PERMISOS_ESPECIALES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="PERMISOS_ESPECIALES">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROYECTO_AGRUPACION_PROYECTOS_PROYECTO_AGRUPACION">
+          <End Role="PROYECTO_AGRUPACION" Type="Self.PROYECTO_AGRUPACION" Multiplicity="1" />
+          <End Role="PROYECTO_AGRUPACION_PROYECTOS" Type="Self.PROYECTO_AGRUPACION_PROYECTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTO_AGRUPACION">
+              <PropertyRef Name="ID_PROYECTO_AGRUPACION" />
+            </Principal>
+            <Dependent Role="PROYECTO_AGRUPACION_PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO_AGRUPACION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROYECTO_AGRUPACION_PROYECTOS_PROYECTOS">
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="1" />
+          <End Role="PROYECTO_AGRUPACION_PROYECTOS" Type="Self.PROYECTO_AGRUPACION_PROYECTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Principal>
+            <Dependent Role="PROYECTO_AGRUPACION_PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROYECTOS_AREAS_AREAS">
+          <End Role="AREAS" Type="Self.AREAS" Multiplicity="1" />
+          <End Role="PROYECTOS_AREAS" Type="Self.PROYECTOS_AREAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AREAS">
+              <PropertyRef Name="ID_AREA" />
+            </Principal>
+            <Dependent Role="PROYECTOS_AREAS">
+              <PropertyRef Name="ID_AREA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROYECTOS_AREAS_PROYECTOS">
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="1" />
+          <End Role="PROYECTOS_AREAS" Type="Self.PROYECTOS_AREAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Principal>
+            <Dependent Role="PROYECTOS_AREAS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROYECTOS_PLATAFORMAS">
+          <End Role="PLATAFORMAS" Type="Self.PLATAFORMAS" Multiplicity="1" />
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PLATAFORMAS">
+              <PropertyRef Name="ID_PLATAFORMA" />
+            </Principal>
+            <Dependent Role="PROYECTOS">
+              <PropertyRef Name="ID_PLATAFORMA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_EMPRESA">
+          <End Role="EMPRESA" Type="Self.EMPRESA" Multiplicity="1" />
+          <End Role="SERVICIO" Type="Self.SERVICIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPRESA">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Principal>
+            <Dependent Role="SERVICIO">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_BUS">
+          <End Role="BUS" Type="Self.BUS" Multiplicity="0..1" />
+          <End Role="SERVICIO_REALIZADO" Type="Self.SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BUS">
+              <PropertyRef Name="ID_BUS" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_BUS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_HORARIO_CONDUCTOR">
+          <End Role="HORARIO_CONDUCTOR" Type="Self.HORARIO_CONDUCTOR" Multiplicity="1" />
+          <End Role="SERVICIO_REALIZADO" Type="Self.SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HORARIO_CONDUCTOR">
+              <PropertyRef Name="ID_HORARIO" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_HORARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_SENTIDO">
+          <End Role="SENTIDO" Type="Self.SENTIDO" Multiplicity="1" />
+          <End Role="SERVICIO_REALIZADO" Type="Self.SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SENTIDO">
+              <PropertyRef Name="ID_SENTIDO" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_SENTIDO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_SERVICIO">
+          <End Role="SERVICIO" Type="Self.SERVICIO" Multiplicity="1" />
+          <End Role="SERVICIO_REALIZADO" Type="Self.SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SERVICIO">
+              <PropertyRef Name="ID_SERVICIO" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_SENTIDO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_TERMINAL">
+          <End Role="TERMINAL" Type="Self.TERMINAL" Multiplicity="1" />
+          <End Role="SERVICIO_REALIZADO" Type="Self.SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TERMINAL">
+              <PropertyRef Name="ID_TERMINAL" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_TERMINAL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_USUARIOS_SISTEMA">
+          <End Role="USUARIOS_SISTEMA" Type="Self.USUARIOS_SISTEMA" Multiplicity="1" />
+          <End Role="SERVICIO_REALIZADO" Type="Self.SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TERMINAL_EMPRESA1">
+          <End Role="EMPRESA" Type="Self.EMPRESA" Multiplicity="1" />
+          <End Role="TERMINAL" Type="Self.TERMINAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPRESA">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Principal>
+            <Dependent Role="TERMINAL">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIOS_SISTEMA_COMUNA">
+          <End Role="COMUNA" Type="Self.COMUNA" Multiplicity="1" />
+          <End Role="USUARIOS_SISTEMA" Type="Self.USUARIOS_SISTEMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMUNA">
+              <PropertyRef Name="ID_COMUNA" />
+            </Principal>
+            <Dependent Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_COMUNA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIOS_SISTEMA_EMPRESA">
+          <End Role="EMPRESA" Type="Self.EMPRESA" Multiplicity="1" />
+          <End Role="USUARIOS_SISTEMA" Type="Self.USUARIOS_SISTEMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPRESA">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Principal>
+            <Dependent Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIOS_SISTEMA_TIPO_CONTRATO">
+          <End Role="TIPO_CONTRATO" Type="Self.TIPO_CONTRATO" Multiplicity="1" />
+          <End Role="USUARIOS_SISTEMA" Type="Self.USUARIOS_SISTEMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_CONTRATO">
+              <PropertyRef Name="ID_TIPO_CONTRATO" />
+            </Principal>
+            <Dependent Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_TIPO_CONTRATO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VERSION_PROYECTO_PROYECTOS">
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="1" />
+          <End Role="VERSION_PROYECTO" Type="Self.VERSION_PROYECTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Principal>
+            <Dependent Role="VERSION_PROYECTO">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SoluinfoModelStoreContainer">
+          <EntitySet Name="ACCIONES" EntityType="Self.ACCIONES" Schema="autorizacion" store:Type="Tables" />
+          <EntitySet Name="AREAS" EntityType="Self.AREAS" Schema="autorizacion" store:Type="Tables" />
+          <EntitySet Name="MENU" EntityType="Self.MENU" Schema="autorizacion" store:Type="Tables" />
+          <EntitySet Name="NOVEDADES" EntityType="Self.NOVEDADES" Schema="autorizacion" store:Type="Tables" />
+          <EntitySet Name="PERFILES" EntityType="Self.PERFILES" Schema="autorizacion" store:Type="Tables" />
+          <EntitySet Name="PLATAFORMAS" EntityType="Self.PLATAFORMAS" Schema="autorizacion" store:Type="Tables" />
+          <EntitySet Name="PROYECTO_AGRUPACION" EntityType="Self.PROYECTO_AGRUPACION" Schema="autorizacion" store:Type="Tables" />
+          <EntitySet Name="PROYECTOS" EntityType="Self.PROYECTOS" Schema="autorizacion" store:Type="Tables" />
+          <EntitySet Name="TIPOS_NOVEDADES" EntityType="Self.TIPOS_NOVEDADES" Schema="autorizacion" store:Type="Tables" />
+          <EntitySet Name="USUARIOS_SISTEMA" EntityType="Self.USUARIOS_SISTEMA" Schema="autorizacion" store:Type="Tables" />
+          <EntitySet Name="VERSION_PROYECTO" EntityType="Self.VERSION_PROYECTO" Schema="autorizacion" store:Type="Tables" />
+          <EntitySet Name="BITACORA_MOVIMIENTOS" EntityType="Self.BITACORA_MOVIMIENTOS" Schema="bitacora" store:Type="Tables" />
+          <EntitySet Name="TIPO_MOVIEMIENTO_HORARIO" EntityType="Self.TIPO_MOVIEMIENTO_HORARIO" Schema="bitacora" store:Type="Tables" />
+          <EntitySet Name="BUS" EntityType="Self.BUS" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="CARGA_HORARIO" EntityType="Self.CARGA_HORARIO" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="COMUNA" EntityType="Self.COMUNA" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="EMPRESA" EntityType="Self.EMPRESA" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="HORARIO_CONDUCTOR" EntityType="Self.HORARIO_CONDUCTOR" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="PARAMETROS" EntityType="Self.PARAMETROS" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="SENTIDO" EntityType="Self.SENTIDO" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="SERVICIO" EntityType="Self.SERVICIO" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="SERVICIO_REALIZADO" EntityType="Self.SERVICIO_REALIZADO" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="TERMINAL" EntityType="Self.TERMINAL" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="TIPO_CONTRATO" EntityType="Self.TIPO_CONTRATO" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="PERFIL_ACCION" EntityType="Self.PERFIL_ACCION" store:Type="Tables" store:Schema="autorizacion">
+            <DefiningQuery>SELECT 
+    [PERFIL_ACCION].[ID_PERFIL] AS [ID_PERFIL], 
+    [PERFIL_ACCION].[ID_ACCION] AS [ID_ACCION]
+    FROM [autorizacion].[PERFIL_ACCION] AS [PERFIL_ACCION]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PERFIL_USUARIO_SISTEMA" EntityType="Self.PERFIL_USUARIO_SISTEMA" store:Type="Tables" store:Schema="autorizacion">
+            <DefiningQuery>SELECT 
+    [PERFIL_USUARIO_SISTEMA].[ID_PERFIL] AS [ID_PERFIL], 
+    [PERFIL_USUARIO_SISTEMA].[ID_USUARIO] AS [ID_USUARIO]
+    FROM [autorizacion].[PERFIL_USUARIO_SISTEMA] AS [PERFIL_USUARIO_SISTEMA]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PERMISOS_ESPECIALES" EntityType="Self.PERMISOS_ESPECIALES" store:Type="Tables" store:Schema="autorizacion">
+            <DefiningQuery>SELECT 
+    [PERMISOS_ESPECIALES].[ID_USUARIO] AS [ID_USUARIO], 
+    [PERMISOS_ESPECIALES].[ID_ACCION] AS [ID_ACCION], 
+    [PERMISOS_ESPECIALES].[ID_PROYECTO] AS [ID_PROYECTO], 
+    [PERMISOS_ESPECIALES].[TIPO_PERMISO] AS [TIPO_PERMISO]
+    FROM [autorizacion].[PERMISOS_ESPECIALES] AS [PERMISOS_ESPECIALES]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PROYECTO_AGRUPACION_PROYECTOS" EntityType="Self.PROYECTO_AGRUPACION_PROYECTOS" store:Type="Tables" store:Schema="autorizacion">
+            <DefiningQuery>SELECT 
+    [PROYECTO_AGRUPACION_PROYECTOS].[ID_PROYECTO_AGRUPACION] AS [ID_PROYECTO_AGRUPACION], 
+    [PROYECTO_AGRUPACION_PROYECTOS].[ID_PROYECTO] AS [ID_PROYECTO]
+    FROM [autorizacion].[PROYECTO_AGRUPACION_PROYECTOS] AS [PROYECTO_AGRUPACION_PROYECTOS]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PROYECTOS_AREAS" EntityType="Self.PROYECTOS_AREAS" store:Type="Tables" store:Schema="autorizacion">
+            <DefiningQuery>SELECT 
+    [PROYECTOS_AREAS].[ID_PROYECTO] AS [ID_PROYECTO], 
+    [PROYECTOS_AREAS].[ID_AREA] AS [ID_AREA]
+    FROM [autorizacion].[PROYECTOS_AREAS] AS [PROYECTOS_AREAS]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_ACCIONES_MENU" Association="Self.FK_ACCIONES_MENU">
+            <End Role="MENU" EntitySet="MENU" />
+            <End Role="ACCIONES" EntitySet="ACCIONES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BITACORA_MOVIMIENTOS_TIPO_MOVIEMIENTO_HORARIO" Association="Self.FK_BITACORA_MOVIMIENTOS_TIPO_MOVIEMIENTO_HORARIO">
+            <End Role="TIPO_MOVIEMIENTO_HORARIO" EntitySet="TIPO_MOVIEMIENTO_HORARIO" />
+            <End Role="BITACORA_MOVIMIENTOS" EntitySet="BITACORA_MOVIMIENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CARGA_HORARIO_USUARIOS_SISTEMA" Association="Self.FK_CARGA_HORARIO_USUARIOS_SISTEMA">
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+            <End Role="CARGA_HORARIO" EntitySet="CARGA_HORARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HORARIO_CONDUCTOR_CARGA_HORARIO" Association="Self.FK_HORARIO_CONDUCTOR_CARGA_HORARIO">
+            <End Role="CARGA_HORARIO" EntitySet="CARGA_HORARIO" />
+            <End Role="HORARIO_CONDUCTOR" EntitySet="HORARIO_CONDUCTOR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MENU_PROYECTOS" Association="Self.FK_MENU_PROYECTOS">
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+            <End Role="MENU" EntitySet="MENU" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOVEDADES_PROYECTOS" Association="Self.FK_NOVEDADES_PROYECTOS">
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+            <End Role="NOVEDADES" EntitySet="NOVEDADES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOVEDADES_TIPOS_NOVEDADES" Association="Self.FK_NOVEDADES_TIPOS_NOVEDADES">
+            <End Role="TIPOS_NOVEDADES" EntitySet="TIPOS_NOVEDADES" />
+            <End Role="NOVEDADES" EntitySet="NOVEDADES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERFIL_ACCION_ACCIONES" Association="Self.FK_PERFIL_ACCION_ACCIONES">
+            <End Role="ACCIONES" EntitySet="ACCIONES" />
+            <End Role="PERFIL_ACCION" EntitySet="PERFIL_ACCION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERFIL_ACCION_PERFILES" Association="Self.FK_PERFIL_ACCION_PERFILES">
+            <End Role="PERFILES" EntitySet="PERFILES" />
+            <End Role="PERFIL_ACCION" EntitySet="PERFIL_ACCION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERFIL_USUARIO_SISTEMA_PERFILES" Association="Self.FK_PERFIL_USUARIO_SISTEMA_PERFILES">
+            <End Role="PERFILES" EntitySet="PERFILES" />
+            <End Role="PERFIL_USUARIO_SISTEMA" EntitySet="PERFIL_USUARIO_SISTEMA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERFIL_USUARIO_SISTEMA_USUARIOS_SISTEMA" Association="Self.FK_PERFIL_USUARIO_SISTEMA_USUARIOS_SISTEMA">
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+            <End Role="PERFIL_USUARIO_SISTEMA" EntitySet="PERFIL_USUARIO_SISTEMA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERFILES_AREAS1" Association="Self.FK_PERFILES_AREAS1">
+            <End Role="AREAS" EntitySet="AREAS" />
+            <End Role="PERFILES" EntitySet="PERFILES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_ESPECIALES_ACCIONES" Association="Self.FK_PERMISOS_ESPECIALES_ACCIONES">
+            <End Role="ACCIONES" EntitySet="ACCIONES" />
+            <End Role="PERMISOS_ESPECIALES" EntitySet="PERMISOS_ESPECIALES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_ESPECIALES_PROYECTOS" Association="Self.FK_PERMISOS_ESPECIALES_PROYECTOS">
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+            <End Role="PERMISOS_ESPECIALES" EntitySet="PERMISOS_ESPECIALES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_ESPECIALES_USUARIOS_SISTEMA" Association="Self.FK_PERMISOS_ESPECIALES_USUARIOS_SISTEMA">
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+            <End Role="PERMISOS_ESPECIALES" EntitySet="PERMISOS_ESPECIALES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROYECTO_AGRUPACION_PROYECTOS_PROYECTO_AGRUPACION" Association="Self.FK_PROYECTO_AGRUPACION_PROYECTOS_PROYECTO_AGRUPACION">
+            <End Role="PROYECTO_AGRUPACION" EntitySet="PROYECTO_AGRUPACION" />
+            <End Role="PROYECTO_AGRUPACION_PROYECTOS" EntitySet="PROYECTO_AGRUPACION_PROYECTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROYECTO_AGRUPACION_PROYECTOS_PROYECTOS" Association="Self.FK_PROYECTO_AGRUPACION_PROYECTOS_PROYECTOS">
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+            <End Role="PROYECTO_AGRUPACION_PROYECTOS" EntitySet="PROYECTO_AGRUPACION_PROYECTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROYECTOS_AREAS_AREAS" Association="Self.FK_PROYECTOS_AREAS_AREAS">
+            <End Role="AREAS" EntitySet="AREAS" />
+            <End Role="PROYECTOS_AREAS" EntitySet="PROYECTOS_AREAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROYECTOS_AREAS_PROYECTOS" Association="Self.FK_PROYECTOS_AREAS_PROYECTOS">
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+            <End Role="PROYECTOS_AREAS" EntitySet="PROYECTOS_AREAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROYECTOS_PLATAFORMAS" Association="Self.FK_PROYECTOS_PLATAFORMAS">
+            <End Role="PLATAFORMAS" EntitySet="PLATAFORMAS" />
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_EMPRESA" Association="Self.FK_SERVICIO_EMPRESA">
+            <End Role="EMPRESA" EntitySet="EMPRESA" />
+            <End Role="SERVICIO" EntitySet="SERVICIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_BUS" Association="Self.FK_SERVICIO_REALIZADO_BUS">
+            <End Role="BUS" EntitySet="BUS" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_HORARIO_CONDUCTOR" Association="Self.FK_SERVICIO_REALIZADO_HORARIO_CONDUCTOR">
+            <End Role="HORARIO_CONDUCTOR" EntitySet="HORARIO_CONDUCTOR" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_SENTIDO" Association="Self.FK_SERVICIO_REALIZADO_SENTIDO">
+            <End Role="SENTIDO" EntitySet="SENTIDO" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_SERVICIO" Association="Self.FK_SERVICIO_REALIZADO_SERVICIO">
+            <End Role="SERVICIO" EntitySet="SERVICIO" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_TERMINAL" Association="Self.FK_SERVICIO_REALIZADO_TERMINAL">
+            <End Role="TERMINAL" EntitySet="TERMINAL" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_USUARIOS_SISTEMA" Association="Self.FK_SERVICIO_REALIZADO_USUARIOS_SISTEMA">
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TERMINAL_EMPRESA1" Association="Self.FK_TERMINAL_EMPRESA1">
+            <End Role="EMPRESA" EntitySet="EMPRESA" />
+            <End Role="TERMINAL" EntitySet="TERMINAL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIOS_SISTEMA_COMUNA" Association="Self.FK_USUARIOS_SISTEMA_COMUNA">
+            <End Role="COMUNA" EntitySet="COMUNA" />
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIOS_SISTEMA_EMPRESA" Association="Self.FK_USUARIOS_SISTEMA_EMPRESA">
+            <End Role="EMPRESA" EntitySet="EMPRESA" />
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIOS_SISTEMA_TIPO_CONTRATO" Association="Self.FK_USUARIOS_SISTEMA_TIPO_CONTRATO">
+            <End Role="TIPO_CONTRATO" EntitySet="TIPO_CONTRATO" />
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VERSION_PROYECTO_PROYECTOS" Association="Self.FK_VERSION_PROYECTO_PROYECTOS">
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+            <End Role="VERSION_PROYECTO" EntitySet="VERSION_PROYECTO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SoluinfoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ACCIONES">
+          <Key>
+            <PropertyRef Name="ID_ACCION" />
+          </Key>
+          <Property Name="ID_ACCION" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_MENU" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ITEM_MENU" Type="Boolean" Nullable="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MENU" Relationship="Self.FK_ACCIONES_MENU" FromRole="ACCIONES" ToRole="MENU" />
+          <NavigationProperty Name="PERMISOS_ESPECIALES" Relationship="Self.FK_PERMISOS_ESPECIALES_ACCIONES" FromRole="ACCIONES" ToRole="PERMISOS_ESPECIALES" />
+          <NavigationProperty Name="PERFILES" Relationship="Self.PERFIL_ACCION" FromRole="ACCIONES" ToRole="PERFILES" />
+        </EntityType>
+        <EntityType Name="AREAS">
+          <Key>
+            <PropertyRef Name="ID_AREA" />
+          </Key>
+          <Property Name="ID_AREA" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PERFILES" Relationship="Self.FK_PERFILES_AREAS1" FromRole="AREAS" ToRole="PERFILES" />
+          <NavigationProperty Name="PROYECTOS" Relationship="Self.PROYECTOS_AREAS" FromRole="AREAS" ToRole="PROYECTOS" />
+        </EntityType>
+        <EntityType Name="MENU">
+          <Key>
+            <PropertyRef Name="ID_MENU" />
+          </Key>
+          <Property Name="ID_MENU" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_PADRE" Type="Int32" />
+          <Property Name="ORDEN" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <Property Name="CONTROLADOR" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ICONO_URL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ID_PROYECTO" Type="Int16" />
+          <NavigationProperty Name="ACCIONES" Relationship="Self.FK_ACCIONES_MENU" FromRole="MENU" ToRole="ACCIONES" />
+          <NavigationProperty Name="PROYECTOS" Relationship="Self.FK_MENU_PROYECTOS" FromRole="MENU" ToRole="PROYECTOS" />
+        </EntityType>
+        <EntityType Name="PERFILES">
+          <Key>
+            <PropertyRef Name="ID_PERFIL" />
+          </Key>
+          <Property Name="ID_PERFIL" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_AREA" Type="Int16" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AREAS" Relationship="Self.FK_PERFILES_AREAS1" FromRole="PERFILES" ToRole="AREAS" />
+          <NavigationProperty Name="ACCIONES" Relationship="Self.PERFIL_ACCION" FromRole="PERFILES" ToRole="ACCIONES" />
+          <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.PERFIL_USUARIO_SISTEMA" FromRole="PERFILES" ToRole="USUARIOS_SISTEMA" />
+        </EntityType>
+        <EntityType Name="PLATAFORMAS">
+          <Key>
+            <PropertyRef Name="ID_PLATAFORMA" />
+          </Key>
+          <Property Name="ID_PLATAFORMA" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PROYECTOS" Relationship="Self.FK_PROYECTOS_PLATAFORMAS" FromRole="PLATAFORMAS" ToRole="PROYECTOS" />
+        </EntityType>
+        <EntityType Name="PROYECTO_AGRUPACION">
+          <Key>
+            <PropertyRef Name="ID_PROYECTO_AGRUPACION" />
+          </Key>
+          <Property Name="ID_PROYECTO_AGRUPACION" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_INTERNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRE_VISIBLE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PROYECTOS" Relationship="Self.PROYECTO_AGRUPACION_PROYECTOS" FromRole="PROYECTO_AGRUPACION" ToRole="PROYECTOS" />
+        </EntityType>
+        <EntityType Name="PROYECTOS">
+          <Key>
+            <PropertyRef Name="ID_PROYECTO" />
+          </Key>
+          <Property Name="ID_PROYECTO" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_PLATAFORMA" Type="Byte" Nullable="false" />
+          <Property Name="NOMBRE_INTERNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE_VISIBLE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PAGINA_INICIO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="URL_PROYECTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ICON_UNO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ICON_DOS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_VERSION" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="VERSION" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MENU" Relationship="Self.FK_MENU_PROYECTOS" FromRole="PROYECTOS" ToRole="MENU" />
+          <NavigationProperty Name="PLATAFORMAS" Relationship="Self.FK_PROYECTOS_PLATAFORMAS" FromRole="PROYECTOS" ToRole="PLATAFORMAS" />
+          <NavigationProperty Name="PERMISOS_ESPECIALES" Relationship="Self.FK_PERMISOS_ESPECIALES_PROYECTOS" FromRole="PROYECTOS" ToRole="PERMISOS_ESPECIALES" />
+          <NavigationProperty Name="VERSION_PROYECTO" Relationship="Self.FK_VERSION_PROYECTO_PROYECTOS" FromRole="PROYECTOS" ToRole="VERSION_PROYECTO" />
+          <NavigationProperty Name="PROYECTO_AGRUPACION" Relationship="Self.PROYECTO_AGRUPACION_PROYECTOS" FromRole="PROYECTOS" ToRole="PROYECTO_AGRUPACION" />
+          <NavigationProperty Name="AREAS" Relationship="Self.PROYECTOS_AREAS" FromRole="PROYECTOS" ToRole="AREAS" />
+          <NavigationProperty Name="NOVEDADES" Relationship="SoluinfoModel.FK_NOVEDADES_PROYECTOS" FromRole="PROYECTOS" ToRole="NOVEDADES" />
+        </EntityType>
+        <EntityType Name="VERSION_PROYECTO">
+          <Key>
+            <PropertyRef Name="ID_VERSION" />
+          </Key>
+          <Property Name="ID_VERSION" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_PROYECTO" Type="Int16" Nullable="false" />
+          <Property Name="V1" Type="Int16" />
+          <Property Name="V2" Type="Int16" />
+          <Property Name="V3" Type="Int16" />
+          <Property Name="V4" Type="Int16" />
+          <Property Name="USER_CREACION" Type="Int32" />
+          <Property Name="FECHA_CREACION" Type="DateTime" Precision="3" />
+          <Property Name="USER_MODIFICA" Type="Int32" />
+          <Property Name="FECHA_MODIFICA" Type="DateTime" Precision="3" />
+          <Property Name="FECHA_PUESTA_EN_MARCHA" Type="DateTime" Precision="3" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PROYECTOS" Relationship="Self.FK_VERSION_PROYECTO_PROYECTOS" FromRole="VERSION_PROYECTO" ToRole="PROYECTOS" />
+        </EntityType>
+        <EntityType Name="PERMISOS_ESPECIALES">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+            <PropertyRef Name="ID_ACCION" />
+            <PropertyRef Name="ID_PROYECTO" />
+            <PropertyRef Name="TIPO_PERMISO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_ACCION" Type="Int32" Nullable="false" />
+          <Property Name="ID_PROYECTO" Type="Int16" Nullable="false" />
+          <Property Name="TIPO_PERMISO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ACCIONES" Relationship="Self.FK_PERMISOS_ESPECIALES_ACCIONES" FromRole="PERMISOS_ESPECIALES" ToRole="ACCIONES" />
+          <NavigationProperty Name="PROYECTOS" Relationship="Self.FK_PERMISOS_ESPECIALES_PROYECTOS" FromRole="PERMISOS_ESPECIALES" ToRole="PROYECTOS" />
+          <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_PERMISOS_ESPECIALES_USUARIOS_SISTEMA" FromRole="PERMISOS_ESPECIALES" ToRole="USUARIOS_SISTEMA" />
+        </EntityType>
+        <Association Name="FK_ACCIONES_MENU">
+          <End Role="MENU" Type="Self.MENU" Multiplicity="1" />
+          <End Role="ACCIONES" Type="Self.ACCIONES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MENU">
+              <PropertyRef Name="ID_MENU" />
+            </Principal>
+            <Dependent Role="ACCIONES">
+              <PropertyRef Name="ID_MENU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_ESPECIALES_ACCIONES">
+          <End Role="ACCIONES" Type="Self.ACCIONES" Multiplicity="1" />
+          <End Role="PERMISOS_ESPECIALES" Type="Self.PERMISOS_ESPECIALES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACCIONES">
+              <PropertyRef Name="ID_ACCION" />
+            </Principal>
+            <Dependent Role="PERMISOS_ESPECIALES">
+              <PropertyRef Name="ID_ACCION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERFILES_AREAS1">
+          <End Role="AREAS" Type="Self.AREAS" Multiplicity="1" />
+          <End Role="PERFILES" Type="Self.PERFILES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AREAS">
+              <PropertyRef Name="ID_AREA" />
+            </Principal>
+            <Dependent Role="PERFILES">
+              <PropertyRef Name="ID_AREA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MENU_PROYECTOS">
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="0..1" />
+          <End Role="MENU" Type="Self.MENU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Principal>
+            <Dependent Role="MENU">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROYECTOS_PLATAFORMAS">
+          <End Role="PLATAFORMAS" Type="Self.PLATAFORMAS" Multiplicity="1" />
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PLATAFORMAS">
+              <PropertyRef Name="ID_PLATAFORMA" />
+            </Principal>
+            <Dependent Role="PROYECTOS">
+              <PropertyRef Name="ID_PLATAFORMA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_ESPECIALES_PROYECTOS">
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="1" />
+          <End Role="PERMISOS_ESPECIALES" Type="Self.PERMISOS_ESPECIALES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Principal>
+            <Dependent Role="PERMISOS_ESPECIALES">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VERSION_PROYECTO_PROYECTOS">
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="1" />
+          <End Role="VERSION_PROYECTO" Type="Self.VERSION_PROYECTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Principal>
+            <Dependent Role="VERSION_PROYECTO">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PERFIL_ACCION">
+          <End Role="ACCIONES" Type="Self.ACCIONES" Multiplicity="*" />
+          <End Role="PERFILES" Type="Self.PERFILES" Multiplicity="*" />
+        </Association>
+        <Association Name="PROYECTO_AGRUPACION_PROYECTOS">
+          <End Role="PROYECTO_AGRUPACION" Type="Self.PROYECTO_AGRUPACION" Multiplicity="*" />
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="*" />
+        </Association>
+        <Association Name="PROYECTOS_AREAS">
+          <End Role="AREAS" Type="Self.AREAS" Multiplicity="*" />
+          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SolusegEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ACCIONES" EntityType="Self.ACCIONES" />
+          <EntitySet Name="AREAS" EntityType="Self.AREAS" />
+          <EntitySet Name="MENU" EntityType="Self.MENU" />
+          <EntitySet Name="PERFILES" EntityType="Self.PERFILES" />
+          <EntitySet Name="PLATAFORMAS" EntityType="Self.PLATAFORMAS" />
+          <EntitySet Name="PROYECTO_AGRUPACION" EntityType="Self.PROYECTO_AGRUPACION" />
+          <EntitySet Name="PROYECTOS" EntityType="Self.PROYECTOS" />
+          <EntitySet Name="VERSION_PROYECTO" EntityType="Self.VERSION_PROYECTO" />
+          <EntitySet Name="PERMISOS_ESPECIALES" EntityType="Self.PERMISOS_ESPECIALES" />
+          <AssociationSet Name="FK_ACCIONES_MENU" Association="Self.FK_ACCIONES_MENU">
+            <End Role="MENU" EntitySet="MENU" />
+            <End Role="ACCIONES" EntitySet="ACCIONES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_ESPECIALES_ACCIONES" Association="Self.FK_PERMISOS_ESPECIALES_ACCIONES">
+            <End Role="ACCIONES" EntitySet="ACCIONES" />
+            <End Role="PERMISOS_ESPECIALES" EntitySet="PERMISOS_ESPECIALES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERFILES_AREAS1" Association="Self.FK_PERFILES_AREAS1">
+            <End Role="AREAS" EntitySet="AREAS" />
+            <End Role="PERFILES" EntitySet="PERFILES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MENU_PROYECTOS" Association="Self.FK_MENU_PROYECTOS">
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+            <End Role="MENU" EntitySet="MENU" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROYECTOS_PLATAFORMAS" Association="Self.FK_PROYECTOS_PLATAFORMAS">
+            <End Role="PLATAFORMAS" EntitySet="PLATAFORMAS" />
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_ESPECIALES_PROYECTOS" Association="Self.FK_PERMISOS_ESPECIALES_PROYECTOS">
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+            <End Role="PERMISOS_ESPECIALES" EntitySet="PERMISOS_ESPECIALES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VERSION_PROYECTO_PROYECTOS" Association="Self.FK_VERSION_PROYECTO_PROYECTOS">
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+            <End Role="VERSION_PROYECTO" EntitySet="VERSION_PROYECTO" />
+          </AssociationSet>
+          <AssociationSet Name="PERFIL_ACCION" Association="Self.PERFIL_ACCION">
+            <End Role="ACCIONES" EntitySet="ACCIONES" />
+            <End Role="PERFILES" EntitySet="PERFILES" />
+          </AssociationSet>
+          <AssociationSet Name="PROYECTO_AGRUPACION_PROYECTOS" Association="Self.PROYECTO_AGRUPACION_PROYECTOS">
+            <End Role="PROYECTO_AGRUPACION" EntitySet="PROYECTO_AGRUPACION" />
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+          </AssociationSet>
+          <AssociationSet Name="PROYECTOS_AREAS" Association="Self.PROYECTOS_AREAS">
+            <End Role="AREAS" EntitySet="AREAS" />
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+          </AssociationSet>
+          <EntitySet Name="NOVEDADES" EntityType="SoluinfoModel.NOVEDADES" />
+          <EntitySet Name="TIPOS_NOVEDADES" EntityType="SoluinfoModel.TIPOS_NOVEDADES" />
+          <AssociationSet Name="FK_NOVEDADES_PROYECTOS" Association="SoluinfoModel.FK_NOVEDADES_PROYECTOS">
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+            <End Role="NOVEDADES" EntitySet="NOVEDADES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOVEDADES_TIPOS_NOVEDADES" Association="SoluinfoModel.FK_NOVEDADES_TIPOS_NOVEDADES">
+            <End Role="TIPOS_NOVEDADES" EntitySet="TIPOS_NOVEDADES" />
+            <End Role="NOVEDADES" EntitySet="NOVEDADES" />
+          </AssociationSet>
+          <EntitySet Name="BITACORA_MOVIMIENTOS" EntityType="SoluinfoModel.BITACORA_MOVIMIENTOS" />
+          <EntitySet Name="TIPO_MOVIEMIENTO_HORARIO" EntityType="SoluinfoModel.TIPO_MOVIEMIENTO_HORARIO" />
+          <EntitySet Name="BUS" EntityType="SoluinfoModel.BUS" />
+          <EntitySet Name="CARGA_HORARIO" EntityType="SoluinfoModel.CARGA_HORARIO" />
+          <EntitySet Name="COMUNA" EntityType="SoluinfoModel.COMUNA" />
+          <EntitySet Name="EMPRESA" EntityType="SoluinfoModel.EMPRESA" />
+          <EntitySet Name="PARAMETROS" EntityType="SoluinfoModel.PARAMETROS" />
+          <EntitySet Name="SENTIDO" EntityType="SoluinfoModel.SENTIDO" />
+          <EntitySet Name="SERVICIO" EntityType="SoluinfoModel.SERVICIO" />
+          <EntitySet Name="SERVICIO_REALIZADO" EntityType="SoluinfoModel.SERVICIO_REALIZADO" />
+          <EntitySet Name="TERMINAL" EntityType="SoluinfoModel.TERMINAL" />
+          <AssociationSet Name="FK_BITACORA_MOVIMIENTOS_TIPO_MOVIEMIENTO_HORARIO" Association="SoluinfoModel.FK_BITACORA_MOVIMIENTOS_TIPO_MOVIEMIENTO_HORARIO">
+            <End Role="TIPO_MOVIEMIENTO_HORARIO" EntitySet="TIPO_MOVIEMIENTO_HORARIO" />
+            <End Role="BITACORA_MOVIMIENTOS" EntitySet="BITACORA_MOVIMIENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_BUS" Association="SoluinfoModel.FK_SERVICIO_REALIZADO_BUS">
+            <End Role="BUS" EntitySet="BUS" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_EMPRESA" Association="SoluinfoModel.FK_SERVICIO_EMPRESA">
+            <End Role="EMPRESA" EntitySet="EMPRESA" />
+            <End Role="SERVICIO" EntitySet="SERVICIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TERMINAL_EMPRESA1" Association="SoluinfoModel.FK_TERMINAL_EMPRESA1">
+            <End Role="EMPRESA" EntitySet="EMPRESA" />
+            <End Role="TERMINAL" EntitySet="TERMINAL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_SENTIDO" Association="SoluinfoModel.FK_SERVICIO_REALIZADO_SENTIDO">
+            <End Role="SENTIDO" EntitySet="SENTIDO" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_SERVICIO" Association="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO">
+            <End Role="SERVICIO" EntitySet="SERVICIO" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_TERMINAL" Association="SoluinfoModel.FK_SERVICIO_REALIZADO_TERMINAL">
+            <End Role="TERMINAL" EntitySet="TERMINAL" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <EntitySet Name="HORARIO_CONDUCTOR" EntityType="SoluinfoModel.HORARIO_CONDUCTOR" />
+          <AssociationSet Name="FK_HORARIO_CONDUCTOR_CARGA_HORARIO" Association="SoluinfoModel.FK_HORARIO_CONDUCTOR_CARGA_HORARIO">
+            <End Role="CARGA_HORARIO" EntitySet="CARGA_HORARIO" />
+            <End Role="HORARIO_CONDUCTOR" EntitySet="HORARIO_CONDUCTOR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_HORARIO_CONDUCTOR" Association="SoluinfoModel.FK_SERVICIO_REALIZADO_HORARIO_CONDUCTOR">
+            <End Role="HORARIO_CONDUCTOR" EntitySet="HORARIO_CONDUCTOR" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <EntitySet Name="USUARIOS_SISTEMA" EntityType="SoluinfoModel.USUARIOS_SISTEMA" />
+          <EntitySet Name="TIPO_CONTRATO" EntityType="SoluinfoModel.TIPO_CONTRATO" />
+          <AssociationSet Name="FK_CARGA_HORARIO_USUARIOS_SISTEMA" Association="SoluinfoModel.FK_CARGA_HORARIO_USUARIOS_SISTEMA">
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+            <End Role="CARGA_HORARIO" EntitySet="CARGA_HORARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_ESPECIALES_USUARIOS_SISTEMA" Association="SoluinfoModel.FK_PERMISOS_ESPECIALES_USUARIOS_SISTEMA">
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+            <End Role="PERMISOS_ESPECIALES" EntitySet="PERMISOS_ESPECIALES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_USUARIOS_SISTEMA" Association="SoluinfoModel.FK_SERVICIO_REALIZADO_USUARIOS_SISTEMA">
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIOS_SISTEMA_COMUNA" Association="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA">
+            <End Role="COMUNA" EntitySet="COMUNA" />
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIOS_SISTEMA_EMPRESA" Association="SoluinfoModel.FK_USUARIOS_SISTEMA_EMPRESA">
+            <End Role="EMPRESA" EntitySet="EMPRESA" />
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIOS_SISTEMA_TIPO_CONTRATO" Association="SoluinfoModel.FK_USUARIOS_SISTEMA_TIPO_CONTRATO">
+            <End Role="TIPO_CONTRATO" EntitySet="TIPO_CONTRATO" />
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+          </AssociationSet>
+          <AssociationSet Name="PERFIL_USUARIO_SISTEMA" Association="SoluinfoModel.PERFIL_USUARIO_SISTEMA">
+            <End Role="PERFILES" EntitySet="PERFILES" />
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="NOVEDADES">
+          <Key>
+            <PropertyRef Name="ORDEN" />
+          </Key>
+          <Property Name="ORDEN" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TITULO" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPCION" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ID_TIPO_NOVEDAD" Type="Byte" Nullable="false" />
+          <Property Name="ID_PROYECTO" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="PROYECTOS" Relationship="SoluinfoModel.FK_NOVEDADES_PROYECTOS" FromRole="NOVEDADES" ToRole="PROYECTOS" />
+          <NavigationProperty Name="TIPOS_NOVEDADES" Relationship="SoluinfoModel.FK_NOVEDADES_TIPOS_NOVEDADES" FromRole="NOVEDADES" ToRole="TIPOS_NOVEDADES" />
+        </EntityType>
+        <EntityType Name="TIPOS_NOVEDADES">
+          <Key>
+            <PropertyRef Name="ID_TIPO_NOVEDAD" />
+          </Key>
+          <Property Name="ID_TIPO_NOVEDAD" Type="Byte" Nullable="false" />
+          <Property Name="ID_VERSION" Type="Int32" />
+          <Property Name="DESCRIPCION" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="COLOR" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="NOVEDADES" Relationship="SoluinfoModel.FK_NOVEDADES_TIPOS_NOVEDADES" FromRole="TIPOS_NOVEDADES" ToRole="NOVEDADES" />
+        </EntityType>
+        <Association Name="FK_NOVEDADES_PROYECTOS">
+          <End Type="SoluinfoModel.PROYECTOS" Role="PROYECTOS" Multiplicity="1" />
+          <End Type="SoluinfoModel.NOVEDADES" Role="NOVEDADES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Principal>
+            <Dependent Role="NOVEDADES">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOVEDADES_TIPOS_NOVEDADES">
+          <End Type="SoluinfoModel.TIPOS_NOVEDADES" Role="TIPOS_NOVEDADES" Multiplicity="1" />
+          <End Type="SoluinfoModel.NOVEDADES" Role="NOVEDADES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPOS_NOVEDADES">
+              <PropertyRef Name="ID_TIPO_NOVEDAD" />
+            </Principal>
+            <Dependent Role="NOVEDADES">
+              <PropertyRef Name="ID_TIPO_NOVEDAD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BITACORA_MOVIMIENTOS">
+          <Key>
+            <PropertyRef Name="ID_BITACORA" />
+          </Key>
+          <Property Name="ID_BITACORA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_HORARIO_CONDUCTOR" Type="Int32" Nullable="false" />
+          <Property Name="ID_TIPO_MOVIMIENTO" Type="Int32" Nullable="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TIPO_MOVIEMIENTO_HORARIO" Relationship="SoluinfoModel.FK_BITACORA_MOVIMIENTOS_TIPO_MOVIEMIENTO_HORARIO" FromRole="BITACORA_MOVIMIENTOS" ToRole="TIPO_MOVIEMIENTO_HORARIO" />
+        </EntityType>
+        <EntityType Name="TIPO_MOVIEMIENTO_HORARIO">
+          <Key>
+            <PropertyRef Name="ID_TIPO_MOVIMIENTO" />
+          </Key>
+          <Property Name="ID_TIPO_MOVIMIENTO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_MOVIMEINTO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BITACORA_MOVIMIENTOS" Relationship="SoluinfoModel.FK_BITACORA_MOVIMIENTOS_TIPO_MOVIEMIENTO_HORARIO" FromRole="TIPO_MOVIEMIENTO_HORARIO" ToRole="BITACORA_MOVIMIENTOS" />
+        </EntityType>
+        <EntityType Name="BUS">
+          <Key>
+            <PropertyRef Name="ID_BUS" />
+          </Key>
+          <Property Name="ID_BUS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_TERMINAL" Type="Int32" Nullable="false" />
+          <Property Name="ID_INTERNO_BUS" Type="Int32" Nullable="false" />
+          <Property Name="PPU" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SERVICIO_REALIZADO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_BUS" FromRole="BUS" ToRole="SERVICIO_REALIZADO" />
+        </EntityType>
+        <EntityType Name="CARGA_HORARIO">
+          <Key>
+            <PropertyRef Name="ID_CARGA_HORARIO" />
+          </Key>
+          <Property Name="ID_CARGA_HORARIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_USUARIO_CARGA" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE_CARGA" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="COMENTARIO_CARGA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_CARGA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <Property Name="NUMERO_JORNADA" Type="Int16" />
+          <NavigationProperty Name="HORARIO_CONDUCTOR" Relationship="SoluinfoModel.FK_HORARIO_CONDUCTOR_CARGA_HORARIO" FromRole="CARGA_HORARIO" ToRole="HORARIO_CONDUCTOR" />
+          <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_CARGA_HORARIO_USUARIOS_SISTEMA" FromRole="CARGA_HORARIO" ToRole="USUARIOS_SISTEMA" />
+        </EntityType>
+        <EntityType Name="COMUNA">
+          <Key>
+            <PropertyRef Name="ID_COMUNA" />
+          </Key>
+          <Property Name="ID_COMUNA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_COMUNA" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Boolean" />
+          <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA" FromRole="COMUNA" ToRole="USUARIOS_SISTEMA" />
+        </EntityType>
+        <EntityType Name="EMPRESA">
+          <Key>
+            <PropertyRef Name="ID_EMPRESA" />
+          </Key>
+          <Property Name="ID_EMPRESA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_EMPRESA" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="UBICACION_EMPRESA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SERVICIO" Relationship="SoluinfoModel.FK_SERVICIO_EMPRESA" FromRole="EMPRESA" ToRole="SERVICIO" />
+          <NavigationProperty Name="TERMINAL" Relationship="SoluinfoModel.FK_TERMINAL_EMPRESA1" FromRole="EMPRESA" ToRole="TERMINAL" />
+          <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_EMPRESA" FromRole="EMPRESA" ToRole="USUARIOS_SISTEMA" />
+        </EntityType>
+        <EntityType Name="PARAMETROS">
+          <Key>
+            <PropertyRef Name="ID_PARAMETRO" />
+          </Key>
+          <Property Name="ID_PARAMETRO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_PARAMETRO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPCION_PARAMATRO" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR_1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR_2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR_3" Type="Boolean" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SENTIDO">
+          <Key>
+            <PropertyRef Name="ID_SENTIDO" />
+          </Key>
+          <Property Name="ID_SENTIDO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_SENTIDO" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE_CORTO_SENTIDO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Boolean" />
+          <NavigationProperty Name="SERVICIO_REALIZADO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_SENTIDO" FromRole="SENTIDO" ToRole="SERVICIO_REALIZADO" />
+        </EntityType>
+        <EntityType Name="SERVICIO">
+          <Key>
+            <PropertyRef Name="ID_SERVICIO" />
+          </Key>
+          <Property Name="ID_SERVICIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_EMPRESA" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE_SERVICIO" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="HORARIO_INICIO_SERVICO" Type="Time" Precision="6" />
+          <Property Name="HORARIO_FIN_SERVICO" Type="Time" Precision="6" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EMPRESA" Relationship="SoluinfoModel.FK_SERVICIO_EMPRESA" FromRole="SERVICIO" ToRole="EMPRESA" />
+          <NavigationProperty Name="SERVICIO_REALIZADO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO" FromRole="SERVICIO" ToRole="SERVICIO_REALIZADO" />
+        </EntityType>
+        <EntityType Name="SERVICIO_REALIZADO">
+          <Key>
+            <PropertyRef Name="ID_RECORRIDO" />
+          </Key>
+          <Property Name="ID_RECORRIDO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_HORARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_TERMINAL" Type="Int32" Nullable="false" />
+          <Property Name="ID_SERVICIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_SENTIDO" Type="Int32" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="HORA_INICIO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HORA_FIN" Type="DateTime" Precision="3" />
+          <Property Name="ID_BUS" Type="Int32" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BUS" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_BUS" FromRole="SERVICIO_REALIZADO" ToRole="BUS" />
+          <NavigationProperty Name="SENTIDO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_SENTIDO" FromRole="SERVICIO_REALIZADO" ToRole="SENTIDO" />
+          <NavigationProperty Name="SERVICIO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO" FromRole="SERVICIO_REALIZADO" ToRole="SERVICIO" />
+          <NavigationProperty Name="TERMINAL" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_TERMINAL" FromRole="SERVICIO_REALIZADO" ToRole="TERMINAL" />
+          <Property Name="HORAS_EXTRAS" Type="Time" Precision="5" />
+          <NavigationProperty Name="HORARIO_CONDUCTOR" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_HORARIO_CONDUCTOR" FromRole="SERVICIO_REALIZADO" ToRole="HORARIO_CONDUCTOR" />
+          <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_USUARIOS_SISTEMA" FromRole="SERVICIO_REALIZADO" ToRole="USUARIOS_SISTEMA" />
+        </EntityType>
+        <EntityType Name="TERMINAL">
+          <Key>
+            <PropertyRef Name="ID_TERMINAL" />
+          </Key>
+          <Property Name="ID_TERMINAL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_EMPRESA" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE_TERMINAL" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DIRECCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NUM_DIRECCION" Type="Int32" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EMPRESA" Relationship="SoluinfoModel.FK_TERMINAL_EMPRESA1" FromRole="TERMINAL" ToRole="EMPRESA" />
+          <NavigationProperty Name="SERVICIO_REALIZADO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_TERMINAL" FromRole="TERMINAL" ToRole="SERVICIO_REALIZADO" />
+        </EntityType>
+        <Association Name="FK_BITACORA_MOVIMIENTOS_TIPO_MOVIEMIENTO_HORARIO">
+          <End Type="SoluinfoModel.TIPO_MOVIEMIENTO_HORARIO" Role="TIPO_MOVIEMIENTO_HORARIO" Multiplicity="1" />
+          <End Type="SoluinfoModel.BITACORA_MOVIMIENTOS" Role="BITACORA_MOVIMIENTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_MOVIEMIENTO_HORARIO">
+              <PropertyRef Name="ID_TIPO_MOVIMIENTO" />
+            </Principal>
+            <Dependent Role="BITACORA_MOVIMIENTOS">
+              <PropertyRef Name="ID_HORARIO_CONDUCTOR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_BUS">
+          <End Type="SoluinfoModel.BUS" Role="BUS" Multiplicity="0..1" />
+          <End Type="SoluinfoModel.SERVICIO_REALIZADO" Role="SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BUS">
+              <PropertyRef Name="ID_BUS" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_BUS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_EMPRESA">
+          <End Type="SoluinfoModel.EMPRESA" Role="EMPRESA" Multiplicity="1" />
+          <End Type="SoluinfoModel.SERVICIO" Role="SERVICIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPRESA">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Principal>
+            <Dependent Role="SERVICIO">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TERMINAL_EMPRESA1">
+          <End Type="SoluinfoModel.EMPRESA" Role="EMPRESA" Multiplicity="1" />
+          <End Type="SoluinfoModel.TERMINAL" Role="TERMINAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPRESA">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Principal>
+            <Dependent Role="TERMINAL">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_SENTIDO">
+          <End Type="SoluinfoModel.SENTIDO" Role="SENTIDO" Multiplicity="1" />
+          <End Type="SoluinfoModel.SERVICIO_REALIZADO" Role="SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SENTIDO">
+              <PropertyRef Name="ID_SENTIDO" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_SENTIDO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_SERVICIO">
+          <End Type="SoluinfoModel.SERVICIO" Role="SERVICIO" Multiplicity="1" />
+          <End Type="SoluinfoModel.SERVICIO_REALIZADO" Role="SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SERVICIO">
+              <PropertyRef Name="ID_SERVICIO" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_SENTIDO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_TERMINAL">
+          <End Type="SoluinfoModel.TERMINAL" Role="TERMINAL" Multiplicity="1" />
+          <End Type="SoluinfoModel.SERVICIO_REALIZADO" Role="SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TERMINAL">
+              <PropertyRef Name="ID_TERMINAL" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_TERMINAL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HORARIO_CONDUCTOR">
+          <Key>
+            <PropertyRef Name="ID_HORARIO" />
+          </Key>
+          <Property Name="ID_HORARIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_CARGA_HORARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_TERMINAL_INICIO" Type="Int32" Nullable="false" />
+          <Property Name="FECHA_INICIO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HORARIO_CUBIERTO" Type="Boolean" Nullable="false" />
+          <Property Name="ID_BUS_INICIO" Type="Int32" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CARGA_HORARIO" Relationship="SoluinfoModel.FK_HORARIO_CONDUCTOR_CARGA_HORARIO" FromRole="HORARIO_CONDUCTOR" ToRole="CARGA_HORARIO" />
+          <NavigationProperty Name="SERVICIO_REALIZADO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_HORARIO_CONDUCTOR" FromRole="HORARIO_CONDUCTOR" ToRole="SERVICIO_REALIZADO" />
+          <Property Name="NUMERO_JORNADA" Type="Int16" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_HORARIO_CONDUCTOR_CARGA_HORARIO">
+          <End Type="SoluinfoModel.CARGA_HORARIO" Role="CARGA_HORARIO" Multiplicity="1" />
+          <End Type="SoluinfoModel.HORARIO_CONDUCTOR" Role="HORARIO_CONDUCTOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARGA_HORARIO">
+              <PropertyRef Name="ID_CARGA_HORARIO" />
+            </Principal>
+            <Dependent Role="HORARIO_CONDUCTOR">
+              <PropertyRef Name="ID_CARGA_HORARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_HORARIO_CONDUCTOR">
+          <End Type="SoluinfoModel.HORARIO_CONDUCTOR" Role="HORARIO_CONDUCTOR" Multiplicity="1" />
+          <End Type="SoluinfoModel.SERVICIO_REALIZADO" Role="SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HORARIO_CONDUCTOR">
+              <PropertyRef Name="ID_HORARIO" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_HORARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="USUARIOS_SISTEMA">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_EMPRESA" Type="Int32" Nullable="false" />
+          <Property Name="ID_COMUNA" Type="Int32" Nullable="false" />
+          <Property Name="ID_TIPO_CONTRATO" Type="Int32" Nullable="false" />
+          <Property Name="CLAVE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO_ALTERNATIVO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CODIGO_BARRA" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="RUT" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SEGUNDO_NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDO_PATERNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDO_MATERNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CAMBIO_PASSWORD" Type="DateTime" Precision="3" />
+          <Property Name="MULTITERMINAL" Type="Boolean" Nullable="false" />
+          <Property Name="ADMINISTRADOR" Type="Boolean" Nullable="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CARGA_HORARIO" Relationship="SoluinfoModel.FK_CARGA_HORARIO_USUARIOS_SISTEMA" FromRole="USUARIOS_SISTEMA" ToRole="CARGA_HORARIO" />
+          <NavigationProperty Name="PERMISOS_ESPECIALES" Relationship="SoluinfoModel.FK_PERMISOS_ESPECIALES_USUARIOS_SISTEMA" FromRole="USUARIOS_SISTEMA" ToRole="PERMISOS_ESPECIALES" />
+          <NavigationProperty Name="SERVICIO_REALIZADO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_USUARIOS_SISTEMA" FromRole="USUARIOS_SISTEMA" ToRole="SERVICIO_REALIZADO" />
+          <NavigationProperty Name="COMUNA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA" FromRole="USUARIOS_SISTEMA" ToRole="COMUNA" />
+          <NavigationProperty Name="EMPRESA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_EMPRESA" FromRole="USUARIOS_SISTEMA" ToRole="EMPRESA" />
+          <NavigationProperty Name="TIPO_CONTRATO" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_TIPO_CONTRATO" FromRole="USUARIOS_SISTEMA" ToRole="TIPO_CONTRATO" />
+          <NavigationProperty Name="PERFILES" Relationship="SoluinfoModel.PERFIL_USUARIO_SISTEMA" FromRole="USUARIOS_SISTEMA" ToRole="PERFILES" />
+        </EntityType>
+        <EntityType Name="TIPO_CONTRATO">
+          <Key>
+            <PropertyRef Name="ID_TIPO_CONTRATO" />
+          </Key>
+          <Property Name="ID_TIPO_CONTRATO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_TIPO_CONTRATO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE_CORTO_CONTRATRO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CANTIDAD_HORAS_CONTRATO" Type="Time" Nullable="false" Precision="5" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_TIPO_CONTRATO" FromRole="TIPO_CONTRATO" ToRole="USUARIOS_SISTEMA" />
+        </EntityType>
+        <Association Name="FK_CARGA_HORARIO_USUARIOS_SISTEMA">
+          <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="1" />
+          <End Type="SoluinfoModel.CARGA_HORARIO" Role="CARGA_HORARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="CARGA_HORARIO">
+              <PropertyRef Name="ID_USUARIO_CARGA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_ESPECIALES_USUARIOS_SISTEMA">
+          <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="1" />
+          <End Type="SoluinfoModel.PERMISOS_ESPECIALES" Role="PERMISOS_ESPECIALES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="PERMISOS_ESPECIALES">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_USUARIOS_SISTEMA">
+          <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="1" />
+          <End Type="SoluinfoModel.SERVICIO_REALIZADO" Role="SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIOS_SISTEMA_COMUNA">
+          <End Type="SoluinfoModel.COMUNA" Role="COMUNA" Multiplicity="1" />
+          <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMUNA">
+              <PropertyRef Name="ID_COMUNA" />
+            </Principal>
+            <Dependent Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_COMUNA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIOS_SISTEMA_EMPRESA">
+          <End Type="SoluinfoModel.EMPRESA" Role="EMPRESA" Multiplicity="1" />
+          <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPRESA">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Principal>
+            <Dependent Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIOS_SISTEMA_TIPO_CONTRATO">
+          <End Type="SoluinfoModel.TIPO_CONTRATO" Role="TIPO_CONTRATO" Multiplicity="1" />
+          <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_CONTRATO">
+              <PropertyRef Name="ID_TIPO_CONTRATO" />
+            </Principal>
+            <Dependent Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_TIPO_CONTRATO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PERFIL_USUARIO_SISTEMA">
+          <End Type="SoluinfoModel.PERFILES" Role="PERFILES" Multiplicity="*" />
+          <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SoluinfoModelStoreContainer" CdmEntityContainer="SolusegEntities">
+          <EntitySetMapping Name="ACCIONES">
+            <EntityTypeMapping TypeName="SoluinfoModel.ACCIONES">
+              <MappingFragment StoreEntitySet="ACCIONES">
+                <ScalarProperty Name="ID_ACCION" ColumnName="ID_ACCION" />
+                <ScalarProperty Name="ID_MENU" ColumnName="ID_MENU" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ITEM_MENU" ColumnName="ITEM_MENU" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AREAS">
+            <EntityTypeMapping TypeName="SoluinfoModel.AREAS">
+              <MappingFragment StoreEntitySet="AREAS">
+                <ScalarProperty Name="ID_AREA" ColumnName="ID_AREA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MENU">
+            <EntityTypeMapping TypeName="SoluinfoModel.MENU">
+              <MappingFragment StoreEntitySet="MENU">
+                <ScalarProperty Name="ID_MENU" ColumnName="ID_MENU" />
+                <ScalarProperty Name="ID_PADRE" ColumnName="ID_PADRE" />
+                <ScalarProperty Name="ORDEN" ColumnName="ORDEN" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="CONTROLADOR" ColumnName="CONTROLADOR" />
+                <ScalarProperty Name="ICONO_URL" ColumnName="ICONO_URL" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERFILES">
+            <EntityTypeMapping TypeName="SoluinfoModel.PERFILES">
+              <MappingFragment StoreEntitySet="PERFILES">
+                <ScalarProperty Name="ID_PERFIL" ColumnName="ID_PERFIL" />
+                <ScalarProperty Name="ID_AREA" ColumnName="ID_AREA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PLATAFORMAS">
+            <EntityTypeMapping TypeName="SoluinfoModel.PLATAFORMAS">
+              <MappingFragment StoreEntitySet="PLATAFORMAS">
+                <ScalarProperty Name="ID_PLATAFORMA" ColumnName="ID_PLATAFORMA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROYECTO_AGRUPACION">
+            <EntityTypeMapping TypeName="SoluinfoModel.PROYECTO_AGRUPACION">
+              <MappingFragment StoreEntitySet="PROYECTO_AGRUPACION">
+                <ScalarProperty Name="ID_PROYECTO_AGRUPACION" ColumnName="ID_PROYECTO_AGRUPACION" />
+                <ScalarProperty Name="NOMBRE_INTERNO" ColumnName="NOMBRE_INTERNO" />
+                <ScalarProperty Name="NOMBRE_VISIBLE" ColumnName="NOMBRE_VISIBLE" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROYECTOS">
+            <EntityTypeMapping TypeName="SoluinfoModel.PROYECTOS">
+              <MappingFragment StoreEntitySet="PROYECTOS">
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="ID_PLATAFORMA" ColumnName="ID_PLATAFORMA" />
+                <ScalarProperty Name="NOMBRE_INTERNO" ColumnName="NOMBRE_INTERNO" />
+                <ScalarProperty Name="NOMBRE_VISIBLE" ColumnName="NOMBRE_VISIBLE" />
+                <ScalarProperty Name="PAGINA_INICIO" ColumnName="PAGINA_INICIO" />
+                <ScalarProperty Name="URL_PROYECTO" ColumnName="URL_PROYECTO" />
+                <ScalarProperty Name="ICON_UNO" ColumnName="ICON_UNO" />
+                <ScalarProperty Name="ICON_DOS" ColumnName="ICON_DOS" />
+                <ScalarProperty Name="FECHA_VERSION" ColumnName="FECHA_VERSION" />
+                <ScalarProperty Name="VERSION" ColumnName="VERSION" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VERSION_PROYECTO">
+            <EntityTypeMapping TypeName="SoluinfoModel.VERSION_PROYECTO">
+              <MappingFragment StoreEntitySet="VERSION_PROYECTO">
+                <ScalarProperty Name="ID_VERSION" ColumnName="ID_VERSION" />
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="V1" ColumnName="V1" />
+                <ScalarProperty Name="V2" ColumnName="V2" />
+                <ScalarProperty Name="V3" ColumnName="V3" />
+                <ScalarProperty Name="V4" ColumnName="V4" />
+                <ScalarProperty Name="USER_CREACION" ColumnName="USER_CREACION" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="USER_MODIFICA" ColumnName="USER_MODIFICA" />
+                <ScalarProperty Name="FECHA_MODIFICA" ColumnName="FECHA_MODIFICA" />
+                <ScalarProperty Name="FECHA_PUESTA_EN_MARCHA" ColumnName="FECHA_PUESTA_EN_MARCHA" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERMISOS_ESPECIALES">
+            <EntityTypeMapping TypeName="SoluinfoModel.PERMISOS_ESPECIALES">
+              <MappingFragment StoreEntitySet="PERMISOS_ESPECIALES">
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_ACCION" ColumnName="ID_ACCION" />
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="TIPO_PERMISO" ColumnName="TIPO_PERMISO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="PERFIL_ACCION" TypeName="SoluinfoModel.PERFIL_ACCION" StoreEntitySet="PERFIL_ACCION">
+            <EndProperty Name="ACCIONES">
+              <ScalarProperty Name="ID_ACCION" ColumnName="ID_ACCION" />
+            </EndProperty>
+            <EndProperty Name="PERFILES">
+              <ScalarProperty Name="ID_PERFIL" ColumnName="ID_PERFIL" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PROYECTO_AGRUPACION_PROYECTOS" TypeName="SoluinfoModel.PROYECTO_AGRUPACION_PROYECTOS" StoreEntitySet="PROYECTO_AGRUPACION_PROYECTOS">
+            <EndProperty Name="PROYECTO_AGRUPACION">
+              <ScalarProperty Name="ID_PROYECTO_AGRUPACION" ColumnName="ID_PROYECTO_AGRUPACION" />
+            </EndProperty>
+            <EndProperty Name="PROYECTOS">
+              <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PROYECTOS_AREAS" TypeName="SoluinfoModel.PROYECTOS_AREAS" StoreEntitySet="PROYECTOS_AREAS">
+            <EndProperty Name="AREAS">
+              <ScalarProperty Name="ID_AREA" ColumnName="ID_AREA" />
+            </EndProperty>
+            <EndProperty Name="PROYECTOS">
+              <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="NOVEDADES">
+            <EntityTypeMapping TypeName="SoluinfoModel.NOVEDADES">
+              <MappingFragment StoreEntitySet="NOVEDADES">
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="ID_TIPO_NOVEDAD" ColumnName="ID_TIPO_NOVEDAD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="TITULO" ColumnName="TITULO" />
+                <ScalarProperty Name="ORDEN" ColumnName="ORDEN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPOS_NOVEDADES">
+            <EntityTypeMapping TypeName="SoluinfoModel.TIPOS_NOVEDADES">
+              <MappingFragment StoreEntitySet="TIPOS_NOVEDADES">
+                <ScalarProperty Name="COLOR" ColumnName="COLOR" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="ID_VERSION" ColumnName="ID_VERSION" />
+                <ScalarProperty Name="ID_TIPO_NOVEDAD" ColumnName="ID_TIPO_NOVEDAD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BITACORA_MOVIMIENTOS">
+            <EntityTypeMapping TypeName="SoluinfoModel.BITACORA_MOVIMIENTOS">
+              <MappingFragment StoreEntitySet="BITACORA_MOVIMIENTOS">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="ID_TIPO_MOVIMIENTO" ColumnName="ID_TIPO_MOVIMIENTO" />
+                <ScalarProperty Name="ID_HORARIO_CONDUCTOR" ColumnName="ID_HORARIO_CONDUCTOR" />
+                <ScalarProperty Name="ID_BITACORA" ColumnName="ID_BITACORA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPO_MOVIEMIENTO_HORARIO">
+            <EntityTypeMapping TypeName="SoluinfoModel.TIPO_MOVIEMIENTO_HORARIO">
+              <MappingFragment StoreEntitySet="TIPO_MOVIEMIENTO_HORARIO">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="NOMBRE_MOVIMEINTO" ColumnName="NOMBRE_MOVIMEINTO" />
+                <ScalarProperty Name="ID_TIPO_MOVIMIENTO" ColumnName="ID_TIPO_MOVIMIENTO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BUS">
+            <EntityTypeMapping TypeName="SoluinfoModel.BUS">
+              <MappingFragment StoreEntitySet="BUS">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="PPU" ColumnName="PPU" />
+                <ScalarProperty Name="ID_INTERNO_BUS" ColumnName="ID_INTERNO_BUS" />
+                <ScalarProperty Name="ID_TERMINAL" ColumnName="ID_TERMINAL" />
+                <ScalarProperty Name="ID_BUS" ColumnName="ID_BUS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CARGA_HORARIO">
+            <EntityTypeMapping TypeName="SoluinfoModel.CARGA_HORARIO">
+              <MappingFragment StoreEntitySet="CARGA_HORARIO">
+                <ScalarProperty Name="NUMERO_JORNADA" ColumnName="NUMERO_JORNADA" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="FECHA_CARGA" ColumnName="FECHA_CARGA" />
+                <ScalarProperty Name="COMENTARIO_CARGA" ColumnName="COMENTARIO_CARGA" />
+                <ScalarProperty Name="NOMBRE_CARGA" ColumnName="NOMBRE_CARGA" />
+                <ScalarProperty Name="ID_USUARIO_CARGA" ColumnName="ID_USUARIO_CARGA" />
+                <ScalarProperty Name="ID_CARGA_HORARIO" ColumnName="ID_CARGA_HORARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMUNA">
+            <EntityTypeMapping TypeName="SoluinfoModel.COMUNA">
+              <MappingFragment StoreEntitySet="COMUNA">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="NOMBRE_COMUNA" ColumnName="NOMBRE_COMUNA" />
+                <ScalarProperty Name="ID_COMUNA" ColumnName="ID_COMUNA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMPRESA">
+            <EntityTypeMapping TypeName="SoluinfoModel.EMPRESA">
+              <MappingFragment StoreEntitySet="EMPRESA">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="UBICACION_EMPRESA" ColumnName="UBICACION_EMPRESA" />
+                <ScalarProperty Name="NOMBRE_EMPRESA" ColumnName="NOMBRE_EMPRESA" />
+                <ScalarProperty Name="ID_EMPRESA" ColumnName="ID_EMPRESA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PARAMETROS">
+            <EntityTypeMapping TypeName="SoluinfoModel.PARAMETROS">
+              <MappingFragment StoreEntitySet="PARAMETROS">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="VALOR_3" ColumnName="VALOR_3" />
+                <ScalarProperty Name="VALOR_2" ColumnName="VALOR_2" />
+                <ScalarProperty Name="VALOR_1" ColumnName="VALOR_1" />
+                <ScalarProperty Name="DESCRIPCION_PARAMATRO" ColumnName="DESCRIPCION_PARAMATRO" />
+                <ScalarProperty Name="NOMBRE_PARAMETRO" ColumnName="NOMBRE_PARAMETRO" />
+                <ScalarProperty Name="ID_PARAMETRO" ColumnName="ID_PARAMETRO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SENTIDO">
+            <EntityTypeMapping TypeName="SoluinfoModel.SENTIDO">
+              <MappingFragment StoreEntitySet="SENTIDO">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="NOMBRE_CORTO_SENTIDO" ColumnName="NOMBRE_CORTO_SENTIDO" />
+                <ScalarProperty Name="NOMBRE_SENTIDO" ColumnName="NOMBRE_SENTIDO" />
+                <ScalarProperty Name="ID_SENTIDO" ColumnName="ID_SENTIDO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SERVICIO">
+            <EntityTypeMapping TypeName="SoluinfoModel.SERVICIO">
+              <MappingFragment StoreEntitySet="SERVICIO">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="HORARIO_FIN_SERVICO" ColumnName="HORARIO_FIN_SERVICO" />
+                <ScalarProperty Name="HORARIO_INICIO_SERVICO" ColumnName="HORARIO_INICIO_SERVICO" />
+                <ScalarProperty Name="NOMBRE_SERVICIO" ColumnName="NOMBRE_SERVICIO" />
+                <ScalarProperty Name="ID_EMPRESA" ColumnName="ID_EMPRESA" />
+                <ScalarProperty Name="ID_SERVICIO" ColumnName="ID_SERVICIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SERVICIO_REALIZADO">
+            <EntityTypeMapping TypeName="SoluinfoModel.SERVICIO_REALIZADO">
+              <MappingFragment StoreEntitySet="SERVICIO_REALIZADO">
+                <ScalarProperty Name="HORAS_EXTRAS" ColumnName="HORAS_EXTRAS" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="ID_BUS" ColumnName="ID_BUS" />
+                <ScalarProperty Name="HORA_FIN" ColumnName="HORA_FIN" />
+                <ScalarProperty Name="HORA_INICIO" ColumnName="HORA_INICIO" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_SENTIDO" ColumnName="ID_SENTIDO" />
+                <ScalarProperty Name="ID_SERVICIO" ColumnName="ID_SERVICIO" />
+                <ScalarProperty Name="ID_TERMINAL" ColumnName="ID_TERMINAL" />
+                <ScalarProperty Name="ID_HORARIO" ColumnName="ID_HORARIO" />
+                <ScalarProperty Name="ID_RECORRIDO" ColumnName="ID_RECORRIDO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TERMINAL">
+            <EntityTypeMapping TypeName="SoluinfoModel.TERMINAL">
+              <MappingFragment StoreEntitySet="TERMINAL">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="NUM_DIRECCION" ColumnName="NUM_DIRECCION" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="NOMBRE_TERMINAL" ColumnName="NOMBRE_TERMINAL" />
+                <ScalarProperty Name="ID_EMPRESA" ColumnName="ID_EMPRESA" />
+                <ScalarProperty Name="ID_TERMINAL" ColumnName="ID_TERMINAL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HORARIO_CONDUCTOR">
+            <EntityTypeMapping TypeName="SoluinfoModel.HORARIO_CONDUCTOR">
+              <MappingFragment StoreEntitySet="HORARIO_CONDUCTOR">
+                <ScalarProperty Name="NUMERO_JORNADA" ColumnName="NUMERO_JORNADA" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="ID_BUS_INICIO" ColumnName="ID_BUS_INICIO" />
+                <ScalarProperty Name="HORARIO_CUBIERTO" ColumnName="HORARIO_CUBIERTO" />
+                <ScalarProperty Name="FECHA_INICIO" ColumnName="FECHA_INICIO" />
+                <ScalarProperty Name="ID_TERMINAL_INICIO" ColumnName="ID_TERMINAL_INICIO" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_CARGA_HORARIO" ColumnName="ID_CARGA_HORARIO" />
+                <ScalarProperty Name="ID_HORARIO" ColumnName="ID_HORARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIOS_SISTEMA">
+            <EntityTypeMapping TypeName="SoluinfoModel.USUARIOS_SISTEMA">
+              <MappingFragment StoreEntitySet="USUARIOS_SISTEMA">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="ADMINISTRADOR" ColumnName="ADMINISTRADOR" />
+                <ScalarProperty Name="MULTITERMINAL" ColumnName="MULTITERMINAL" />
+                <ScalarProperty Name="CAMBIO_PASSWORD" ColumnName="CAMBIO_PASSWORD" />
+                <ScalarProperty Name="APELLIDO_MATERNO" ColumnName="APELLIDO_MATERNO" />
+                <ScalarProperty Name="APELLIDO_PATERNO" ColumnName="APELLIDO_PATERNO" />
+                <ScalarProperty Name="SEGUNDO_NOMBRE" ColumnName="SEGUNDO_NOMBRE" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="RUT" ColumnName="RUT" />
+                <ScalarProperty Name="CODIGO_BARRA" ColumnName="CODIGO_BARRA" />
+                <ScalarProperty Name="CORREO_ALTERNATIVO" ColumnName="CORREO_ALTERNATIVO" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="CLAVE" ColumnName="CLAVE" />
+                <ScalarProperty Name="ID_TIPO_CONTRATO" ColumnName="ID_TIPO_CONTRATO" />
+                <ScalarProperty Name="ID_COMUNA" ColumnName="ID_COMUNA" />
+                <ScalarProperty Name="ID_EMPRESA" ColumnName="ID_EMPRESA" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPO_CONTRATO">
+            <EntityTypeMapping TypeName="SoluinfoModel.TIPO_CONTRATO">
+              <MappingFragment StoreEntitySet="TIPO_CONTRATO">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="CANTIDAD_HORAS_CONTRATO" ColumnName="CANTIDAD_HORAS_CONTRATO" />
+                <ScalarProperty Name="NOMBRE_CORTO_CONTRATRO" ColumnName="NOMBRE_CORTO_CONTRATRO" />
+                <ScalarProperty Name="NOMBRE_TIPO_CONTRATO" ColumnName="NOMBRE_TIPO_CONTRATO" />
+                <ScalarProperty Name="ID_TIPO_CONTRATO" ColumnName="ID_TIPO_CONTRATO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="PERFIL_USUARIO_SISTEMA" TypeName="SoluinfoModel.PERFIL_USUARIO_SISTEMA" StoreEntitySet="PERFIL_USUARIO_SISTEMA">
+            <EndProperty Name="USUARIOS_SISTEMA">
+              <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+            </EndProperty>
+            <EndProperty Name="PERFILES">
+              <ScalarProperty Name="ID_PERFIL" ColumnName="ID_PERFIL" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

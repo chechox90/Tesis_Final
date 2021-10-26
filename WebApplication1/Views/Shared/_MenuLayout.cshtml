@@ -1,0 +1,83 @@
+﻿<ul class="nav flex-column nav-justified">
+    <li class="nav-item">
+        <div class="sidebar-title">
+            <a class="btn toggler d-none d-md-inline-block" href="#"><i class="fas fa-arrow-left"></i></a>
+            <span class="modulo-title">@WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().Proyecto.NombreVisible</span>
+        </div>
+    </li>
+
+    @{
+        bool menuHijoSeleccionado = false;
+        DLL.DTO.Seguridad.DTO_Menu menuSeleccionado = null;
+        //if (WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().Proyecto.Menus.Where(x => x.MenuHijo.Where(i => i.URL == Request.Url.AbsolutePath).Any()).Any())
+        //{
+        menuHijoSeleccionado = true;
+
+        menuSeleccionado = WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().Proyecto.Menus.Select(x => new DLL.DTO.Seguridad.DTO_Menu
+        {
+            IdMenu = x.IdMenu,
+            IdPadre = x.IdPadre,
+            Orden = x.Orden,
+            Nombre = x.Nombre,
+            Controlador = x.Controlador,
+            IconoUrl = x.IconoUrl,
+            URL = x.URL,
+            Estado = x.Estado,
+            //    MenuHijo = x.MenuHijo.Select(o => new DLL.DTO..DTO_MenuSubMenu
+            //    {
+            //        IdMenu = o.IdMenu,
+            //        IdPadre = o.IdPadre,
+            //        Orden = o.Orden,
+            //        Nombre = o.Nombre,
+            //        Controlador = o.Controlador,
+            //        IconoUrl = o.IconoUrl,
+            //        URL = o.URL,
+            //        Estado = o.Estado
+            //    })
+            //.Where(o => o.URL == Request.Url.AbsolutePath)
+            //.ToList()
+        }).FirstOrDefault();
+        //}
+
+        if (WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().Proyecto.Menus.Count > 0)
+        {
+            foreach (var menu in WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().Proyecto.Menus.OrderBy(x => x.Orden))
+            {
+
+                string linkActivePadre = "nav-link-active";
+                string expanded = "false";
+                string show = "show";
+                //if (menuHijoSeleccionado && menuSeleccionado.IdMenu == menu.IdMenu)
+                //{
+                //string linkActivePadre = "nav-link-active";
+                //string expanded = "true";
+                //string show = "show";
+                // //}
+                <!--Con sub menu-->
+                <li class="nav-item">
+                   
+                    <a class="nav-link @linkActivePadre" href="~/@menu.Controlador" role="button" aria-expanded="@expanded" aria-controls="collapse1">
+                        <span class="icon-link"><i class="@menu.IconoUrl"></i></span>
+                        <span class="text-link">@menu.Nombre</span>
+                    </a>
+                    
+                </li>
+
+                //string linkActive = "";
+                //if (menu.URL == Request.Url.AbsolutePath)
+                //{
+                //    linkActive = "nav-link-active";
+                //}
+                <!--Link Directo-->
+                @*<li class="nav-item">
+                    <a class="nav-link @linkActive" href="@menu.URL">
+                        <span class="icon-link"><i class="@menu.IconoUrl"></i></span>
+                        <span class="text-link">@menu.Nombre</span>
+                    </a>
+                </li>*@
+
+            }
+        }
+
+    }
+</ul>

@@ -1,0 +1,101 @@
+﻿
+@{ ViewBag.Title = "Terminal"; }
+
+<div class="page-title">
+    <div class="content-title">
+        <h3>Terminales</h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Listado de Terminales</a></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="form-row">
+        <button class="btn btn-success" type="button" id="btnNuevoBus"><i class="far fa-plus"></i> Nuevo Terminal</button>
+    </div>
+</div>
+
+<div class="card" style="display:none">
+    <div class="form-row">
+        <label>Selecciones un Terminal para continuar</label>
+        <div class="form-group">
+            <select id="ddlTerminal" class="form-control col-md-6"></select>
+        </div>
+        <div>
+            <div class="borderInput">
+
+            </div>
+        </div>
+        <div class="form-group">
+            <button id="btnBuscar" class="btn btn-primary borderInput" onclick="BuscarConductorHorario();">Buscar</button>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 card" id="divTablaHorarios">
+    <table id="tblTerminales" class="table table-striped table-hover">
+    </table>
+</div>
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            CargarTerminales();
+        });
+
+        function CargarTerminales() {
+            $("#tblTerminales").DataTable({
+                dom: "<'card-header flex-column flex-lg-row align-items-start align-items-lg-center'<'d-flex flex-column flex-lg-row justify-content-start align-items-lg-center'<'titleRev mr-2'><'comboFil mb-2 mb-lg-0'>><'d-flex justify-content-md-end'fl>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
+                scrollX: true,
+                processing: true,
+                destroy: true,
+                lengthChange: true,
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+                columnDefs: [
+                    { targets: [0, 3, 4], searchable: false, orderable: false }
+                ],
+                language: {
+                    "url": "../Plugins/DataTables/js/Spanish.json"
+                },
+                order: [[0, "desc"]],
+                initComplete: function () {
+                    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+                },
+                ajax: {
+                    url: "../Mantenedor/GetTerminalesActivos",
+                    type: "POST",
+                    dataType: "json",
+                    data: null
+                },
+                columns: [
+                    { data: "ID_TERMINAL", visible: false },
+                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL" },
+                    { data: "DIRECCION", title: "DIRECCIÓN", name: "DIRECCION" },
+                    { data: "NUM_DIRECCION", title: "N° DIRECCION", name: "NUM_DIRECCION" },
+                    { data: "NOMBRE_EMPRESA", title: "NOMBRE EMPRESA", name: "NOMBRE_EMPRESA" },
+                    {
+                        title: "GESTIÓN",
+                        orderable: false,
+
+                        render: function (data, type, full, meta) {
+                            var html = '';
+
+                            html = '<a role="button" class="btn-table-bg " onclick="EliminarServicio(' + full.ID_TERMINAL + ');"><i class="far fa-trash-alt text-danger"></i><span>&nbsp;&nbsp;</span><i class="far fa-edit text-success"></i></a>';
+
+                            return html;
+                        }
+                    },
+                ]
+            });
+        }
+
+
+    </script>
+}

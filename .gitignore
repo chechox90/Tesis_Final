@@ -1,0 +1,14 @@
+.DS_Store
+.vs/
+*DLL.DTO/obj/
+*DLL.DAO/obj/
+*DLL.DATA/obj/
+*DLL.NEGOCIO/obj/
+*WebRRHHPlanillas/obj/
+*WebBuses/obj/
+*WebICRP/obj/
+*WebOOPP/obj/
+*WebInformatica/obj/
+*PruebasUnitarias/obj/
+
+

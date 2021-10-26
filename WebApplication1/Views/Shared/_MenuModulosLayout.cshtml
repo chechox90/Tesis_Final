@@ -1,0 +1,30 @@
+﻿@* Versión 1.0 *@
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content bg-primary">
+        <div class="modal-header justify-content-start">
+            <button type="button" class="close bg-white-20" data-dismiss="modal" aria-label="Close">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h4 class="pl-3 mb-0 text-white">Selecciona Módulo</h4>
+        </div>
+        <div class="modal-body pt-0">
+            <div class="links-modulos">
+
+                @{
+                    if (WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().ProyectoAgrupacion != null)
+                    {
+                        foreach (var Proyecto in WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().ProyectoAgrupacion.Proyectos)
+                        {
+                    <a href="@Proyecto.UrlProyecto" class="ml-0">
+                        @Html.Raw(File.ReadAllText(Server.MapPath(Proyecto.IconUno)))
+                        <div class="mt-3 text-white">@Proyecto.NombreVisible</div>
+                    </a>
+                        }
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

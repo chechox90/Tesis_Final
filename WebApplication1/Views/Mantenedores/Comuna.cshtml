@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Comuna";
+}
+
+<div class="page-title">
+    <div class="content-title">
+        <h3>Comuna</h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Listado de Comuna</a></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="card" style="display:none">
+    <div class="form-row">
+        <label>Selecciones un Terminal para continuar</label>
+        <div class="form-group">
+            <select id="ddlTerminal" class="form-control col-md-6"></select>
+        </div>
+        <div>
+            <div class="borderInput">
+
+            </div>
+        </div>
+        <div class="form-group">
+            <button id="btnBuscar" class="btn btn-primary borderInput" onclick="BuscarConductorHorario();">Buscar</button>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 card" id="divTablaHorarios">
+    <table id="tblComunas" class="table table-striped table-hover">
+    </table>
+</div>
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            CargarComunas();
+        });
+
+        function CargarComunas() {
+            //$("#tblComunas").DataTable({
+            //    dom: "<'card-header flex-column flex-lg-row align-items-start align-items-lg-center'<'d-flex flex-column flex-lg-row justify-content-start align-items-lg-center'<'titleRev mr-2'><'comboFil mb-2 mb-lg-0'>><'d-flex justify-content-md-end'fl>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
+            //    scrollX: true,
+            //    processing: true,
+            //    destroy: true,
+            //    lengthChange: true,
+            //    pageLength: 10,
+            //    lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+            //    columnDefs: [
+            //        { targets: [0, 3, 4], searchable: false, orderable: false }
+            //    ],
+            //    language: {
+            //        "url": "../Plugins/DataTables/js/Spanish.json"
+            //    },
+            //    order: [[0, "desc"]],
+            //    initComplete: function () {
+            //        $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+            //    },
+            //    ajax: {
+            //        //url: "../Mantenedor/GetComunaActivas",
+            //        type: "POST",
+            //        dataType: "json",
+            //        data: null
+            //    },
+            //    //columns: [
+            //    //    { data: "ID_COMUNA", visible: false },
+            //    //    { data: "NOMBRE_COMUNA", title: "NOMBRE COMUNA", name: "NOMBRE_COMUNA" }
+            //    //]
+            //});
+        }
+
+
+    </script>
+}

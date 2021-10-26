@@ -1,0 +1,32 @@
+﻿@* Versión 1.1 *@
+
+@{
+    ViewBag.Title = "Error interno del sistema";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Conductor en RED - Error</title>
+    <link href="~/Images/Logo_CdeR.svg" type="image/x-icon" rel="icon">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="~/Plugins/FontAwesome/css/fontawesome.css">
+    @Styles.Render("~/Plugins/Bootstrap/css")
+    @Styles.Render("~/Content/WebApp/Intranet/css")
+</head>
+    <body>
+
+        <div class="error-content">
+            <p class="mb-2 text-dark">404</p>
+            <p class="lead text-dark mb-2">Se ha perdido la conexión o la página no se encuentra disponible</p>
+            <p>Si el problema persiste, comuníquese con SOLUINFO al correo: <a class="text-primary" href="mailto:ayudasoluinfo@soluinfo.cl?subject=Mail Error 404">ayudasoluinfo@soluinfo.cl</a>.</p>
+            <a href="javascript:history.back(-1);" class="btn btn-primary btn-lg" role="button"><i class="far fa-arrow-left mr-2"></i> Volver</a>
+        </div>
+
+    </body>
+</html>
