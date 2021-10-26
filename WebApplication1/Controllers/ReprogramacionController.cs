@@ -96,7 +96,7 @@ namespace WebApplication1.Controllers
                             ind++;
                         }
                     }
-                    
+
                     list = list.OrderByDescending(x => x.FECHA_HORA_INICIO).ToList();
 
                     if (list.Count > 0)
@@ -128,10 +128,15 @@ namespace WebApplication1.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                throw;
+                return Json(new
+                {
+                    EnableError = true,
+                    ErrorTitle = "Error",
+                    ErrorMsg = "El R.U.N. ingresado <b>no es válido</b>"
+                });
             }
 
         }
@@ -285,7 +290,7 @@ namespace WebApplication1.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new
                 {
@@ -378,14 +383,51 @@ namespace WebApplication1.Controllers
 
             int dia = Convert.ToInt32(fechaHoy.DayOfWeek);
             dia = dia - 1;
-            DateTime fechaInicioSemana = fechaHoy.AddDays((dia) * (-1));
 
-            return Json(new
+            
+            string fechaList = "";
+            List<string> list = new List<string>();
+
+            //semana anterior a la fecha de la semana actual
+            DateTime fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(-7);
+            DateTime fechaSemActDomingo = fechaSemActLunnes.AddDays((dia) * (-1)).AddDays(7);
+            fechaList = fechaSemActLunnes.ToString("dd/MM") + " - " + fechaSemActDomingo.ToString("dd/MM");
+            list.Add(fechaList);
+
+            //semana actual de lunes a domingo
+            fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1));
+            fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(6);
+            fechaList = fechaSemActLunnes.ToString("dd/MM") + " - " + fechaSemActDomingo.ToString("dd/MM");
+            list.Add(fechaList);
+
+            //semana siguiente a la semana actual
+            fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(7);
+            fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(13);
+            fechaList = fechaSemActLunnes.ToString("dd/MM") + " - " + fechaSemActDomingo.ToString("dd/MM");
+            list.Add(fechaList);
+
+            string fechaFormaList = fechaHoy.AddDays((dia) * (-1)).ToString("dd/MM/yyyy");
+            list.Add(fechaFormaList);
+
+            if (list.Count > 1)
             {
-                data = fechaInicioSemana.ToString(),
-                ErrorMsg = "",
-                JsonRequestBehavior.AllowGet
-            });
+                return Json(new
+                {
+                    data = list,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    EnableError = true,
+                    ErrorTitle = "Error",
+                    ErrorMsg = "Se ha producido un error por favor <b>vuelva a intentarlo</b>"
+                });
+            }
+
         }
 
 
@@ -397,8 +439,6 @@ namespace WebApplication1.Controllers
                 string NombreArchivo = Request.Form["NombreCarga"];
                 string FechaCarga = Request.Form["FechaCarga"];
                 string comentario = Request.Form["Comenatrio"];
-
-                string mensajeError = "";
 
                 if (Request.Files.Count > 0)
                 {
@@ -473,7 +513,7 @@ namespace WebApplication1.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new
                 {
@@ -485,7 +525,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public ActionResult SetGuaradarCambioHorario(List<DTO_HorarioReprogramado> ObjetoHorario)
+        public ActionResult SetGuaradarCambioHorario(List<CargaHorarioModel> ObjetoHorario)
         {
             var ObHor = ObjetoHorario;
 

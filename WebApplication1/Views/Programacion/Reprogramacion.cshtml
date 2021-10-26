@@ -24,38 +24,39 @@
     <div class="form-row">
         <div class="col-md-4">
             <div class="form-row">
+                <div style="display:none" class="col-12 col-md-12 ocultar">
+                    <div class="borderInput">
+                        <label class="text-primary"> <b>Nombre completo:</b> </label>
+                        <label class="text-info" id="lblNombreConductor"></label>
+                    </div>
+                    <div class="borderInput">
+                        <label class="text-primary"><b>R.U.N.:</b> </label> <label class="text-info" id="lblRutConductor"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-row">
+                <div style="display:none" class="col-12 col-md-12 ocultar">
+                    <div class="borderInput">
+                        <label class="text-primary"><b>Tipo de Contrato:</b></label>
+                        <label class="text-info" id="lblContratoConductor"></label>
+                    </div>
+                    <div class="borderInput">
+                        <labe class="text-primary"><b>Horas extras:</b></labe> <label class="text-info" id="lblTotalHorasExtras"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-row">
                 <div class="borderInput">
-                    <input type="text" id="txtRutConductor" placeholder="Ingres un R.U.N." onclick="Limpiar();" class="form-control borderInput" />
+                    <input type="text" id="txtRutConductor" placeholder="Ingrese un R.U.N." onclick="Limpiar();" class="form-control borderInput" />
                 </div>
                 <div class="borderInput">
                     <button id="btnBuscar" class="btn btn-primary borderInput" onclick="BuscarConductorHorario();">Buscar</button>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-row">
-                <div style="display:none" class="col-12 col-md-12 ocultar">
-                    <div>
-                        <label class="text-primary"><b>Nombre completo:</b></label>
-                        <label class="text-info" id="lblNombreConductor"></label>
-                    </div>
-                    <div>
-                        <label class="text-primary"><b>R.U.N.:</b></label> <label class="text-info" id="lblRutConductor"></label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-row">
-                <div style="display:none" class="col-12 col-md-12 ocultar">
-                    <div>
-                        <label class="text-primary"><b>Tipo de Contrato:</b></label>
-                        <label class="text-info" id="lblContratoConductor"></label>
-                    </div>
-                    <div>
-                        <labe class="text-primary"><b>Horas extras: </b></labe> <label class="text-info" id="lblTotalHorasExtras"></label>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -72,6 +73,9 @@
                     <div>
                         <div class="card-header">
                             <h4 class="text-primary">Jornada 1</h4>
+                        </div>
+                        <div class="form-row">
+                            <button class="btn btn-info" id="btnSemanaAnterior">Semana anterior</button>
                         </div>
                         <div class="form-row">
                             <label class="col-md-3" id="idLunesT1"></label>
@@ -119,6 +123,7 @@
                 </div>
             </div>
 
+            
 
             @*JORNADA TARDE*@
 
@@ -130,8 +135,12 @@
 
                     </div>
                     <div class="form-row">
+                        <button class="btn btn-info" type="button" id="btnSemanaActual">Volver a semana actual</button>
+                        <button class="btn btn-info" type="button" id="btnSemanaSiguiente">Próximos 7 dias >></button>
+                    </div>
+                    <div class="form-row">
                         <label class="col-md-3" id="idLunesT2"></label>
-                        <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraLunes2" maxlength="5" placeholder="HH:mm" />
+                        <input class="form-control format-time bg-white col-md-2" type="text" maxlength="5" placeholder="HH:mm" id="txtHoraLunes2" />
                         <select id="ddlTerminalLu2" class="form-control col-md-4"></select>
                         <input class="col-md-3" type="text" />
                     </div>
@@ -297,7 +306,11 @@
                 async: false,
                 data: null,
                 success: function (data) {
-                    let fechaLunes = data.data.split(' ')[0];
+                    $("#btnSemanaAnterior").text(data.data[0]);
+                    $("#btnSemanaActual").text(data.data[1]);
+                    $("#btnSemanaSiguiente").text(data.data[2]);
+
+                    let fechaLunes = data.data[3];
 
                     let dia = fechaLunes.split('/')[0];
                     let mes = fechaLunes.split('/')[1];
@@ -385,23 +398,22 @@
 
                         //CMB_TERMINAL
                         //MAÑANA
-                        console.log(data.data[2]["ID_TERMINAL"])
                         $("#ddlTerminalLu1 option[value='" + data.data[0]["ID_TERMINAL"] + "']").attr("selected", "selected");
                         $("#ddlTerminalMa1 option[value='" + data.data[2]["ID_TERMINAL"] + "']").attr("selected", "selected");
-                        $("#ddlTerminalMi1 option[value='" + data.data[4]["ID_TERMINAL"] + "']").attr("selected", true);
-                        $("#ddlTerminalJu1 option[value='" + data.data[6]["ID_TERMINAL"] + "']").attr("selected", true);
-                        $("#ddlTerminalVi1 option[value='" + data.data[8]["ID_TERMINAL"] + "']").attr("selected", true);
-                        $("#ddlTerminalSa1 option[value='" + data.data[10]["ID_TERMINAL"] + "']").attr("selected", true);
-                        $("#ddlTerminalDo1 option[value='" + data.data[12]["ID_TERMINAL"] + "']").attr("selected", true);
+                        $("#ddlTerminalMi1 option[value='" + data.data[4]["ID_TERMINAL"] + "']").attr("selected", "selected");
+                        $("#ddlTerminalJu1 option[value='" + data.data[6]["ID_TERMINAL"] + "']").attr("selected", "selected");
+                        $("#ddlTerminalVi1 option[value='" + data.data[8]["ID_TERMINAL"] + "']").attr("selected", "selected");
+                        $("#ddlTerminalSa1 option[value='" + data.data[10]["ID_TERMINAL"] + "']").attr("selected", "selected");
+                        $("#ddlTerminalDo1 option[value='" + data.data[12]["ID_TERMINAL"] + "']").attr("selected", "selected");
 
                         //TARDE
-                        $("#ddlTerminalLu2 option[value='" + data.data[1]["ID_TERMINAL"] + "']").attr("selected", true);
-                        $("#ddlTerminalMa2 option[value='" + data.data[3]["ID_TERMINAL"] + "']").attr("selected", true);
-                        $("#ddlTerminalMi2 option[value='" + data.data[5]["ID_TERMINAL"] + "']").attr("selected", true);
-                        $("#ddlTerminalJu2 option[value='" + data.data[7]["ID_TERMINAL"] + "']").attr("selected", true);
-                        $("#ddlTerminalVi2 option[value='" + data.data[9]["ID_TERMINAL"] + "']").attr("selected", true);
-                        $("#ddlTerminalSa2 option[value='" + data.data[11]["ID_TERMINAL"] + "']").attr("selected", true);
-                        $("#ddlTerminalDo2 option[value='" + data.data[13]["ID_TERMINAL"] + "']").attr("selected", true);
+                        $("#ddlTerminalLu2 option[value='" + data.data[1]["ID_TERMINAL"] + "']").attr("selected", "selected");
+                        $("#ddlTerminalMa2 option[value='" + data.data[3]["ID_TERMINAL"] + "']").attr("selected", "selected");
+                        $("#ddlTerminalMi2 option[value='" + data.data[5]["ID_TERMINAL"] + "']").attr("selected", "selected");
+                        $("#ddlTerminalJu2 option[value='" + data.data[7]["ID_TERMINAL"] + "']").attr("selected", "selected");
+                        $("#ddlTerminalVi2 option[value='" + data.data[9]["ID_TERMINAL"] + "']").attr("selected", "selected");
+                        $("#ddlTerminalSa2 option[value='" + data.data[11]["ID_TERMINAL"] + "']").attr("selected", "selected");
+                        $("#ddlTerminalDo2 option[value='" + data.data[13]["ID_TERMINAL"] + "']").attr("selected", "selected");
                     }
                 });
 
@@ -413,28 +425,27 @@
         }
 
         function GuaradarCambioHorario() {
-            let DTO_HorarioReprogramado = {
-                'DTO_HorarioReprogramado': [
-                    {
-                        ID_USUARIO: $("#lblIdUsuario").val(),
-                        ID_TERMINAL: $("#ddlTerminalDo2").val(),
-                        RUT: $("#ddlTerminalSa2").val(),
-                        NUMERO_JORNADA: 2,
-                        FECHA_INICIO: $("#idDomingoT2").text(),
-                        FECHA_INICIO: $("#idDomingoT2").text(),
-                        COMENTARIO: $("#txtComentarioD2").val()
-                    },
-                    [{
-                        ID_USUARIO: $("#lblIdUsuario").val(),
-                        ID_TERMINAL: $("#ddlTerminalDo2").val(),
-                        RUT: $("#ddlTerminalSa2").val(),
-                        NUMERO_JORNADA: 2,
-                        FECHA_INICIO: $("#idDomingoT2").text(),
-                        FECHA_INICIO: $("#idDomingoT2").text(),
-                        COMENTARIO: $("#txtComentarioD2").val()
-                    }]
-                ]
-            }
+            var DTO_HorarioReprogramado = [
+                {
+                    ID_USUARIO: $("#lblIdUsuario").val(),
+                    ID_TERMINAL: $("#ddlTerminalDo2").val(),
+                    RUT: $("#ddlTerminalSa2").val(),
+                    NUMERO_JORNADA: 2,
+                    FECHA_INICIO: $("#idDomingoT2").text(),
+                    HORA_INICIO: $("#idDomingoT2").text(),
+                    COMENTARIO: $("#txtComentarioD2").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").val(),
+                    ID_TERMINAL: $("#ddlTerminalDo2").val(),
+                    RUT: $("#ddlTerminalSa2").val(),
+                    NUMERO_JORNADA: 2,
+                    FECHA_INICIO: $("#idDomingoT2").text(),
+                    HORA_INICIO: $("#idDomingoT2").text(),
+                    COMENTARIO: $("#txtComentarioD2").val()
+                }
+
+            ]
 
 
             $.ajax({
@@ -485,7 +496,43 @@
         function Limpiar() {
             CargaFechasDias();
             CargarTerminalesCmb();
-            $("#divInfoConductor").css("display", "none");
+            $(".ocultar").css("display", "none");
+
+            $("#txtHoraLunes1").val("");
+            $("#txtHoraMartes1").val("");
+            $("#txtHoraMiercoles1").val("");
+            $("#txtHoraJueves1").val("");
+            $("#txtHoraViernes1").val("");
+            $("#txtHoraSabado1").val("");
+            $("#txtHoraDomingo1").val("");
+
+            $("#txtHoraLunes2").val();
+            $("#txtHoraMartes2").val();
+            $("#txtHoraMiercoles2").val();
+            $("#txtHoraJueves2").val();
+            $("#txtHoraViernes2").val();
+            $("#txtHoraSabado2").val();
+            $("#txtHoraDomingo2").val();
+
+            //CMB_TERMINAL
+            //MAÑANA
+            $("#ddlTerminalLu1 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalMa1 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalMi1 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalJu1 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalVi1 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalSa1 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalDo1 option[value='" + 0 + "']").attr("selected", "selected");
+
+            //TARDE
+            $("#ddlTerminalLu2 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalMa2 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalMi2 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalJu2 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalVi2 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalSa2 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalDo2 option[value='" + 0 + "']").attr("selected", "selected");
+
         }
 
     </script>

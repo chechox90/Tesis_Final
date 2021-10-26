@@ -170,6 +170,7 @@
     <Compile Include="Helpers\HashHelper.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Models\CargaArchivoModel.cs" />
+    <Compile Include="Models\CargaHorarioModel.cs" />
     <Compile Include="Models\Commons\FrontUser.cs" />
     <Compile Include="Models\Commons\RolesPermisos.cs" />
     <Compile Include="Models\ResponseModel.cs" />
