@@ -53,6 +53,10 @@ namespace ConductorEnRed.Controllers
         {
             return View("~/Views/Mantenedores/Bus.cshtml");
         }
+        public ActionResult NewTerminal()
+        {
+            return PartialView("~/Views/Mantenedores/_NewTerminal.cshtml");
+        }
 
         public ActionResult GetTerminalesActivos()
         {
@@ -154,8 +158,8 @@ namespace ConductorEnRed.Controllers
                     carga.NOMBRE_EMPRESA = item.NOMBRE_EMPRESA;
                     carga.NOMBRE_SERVICIO = item.NOMBRE_SERVICIO;
 
-                    carga.HORARIO_INICIO = item.HORARIO_INICIO_SERVICO.ToString().Substring(0,5);
-                    carga.HORARIO_FIN = item.HORARIO_INICIO_SERVICO.ToString().Substring(0,5);
+                    carga.HORARIO_INICIO = item.HORARIO_INICIO_SERVICO.ToString().Substring(0, 5);
+                    carga.HORARIO_FIN = item.HORARIO_INICIO_SERVICO.ToString().Substring(0, 5);
                     list.Add(carga);
                 }
                 list = list.OrderBy(x => x.NOMBRE_SERVICIO).ToList();

@@ -1,4 +1,8 @@
-﻿<style>
+﻿@{
+    ViewBag.Title = "Reprogramacion";
+}
+
+<style>
     .borderInput {
         margin: 10px;
     }
@@ -81,49 +85,47 @@
                             <label class="col-md-3" id="idLunesT1"></label>
                             <input class="form-control col-md-2 format-time bg-white" type="text" id="txtHoraLunes1" maxlength="5" placeholder="HH:mm" />
                             <select id="ddlTerminalLu1" class="form-control col-md-4"></select>
-                            <input class="col-md-3" type="text" />
+                            <input class="col-md-3" type="text" id="txtComentarioLu1" />
                         </div>
                         <div class="form-row">
                             <label class="col-md-3" id="idMartesT1"></label>
                             <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraMartes1" maxlength="5" placeholder="HH:mm" />
                             <select id="ddlTerminalMa1" class="form-control col-md-4"></select>
-                            <input class="col-md-3" type="text" />
+                            <input class="col-md-3" type="text" id="txtComentarioMa1" />
                         </div>
                         <div class="form-row">
                             <label class="col-md-3" id="idMiercolesT1"></label>
                             <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraMiercoles1" maxlength="5" placeholder="HH:mm" />
                             <select id="ddlTerminalMi1" class="form-control col-md-4"></select>
-                            <input class="col-md-3" type="text" />
+                            <input class="col-md-3" type="text" id="txtComentarioMi1" />
                         </div>
                         <div class="form-row">
                             <label class="col-md-3" id="idJuevesT1"></label>
                             <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraJueves1" maxlength="5" placeholder="HH:mm" />
                             <select id="ddlTerminalJu1" class="form-control col-md-4"></select>
-                            <input class="col-md-3" type="text" />
+                            <input class="col-md-3" type="text" id="txtComentarioJu1" />
                         </div>
                         <div class="form-row">
                             <label class="col-md-3" id="idViernesT1"></label>
                             <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraViernes1" maxlength="5" placeholder="HH:mm" />
                             <select id="ddlTerminalVi1" class="form-control col-md-4"></select>
-                            <input class="col-md-3" type="text" />
+                            <input class="col-md-3" type="text" id="txtComentarioVi1" />
                         </div>
                         <div class="form-row">
                             <label class="col-md-3" id="idSabadoT1"></label>
                             <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraSabado1" maxlength="5" placeholder="HH:mm" />
                             <select id="ddlTerminalSa1" class="form-control col-md-4"></select>
-                            <input class="col-md-3" type="text" />
+                            <input class="col-md-3" type="text" id="txtComentarioSa1" />
                         </div>
                         <div class="form-row">
                             <label class="col-md-3" id="idDomingoT1"></label>
                             <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraDomingo1" maxlength="5" placeholder="HH:mm" />
                             <select id="ddlTerminalDo1" class="form-control col-md-4"></select>
-                            <input class="col-3 col-md-3" type="text" />
+                            <input class="col-3 col-md-3" type="text" id="txtComentarioDo1" />
                         </div>
                     </div>
                 </div>
             </div>
-
-
 
             @*JORNADA TARDE*@
 
@@ -142,53 +144,60 @@
                         <label class="col-md-3" id="idLunesT2"></label>
                         <input class="form-control format-time bg-white col-md-2" type="text" maxlength="5" placeholder="HH:mm" id="txtHoraLunes2" />
                         <select id="ddlTerminalLu2" class="form-control col-md-4"></select>
-                        <input class="col-md-3" type="text" />
+                        <input class="col-md-3" type="text" id="txtComentarioLu1" />
                     </div>
 
                     <div class="form-row">
                         <label class="col-md-3" id="idMartesT2"></label>
                         <input class="form-control col-md-2 format-time bg-white" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMartes2" />
                         <select id="ddlTerminalMa2" class="form-control col-md-4"></select>
-                        <input class="col-md-3" type="text" />
+                        <input class="col-md-3" type="text" id="txtComentarioLu1" />
                     </div>
                     <div class="form-row">
                         <label class="col-md-3" id="idMiercolesT2"></label>
                         <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMiercoles2" />
                         <select id="ddlTerminalMi2" class="form-control col-md-4"></select>
-                        <input class="col-md-3" type="text" />
+                        <input class="col-md-3" type="text" id="txtComentarioLu1" />
                     </div>
                     <div class="form-row">
                         <label class="col-md-3" id="idJuevesT2"></label>
                         <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraJueves2" />
                         <select id="ddlTerminalJu2" class="form-control col-md-4"></select>
-                        <input class="col-md-3" type="text" />
+                        <input class="col-md-3" type="text" id="txtComentarioLu1" />
                     </div>
                     <div class="form-row">
                         <label class="col-md-3" id="idViernesT2"></label>
                         <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraViernes2" />
                         <select id="ddlTerminalVi2" class="form-control col-md-4"></select>
-                        <input class="col-md-3" type="text" />
+                        <input class="col-md-3" type="text" id="txtComentarioLu1" />
                     </div>
                     <div class="form-row">
                         <label class="col-md-3" id="idSabadoT2"></label>
                         <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraSabado2" />
                         <select id="ddlTerminalSa2" class="form-control col-md-4"></select>
-                        <input class="col-md-3" type="text" />
+                        <input class="col-md-3" type="text" id="txtComentarioLu1" />
                     </div>
                     <div class="form-row">
                         <label style="display:none" id="lblIdUsuario"></label>
                         <label class="col-md-3" id="idDomingoT2"></label>
                         <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraDomingo2" />
                         <select id="ddlTerminalDo2" class="form-control col-md-4"></select>
-                        <input class="col-md-3" type="text" id="txtComentarioD2" />
+                        <input class="col-md-3" type="text" id="txtComentarioLu1" />
                     </div>
                 </div>
 
 
             </div>
-            <div class="borderInput ">
-                <div class="divFlot">
-                    <button class="btn btn-success" onclick="GuaradarCambioHorario();">Guardar cambios</button>
+            <div class="modal-footer ocultar">
+                <div class="borderInput">
+                    <div class="divFlot">
+                        <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
+                    </div>
+                </div>
+                <div class="borderInput ">
+                    <div class="divFlot">
+                        <button class="btn btn-success" type="button" onclick="GuaradarCambioHorario();">Guardar cambios</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -260,15 +269,22 @@
 
                         optionLu2.text(data.data[i]["NOMBRE_TERMINAL"]);
                         optionLu2.val(data.data[i]["ID_TERMINAL"]);
-                        optionMa2.text(data.data[i]["NOMBRE_TERMINAL"]);
+
                         optionMa2.val(data.data[i]["ID_TERMINAL"]);
+                        optionMa2.text(data.data[i]["NOMBRE_TERMINAL"]);
+
+                        optionMi2.val(data.data[i]["ID_TERMINAL"]);
                         optionMi2.text(data.data[i]["NOMBRE_TERMINAL"]);
+
                         optionJu2.val(data.data[i]["ID_TERMINAL"]);
                         optionJu2.text(data.data[i]["NOMBRE_TERMINAL"]);
+
                         optionVi2.val(data.data[i]["ID_TERMINAL"]);
                         optionVi2.text(data.data[i]["NOMBRE_TERMINAL"]);
+
                         optionSa2.val(data.data[i]["ID_TERMINAL"]);
                         optionSa2.text(data.data[i]["NOMBRE_TERMINAL"]);
+
                         optionDo2.val(data.data[i]["ID_TERMINAL"]);
                         optionDo2.text(data.data[i]["NOMBRE_TERMINAL"]);
 
@@ -420,6 +436,7 @@
                         $("#lblRutConductor").text(data.data[0]["RUT"]);
                         $("#txtRutConductor").val("");
                         $("#lblIdUsuario").text(data.data[0]["ID_USUARIO"]);
+                        $("#lblContratoConductor").text(data.data[0]["TIPO_CONTRATO"]);
 
                         CargaElementos(data);
 
@@ -436,22 +453,130 @@
         function GuaradarCambioHorario() {
             var DTO_HorarioReprogramado = [
                 {
-                    ID_USUARIO: $("#lblIdUsuario").val(),
-                    ID_TERMINAL: $("#ddlTerminalDo2").val(),
-                    RUT: $("#ddlTerminalSa2").val(),
-                    NUMERO_JORNADA: 2,
-                    FECHA_INICIO: $("#idDomingoT2").text(),
-                    HORA_INICIO: $("#idDomingoT2").text(),
-                    COMENTARIO: $("#txtComentarioD2").val()
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalLu1").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 1,
+                    FECHA_INICIO: $("#idLunesT1").text(),
+                    HORA_INICIO: $("#txtHoraLunes1").val(),
+                    COMENTARIO: $("#txtComentarioLu1").val()
                 },
                 {
-                    ID_USUARIO: $("#lblIdUsuario").val(),
-                    ID_TERMINAL: $("#ddlTerminalDo2").val(),
-                    RUT: $("#ddlTerminalSa2").val(),
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalMa1").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 1,
+                    FECHA_INICIO: $("#idMartesT1").text(),
+                    HORA_INICIO: $("#txtHoraMartes1").val(),
+                    COMENTARIO: $("#txtComentarioMa1").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalMi1").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 1,
+                    FECHA_INICIO: $("#idMiercolesT1").text(),
+                    HORA_INICIO: $("#txtHoraMiercoles1").val(),
+                    COMENTARIO: $("#txtComentarioMi1").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalJu1").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 1,
+                    FECHA_INICIO: $("#idJuevesT1").text(),
+                    HORA_INICIO: $("#txtHoraJueves1").val(),
+                    COMENTARIO: $("#txtComentarioJu1").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalVi1").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 1,
+                    FECHA_INICIO: $("#idViernesT1").text(),
+                    HORA_INICIO: $("#txtHoraViernes1").val(),
+                    COMENTARIO: $("#txtComentarioVi1").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalLSa1").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 1,
+                    FECHA_INICIO: $("#idSabadoT1").text(),
+                    HORA_INICIO: $("#txtHoraSabado1").val(),
+                    COMENTARIO: $("#txtComentarioSa1").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalDo1").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 1,
+                    FECHA_INICIO: $("#idDomingoT1").text(),
+                    HORA_INICIO: $("#txtHoraDomingo1").val(),
+                    COMENTARIO: $("#txtComentarioDo1").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalLu2").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
                     NUMERO_JORNADA: 2,
-                    FECHA_INICIO: $("#idDomingoT2").text(),
-                    HORA_INICIO: $("#idDomingoT2").text(),
-                    COMENTARIO: $("#txtComentarioD2").val()
+                    FECHA_INICIO: $("#idLunesT2").text(),
+                    HORA_INICIO: $("#txtHoraLunes2").val(),
+                    COMENTARIO: $("#txtComentarioLu2").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalMa2").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 2,
+                    FECHA_INICIO: $("#idMartesT2").text(),
+                    HORA_INICIO: $("#txtHoraMartes2").val(),
+                    COMENTARIO: $("#txtComentarioMa2").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalMi2").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 2,
+                    FECHA_INICIO: $("#idMiercolesT2").text(),
+                    HORA_INICIO: $("#txtHoraMiercoles2").val(),
+                    COMENTARIO: $("#txtComentarioMa2").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalJu2").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 2,
+                    FECHA_INICIO: $("#idJuevesT2").text(),
+                    HORA_INICIO: $("#txtHoraJueves2").val(),
+                    COMENTARIO: $("#txtComentariJu2").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalVi2").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 2,
+                    FECHA_INICIO: $("#idViernesT2").text(),
+                    HORA_INICIO: $("#txtHoraViernes2").val(),
+                    COMENTARIO: $("#txtComentarioVi2").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalSa1").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 2,
+                    FECHA_INICIO: $("#idSabadoT2").text(),
+                    HORA_INICIO: $("#txtHoraSabado2").val(),
+                    COMENTARIO: $("#txtComentarioSa2").val()
+                },
+                {
+                    ID_USUARIO: $("#lblIdUsuario").text(),
+                    ID_TERMINAL: $("#ddlTerminalDo2").prop('selectedIndex'),
+                    RUT: $("#lblRutConductor").text(),
+                    NUMERO_JORNADA: 2,
+                    FECHA_INICIO: $("#idSabadoT2").text(),
+                    HORA_INICIO: $("#txtHoraDomingo2").val(),
+                    COMENTARIO: $("#txtComentarioDo2").val()
                 }
 
             ]
@@ -557,9 +682,8 @@
 
 
         function Limpiar() {
-            //  CargaFechasLabel();
-            CargarTerminalesCmb();
-            //$(".ocultar").css("display", "none");
+            CargaFechasLabel();
+            $(".ocultar").css("display", "none");
 
             $("#txtHoraLunes1").val("");
             $("#txtHoraMartes1").val("");
@@ -569,32 +693,32 @@
             $("#txtHoraSabado1").val("");
             $("#txtHoraDomingo1").val("");
 
-            $("#txtHoraLunes2").val();
-            $("#txtHoraMartes2").val();
-            $("#txtHoraMiercoles2").val();
-            $("#txtHoraJueves2").val();
-            $("#txtHoraViernes2").val();
-            $("#txtHoraSabado2").val();
-            $("#txtHoraDomingo2").val();
+            $("#txtHoraLunes2").val("");
+            $("#txtHoraMartes2").val("");
+            $("#txtHoraMiercoles2").val("");
+            $("#txtHoraJueves2").val("");
+            $("#txtHoraViernes2").val("");
+            $("#txtHoraSabado2").val("");
+            $("#txtHoraDomingo2").val("");
 
             //CMB_TERMINAL
             //MAÑANA
-            $("#ddlTerminalLu1 option[value='" + 0 + "']").attr("selected", "selected");
-            $("#ddlTerminalMa1 option[value='" + 0 + "']").attr("selected", "selected");
-            $("#ddlTerminalMi1 option[value='" + 0 + "']").attr("selected", "selected");
-            $("#ddlTerminalJu1 option[value='" + 0 + "']").attr("selected", "selected");
-            $("#ddlTerminalVi1 option[value='" + 0 + "']").attr("selected", "selected");
-            $("#ddlTerminalSa1 option[value='" + 0 + "']").attr("selected", "selected");
-            $("#ddlTerminalDo1 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalLu1 option").attr("selected", false);
+            $("#ddlTerminalMa1 option").attr("selected", false);
+            $("#ddlTerminalMi1 option").attr("selected", false);
+            $("#ddlTerminalJu1 option").attr("selected", false);
+            $("#ddlTerminalVi1 option").attr("selected", false);
+            $("#ddlTerminalSa1 option").attr("selected", false);
+            $("#ddlTerminalDo1 option").attr("selected", false);
 
             //TARDE
-            $("#ddlTerminalLu2 option[value='" + 0 + "']").attr("selected", "selected");
-            $("#ddlTerminalMa2 option[value='" + 0 + "']").attr("selected", "selected");
-            $("#ddlTerminalMi2 option[value='" + 0 + "']").attr("selected", "selected");
-            $("#ddlTerminalJu2 option[value='" + 0 + "']").attr("selected", "selected");
-            $("#ddlTerminalVi2 option[value='" + 0 + "']").attr("selected", "selected");
-            $("#ddlTerminalSa2 option[value='" + 0 + "']").attr("selected", "selected");
-            $("#ddlTerminalDo2 option[value='" + 0 + "']").attr("selected", "selected");
+            $("#ddlTerminalLu2 option").attr("selected", false);
+            $("#ddlTerminalMa2 option").attr("selected", false);
+            $("#ddlTerminalMi2 option").attr("selected", false);
+            $("#ddlTerminalJu2 option").attr("selected", false);
+            $("#ddlTerminalVi2 option").attr("selected", false);
+            $("#ddlTerminalSa2 option").attr("selected", false);
+            $("#ddlTerminalDo2 option").attr("selected", false);
 
         }
 

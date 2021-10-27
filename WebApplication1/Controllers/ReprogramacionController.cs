@@ -47,10 +47,12 @@ namespace WebApplication1.Controllers
         {
             try
             {
+                RutConductor = AgregarGuionRut(RutConductor);
+
                 if (ValidarRutCompleto(RutConductor))
                 {
                     DateTime fechaIni = DateTime.Parse(fechasConsultas.Split('-')[0].Trim());
-                    DateTime fechaFin = DateTime.Parse(fechasConsultas.Split('-')[1].Trim());
+                    DateTime fechaFin = DateTime.Parse(fechasConsultas.Split('-')[1].Trim()).AddDays(7);
 
                     List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut(RutConductor, fechaIni, fechaFin);
                     List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
@@ -67,11 +69,12 @@ namespace WebApplication1.Controllers
                                 carga.FECHA_INICIO = dto_Horario[ind].FECHA_HORA_INICIO.ToString().Split(' ')[0];
 
                                 carga.HORA_INICIO = dto_Horario[ind].FECHA_HORA_INICIO.ToString("dd/MM/yyyy HH:mm").Split(' ')[1];
-                                carga.RUT = dto_Horario[ind].RUT;
+                                carga.RUT = IngresarPuntosEnRut(dto_Horario[ind].RUT);
 
                                 carga.FECHA_HORA_INICIO = dto_Horario[ind].FECHA_HORA_INICIO;
                                 carga.ID_TERMINAL = dto_Horario[ind].ID_TERMINAL;
                                 carga.NOMBRE_COMPLETO = dto_Horario[ind].NOMBRE + " " + dto_Horario[0].SEGUNDO_NOMBRE + " " + dto_Horario[0].APELLIDO_PATERNO + " " + dto_Horario[0].APELLIDO_MATERNO;
+                                carga.TIPO_CONTRATO = dto_Horario[ind].TIPO_CONTRATO;
                                 list.Add(carga);
                             }
                             else
@@ -132,6 +135,17 @@ namespace WebApplication1.Controllers
                 });
             }
 
+        }
+        public static string IngresarPuntosEnRut(string RUN)
+        {
+            RUN = RUN.Replace("-", "");
+            var primerGrupo = RUN.Substring(RUN.Length - 4);
+            var segundoGrupo = RUN.Substring(RUN.Length - 7).Substring(0,3);
+            int resta = RUN.Length - 7;
+            var tercerGrupo = RUN.Substring(0, resta);
+            string rut = tercerGrupo + "." + segundoGrupo + "." + primerGrupo.Substring(0,3) + "-" + primerGrupo.Substring(3,1);
+
+            return rut;
         }
 
         [HttpPost]
@@ -226,7 +240,7 @@ namespace WebApplication1.Controllers
                         }
                         else
                         {
-                            carga.RUT = rutString;
+                            carga.RUT = IngresarPuntosEnRut(rutString);
 
                         }
 
@@ -294,7 +308,7 @@ namespace WebApplication1.Controllers
             }
         }
 
-        public static bool ValidarRutCompleto(string rut)
+        public static string AgregarGuionRut(string rut)
         {
             string rutConGuion = "";
             rut = rut.Replace(".", "");
@@ -303,8 +317,14 @@ namespace WebApplication1.Controllers
             else
                 rutConGuion = rut;
 
+            return rutConGuion;
+        }
+
+        public static bool ValidarRutCompleto(string rut)
+        {
+            
             Regex expresion = new Regex("^([0-9]+-[0-9K])$");
-            string dv = rut.Substring(rutConGuion.Length - 1, 1);
+            string dv = rut.Substring(rut.Length - 1, 1);
 
             if (!expresion.IsMatch(rut))
             {

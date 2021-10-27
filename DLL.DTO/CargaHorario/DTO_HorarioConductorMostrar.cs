@@ -22,5 +22,6 @@ namespace DLL.DTO.CargaHorario
         public string FECHA_INICIO { get; set; }
         public string HORA_INICIO { get; set; }
         public bool ESTADO { get; set; }
+        public string TIPO_CONTRATO { get; set; }
     }
 }

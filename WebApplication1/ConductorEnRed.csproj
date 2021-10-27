@@ -168,6 +168,7 @@
     </Compile>
     <Compile Include="Helpers\CreateFolderHelper.cs" />
     <Compile Include="Helpers\HashHelper.cs" />
+    <Compile Include="Helpers\RutHelper.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Models\CargaArchivoModel.cs" />
     <Compile Include="Models\CargaHorarioModel.cs" />
