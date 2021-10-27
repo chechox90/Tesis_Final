@@ -2,47 +2,176 @@
     ViewBag.Title = "Comuna";
 }
 
+<style>
+    .borderInput {
+        margin: 10px;
+    }
+
+    .divFlot {
+        text-align: right
+    }
+</style>
+
 <div class="page-title">
     <div class="content-title">
         <h3>Comuna</h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#">Listado de Comuna</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Listado de Comunas</a></li>
             </ol>
         </nav>
     </div>
 </div>
 
-<div class="card" style="display:none">
-    <div class="form-row">
-        <label>Selecciones un Terminal para continuar</label>
-        <div class="form-group">
-            <select id="ddlTerminal" class="form-control col-md-6"></select>
-        </div>
-        <div>
-            <div class="borderInput">
-
-            </div>
-        </div>
-        <div class="form-group">
-            <button id="btnBuscar" class="btn btn-primary borderInput" onclick="BuscarConductorHorario();">Buscar</button>
+<div class="content-filters-b">
+    <div class="card">
+        <div class="form-row">
+            <button class="btn btn-success" type="button" id="btnNuevoTerminal" onclick="VerNuevaComuna();"><i class="far fa-plus"></i> Nueva Comuna</button>
         </div>
     </div>
 </div>
 
-<div class="col-md-12 card" id="divTablaHorarios">
-    <table id="tblComunas" class="table table-striped table-hover">
-    </table>
+<div class="card ocultar">
+    <div class="modal-title">
+        <div class="form-row">
+            <div class="borderInput">
+                <h4 class="modal-title text-primary">Nueva Comuna</h4>
+            </div>
+            <button type="button" class="close col-mb-0" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
+                <i class="far fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-3">
+            <div class="form-group borderInput">
+                <label for="NumeroComuna">Nombre Comuna</label>
+                <input type="text" name="NumeroComuna" placeholder="Nombre Comuna" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group borderInput">
+                <label for="RegionComuna">Región Ubicación</label>
+                <input type="text" name="RegionComuna" placeholder="Región Comuna" class="form-control" />
+            </div>
+        </div>       
+        <div class="col-md-3 borderInput">
+            <div class="form-group">
+                <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnGuaradarNuevo">Guardar</button>
+            </div>
+        </div>
+    </div>
 </div>
+<br />
+
+<div class="card">
+    <div class="modal-title">
+        <div class="form-row">
+            <div class="borderInput">
+                <h4 class="modal-title text-primary">Comuna</h4>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="borderInput" for="NumeroServicio">Filtrar por Comuna</label>
+                <select name="NumeroServicio" class="form-control borderInput"></select>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div>
+                <button class="btn btn-primary borderInput" type="button" id="btnBuscarComuna" onclick="btnBuscarComuna">Buscar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="col-md-12 card" id="divTablaHorarios">
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="form-group borderInput">
+                <label for="NombreComuna">Nombre Comuna</label>
+                <input type="text" name="NombreComuna" placeholder="Nombre Comuna" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group borderInput">
+                <label for="Motivo">Motivo de  Edición</label>
+                <input type="text" name="Motivo" placeholder="Ingrese motivo" class="form-control" />
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-12">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <button class="btn btn-danger borderInput" id="btnEliminarComuna" onclick="EliminarComuna();">Eliminar</button>
+            </div>
+            <div class="form-group col-md-4">
+                
+            </div>
+            <div class="form-group col-md-4">
+                <div class="text-right">
+                    <button type="button" class="btn btn-outline-light borderInput" onclick="Limpiar();">Cancelar</button>
+                    <button type="button" class="btn btn-primary borderInput" id="btnEditarComuna">Editar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-title">
+                <div class="text-center">
+                    <h3>¡Confirmar acción!</h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-primary">
+                    ¿Está seguro que desea eliminar el registro?
+                </h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="DeleteServicio();">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 @section scripts
     {
     <script>
         $(document).ready(function () {
+            $(".ocultar").css("display", "none");
             CargarComunas();
         });
+
+        function VerNuevaComuna() {
+            $(".ocultar").css("display", "")
+        }
+
+        function Limpiar() {
+            $(".ocultar").css("display", "none")
+        }
+
+        function EliminarComuna() {
+
+            $("#modalConfirmacion").modal("show");
+        }
+
+        function CerrarModal() {
+            $("#modalConfirmacion").modal("hide");
+        }
 
         function CargarComunas() {
             //$("#tblComunas").DataTable({
@@ -75,7 +204,6 @@
             //    //]
             //});
         }
-
 
     </script>
 }

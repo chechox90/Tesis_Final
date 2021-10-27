@@ -81,6 +81,26 @@
     </table>
 </div>
 
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-title">
+                <div class="text-center">
+                    <h3>¡Confirmar acción!</h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-primary">
+                    ¿Está seguro que desea eliminar el registro?
+                </h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="DeleteServicio();">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section scripts
     {
