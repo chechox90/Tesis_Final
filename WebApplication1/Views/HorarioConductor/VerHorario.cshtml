@@ -1,0 +1,304 @@
+﻿@{
+    ViewBag.Title = "Horario";
+}
+
+<style>
+    .borderInput {
+        margin: 10px;
+    }
+
+    .divFlot {
+        text-align: right
+    }
+</style>
+
+<div class="page-title">
+    <div class="content-title">
+        <h3>Mi Horario</h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Mi Horario</a></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="form-row">
+                <div style="display:none" class="col-12 col-md-12 ocultar">
+                    <div class="borderInput">
+                        <label> <b>Nombre completo:</b> </label>
+                        <label class="text-info" id="lblNombreConductor"></label>
+                    </div>
+                    <div class="borderInput">
+                        <label class="text-primary"><b>R.U.N.:</b> </label> <label class="text-info" id="lblRutConductor"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-row">
+                <div style="display:none" class="col-12 col-md-12 ocultar">
+                    <div class="borderInput">
+                        <label class="text-primary"><b>Tipo de Contrato:</b></label>
+                        <label class="text-info" id="lblContratoConductor"></label>
+                    </div>
+                    <div class="borderInput">
+                        <labe class="text-primary"><b>Total horas extras:</b></labe> <label class="text-info" id="lblTotalHorasExtras"></label>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+<br />
+
+<div class="card">
+    <div class="form-row">
+
+        <div class="col-md-4">
+            <div class="form-row">
+                <div style="display:none" class="col-12 col-md-12 ocultar">
+                    <div class="borderInput">
+                        <label class="text-primary"> <b>Nombre completo:</b> </label>
+                        <label class="text-info" id="lblNombreConductor"></label>
+                    </div>
+                    <div class="borderInput">
+                        <label class="text-primary"><b>R.U.N.:</b> </label> <label class="text-info" id="lblRutConductor"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-row">
+                <div style="display:none" class="col-12 col-md-12 ocultar">
+                    <div class="borderInput">
+                        <label class="text-primary"><b>Tipo de Contrato:</b></label>
+                        <label class="text-info" id="lblContratoConductor"></label>
+                    </div>
+                    <div class="borderInput">
+                        <labe class="text-primary"><b>Total horas extras:</b></labe> <label class="text-info" id="lblTotalHorasExtras"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+@*JORNADA MAÑANA*@
+
+<div class="panel">
+    <div class="card">
+        <div class="form-row">
+            <div class="col-md-6">
+                <div class="borderInput">
+                    <div>
+                        <div class="card-header">
+                            <h4 class="text-primary">Jornada 1</h4>
+                        </div>
+                        <div class="form-row ocultar">
+                            <button class="btn btn-default" id="btnSemanaAnterior" onclick="SiguienteSemana(this);">Semana anterior</button>
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idLunesT1"></label>
+                            <input class="form-control col-md-2 format-time bg-white" type="text" id="txtHoraLunes1" maxlength="5" placeholder="HH:mm" readonly />
+                            <input type="text" id="txtTerminalLu1" class="form-control col-md-4" readonly />
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idMartesT1"></label>
+                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraMartes1" maxlength="5" placeholder="HH:mm" readonly />
+                            <input type="text" id="txtTerminalMa1" class="form-control col-md-4" readonly />
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idMiercolesT1"></label>
+                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraMiercoles1" maxlength="5" placeholder="HH:mm" readonly />
+                            <input type="text" id="txtTerminalMi1" class="form-control col-md-4" readonly />
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idJuevesT1"></label>
+                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraJueves1" maxlength="5" placeholder="HH:mm" readonly />
+                            <input type="text" id="txtTerminalJu1" class="form-control col-md-4" readonly />
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idViernesT1"></label>
+                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraViernes1" maxlength="5" placeholder="HH:mm" readonly />
+                            <input type="text" id="txtTerminalVi1" class="form-control col-md-4 " readonly />
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idSabadoT1"></label>
+                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraSabado1" maxlength="5" placeholder="HH:mm" readonly />
+                            <input type="text" id="txtTerminalSa1" class="form-control col-md-4" readonly />
+                        </div>
+                        <div class="form-row">
+                            <label class="col-md-3" id="idDomingoT1"></label>
+                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraDomingo1" maxlength="5" placeholder="HH:mm" readonly />
+                            <input type="text" id="txtTerminalDo1" class="form-control col-md-4" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*JORNADA TARDE*@
+
+            <div class="col-md-6">
+                <div class="borderInput">
+                    <div class="card-header">
+                        <h4 class="text-primary">Jornada 2</h4>
+                        <div class="clearfix"></div>
+
+                    </div>
+                    <div class="form-row ocultar">
+                        <button class="btn btn-default" type="button" id="btnSemanaActual" onclick="SiguienteSemana(this)">Volver a semana actual</button>
+                        <button class="btn btn-default" type="button" id="btnSemanaSiguiente" onclick="SiguienteSemana(this)">Próximos 7 dias >></button>
+                    </div>
+                    <div class="form-row">
+                        <label class="col-md-3" id="idLunesT2"></label>
+                        <input class="form-control format-time bg-white enabled col-md-2" type="text" maxlength="5" placeholder="HH:mm" id="txtHoraLunes2" readonly />
+                        <input type="text" id="txtTerminalLu2" class="form-control col-md-4 " readonly />
+                    </div>
+
+                    <div class="form-row">
+                        <label class="col-md-3" id="idMartesT2"></label>
+                        <input class="form-control col-md-2 format-time bg-white" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMartes2" readonly />
+                        <input type="text" id="txtTerminalMa2" class="form-control col-md-4" readonly />
+                    </div>
+                    <div class="form-row">
+                        <label class="col-md-3" id="idMiercolesT2"></label>
+                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMiercoles2" readonly />
+                        <input type="text" id="txtTerminalMi2" class="form-control col-md-4" readonly />
+                    </div>
+                    <div class="form-row">
+                        <label class="col-md-3" id="idJuevesT2"></label>
+                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraJueves2" readonly />
+                        <input type="text" id="txtTerminalJu2" class="form-control col-md-4" readonly />
+                    </div>
+                    <div class="form-row">
+                        <label class="col-md-3" id="idViernesT2"></label>
+                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraViernes2" readonly />
+                        <input type="text" id="txtTerminalVi2" class="form-control col-md-4" readonly />
+                    </div>
+                    <div class="form-row">
+                        <label class="col-md-3" id="idSabadoT2"></label>
+                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraSabado2" readonly />
+                        <input type="text" id="txtTerminalSa2" class="form-control col-md-4 " readonly />
+                    </div>
+                    <div class="form-row">
+                        <label style="display:none" id="lblIdUsuario"></label>
+                        <label class="col-md-3" id="idDomingoT2"></label>
+                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraDomingo2" readonly />
+                        <input type="text" id="txtTerminalDo2" class="form-control col-md-4 " readonly />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/general-functions.js")"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".ocultar").css("display", "none");
+
+            CargaFechasLabel();
+
+
+            $(".input-num").keypress(function (e) {
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            });
+
+        });
+
+        function CargaFechasLabel() {
+            $.ajax({
+                url: '../Reprogramacion/ObtenerFechaSemanas',
+                type: 'post',
+                datatype: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                data: null,
+                success: function (data) {
+                    $("#btnSemanaAnterior").text(data.data[0]);
+                    $("#btnSemanaActual").text(data.data[1]);
+                    $("#btnSemanaSiguiente").text(data.data[2]);
+
+                    let fechaLunes = data.data[3];
+
+                    let dia = fechaLunes.split('/')[0];
+                    let mes = fechaLunes.split('/')[1];
+                    let anio = fechaLunes.split('/')[2];
+
+                    $("#idLunesT1").text("Lunes " + parseInt(dia) + "/" + mes + "/" + anio);
+                    $("#idMartesT1").text("Martes " + (parseInt(dia) + 1) + "/" + mes + "/" + anio);
+                    $("#idMiercolesT1").text("Miércoles " + (parseInt(dia) + 2) + "/" + mes + "/" + anio);
+                    $("#idJuevesT1").text("Jueves " + (parseInt(dia) + 3) + "/" + mes + "/" + anio);
+                    $("#idViernesT1").text("Viernes " + (parseInt(dia) + 4) + "/" + mes + "/" + anio);
+                    $("#idSabadoT1").text("Sábado " + (parseInt(dia) + 5) + "/" + mes + "/" + anio);
+                    $("#idDomingoT1").text("Domingo " + (parseInt(dia) + 6) + "/" + mes + "/" + anio);
+
+
+                    $("#idLunesT2").text("Lunes " + parseInt(dia) + "/" + mes + "/" + anio);
+                    $("#idMartesT2").text("Martes " + (parseInt(dia) + 1) + "/" + mes + "/" + anio);
+                    $("#idMiercolesT2").text("Miércoles " + (parseInt(dia) + 2) + "/" + mes + "/" + anio);
+                    $("#idJuevesT2").text("Jueves " + (parseInt(dia) + 3) + "/" + mes + "/" + anio);
+                    $("#idViernesT2").text("Viernes " + (parseInt(dia) + 4) + "/" + mes + "/" + anio);
+                    $("#idSabadoT2").text("Sábado " + (parseInt(dia) + 5) + "/" + mes + "/" + anio);
+                    $("#idDomingoT2").text("Domingo " + (parseInt(dia) + 6) + "/" + mes + "/" + anio);
+                },
+                error: function () {
+                    alertDanger("Ups! algo ha salido mal, pero lo estamos solucionando");
+                }
+            });
+        }
+
+        function Limpiar() {
+            CargaFechasLabel();
+            $(".ocultar").css("display", "none");
+
+            $("#txtHoraLunes1").val("");
+            $("#txtHoraMartes1").val("");
+            $("#txtHoraMiercoles1").val("");
+            $("#txtHoraJueves1").val("");
+            $("#txtHoraViernes1").val("");
+            $("#txtHoraSabado1").val("");
+            $("#txtHoraDomingo1").val("");
+
+            $("#txtHoraLunes2").val("");
+            $("#txtHoraMartes2").val("");
+            $("#txtHoraMiercoles2").val("");
+            $("#txtHoraJueves2").val("");
+            $("#txtHoraViernes2").val("");
+            $("#txtHoraSabado2").val("");
+            $("#txtHoraDomingo2").val("");
+
+            //CMB_TERMINAL
+            //MAÑANA
+            $("#txtTerminalLu1").val("selected");
+            $("#txtTerminalMa1").val("selected");
+            $("#txtTerminalMi1").val("selected");
+            $("#txtTerminalJu1").val("selected");
+            $("#txtTerminalVi1").val("selected");
+            $("#txtTerminalSa1").val("selected");
+            $("#txtTerminalDo1").val("selected")
+
+            //TARDE
+            $("#txtTerminalLu2").val("selected");
+            $("#txtTerminalMa2").val("selected");
+            $("#txtTerminalMi2").val("selected");
+            $("#txtTerminalJu2").val("selected");
+            $("#txtTerminalVi2").val("selected");
+            $("#txtTerminalSa2").val("selected");
+            $("#txtTerminalDo2").val("selected");
+
+        }
+    </script>
+}
