@@ -102,5 +102,70 @@ namespace DLL.DAO.Operaciones
                 throw;
             }
         }
+
+        public int SetNuevoTerminal(string nombreTer, string direccion, int numDire)
+        {
+            try
+            {
+                int respuesta = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+
+
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        TERMINAL newTer = new TERMINAL()
+                        {
+                            ID_EMPRESA = 1,
+                            NOMBRE_TERMINAL = nombreTer,
+                            DIRECCION = direccion,
+                            NUM_DIRECCION = numDire,
+                            ESTADO = true
+
+                        };
+
+                        context.TERMINAL.Add(newTer);
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public int SetEliminarTerminal(int idTerminal)
+        {
+            try
+            {
+                int respuesta = 0;
+
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        TERMINAL Old = context.TERMINAL.Where(x => x.ESTADO == true && x.ID_TERMINAL == idTerminal).FirstOrDefault();
+                        Old.ESTADO = false;
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

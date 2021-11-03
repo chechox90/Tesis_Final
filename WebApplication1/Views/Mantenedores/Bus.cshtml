@@ -4,7 +4,7 @@
 
 <style>
     .borderInput {
-        margin: 10px;
+        margin: 5px;
     }
 
     .divFlot {
@@ -46,26 +46,26 @@
     <div class="form-row">
         <div class="col-md-3">
             <div class="form-group borderInput">
-                <label for="NumeroServicio">Nombre Servicio</label>
-                <input type="text" name="NumeroServicio" placeholder="Nombre Servicio" class="form-control" />
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group borderInput">
-                <label for="HoraInicio">Hora inicio del servicio</label>
-                <input type="text" name="HoraInicio" placeholder="HH:mm" class="form-control" />
+                <label for="TerminalPrincipal">Terminal Principal</label>
+                <select id="ddlTerminalPrincipal" name="TerminalPrincipal" class="form-control"></select>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group borderInput">
-                <label for="HoraFin">Hora fin del servicio</label>
-                <input type="text" name="HoraFin" placeholder="HH:mm" class="form-control" />
+                <label for="txtNumeroInterno">Número Interno</label>
+                <input id="txtNumInterno" type="number" name="txtNumeroInterno" placeholder="Número Interno" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group borderInput">
+                <label for="txtPPU">Placa Patente Única</label>
+                <input id="txtPPU" type="text" name="txtPPU" placeholder="CCRR-21" class="form-control" />
             </div>
         </div>
         <div class="col-md-3 borderInput">
             <div class="form-group">
                 <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnGuaradarNuevo">Guardar</button>
+                <button type="button" class="btn btn-success" id="btnGuaradarNuevo" onclick="GuardarNuevoBus();">Guardar</button>
             </div>
         </div>
     </div>
@@ -86,12 +86,13 @@
             </div>
             <div class="modal-body">
                 <h4 class="text-primary">
-                    ¿Está seguro que desea eliminar el registro?
+                    ¿Está seguro que desea eliminar el Bus placa patentente única? <label id="ppuEliminar"></label>
                 </h4>
+                <label style="display:none" id="idBusEliminar"></label>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="DeleteServicio();">Eliminar</button>
+                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="EliminarBus();">Eliminar</button>
             </div>
         </div>
     </div>
@@ -101,13 +102,35 @@
 @section scripts
     {
     <script>
+        let tblBuses;
         $(document).ready(function () {
             $(".ocultar").css("display", "none");
             CargarBuses();
+
+            CargarTerminales();
         });
 
+        function CargarTerminales() {
+            $.ajax({
+                url: '../Mantenedor/GetCargarTerminalesCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {},
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionTer = $(document.createElement('option'));
+                        optionTer.val(data.data[i]["ID_TERMINAL"]);
+                        optionTer.text(data.data[i]["NOMBRE_TERMINAL"]);
+
+                        $("#ddlTerminalPrincipal").append(optionTer);
+                    }
+                }
+            });
+        }
+
         function CargarBuses() {
-            $("#tblBuses").DataTable({
+            tblBuses = $("#tblBuses").DataTable({
                 dom: "<'card-header flex-column flex-lg-row align-items-start align-items-lg-center'<'d-flex flex-column flex-lg-row justify-content-start align-items-lg-center'<'titleRev mr-2'><'comboFil mb-2 mb-lg-0'>><'d-flex justify-content-md-end'fl>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
                 scrollX: true,
                 processing: true,
@@ -133,10 +156,9 @@
                 },
                 columns: [
                     { data: "ID_BUS", visible: false },
-                    { data: "NUMERO_BUS", title: "NÚMERO BUS", name: "NUMERO_BUS" },
-                    { data: "DIRECCION", title: "DIRECCIÓN", name: "DIRECCION" },
-                    { data: "NUM_DIRECCION", title: "N° DIRECCION", name: "NUM_DIRECCION" },
-                    { data: "NOMBRE_EMPRESA", title: "NOMBRE EMPRESA", name: "NOMBRE_EMPRESA" },
+                    { data: "ID_INTERNO_BUS", title: "NÚMERO BUS", name: "ID_INTERNO_BUS" },
+                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL" },
+                    { data: "PPU", title: "PPU", name: "PPU" },
                     {
                         title: "GESTIÓN",
                         orderable: false,
@@ -144,7 +166,10 @@
                         render: function (data, type, full, meta) {
                             var html = '';
 
-                            html = '<a role="button" class="btn-table-bg " onclick="EliminarServicio(' + full.ID_SERVICIO + ');"><i class="far fa-trash-alt text-danger"></i><span>&nbsp;&nbsp;</span><i class="far fa-edit text-success"></i></a>';
+                            if (full.PPU != null) {
+                                var PPU_string = full.PPU.replace('-', '');
+                                html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarBus(' + full.ID_BUS + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-trash-alt text-danger"></i><span>&nbsp;&nbsp;</span><i class="far fa-edit text-success"></i></a>';
+                            }
 
                             return html;
                         }
@@ -160,6 +185,92 @@
         function Limpiar() {
             $(".ocultar").css("display", "none")
         }
+
+        function GuardarNuevoBus() {
+            let idTerminal = $("#ddlTerminalPrincipal").val();
+            let ppu = $("#txtPPU").val();
+            let numeroBus = $("#txtNumInterno").val();
+
+            $.ajax({
+                url: '../Mantenedor/SetGuardarNuevoBus',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "idTerminal": idTerminal,
+                    "ppu": ppu,
+                    "numeroBus": numeroBus,
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        Limpiar();
+                        tblBuses.ajax.reload(null, false);
+                    } else {
+                        alertSuccess(data.Data.message);
+                    }
+                }, error: function () {
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                    tblBuses.ajax.reload(null, false);
+                }
+
+            });
+
+        }
+
+        function Limpiar() {
+            $("#ddlTerminalPrincipal option").attr("selected", false);
+            $("#ddlTerminalPrincipal option[value='" + 0 + "']").attr("selected", "selected");
+            $("#PPU").val("");
+            $("#NumInterno").val("");
+            $(".ocultar").css("display", "none")
+        }
+
+        function EliminarBus() {
+            var idBus = $("#idBusEliminar").val();
+
+            $.ajax({
+                url: '../Mantenedor/SetEliminarBus',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "idBus": idBus
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        CerrarModal();
+                        Limpiar();
+                        tblBuses.ajax.reload(null, false);
+
+                    } else {
+                        alertSuccess(data.Data.message);
+                    }
+
+                }, error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                    tblBuses.ajax.reload(null, false);
+                }
+            });
+        }
+
+        function ShowEliminarBus(idBus, PPU) {
+            $("#ppuEliminar").text(PPU);
+            $("#idBusEliminar").val(idBus);
+
+            $("#modalConfirmacion").modal("show");
+        }
+
+        function CerrarModal() {
+            $("#modalConfirmacion").modal("hide");
+        }
+
     </script>
 }
 

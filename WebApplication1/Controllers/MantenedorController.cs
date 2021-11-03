@@ -18,6 +18,7 @@ namespace ConductorEnRed.Controllers
         private readonly I_N_Bus _i_n_Bus;
         private readonly I_N_Servicio _i_n_Servicio;
         private readonly I_N_Sentido _i_n_Sentido;
+
         public MantenedorController(I_N_Terminal i_n_Terminal,
            I_N_Usuario i_n_usuario,
             I_N_Bus i_n_bus,
@@ -33,31 +34,7 @@ namespace ConductorEnRed.Controllers
             this._i_n_Sentido = i_n_sentido;
         }
 
-        public ActionResult HomeTerminales()
-        {
-            return View("~/Views/Mantenedores/Terminal.cshtml");
-        }
-
-        public ActionResult HomeServicios()
-        {
-            return View("~/Views/Mantenedores/Servicio.cshtml");
-        }
-
-        public ActionResult HomeComunas()
-        {
-            return View("~/Views/Mantenedores/Comuna.cshtml");
-        }
-
-
-        public ActionResult HomeBuses()
-        {
-            return View("~/Views/Mantenedores/Bus.cshtml");
-        }
-        public ActionResult NewTerminal()
-        {
-            return PartialView("~/Views/Mantenedores/_NewTerminal.cshtml");
-        }
-
+        #region Terminales
         public ActionResult GetTerminalesActivos()
         {
             try
@@ -86,16 +63,39 @@ namespace ConductorEnRed.Controllers
             }
         }
 
-        public ActionResult GetBusesActivos()
+        [HttpPost]
+        public ActionResult GetCargarTerminalesCmb()
         {
             try
             {
-                List<DTO_Bus> dtoBus = new List<DTO_Bus>();
-                dtoBus = _i_n_Bus.GetBusByAllActiveForTable();
+                List<DTO_Terminal> DtoTerminal = new List<DTO_Terminal>();
+                List<DTO_Terminal> list = new List<DTO_Terminal>();
+                DtoTerminal = _i_n_Terminal.GetTerminalByAllActive();
 
-                if (dtoBus != null)
+                if (DtoTerminal != null)
                 {
-                    return Json(new { data = dtoBus, });
+                    DTO_Terminal cargaTer0 = new DTO_Terminal();
+                    cargaTer0.ID_TERMINAL = 0;
+                    cargaTer0.NOMBRE_TERMINAL = "Seleccione";
+
+                    list.Add(cargaTer0);
+
+                    foreach (var item in DtoTerminal)
+                    {
+                        DTO_Terminal carga = new DTO_Terminal();
+                        carga.ID_TERMINAL = item.ID_TERMINAL;
+                        carga.NOMBRE_TERMINAL = item.NOMBRE_TERMINAL;
+
+                        list.Add(carga);
+                    }
+
+
+                    return Json(new
+                    {
+                        data = list,
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
                 }
                 else
                 {
@@ -112,7 +112,210 @@ namespace ConductorEnRed.Controllers
 
                 throw;
             }
+
         }
+
+        [HttpPost]
+        public ActionResult SetGuardarNuevoTerminal(string nombreTer, string direccion, int numDire)
+        {
+            try
+            {
+                int response = _i_n_Terminal.SetNuevoTerminal(nombreTer, direccion, numDire);
+                string alert = "";
+
+                if (response == 1)
+                {
+                    alert = "success";
+                    var message = "El terminal ha sido guardado con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetEliminarTerminal(int idTerminal)
+        {
+            try
+            {
+                int response = _i_n_Terminal.SetEliminarTerminal(idTerminal);
+                string alert = "";
+
+                if (response == 1)
+                {
+                    alert = "success";
+                    var message = "El terminal ha sido eliminado con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        #endregion
+
+
+
+        #region Buses
+        public ActionResult GetBusesActivos()
+        {
+            try
+            {
+                List<DTO_Bus> dtoBus = new List<DTO_Bus>();
+                dtoBus = _i_n_Bus.GetBusByAllActiveForTable();
+                string alert = "";
+
+                if (dtoBus != null)
+                {
+                    return Json(new { data = dtoBus, });
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetGuardarNuevoBus(int idTerminal, string ppu, int numeroBus)
+        {
+            try
+            {
+                string alert = "";
+
+                if (ValidarBus(idTerminal, ppu) == "")
+                {
+                    int response = _i_n_Bus.SetNuevoBus(idTerminal, ppu, numeroBus);
+                    
+                    if (response == 1)
+                    {
+
+                        alert = "success";
+                        var message = "El bus ha sido guardado con éxito";
+                        return new JsonResult()
+                        {
+                            Data = Json(new { alert = alert, message = message })
+                        };
+                    }
+                    else
+                    {
+                        alert = "danger";
+                        var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                        return new JsonResult()
+                        {
+                            Data = Json(new { alert = alert, message = message })
+                        };
+                    }
+
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetEliminarBus(int idBus)
+        {
+            try
+            {
+                int response = _i_n_Bus.SetEliminarBus(idBus);
+                string alert = "";
+
+                if (response == 1)
+                {
+                    alert = "success";
+                    var message = "El bus ha sido elimando con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private static string ValidarBus(int idTerminal, string ppu)
+        {
+            string respuesta = "";
+
+            if (idTerminal == 0)
+                respuesta = "Debe seleccionar un terminal para continuar";
+
+            if (ppu == "")
+                respuesta = "Debe ingresar una PPU";
+
+            return respuesta;
+        }
+
+        #endregion
+
 
         public ActionResult GetComunaActivas()
         {
@@ -213,5 +416,10 @@ namespace ConductorEnRed.Controllers
             }
         }
 
+
+
+
+
     }
+
 }

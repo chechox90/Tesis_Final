@@ -603,6 +603,11 @@
                     ObjetoHorario: DTO_HorarioReprogramado
                 },
                 success: function (data) {
+                    if (data.ErrorMsg != '') {
+                        alertDanger1(data.ErrorMsg);
+                    } else {
+                        alertSuccess1(data.ErrorMsg);
+                    }
                 }
             });
         }

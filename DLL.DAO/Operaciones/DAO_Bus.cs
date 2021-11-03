@@ -35,7 +35,7 @@ namespace DLL.DAO.Operaciones
                                                 ID_TERMINAL = bus.ID_TERMINAL,
                                                 NOMBRE_TERMINAL = ter.NOMBRE_TERMINAL,
                                                 ID_INTERNO_BUS = bus.ID_INTERNO_BUS,
-                                                PPU = bus.PPU,
+                                                PPU = bus.PPU.ToUpper(),
                                                 ESTADO = bus.ESTADO
                                             }).ToList();
 
@@ -49,6 +49,72 @@ namespace DLL.DAO.Operaciones
                 log.Error(ex.StackTrace);
                 throw;
             }
-        } 
+        }
+
+        public int SetNuevoBus(int idTerminal, string ppu, int numeroBus)
+        {
+            try
+            {
+                int respuesta = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                   
+
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        BUS newbus = new BUS()
+                        {
+                            ID_TERMINAL = idTerminal,
+                            PPU = ppu,
+                            ID_INTERNO_BUS = numeroBus,
+                            ESTADO = true                            
+                            
+                        };
+
+                        context.BUS.Add(newbus);
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public int SetEliminarBus(int idBus)
+        {
+            try
+            {
+                int respuesta = 0;
+
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        BUS dtoBusOld = context.BUS.Where(x=>  x.ESTADO == true && x.ID_BUS == idBus).FirstOrDefault();
+
+                        dtoBusOld.ESTADO = false;
+
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

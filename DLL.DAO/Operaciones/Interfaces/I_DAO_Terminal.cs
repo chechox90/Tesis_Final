@@ -10,7 +10,14 @@ namespace DLL.DAO.Operaciones.Interfaces
     public interface I_DAO_Terminal
     {
         int GetTerminalByNombre(string nombreTerminal, int idEmpresa);
+        
         List<DTO_Terminal> GetTerminalByAllActive();
+        
         List<DTO_Terminal> GetTerminalByAllActiveForTable();
+
+        int SetNuevoTerminal(string nombreTer, string direccion, int numDire);
+
+        int SetEliminarTerminal(int idBus);
+
     }
 }

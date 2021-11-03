@@ -12,5 +12,9 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
         int GetTerminalByNombre(string nombreTerminal, int idEmpresa);
         List<DTO_Terminal> GetTerminalByAllActive();
         List<DTO_Terminal> GetTerminalByAllActiveForTable();
+
+        int SetNuevoTerminal(string nombreTer, string direccion, int numDire);
+
+        int SetEliminarTerminal(int idBus);
     }
 }

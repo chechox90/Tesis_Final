@@ -10,5 +10,9 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
     public interface I_N_Bus
     {
         List<DTO_Bus> GetBusByAllActiveForTable();
+
+        int SetNuevoBus(int idTerminal, string ppu, int numeroBus);
+
+        int SetEliminarBus(int idBus);
     }
 }

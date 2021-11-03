@@ -4,6 +4,7 @@ using DLL.DTO.Seguridad;
 using DLL.NEGOCIO.Seguridad.Interfaces;
 using System;
 using System.Configuration;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using WebApplication1.Helpers;
 using WebApplication1.Models;
@@ -165,6 +166,8 @@ namespace WebApplication1.Controllers
                 DTO_Usuario usuario = new DTO_Usuario();
 
                 string password = HashHelper.MD5(model.Clave);
+
+                model.Rut = AgregarGuionRut(model.Rut);
                 usuario.RUT = model.Rut;
                 usuario.CLAVE = password;
 
@@ -229,6 +232,64 @@ namespace WebApplication1.Controllers
             {
                 Data = Json(new { message = message, url = url, seccondsRerfresh = seccondsRerfresh })
             };
+        }
+
+        public static bool ValidarRutCompleto(string rut)
+        {
+
+            Regex expresion = new Regex("^([0-9]+-[0-9K])$");
+            string dv = rut.Substring(rut.Length - 1, 1);
+
+            if (!expresion.IsMatch(rut))
+            {
+                return false;
+            }
+            char[] charCorte = { '-' };
+            string[] rutTemp = rut.Split(charCorte);
+            if (dv != Digito(int.Parse(rutTemp[0])))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static string Digito(int rut)
+        {
+            int suma = 0;
+            int multiplicador = 1;
+            while (rut != 0)
+            {
+                multiplicador++;
+                if (multiplicador == 8)
+                    multiplicador = 2;
+                suma += (rut % 10) * multiplicador;
+                rut = rut / 10;
+            }
+            suma = 11 - (suma % 11);
+            if (suma == 11)
+            {
+                return "0";
+            }
+            else if (suma == 10)
+            {
+                return "K";
+            }
+            else
+            {
+                return suma.ToString();
+            }
+        }
+
+        public static string AgregarGuionRut(string rut)
+        {
+            string rutConGuion = "";
+            rut = rut.Replace(".", "");
+            if (!rut.Contains("-"))
+                rutConGuion = rut = rut.Substring(0, rut.Length - 1) + "-" + rut.Substring(rut.Length - 1, 1);
+            else
+                rutConGuion = rut;
+
+            return rutConGuion;
         }
 
         [AutenticadoAttribute]

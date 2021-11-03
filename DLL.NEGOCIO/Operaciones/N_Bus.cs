@@ -21,5 +21,15 @@ namespace DLL.NEGOCIO.Operaciones
         {
             return I_DAO_Bus.GetBusByAllActiveForTable();
         }
+
+        public int SetNuevoBus(int idTerminal, string ppu, int numeroBus)
+        {
+            return I_DAO_Bus.SetNuevoBus(idTerminal,ppu,numeroBus);
+        }
+
+        public int SetEliminarBus(int idBus)
+        {
+            return I_DAO_Bus.SetEliminarBus(idBus);
+        }
     }
 }

@@ -7,7 +7,12 @@ using System.Web.Mvc;
 namespace ConductorEnRed.Controllers
 {
     public class RedirectVistasController : Controller
-    {        
+    {
+        public ActionResult Index()
+        {
+            return View("~/Views/Programacion/CargarProgramacion.cshtml");
+        }
+
         //Horario conductor
         public ActionResult HomeVerHorario()
         {

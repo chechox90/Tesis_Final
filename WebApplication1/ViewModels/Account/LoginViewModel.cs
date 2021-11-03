@@ -10,7 +10,7 @@ namespace WebApplication1.ViewModels.Account
     {
         [Required(ErrorMessage = "Debe ingresar un RUT")]
         [DisplayName("Rut")]
-        [RegularExpression(@"^[0-9]+-[0-9kK]{1}$", ErrorMessage = "Ingrese un RUT válido")]
+        //[RegularExpression(@"^[0-9]+-[0-9kK]{1}$", ErrorMessage = "Ingrese un RUT válido")]
         public string Rut { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar una contraseña")]

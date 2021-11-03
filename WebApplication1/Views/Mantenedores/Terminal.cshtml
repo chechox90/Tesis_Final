@@ -7,7 +7,7 @@
     }
 
     .borderInput2 {
-        align-content:center;
+        align-content: center;
     }
 
     .divFlot {
@@ -50,25 +50,25 @@
         <div class="col-md-3">
             <div class="form-group borderInput">
                 <label for="NumeroTerminal">Nombre del terminal</label>
-                <input type="text" name="NumeroTerminal" placeholder="Nombre" class="form-control" />
+                <input id="txtNombreTer" type="text" name="NumeroTerminal" placeholder="Nombre" class="form-control" />
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group borderInput">
                 <label for="Direcccion">Dirección del terminal</label>
-                <input type="text" name="Direcccion" placeholder="Diercción" class="form-control" />
+                <input id="txtDireccion" type="text" name="Direcccion" placeholder="Diercción" class="form-control" />
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group borderInput">
                 <label for="NumeroDirecccion">Número de dierección</label>
-                <input type="text" name="NumeroDireccion" placeholder="Número Dirección" class="form-control" />
+                <input id="txtNumDire" type="text" name="NumeroDireccion" placeholder="Número Dirección" class="form-control" />
             </div>
         </div>
         <div class="col-md-3 borderInput">
             <div class="form-group">
                 <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnGuaradarNuevo">Guaradar</button>
+                <button type="button" class="btn btn-success" id="btnGuaradarNuevo" onclick="GuardarNuevoTerminal();">Guaradar</button>
             </div>
         </div>
     </div>
@@ -90,13 +90,12 @@
                 </div>
             </div>
             <div class="modal-body">
-                <h4 class="text-primary">
-                    ¿Está seguro que desea eliminar el registro?
-                </h4>
+                <label>¿Está seguro que desea eliminar el Terminal?</label><h4 id="terEliminar" class="text-primary"></h4>
             </div>
+            <label id="idTerEliminar" style="display:none"></label>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="DeleteServicio();">Eliminar</button>
+                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="EliminarTerminal();">Eliminar</button>
             </div>
         </div>
     </div>
@@ -105,13 +104,15 @@
 @section scripts
     {
     <script>
+        var tblTerminal;
+
         $(document).ready(function () {
             $(".ocultar").css("display", "none");
             CargarTerminales();
         });
 
         function CargarTerminales() {
-            $("#tblTerminales").DataTable({
+            tblTerminal = $("#tblTerminales").DataTable({
                 dom: "<'card-header flex-column flex-lg-row align-items-start align-items-lg-center'<'d-flex flex-column flex-lg-row justify-content-start align-items-lg-center'<'titleRev mr-2'><'comboFil mb-2 mb-lg-0'>><'d-flex justify-content-md-end'fl>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
                 scrollX: true,
                 processing: true,
@@ -148,7 +149,7 @@
                         render: function (data, type, full, meta) {
                             var html = '';
 
-                            html = '<a role="button" class="btn-table-bg " onclick="EliminarServicio(' + full.ID_TERMINAL + ');"><i class="far fa-trash-alt text-danger"></i><span>&nbsp;&nbsp;</span><i class="far fa-edit text-success"></i></a>';
+                            html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarTerminal(' + full.ID_TERMINAL + "," + "'" + full.NOMBRE_TERMINAL + "'" + ');"><i class="far fa-trash-alt text-danger"></i><span>&nbsp;&nbsp;</span><i class="far fa-edit text-success"></i></a>';
 
                             return html;
                         }
@@ -157,12 +158,125 @@
             });
         }
 
+        function GuardarNuevoTerminal() {
+            let nombreTer = $("#txtNombreTer").val();
+            let direccion = $("#txtDireccion").val();
+            let numDire = $("#txtNumDire").val();
+
+            $.ajax({
+                url: '../Mantenedor/SetGuardarNuevoTerminal',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "nombreTer": nombreTer,
+                    "direccion": direccion,
+                    "numDire": numDire,
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        Limpiar();
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        CerrarModal();
+                        tblTerminal.ajax.reload(null, false);
+
+                    } else {
+                        alertDanger(data.Data.message);
+                    }
+                },
+                error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, lo resolveremos a la brevedad");
+                    tblTerminal.ajax.reload(null, false);
+                }
+            });
+        }
+
+        function EliminarTerminal() {
+            var idTerminal = $("#idTerEliminar").val();
+
+            $.ajax({
+                url: '../Mantenedor/SetEliminarTerminal',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "idTerminal": idTerminal
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        Limpiar();
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        CerrarModal();
+                        tbl.ajax.reload(null, false);
+
+                    } else {
+                        alertDanger(data.Data.message);
+                    }
+                },
+                error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                    tblTerminal.ajax.reload(null, false);
+                }
+            });
+        }
+
+        function ShowEliminarTerminal(idTerminal, nombreTerminal) {
+            $("#terEliminar").text(nombreTerminal);
+            $("#idTerEliminar").val(idTerminal);
+
+            $("#modalConfirmacion").modal("show");
+        }
+
+        function CerrarModal() {
+            $("#modalConfirmacion").modal("hide");
+        }
+
         function VerNuevoTerminal() {
             $(".ocultar").css("display", "")
         }
 
         function Limpiar() {
+            $("#txtNombreTer").val("");
+            $("#txtDireccion").val("");
+            $("#txtNumDire").val("");
             $(".ocultar").css("display", "none")
+        }
+
+        function alertSuccess1(msg) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                background: '#00CA18',
+                timer: 4000
+            });
+
+            Toast.fire({
+                type: 'success',
+                html: msg
+            });
+
+        }
+
+        function alertDanger1(msg) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                background: '#EF3737',
+                timer: 4000
+            });
+
+            Toast.fire({
+                type: 'error',
+                html: msg
+            })
         }
 
     </script>
