@@ -47,25 +47,25 @@
         <div class="col-md-3">
             <div class="form-group borderInput">
                 <label for="NumeroServicio">Nombre Servicio</label>
-                <input type="text" name="NumeroServicio" placeholder="Nombre Servicio" class="form-control" />
+                <input id="txtNombreServicio" type="text" name="NumeroServicio" placeholder="Nombre Servicio" class="form-control" />
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group borderInput">
                 <label for="HoraInicio">Hora inicio del servicio</label>
-                <input type="text" name="HoraInicio" placeholder="HH:mm" class="form-control" />
+                <input id="txtHoraSerIni" type="text" name="HoraInicio" placeholder="HH:mm" class="form-control" />
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group borderInput">
                 <label for="HoraFin">Hora fin del servicio</label>
-                <input type="text" name="HoraFin" placeholder="HH:mm" class="form-control" />
+                <input id="txtHoraSerFin" type="text" name="HoraFin" placeholder="HH:mm" class="form-control" />
             </div>
         </div>
         <div class="col-md-3 borderInput">
             <div class="form-group">
                 <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnGuaradarNuevo">Guardar</button>
+                <button type="button" class="btn btn-success" id="btnGuaradarNuevo" onclick="GuardarNuevoServicio();">Guardar</button>
             </div>
         </div>
     </div>
@@ -87,12 +87,16 @@
         </div>
     </div>
 </div>
+
 <br />
+
 <div class="col-md-12 card" id="divServicios">
     <table id="tblServicios" class="table table-striped table-hover">
     </table>
 </div>
+
 <br />
+
 <div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content shadow">
@@ -102,13 +106,12 @@
                 </div>
             </div>
             <div class="modal-body">
-                <h4 class="text-primary">
-                    ¿Está seguro que desea eliminar el registro?
-                </h4>
+                <label>¿Está seguro que desea eliminar el Servicio?</label><h4 class="text-primary" id="serEliminar"></h4>
             </div>
+            <label id="idSerEliminar" style="display:none"></label>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="DeleteServicio();">Eliminar</button>
+                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="EliminarServicio();">Eliminar</button>
             </div>
         </div>
     </div>
@@ -117,13 +120,14 @@
 @section scripts
     {
     <script>
+        var tblServicio;
         $(document).ready(function () {
             $(".ocultar").css("display", "none");
             CargarServicios();
         });
 
         function CargarServicios() {
-            $("#tblServicios").DataTable({
+            tblServicio = $("#tblServicios").DataTable({
                 dom: "<'card-header flex-column flex-lg-row align-items-start align-items-lg-center'<'d-flex flex-column flex-lg-row justify-content-start align-items-lg-center'<'titleRev mr-2'><'comboFil mb-2 mb-lg-0'>><'d-flex justify-content-md-end'fl>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
                 scrollX: true,
                 processing: true,
@@ -161,7 +165,7 @@
                         render: function (data, type, full, meta) {
                             var html = '';
 
-                            html = '<a role="button" class="btn-table-bg " onclick="EliminarServicio(' + full.ID_SERVICIO + ');"><i class="far fa-trash-alt text-danger"></i><span>&nbsp;&nbsp;</span><i class="far fa-edit text-success"></i></a>';
+                            html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarServicio(' + full.ID_SERVICIO + ',' + "'" + full.NOMBRE_SERVICIO + "'" +');"><i class="far fa-trash-alt text-danger"></i><span>&nbsp;&nbsp;</span><i class="far fa-edit text-success"></i></a>';
 
                             return html;
                         }
@@ -170,9 +174,79 @@
             });
         }
 
-        function EliminarServicio(idServicio) {
+        function EliminarServicio() {
+            var idServicio = $("#idSerEliminar").val();
+
+            $.ajax({
+                url: '../Mantenedor/SetEliminarServicio',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "idServicio": idServicio
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        Limpiar();
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        CerrarModal();
+                        tblServicio.ajax.reload(null, false);
+
+                    } else {
+                        alertDanger(data.Data.message);
+                    }
+                },
+                error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                    tblServicio.ajax.reload(null, false);
+                }
+            });
+        }
+
+        function ShowEliminarServicio(idServicio, nombreServicio) {
+            $("#serEliminar").text(nombreServicio);
+            $("#idSerEliminar").val(idServicio);
 
             $("#modalConfirmacion").modal("show");
+        }
+
+        function GuardarNuevoServicio() {
+            let nombreSer = $("#txtNombreServicio").val();
+            let horaIni = $("#txtHoraSerIni").val();
+            let horaFin = $("#txtHoraSerFin").val();
+
+            $.ajax({
+                url: '../Mantenedor/SetGuardarNuevoServicio',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "nombreSer": nombreSer,
+                    "horaIni": horaIni,
+                    "horaFin": horaFin,
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        Limpiar();
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        CerrarModal();
+                        tblServicio.ajax.reload(null, false);
+
+                    } else {
+                        alertDanger(data.Data.message);
+                    }
+                },
+                error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, lo resolveremos a la brevedad");
+                    tblServicio.ajax.reload(null, false);
+                }
+            });
         }
 
         function CerrarModal() {

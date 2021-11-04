@@ -47,5 +47,62 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public int SetNuevaComuna(string nomComuna)
+        {
+            try
+            {
+                int respuesta = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        COMUNA newCom = new COMUNA()
+                        {
+                            NOMBRE_COMUNA = nomComuna,
+                            ESTADO = true
+                        };
+
+                        context.COMUNA.Add(newCom);
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public int SetEliminarComuna(int idComuna)
+        {
+            try
+            {
+                int respuesta = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        COMUNA Old = context.COMUNA.Where(x => x.ESTADO == true && x.ID_COMUNA == idComuna).FirstOrDefault();
+                        Old.ESTADO = false;
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+
+                    }
+                }
+
+                return respuesta;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
     }
 }

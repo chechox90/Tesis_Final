@@ -10,5 +10,9 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
     public interface I_N_Comuna
     {
         List<DTO_Comuna> GetComunaByAllActiveForTable();
+
+        int SetNuevaComuna(string nomComuna);
+
+        int SetEliminarComuna(int idComuna);
     }
 }

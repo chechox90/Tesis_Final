@@ -10,5 +10,10 @@ namespace DLL.DAO.Operaciones.Interfaces
     public interface I_DAO_Comuna
     {
         List<DTO_Comuna> GetComunaByAllActiveForTable();
+
+        int SetNuevaComuna(string nomComuna);
+
+        int SetEliminarComuna(int idComuna);
+
     }
 }

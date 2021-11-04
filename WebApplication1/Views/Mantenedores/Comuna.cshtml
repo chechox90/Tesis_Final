@@ -24,19 +24,11 @@
     </div>
 </div>
 
-<div class="content-filters-b">
-    <div class="card">
-        <div class="form-row">
-            <button class="btn btn-success" type="button" id="btnNuevoTerminal" onclick="VerNuevaComuna();"><i class="far fa-plus"></i> Nueva Comuna</button>
-        </div>
-    </div>
-</div>
-
-<div class="card ocultar">
+<div class="card">
     <div class="modal-title">
         <div class="form-row">
             <div class="borderInput">
-                <h4 class="modal-title text-primary">Nueva Comuna</h4>
+                <h4 class="modal-title text-primary">Comunas</h4>
             </div>
             <button type="button" class="close col-mb-0" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
                 <i class="far fa-times"></i>
@@ -44,47 +36,17 @@
         </div>
     </div>
     <div class="form-row">
-        <div class="col-md-3">
-            <div class="form-group borderInput">
-                <label for="NumeroComuna">Nombre Comuna</label>
-                <input type="text" name="NumeroComuna" placeholder="Nombre Comuna" class="form-control" />
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group borderInput">
-                <label for="RegionComuna">Región Ubicación</label>
-                <input type="text" name="RegionComuna" placeholder="Región Comuna" class="form-control" />
-            </div>
-        </div>       
-        <div class="col-md-3 borderInput">
-            <div class="form-group">
-                <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnGuaradarNuevo">Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<br />
-
-<div class="card">
-    <div class="modal-title">
-        <div class="form-row">
-            <div class="borderInput">
-                <h4 class="modal-title text-primary">Comuna</h4>
-            </div>
-        </div>
-    </div>
-    <div class="form-row">
         <div class="col-md-4">
             <div class="form-group">
-                <label class="borderInput" for="NumeroServicio">Filtrar por Comuna</label>
-                <select name="NumeroServicio" class="form-control borderInput"></select>
+                <label class="borderInput" for="NumeroServicio">Comunas</label>
+                <select id="ddlComunas" name="NumeroServicio" class="form-control borderInput"></select>
             </div>
 
         </div>
         <div class="col-md-3">
             <div>
-                <button class="btn btn-primary borderInput" type="button" id="btnBuscarComuna" onclick="btnBuscarComuna">Buscar</button>
+                <button class="btn btn-primary borderInput" type="button" id="btnBuscarComuna" onclick="EditarComuna();">Editar</button>
+                <button class="btn btn-danger borderInput" id="btnEliminarComuna" onclick="ShowModalEliminar();">Eliminar</button>
             </div>
         </div>
     </div>
@@ -96,13 +58,13 @@
         <div class="col-md-4">
             <div class="form-group borderInput">
                 <label for="NombreComuna">Nombre Comuna</label>
-                <input type="text" name="NombreComuna" placeholder="Nombre Comuna" class="form-control" />
+                <input id="txtNomComuna" type="text" name="NombreComuna" onkeyup="MostrarBotonGuardar();" placeholder="Nombre Comuna" class="form-control" />
             </div>
         </div>
         <div class="col-md-8">
-            <div class="form-group borderInput">
+            <div class="form-group borderInput ocultar">
                 <label for="Motivo">Motivo de  Edición</label>
-                <input type="text" name="Motivo" placeholder="Ingrese motivo" class="form-control" />
+                <input id="txtMotivo" type="text" name="Motivo" placeholder="Ingrese motivo" class="form-control" />
             </div>
         </div>
 
@@ -110,15 +72,16 @@
     <div class="col-md-12">
         <div class="form-row">
             <div class="form-group col-md-4">
-                <button class="btn btn-danger borderInput" id="btnEliminarComuna" onclick="EliminarComuna();">Eliminar</button>
+
             </div>
-            <div class="form-group col-md-4">
-                
+            <div class="form-group col-md-4" id="divBtnGuradar">
+
             </div>
             <div class="form-group col-md-4">
                 <div class="text-right">
                     <button type="button" class="btn btn-outline-light borderInput" onclick="Limpiar();">Cancelar</button>
-                    <button type="button" class="btn btn-primary borderInput" id="btnEditarComuna">Editar</button>
+                    <button type="button" class="btn btn-primary borderInput" id="btnEditarComuna">Guardar</button>
+                    <button type="button" class="btn btn-success" id="btnGuardarComuna" style="display:none" onclick="GuardarNuevaComuna();"><i class="fa fa-city"></i> Guardar comuna</button>
                 </div>
             </div>
         </div>
@@ -134,13 +97,11 @@
                 </div>
             </div>
             <div class="modal-body">
-                <h4 class="text-primary">
-                    ¿Está seguro que desea eliminar el registro?
-                </h4>
+                <label>¿Está seguro que desea eliminar la comuna?</label><h4 id="lblNomComuna" class="text-primary"></h4>                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="DeleteServicio();">Eliminar</button>
+                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="EliminarComuna();">Eliminar</button>
             </div>
         </div>
     </div>
@@ -156,16 +117,52 @@
             CargarComunas();
         });
 
-        function VerNuevaComuna() {
+        function verMotivo() {
             $(".ocultar").css("display", "")
         }
 
         function Limpiar() {
-            $(".ocultar").css("display", "none")
+            $(".ocultar").css("display", "none");
+            $("#btnEditarComuna").css('display', '');
+            $("#btnGuardarComuna").css('display', "none");
+
+            $("#txtNomComuna").val("");
+            CargarComunas();
         }
 
         function EliminarComuna() {
+            var idComuna = $("#ddlComunas").val();
 
+            $.ajax({
+                url: '../Mantenedor/SetEliminarComuna',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "idComuna": idComuna
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {                       
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        CerrarModal();
+                        Limpiar();
+
+                    } else {
+                        alertDanger(data.Data.message);
+                    }
+                },
+                error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                }
+            });
+        }
+
+        function ShowModalEliminar() {
+            var comuna = $("#ddlComunas option:selected").text();
+            $("#lblNomComuna").text(comuna);
             $("#modalConfirmacion").modal("show");
         }
 
@@ -174,35 +171,72 @@
         }
 
         function CargarComunas() {
-            //$("#tblComunas").DataTable({
-            //    dom: "<'card-header flex-column flex-lg-row align-items-start align-items-lg-center'<'d-flex flex-column flex-lg-row justify-content-start align-items-lg-center'<'titleRev mr-2'><'comboFil mb-2 mb-lg-0'>><'d-flex justify-content-md-end'fl>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
-            //    scrollX: true,
-            //    processing: true,
-            //    destroy: true,
-            //    lengthChange: true,
-            //    pageLength: 10,
-            //    lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
-            //    columnDefs: [
-            //        { targets: [0, 3, 4], searchable: false, orderable: false }
-            //    ],
-            //    language: {
-            //        "url": "../Plugins/DataTables/js/Spanish.json"
-            //    },
-            //    order: [[0, "desc"]],
-            //    initComplete: function () {
-            //        $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-            //    },
-            //    ajax: {
-            //        //url: "../Mantenedor/GetComunaActivas",
-            //        type: "POST",
-            //        dataType: "json",
-            //        data: null
-            //    },
-            //    //columns: [
-            //    //    { data: "ID_COMUNA", visible: false },
-            //    //    { data: "NOMBRE_COMUNA", title: "NOMBRE COMUNA", name: "NOMBRE_COMUNA" }
-            //    //]
-            //});
+            $.ajax({
+                url: '../Mantenedor/GetComunasCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var option = $(document.createElement('option'));
+
+                        option.val(data.data[i]["ID_COMUNA"]);
+                        option.text(data.data[i]["NOMBRE_COMUNA"]);
+                        $("#ddlComunas").append(option);
+                    }
+
+                }
+            });
+        }
+
+        function EditarComuna() {
+            var comuna = $("#ddlComunas option:selected").text();
+            $("#txtNomComuna").val(comuna);
+            verMotivo();
+        }
+
+        function MostrarBotonGuardar() {
+
+            var comuna = $("#txtNomComuna").val();
+            if (comuna.length > 3) {
+                $("#btnGuardarComuna").css('display', '');
+                $("#btnEditarComuna").css("display", "none");
+            } else if (comuna == 0) {
+                $("#btnEditarComuna").css('display', '');
+                $("#btnGuardarComuna").css('display', "none");
+            }
+        }
+
+        function GuardarNuevaComuna() {
+            var comuna = $("#txtNomComuna").val();
+
+            $.ajax({
+                url: '../Mantenedor/SetNuevaComuna',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "nomComuna": comuna
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        Limpiar();
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+
+                        Limpiar();
+                    } else {
+                        alertDanger(data.Data.message);
+                    }
+
+                },
+                error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, lo resolveremos a la brevedad");
+                    tblTerminal.ajax.reload(null, false);
+                }
+            });
         }
 
     </script>

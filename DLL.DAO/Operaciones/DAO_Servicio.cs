@@ -52,5 +52,67 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public int SetNuevoServicio(string nombreTer, string direccion, string numDire)
+        {
+            try
+            {
+                int respuesta = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        SERVICIO newSer = new SERVICIO()
+                        {
+                            ID_EMPRESA = 1,
+                            NOMBRE_SERVICIO = nombreTer,
+                            HORARIO_INICIO_SERVICO= TimeSpan.Parse(direccion),
+                            HORARIO_FIN_SERVICO = TimeSpan.Parse(numDire),
+                            ESTADO = true
+
+                        };
+
+                        context.SERVICIO.Add(newSer);
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public int SetEliminarServicio(int idServicio)
+        {
+            try
+            {
+                int respuesta = 0;
+
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        SERVICIO Old = context.SERVICIO.Where(x => x.ESTADO == true && x.ID_SERVICIO == idServicio).FirstOrDefault();
+                        Old.ESTADO = false;
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

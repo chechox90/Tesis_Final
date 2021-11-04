@@ -110,8 +110,6 @@ namespace DLL.DAO.Operaciones
                 int respuesta = 0;
                 using (SolusegEntities context = new SolusegEntities())
                 {
-
-
                     using (var contextTransaction = context.Database.BeginTransaction())
                     {
                         TERMINAL newTer = new TERMINAL()

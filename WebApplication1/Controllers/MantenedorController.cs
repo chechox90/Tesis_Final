@@ -227,7 +227,7 @@ namespace ConductorEnRed.Controllers
                 if (ValidarBus(idTerminal, ppu) == "")
                 {
                     int response = _i_n_Bus.SetNuevoBus(idTerminal, ppu, numeroBus);
-                    
+
                     if (response == 1)
                     {
 
@@ -317,7 +317,9 @@ namespace ConductorEnRed.Controllers
         #endregion
 
 
-        public ActionResult GetComunaActivas()
+
+        #region Comunas
+        public ActionResult GetComunasCmb()
         {
             try
             {
@@ -326,7 +328,7 @@ namespace ConductorEnRed.Controllers
 
                 if (dtoComuna != null)
                 {
-                    return Json(new { data = dtoComuna, });
+                    return Json(new { data = dtoComuna.ToList().OrderBy(x => x.NOMBRE_COMUNA), });
                 }
                 else
                 {
@@ -344,6 +346,85 @@ namespace ConductorEnRed.Controllers
                 throw;
             }
         }
+
+        [HttpPost]
+        public ActionResult SetNuevaComuna(string nomComuna)
+        {
+            try
+            {
+                string alert = "";
+
+
+                int response = _i_n_Comuna.SetNuevaComuna(nomComuna);
+
+                if (response == 1)
+                {
+
+                    alert = "success";
+                    var message = "La comuna se ha sido guardada con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetEliminarComuna(int idComuna)
+        {
+            try
+            {
+                string alert = "";
+
+                int response = _i_n_Comuna.SetEliminarComuna(idComuna);
+
+                if (response == 1)
+                {
+
+                    alert = "success";
+                    var message = "La comuna se ha sido guardada con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        #endregion
+
+
+
+        #region Servicios
 
         public ActionResult GetServiciosActivos()
         {
@@ -388,6 +469,84 @@ namespace ConductorEnRed.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult SetGuardarNuevoServicio(string nombreSer, string horaIni, string horaFin)
+        {
+            try
+            {
+                string alert = "";
+
+
+                int response = _i_n_Servicio.SetNuevoServicio(nombreSer, horaIni, horaFin);
+
+                if (response == 1)
+                {
+
+                    alert = "success";
+                    var message = "El bus ha sido guardado con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetEliminarServicio(int idServicio)
+        {
+            try
+            {
+                int response = _i_n_Servicio.SetEliminarServicio(idServicio);
+                string alert = "";
+
+                if (response == 1)
+                {
+                    alert = "success";
+                    var message = "El bus ha sido elimando con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+
+        #endregion
+
+
+        #region Sentido
+
         public ActionResult GetSentidoActivos()
         {
             try
@@ -416,7 +575,7 @@ namespace ConductorEnRed.Controllers
             }
         }
 
-
+        #endregion
 
 
 

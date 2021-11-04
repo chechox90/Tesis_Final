@@ -37,9 +37,9 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_Terminal.SetNuevoTerminal(nombreTer, direccion, numDire);
         }
 
-        public int SetEliminarTerminal(int idBus)
+        public int SetEliminarTerminal(int idTerminal)
         {
-            return I_DAO_Terminal.SetEliminarTerminal(idBus);
+            return I_DAO_Terminal.SetEliminarTerminal(idTerminal);
         }
 
     }
