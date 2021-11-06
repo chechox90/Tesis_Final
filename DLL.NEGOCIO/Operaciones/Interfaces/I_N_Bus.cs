@@ -14,5 +14,7 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
         int SetNuevoBus(int idTerminal, string ppu, int numeroBus);
 
         int SetEliminarBus(int idBus);
+
+        int SetEditarBus(DTO_Bus Bus);
     }
 }

@@ -65,7 +65,8 @@
         <div class="col-md-3 borderInput">
             <div class="form-group">
                 <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnGuaradarNuevo" onclick="GuardarNuevoBus();">Guardar</button>
+                <button type="button" class="btn btn-success" id="btnGuaradarNuevo" onclick="GuardarNuevoBus();"><i class="far fa-plus"></i>  Guardar</button>
+                <button type="button" class="btn btn-success" id="btnGuaradarNuevo" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i>  Guardar</button>
             </div>
         </div>
     </div>
@@ -85,14 +86,17 @@
                 </div>
             </div>
             <div class="modal-body">
-                <h4 class="text-primary">
-                    ¿Está seguro que desea eliminar el Bus placa patentente única? <label id="ppuEliminar"></label>
-                </h4>
+                <label>
+                    ¿Está seguro que desea <span id="txtMostrar"></span> el Bus placa patentente única?
+                </label>
+                <h4 id="ppuEliminar" class="text-primary"></h4>
+
                 <label style="display:none" id="idBusEliminar"></label>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
                 <button type="button" class="btn btn-danger" id="btnAceptar" onclick="EliminarBus();">Eliminar</button>
+                <button type="button" class="btn btn-success" id="btnAceptar" onclick="GuardarEdicionBus();">Confirmar</button>
             </div>
         </div>
     </div>
@@ -157,6 +161,7 @@
                 columns: [
                     { data: "ID_BUS", visible: false },
                     { data: "ID_INTERNO_BUS", title: "NÚMERO BUS", name: "ID_INTERNO_BUS" },
+                    { data: "ID_TERMINAL", visible: false },
                     { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL" },
                     { data: "PPU", title: "PPU", name: "PPU" },
                     {
@@ -167,8 +172,9 @@
                             var html = '';
 
                             if (full.PPU != null) {
-                                var PPU_string = full.PPU.replace('-', '');
-                                html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarBus(' + full.ID_BUS + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-trash-alt text-danger"></i><span>&nbsp;&nbsp;</span><i class="far fa-edit text-success"></i></a>';
+                                html = '<a role="button" class="btn-table-bg" onclick="ShowEliminarBus(' + full.ID_BUS + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
+                                    '<span>&nbsp;&nbsp;</span>' +
+                                    '<a role="button" class="btn-table-bg" onclick="ShowEditarBus(' + full.ID_BUS + ',' + full.ID_INTERNO_BUS + ',' + full.ID_TERMINAL + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-edit text-success"</i></a>';
                             }
 
                             return html;
@@ -180,10 +186,6 @@
 
         function VerNuevoBus() {
             $(".ocultar").css("display", "")
-        }
-
-        function Limpiar() {
-            $(".ocultar").css("display", "none")
         }
 
         function GuardarNuevoBus() {
@@ -223,8 +225,8 @@
         function Limpiar() {
             $("#ddlTerminalPrincipal option").attr("selected", false);
             $("#ddlTerminalPrincipal option[value='" + 0 + "']").attr("selected", "selected");
-            $("#PPU").val("");
-            $("#NumInterno").val("");
+            $("#txtPPU").val("");
+            $("#txtNumInterno").val("");
             $(".ocultar").css("display", "none")
         }
 
@@ -264,11 +266,69 @@
             $("#ppuEliminar").text(PPU);
             $("#idBusEliminar").val(idBus);
 
+            $("#txtMostrar").text("eliminar")
+
             $("#modalConfirmacion").modal("show");
         }
 
         function CerrarModal() {
             $("#modalConfirmacion").modal("hide");
+        }
+
+        function ShowEditarBus(idBus, idInternoBus, idTerminal, PPU) {
+            $("#txtPPU").val(PPU);
+            $("#txtNumInterno").val(idInternoBus);
+            $("#idBusEliminar").val(idBus);
+
+            $("#ddlTerminalPrincipal option[value='" + idTerminal + "']").attr("selected", "selected");
+            $(".ocultar").css("display", "");
+        }
+
+        function GuardarEdicionBus() {
+            var BUS =
+            {
+                ID_BUS: $("#idBusEliminar").val(),
+                ID_TERMINAL: $("#ddlTerminalPrincipal").val(),
+                ID_INTERNO_BUS: $("#txtNumInterno").val(),
+                PPU: $("#txtPPU").val(),
+            };
+
+            $.ajax({
+                url: '../Mantenedor/SetEditarBus',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "BUS": BUS
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        CerrarModal();
+                        Limpiar();
+                        tblBuses.ajax.reload(null, false);
+
+                    } else {
+                        alertSuccess(data.Data.message);
+                    }
+
+                }, error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                    tblBuses.ajax.reload(null, false);
+                }
+            });
+        }
+
+        function ConfirmarEdicion() {
+            let PPU = $("#txtPPU").val()
+            $("#ppuEliminar").text(PPU);
+
+            $("#txtMostrar").text("editar")
+
+            $("#modalConfirmacion").modal("show");
         }
 
     </script>

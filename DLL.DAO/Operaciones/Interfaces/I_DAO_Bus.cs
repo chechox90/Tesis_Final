@@ -15,6 +15,8 @@ namespace DLL.DAO.Operaciones.Interfaces
 
         int SetEliminarBus(int idBus);
 
+        int SetEditarBus(DTO_Bus Bus);
+
 
     }
 }

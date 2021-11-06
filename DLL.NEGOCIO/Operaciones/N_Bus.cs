@@ -31,5 +31,11 @@ namespace DLL.NEGOCIO.Operaciones
         {
             return I_DAO_Bus.SetEliminarBus(idBus);
         }
+
+        public int SetEditarBus(DTO_Bus Bus)
+        {
+            return I_DAO_Bus.SetEditarBus(Bus);
+        }
+
     }
 }

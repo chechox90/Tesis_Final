@@ -301,6 +301,40 @@ namespace ConductorEnRed.Controllers
             }
         }
 
+        public ActionResult SetEditarBus(DTO_Bus Bus)
+        {
+            try
+            {
+                int response = _i_n_Bus.SetEditarBus(Bus);
+                string alert = "";
+
+                if (response == 1)
+                {
+                    alert = "success";
+                    var message = "El bus ha sido editado con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
         private static string ValidarBus(int idTerminal, string ppu)
         {
             string respuesta = "";

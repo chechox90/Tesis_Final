@@ -58,8 +58,6 @@ namespace DLL.DAO.Operaciones
                 int respuesta = 0;
                 using (SolusegEntities context = new SolusegEntities())
                 {
-                   
-
                     using (var contextTransaction = context.Database.BeginTransaction())
                     {
                         BUS newbus = new BUS()
@@ -67,8 +65,8 @@ namespace DLL.DAO.Operaciones
                             ID_TERMINAL = idTerminal,
                             PPU = ppu,
                             ID_INTERNO_BUS = numeroBus,
-                            ESTADO = true                            
-                            
+                            ESTADO = true
+
                         };
 
                         context.BUS.Add(newbus);
@@ -97,12 +95,46 @@ namespace DLL.DAO.Operaciones
                 {
                     using (var contextTransaction = context.Database.BeginTransaction())
                     {
-                        BUS dtoBusOld = context.BUS.Where(x=>  x.ESTADO == true && x.ID_BUS == idBus).FirstOrDefault();
+                        BUS dtoBusOld = context.BUS.Where(x => x.ESTADO == true && x.ID_BUS == idBus).FirstOrDefault();
 
                         dtoBusOld.ESTADO = false;
 
                         respuesta = context.SaveChanges();
                         contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public int SetEditarBus(DTO_Bus Bus)
+        {
+            try
+            {
+                int respuesta = 0;
+
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        BUS dtoBusOld = context.BUS.Where(x => x.ESTADO == true && x.ID_BUS == Bus.ID_BUS).FirstOrDefault();
+
+                        dtoBusOld.ID_BUS = Bus.ID_BUS;
+                        dtoBusOld.ID_TERMINAL = Bus.ID_TERMINAL;
+                        dtoBusOld.PPU = Bus.PPU;
+                        dtoBusOld.ID_INTERNO_BUS = Bus.ID_INTERNO_BUS;
+                        dtoBusOld.ESTADO = true;
+
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+
                     }
                 }
 

@@ -47,7 +47,7 @@
                         <label class="text-primary" id="lblContratoConductor"></label>
                     </div>
                     <div class="borderInput">
-                        <label><b>Total horas extras:</b></label> 
+                        <label><b>Total horas extras:</b></label>
                         <label class="text-primary" id="lblTotalHorasExtras"></label>
                     </div>
                 </div>
@@ -92,19 +92,19 @@
                             <label class="col-md-3" id="idMartesT1"></label>
                             <input class="form-control format-time bg-white col-md-2 enabled" type="text" id="txtHoraMartes1" maxlength="5" placeholder="HH:mm" />
                             <select id="ddlTerminalMa1" class="form-control col-md-4 enabled"></select>
-                            <input class="col-md-3 form-control enabled" type="text" id="txtComentarioMa1" placeholder="Motivo modificación"/>
+                            <input class="col-md-3 form-control enabled" type="text" id="txtComentarioMa1" placeholder="Motivo modificación" />
                         </div>
                         <div class="form-row">
                             <label class="col-md-3" id="idMiercolesT1"></label>
                             <input class="form-control format-time bg-white col-md-2 enabled enabled" type="text" id="txtHoraMiercoles1" maxlength="5" placeholder="HH:mm" />
                             <select id="ddlTerminalMi1" class="form-control col-md-4 enabled enabled"></select>
-                            <input class="col-md-3 form-control enabled" type="text" id="txtComentarioMi1" placeholder="Motivo modificación"/>
+                            <input class="col-md-3 form-control enabled" type="text" id="txtComentarioMi1" placeholder="Motivo modificación" />
                         </div>
                         <div class="form-row">
                             <label class="col-md-3" id="idJuevesT1"></label>
                             <input class="form-control format-time bg-white col-md-2 enabled" type="text" id="txtHoraJueves1" maxlength="5" placeholder="HH:mm" />
                             <select id="ddlTerminalJu1" class="form-control col-md-4 enabled"></select>
-                            <input class="col-md-3 form-control enabled" type="text" id="txtComentarioJu1" placeholder="Motivo modificación"/>
+                            <input class="col-md-3 form-control enabled" type="text" id="txtComentarioJu1" placeholder="Motivo modificación" />
                         </div>
                         <div class="form-row">
                             <label class="col-md-3" id="idViernesT1"></label>
@@ -116,7 +116,7 @@
                             <label class="col-md-3" id="idSabadoT1"></label>
                             <input class="form-control format-time bg-white col-md-2 enabled" type="text" id="txtHoraSabado1" maxlength="5" placeholder="HH:mm" />
                             <select id="ddlTerminalSa1" class="form-control col-md-4 enabled"></select>
-                            <input class="col-md-3 form-control enabled" type="text" id="txtComentarioSa1" placeholder="Motivo modificación"/>
+                            <input class="col-md-3 form-control enabled" type="text" id="txtComentarioSa1" placeholder="Motivo modificación" />
                         </div>
                         <div class="form-row">
                             <label class="col-md-3" id="idDomingoT1"></label>
@@ -158,7 +158,7 @@
                         <label class="col-md-3" id="idMiercolesT2"></label>
                         <input class="form-control format-time bg-white col-md-2 enabled" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMiercoles2" />
                         <select id="ddlTerminalMi2" class="form-control col-md-4 enabled"></select>
-                        <input class="col-md-3 form-control enabled" type="text" id="txtComentarioLu1" placeholder="Motivo modificación"/>
+                        <input class="col-md-3 form-control enabled" type="text" id="txtComentarioLu1" placeholder="Motivo modificación" />
                     </div>
                     <div class="form-row">
                         <label class="col-md-3" id="idJuevesT2"></label>
@@ -176,12 +176,12 @@
                         <label class="col-md-3" id="idSabadoT2"></label>
                         <input class="form-control format-time bg-white col-md-2 enabled" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraSabado2" />
                         <select id="ddlTerminalSa2" class="form-control col-md-4 enabled"></select>
-                        <input class="col-md-3 form-control enabled" type="text" id="txtComentarioLu1" placeholder="Motivo modificación"/>
+                        <input class="col-md-3 form-control enabled" type="text" id="txtComentarioLu1" placeholder="Motivo modificación" />
                     </div>
                     <div class="form-row">
                         <label style="display:none" id="lblIdUsuario"></label>
                         <label class="col-md-3" id="idDomingoT2"></label>
-                        <input class="form-control format-time bg-white col-md-2 enabled" type="text"  placeholder="HH:mm" maxlength="5" id="txtHoraDomingo2" />
+                        <input class="form-control format-time bg-white col-md-2 enabled" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraDomingo2" />
                         <select id="ddlTerminalDo2" class="form-control col-md-4 enabled"></select>
                         <input class="col-md-3 form-control enabled" type="text" id="txtComentarioLu1" placeholder="Motivo modificación" />
                     </div>
@@ -317,7 +317,6 @@
             });
         }
 
-
         function CargaFechasLabel() {
             $.ajax({
                 url: '../Reprogramacion/ObtenerFechaSemanas',
@@ -400,7 +399,6 @@
         }
 
         function ObtenerFechaBotones(fecha) {
-            console.log(fecha)
             $.ajax({
                 url: '../Reprogramacion/ObtenerFechaBotones',
                 type: 'post',
@@ -696,7 +694,6 @@
             $("#ddlTerminalSa2 option[value='" + data.data[12]["ID_TERMINAL"] + "']").attr("selected", "selected");
             $("#ddlTerminalDo2 option[value='" + data.data[13]["ID_TERMINAL"] + "']").attr("selected", "selected");
         }
-
 
         function Limpiar() {
             $(".enabled").attr('disabled', 'disabled');
