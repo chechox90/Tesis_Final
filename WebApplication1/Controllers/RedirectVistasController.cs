@@ -51,5 +51,10 @@ namespace ConductorEnRed.Controllers
             return View("~/Views/Administracion/ListarUsuarios.cshtml");
         }
 
+        public ActionResult HomeEditUsuario()
+        {
+            return View("~/Views/Administracion/Usuario.cshtml");
+        }
+
     }
 }
