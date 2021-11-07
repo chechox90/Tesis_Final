@@ -16,6 +16,10 @@ namespace DLL.NEGOCIO.Seguridad.Interfaces
 
         DTO_Usuario Autenticacion(DTO_Usuario login);
 
-        int GetUsuarioByRut(string rut);       
+        int GetUsuarioByRut(string rut);
+
+        List<DTO_Usuario> GetAllUsuariosActivos();
+
+        int SetEliminarUsuario(int idUser);
     }
 }

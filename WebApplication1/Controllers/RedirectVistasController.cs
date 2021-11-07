@@ -46,5 +46,10 @@ namespace ConductorEnRed.Controllers
             return View("~/Views/Mantenedores/Sentido.cshtml");
         }
 
+        public ActionResult HomeUsuario()
+        {
+            return View("~/Views/Administracion/ListarUsuarios.cshtml");
+        }
+
     }
 }

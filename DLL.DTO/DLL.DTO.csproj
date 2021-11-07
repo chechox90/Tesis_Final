@@ -80,6 +80,7 @@
     <Compile Include="General\PagerDataTableOptions.cs" />
     <Compile Include="Mantenedor\DTO_Bus.cs" />
     <Compile Include="Mantenedor\DTO_Comuna.cs" />
+    <Compile Include="Mantenedor\DTO_Empresa.cs" />
     <Compile Include="Mantenedor\DTO_Sentido.cs" />
     <Compile Include="Mantenedor\DTO_Servicio.cs" />
     <Compile Include="Seguridad\DTO_Accion.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Seguridad\DTO_Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mantenedor\DTO_Terminal.cs" />
+    <Compile Include="Seguridad\DTO_UsuarioListar.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

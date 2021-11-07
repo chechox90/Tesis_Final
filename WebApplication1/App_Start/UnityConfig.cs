@@ -29,6 +29,7 @@ namespace WebApplication1.App_Start
             container.RegisterType<AccountController>();
             container.RegisterType<ReprogramacionController>();
             container.RegisterType<MantenedorController>();
+            container.RegisterType<MantenedorUsuarioController>();
             // ==================================================== 
 
         }

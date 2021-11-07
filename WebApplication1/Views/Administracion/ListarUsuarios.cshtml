@@ -1,0 +1,179 @@
+﻿
+@{
+    ViewBag.Title = "ListarUsuarios";
+}
+
+<style>
+    .borderInput {
+        margin: 10px;
+    }
+
+    .borderInput2 {
+        align-content: center;
+    }
+
+    .divFlot {
+        text-align: right
+    }
+</style>
+
+<div class="page-title">
+    <div class="content-title">
+        <h3>Usuarios</h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Listado de Usuraios</a></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="content-filters-b">
+    <div class="card">
+        <div class="form-row">
+            <a class="btn btn-success" type="button" id="btnNuevoTerminal" href="~/Views/Administracion/Usuario.cshtml"><i class="far fa-user"></i> Nuevo Usuraio</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12 card" id="divTablaUsuario">
+    <table id="tblUsuarios" class="table table-striped table-hover">
+    </table>
+</div>
+
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-title">
+                <div class="text-center">
+                    <h3>¡Confirmar acción!</h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                <label>¿Está seguro que desea <b>eliminar</b> el usuario <sapan id="lblNombreUsuario" class="text-primary"></sapan>?</label>
+            </div>
+            <label id="idUsuario" style="display:none"></label>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="btnEliminar" onclick="EliminarUsuario();">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+    {
+    <script>
+        var tblUsuarios;
+
+        $(document).ready(function () {
+            $(".ocultar").css("display", "none");
+            CargarUsuarios();
+        });
+
+        function CargarUsuarios() {
+            tblUsuarios = $("#tblUsuarios").DataTable({
+                dom: "<'card-header flex-column flex-lg-row align-items-start align-items-lg-center'<'d-flex flex-column flex-lg-row justify-content-start align-items-lg-center'<'titleRev mr-2'><'comboFil mb-2 mb-lg-0'>><'d-flex justify-content-md-end'fl>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
+                scrollX: true,
+                processing: true,
+                destroy: true,
+                lengthChange: true,
+                pageLength: 15,
+                lengthMenu: [[15, 25, 50, -1], [15, 25, 50, "Todos"]],
+                columnDefs: [
+                    { targets: [0, 3, 4], searchable: false, orderable: false }
+                ],
+                language: {
+                    "url": "../Plugins/DataTables/js/Spanish.json"
+                },
+                order: [[4, "desc"]],
+                initComplete: function () {
+                    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+                },
+                ajax: {
+                    url: "../MantenedorUsuario/GetUsuarios",
+                    type: "POST",
+                    dataType: "json",
+                    data: null
+                },
+                columns: [
+                    { data: "ID_USUARIO", visible: false },
+                    { data: "NOMBRE", title: "NOMBRE", name: "NOPMBRE" },
+                    { data: "SEGUNDO_NOMBRE", title: "NOMBRES", name: "NOMBRES" },
+                    { data: "APELLIDO_PATERNO", title: "APELLIDO PATERNO", name: "APELLIDO_PATERNO" },
+                    { data: "APELLIDO_MATERNO", title: "APELLIDO MATERNO", name: "APELLIDO_MATERNO" },
+                    { data: "CORREO", title: "CORREO", name: "CORREO" },
+                    { data: "CORREO_ALTERNATIVO", title: "CORREO ALTERNATIVO", name: "CORREO_ALTERNATIVO" },
+                    { data: "CODIGO_BARRA", title: "CODIGO BARRA", name: "CODIGO_BARRA" },
+                    { data: "RUT", title: "R.U.N.", name: "RUT" },
+                    { data: "DIRECCION", title: "DIRECCIÓN", name: "DIRECCION" },
+                    { data: "NOMBRE_CONTRATO", title: "NOMBRE CONTRATO", name: "NOMBRE_CONTRTO" },
+                    { data: "NOMBRE_PERFIL", title: "PERFIL", name: "PERFIL" },
+                    {
+                        title: "GESTIÓN",
+                        orderable: false,
+
+                        render: function (data, type, full, meta) {
+                            var html = '';
+
+                            html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarUsuario(' + full.ID_USUARIO + ',' + "'" + full.NOMBRE + "'" + ',' + "'" + full.APELLIDO_PATERNO + "'" +');"><i class="far fa-trash-alt text-danger"></i></a>' +
+                                '<span>&nbsp;&nbsp;</span>' +
+                                '<a role="button" class="btn-table-bg " onclick="ShowEditarTerminal(' + full.ID_USUARIO + ')">' +
+                                '<i class="far fa-edit text-success"></i></a>';
+
+                            return html;
+                        }
+                    },
+                ]
+            });
+        }
+        
+        function ShowEliminarUsuario(idUsuario) {
+            $("#btnEliminar").css('display', '');
+
+            $("#idUsuario").val(idUsuario);
+
+            $("#modalConfirmacion").modal("show");
+        }
+
+        function EliminarUsuario() {
+            var idUsuario = $("#idUsuario").val();
+
+            $.ajax({
+                url: '../MantenedorUsuario/SetEliminarUsuario',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "idUsuario": idUsuario
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        CerrarModal();
+                        tblUsuarios.ajax.reload(null, false);
+
+                    } else {
+                        alertDanger(data.Data.message);
+                    }
+                },
+                error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                    tblUsuarios.ajax.reload(null, false);
+                }
+            });
+        }
+
+        function CerrarModal() {
+            $("#modalConfirmacion").modal("hide");
+
+        }
+    </script>
+}
+
+

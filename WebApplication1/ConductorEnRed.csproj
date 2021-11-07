@@ -163,6 +163,7 @@
     <Compile Include="Controllers\HorarioConductorController.cs" />
     <Compile Include="Controllers\IntranetController.cs" />
     <Compile Include="Controllers\MantenedorController.cs" />
+    <Compile Include="Controllers\MantenedorUsuarioController.cs" />
     <Compile Include="Controllers\RedirectVistasController.cs" />
     <Compile Include="Controllers\ReprogramacionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -464,6 +465,8 @@
     <Content Include="Views\Mantenedores\Servicio.cshtml" />
     <Content Include="Views\HorarioConductor\VerHorario.cshtml" />
     <Content Include="Views\Mantenedores\Sentido.cshtml" />
+    <Content Include="Views\Administracion\ListarUsuarios.cshtml" />
+    <Content Include="Views\Administracion\Usuario.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

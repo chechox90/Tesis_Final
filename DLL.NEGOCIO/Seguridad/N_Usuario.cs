@@ -39,7 +39,15 @@ namespace DLL.NEGOCIO.Seguridad
             return I_DAO_Usuario.GetUsuarioByRut(rut);
         }
 
-        
+        public List<DTO_Usuario> GetAllUsuariosActivos()
+        {
+            return I_DAO_Usuario.GetAllUsuariosActivos();
+        }
+
+        public int SetEliminarUsuario(int idUser)
+        {
+            return I_DAO_Usuario.SetEliminarUsuario(idUser);
+        }
 
     }
 }

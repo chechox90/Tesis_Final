@@ -4,6 +4,7 @@ using DLL.DTO.Seguridad;
 using log4net;
 using log4net.Config;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DLL.DAO.Seguridad
@@ -79,7 +80,7 @@ namespace DLL.DAO.Seguridad
             }
         }
 
-        public int GetUsuarioByRut(string rut) 
+        public int GetUsuarioByRut(string rut)
         {
             try
             {
@@ -97,7 +98,7 @@ namespace DLL.DAO.Seguridad
                             APELLIDO_MATERNO = x.APELLIDO_MATERNO,
                             CORREO = x.CORREO,
                             ADMINISTRADOR = x.ADMINISTRADOR,
-                            ESTADO = x.ESTADO,                            
+                            ESTADO = x.ESTADO,
                         }).Where(x => x.RUT == rut && x.ESTADO == true).FirstOrDefault().ID_USUARIO;
 
 
@@ -355,6 +356,98 @@ namespace DLL.DAO.Seguridad
             catch (Exception ex)
             {
                 log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
+        public List<DTO_Usuario> GetAllUsuariosActivos()
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+
+                    // Obtengo datos del usuario, perfiles y permisos
+                    List<DTO_Usuario> usuario = context.USUARIOS_SISTEMA
+                        .Select(x => new DTO_Usuario
+                        {
+                            ID_USUARIO = x.ID_USUARIO,
+                            ID_EMPRESA = x.ID_EMPRESA,
+                            RUT = x.RUT,
+                            NOMBRE = x.NOMBRE,
+                            SEGUNDO_NOMBRE = x.SEGUNDO_NOMBRE,
+                            APELLIDO_PATERNO = x.APELLIDO_PATERNO,
+                            APELLIDO_MATERNO = x.APELLIDO_MATERNO,
+                            CODIGO_BARRA = x.CODIGO_BARRA,
+                            CORREO = x.CORREO,
+                            ADMINISTRADOR = x.ADMINISTRADOR,
+                            ESTADO = x.ESTADO,
+                            Perfiles = x.PERFILES.Select(i => new DTO_Perfil
+                            {
+                                IdPerfil = i.ID_PERFIL,
+                                Nombre = i.NOMBRE,
+                                Estado = i.ESTADO,
+                                Acciones = i.ACCIONES.Select(o => new DTO_Accion
+                                {
+                                    IDACCION = o.ID_ACCION,
+                                    Nombre = o.NOMBRE,
+                                    ItemMenu = o.ITEM_MENU,
+                                    Estado = o.ESTADO,
+                                    IdMenu = o.MENU.ID_MENU,
+                                    IdProyecto = o.MENU.PROYECTOS.ID_PROYECTO
+                                })
+                                .Where(o => o.Estado == true)
+                                .ToList()
+                            })
+                            .Where(i => i.Estado == true)
+                            .ToList(),
+                            PermisosEspeciales = x.PERMISOS_ESPECIALES.Select(i => new DTO_PermisosEspeciales
+                            {
+                                IdUsuario = i.ID_USUARIO,
+                                IdProyecto = i.ID_PROYECTO,
+                                IdAccion = i.ID_ACCION,
+                                IdMenu = i.ACCIONES.ID_MENU,
+                                TipoPermiso = i.TIPO_PERMISO
+                            })
+                            .Where(i => i.IdUsuario == x.ID_USUARIO)
+                            .ToList()
+                        })
+                        .Where(x => x.ID_USUARIO == x.ID_USUARIO && x.ESTADO == true).ToList();
+
+
+                    return usuario;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
+        public int SetEliminarUsuario(int idUsuario)
+        {
+            try
+            {
+                int respuesta = 0;
+
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        USUARIOS_SISTEMA Old = context.USUARIOS_SISTEMA.Where(x => x.ESTADO == true && x.ID_USUARIO == idUsuario).FirstOrDefault();
+                        Old.ESTADO = false;
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }
