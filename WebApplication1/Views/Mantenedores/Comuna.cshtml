@@ -106,11 +106,7 @@
                 <div>
                     <label>¿Está seguro que desea <span id="txtMostrar"></span> la comuna?</label>
                     <span id="lblNomComuna" class="text-primary"></span>
-                </div>
-                <div class="form-group borderInput" id="divMotivoEliminar">
-                    <label for="txtMotivoEliminar">Ingrese un motivo por el que elimina esta comuna</label>
-                    <input type="text" placeholder="Ingrese un motivo" name="txtMotivoEliminar" class="form-control" id="txtMotivoEliminar" />
-                </div>
+                </div>                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
@@ -157,7 +153,6 @@
 
         function EliminarComuna() {
             let idComuna = $("#ddlComunas").val();
-            let motivo = $("#txtMotivoEliminar").val();
 
             $.ajax({
                 url: '../Mantenedor/SetEliminarComuna',
@@ -166,7 +161,6 @@
                 async: false,
                 data: {
                     "idComuna": idComuna,
-                    "motivo": motivo
                 },
                 success: function (data) {
                     if (data.Data.alert == "success") {
@@ -270,7 +264,6 @@
                 error: function () {
                     CerrarModal();
                     alertDanger("Ha ocurrido una incidencia, lo resolveremos a la brevedad");
-                    tblTerminal.ajax.reload(null, false);
                 }
             });
         }

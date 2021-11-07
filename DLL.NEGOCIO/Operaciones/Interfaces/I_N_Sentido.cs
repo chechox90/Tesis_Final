@@ -9,6 +9,12 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
 {
     public interface I_N_Sentido
     {
-        List<DTO_Sentido> GetSentidoByAllActiveForTable();
+        List<DTO_Sentido> GetSentidoByAll();
+
+        int SetNuevoSentido(string servico, string sentidoCorto);
+
+        int SetEliminarSentido(int idSntido);
+
+        int SetEditarSentido(DTO_Sentido SENTIDO);
     }
 }

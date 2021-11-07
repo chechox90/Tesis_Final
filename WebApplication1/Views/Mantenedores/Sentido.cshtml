@@ -1,0 +1,356 @@
+﻿@{
+    ViewBag.Title = "Servicio";
+}
+
+<style>
+    .borderInput {
+        margin: 10px;
+    }
+
+    .divFlot {
+        text-align: right
+    }
+</style>
+
+<div class="page-title">
+    <div class="content-title">
+        <h3>Sentido</h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Listado de Sentido</a></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="modal-title">
+        <div class="form-row">
+            <div class="borderInput">
+                <h4 class="modal-title text-primary">Sentido</h4>
+            </div>
+            <button type="button" class="close col-mb-0" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
+                <i class="far fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="borderInput" for="NombreSentido">Sentido</label>
+                <select id="ddlSentido" onchange="SeleccionarSenCorto();" name="NombreSentido" class="form-control borderInput"></select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="borderInput" for="SentidoCorto">Sentido Abreviado</label>
+                <select id="ddlSentidoCorto" onchange="SeleccionarSen();" name="SentidoCorto" class="form-control borderInput"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div>
+                <button class="btn btn-primary borderInput" Style="display:none" type="button" id="btnShowEdit" onclick="ShowEditarSentido();">Editar</button>
+                <button class="btn btn-danger borderInput" Style="display:none" id="btnEliminarSentido" onclick="ShowModalEliminar();">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="col-md-12 card">
+    <div class="form-row">
+        <div class="col-md-4" >
+            <div class="form-group borderInput" id="divSentidoNew">
+                <label for="NombreSentido">Nombre Sentido</label>
+                <input id="txtNomSentido" type="text" name="NombreSentido" maxlength="50" onkeyup="MostrarBotonGuardar();" placeholder="Nombre Sentido" class="form-control" />
+            </div>
+            <div id="divSentidoEdit" style="display:none">
+                <div class="form-group borderInput">
+                    <label for="NombreSentidoEdit">Nombre Sentido</label>
+                    <input id="txtNomSentidoEdit" type="text" name="NombreSentidoEdit" placeholder="Nombre Sentido" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group borderInput">
+                <label for="NombreSentidoCorto">Nombre Sentido Abreviado</label>
+                <input id="txtNomSentidoCorto" type="text" name="NombreSentidoCorto" maxlength="10" placeholder="Nombre Sentido Abreviado" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+
+            </div>
+            <div class="form-group col-md-4" id="divBtnGuardar">
+
+            </div>
+            <div class="form-group col-md-4">
+                <div class="text-right">
+                    <button type="button" class="btn btn-outline-light borderInput" onclick="Limpiar();">Cancelar</button>
+                    <button type="button" class="btn btn-success borderInput" id="btnEditarSentido" style="display:none" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i> Guardar</button>
+                    <button type="button" class="btn btn-success" id="btnGuardarSentido" style="display:none" onclick="GuardarNuevoSentido();"><i class="fas fa-random"></i> Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-title">
+                <div class="text-center">
+                    <h3>¡Confirmar acción!</h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>¿Está seguro que desea <span id="txtMostrar"></span> la Sentido?</label>
+                    <span id="lblNomComuna" class="text-primary"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="btnEliminar" onclick="EliminarSentido();">Eliminar</button>
+                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionSentido();">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $(".ocultar").css("display", "none");
+            $("#btnEditarSentido").css("display", "none");
+            $("#btnEliminarSentido").css("display", "none");
+            CargarSentido();
+        });
+
+        function verMotivo() {
+            $(".ocultar").css("display", "")
+        }
+
+        function Limpiar() {
+            $(".ocultar").css("display", "none");
+            $("#btnGuardarSentido").css('display', "none");
+            $("#btnAceptarEditar").css('display', 'none');
+            $("#divSentidoEdit").css('display', 'none');
+
+            $("#txtNomSentido").val("");
+            $("#txtNomSentidoCorto").val("");
+
+            $("#divSentidoNew").css('display', '');
+
+            $("#btnEditarSentido").css('display', 'none');
+            $("#btnEliminar").css('display', 'none');
+            $("#btnEliminarSentido").css('display', 'none');
+            $("#btnShowEdit").css('display', 'none');
+
+            $("#ddlSentido").empty();
+            $("#ddlSentidoCorto").empty();
+            CargarSentido();
+        }
+
+        function EliminarSentido() {
+            let idSentido = $("#ddlSentido").val();
+
+            $.ajax({
+                url: '../Mantenedor/SetEliminarSentido',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "idSentido": idSentido
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        CerrarModal();
+                        Limpiar();
+
+                    } else {
+                        alertDanger(data.Data.message);
+                    }
+                },
+                error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                }
+            });
+        }
+
+        function ShowModalEliminar() {
+            $("#divMotivoEliminar").css('display', '');
+            var sentido = $("#ddlSentido option:selected").text();
+            $("#btnAceptarEditar").css('display', 'none');
+            $("#btnEliminarSentido").css('display', '');
+            $("#txtMostrar").text("eliminar")
+            $("#lblNomSentido").text(sentido);
+            $("#modalConfirmacion").modal("show");
+        }
+
+        function CerrarModal() {
+            $("#modalConfirmacion").modal("hide");
+        }
+
+        function CargarSentido() {
+            $.ajax({
+                url: '../Mantenedor/GetSentidoCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var option = $(document.createElement('option'));
+
+                        option.val(data.data[i]["ID_SENTIDO"]);
+                        option.text(data.data[i]["NOMBRE_SENTIDO"]);
+                        $("#ddlSentido").append(option);
+                    }
+
+                    for (var i = 0; i < data.data.length; i++) {
+                        var option = $(document.createElement('option'));
+
+                        option.val(data.data[i]["ID_SENTIDO"]);
+                        option.text(data.data[i]["NOMBRE_CORTO_SENTIDO"]);
+                        $("#ddlSentidoCorto").append(option);
+                    }
+
+                }
+            });
+
+        }
+
+        function ShowEditarSentido() {
+            var sentido = $("#ddlSentido option:selected").text();
+            var sentidoCorto = $("#ddlSentidoCorto option:selected").text();
+            $("#txtNomSentidoEdit").val(sentido);
+            $("#txtNomSentidoCorto").val(sentidoCorto);
+
+            $("#divSentidoNew").css('display', 'none');
+            $("#divSentidoEdit").css('display', '');
+
+            $("#btnEditarSentido").css('display', '');
+
+            $("#btnEliminarSentido").css('display', 'none');
+            $("#btnGuardarSentido").css('display', 'none');
+            $("#divSentidoEdit").css('display', '');
+            verMotivo();
+        }
+
+        function MostrarBotonGuardar() {
+
+            var comuna = $("#txtNomSentido").val();
+            if (comuna.length > 3) {
+                $("#btnGuardarSentido").css('display', '');
+                $("#btnEditarSentido").css("display", "none");
+            } else if (comuna == 0) {
+                $("#btnEditarSentido").css('display', '');
+                $("#btnGuardarSentido").css('display', "none");
+            }
+        }
+
+        function GuardarNuevoSentido() {
+            let sentido = $("#txtNomSentidoEdit").val();
+            let sentidoCorto = $("#txtNomSentidoCorto").val();
+
+            $.ajax({
+                url: '../Mantenedor/SetNuevoSentido',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "sentido": sentido,
+                    "sentidoCorto": sentidoCorto,
+
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        Limpiar();
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+
+                        Limpiar();
+                    } else {
+                        alertDanger(data.Data.message);
+                    }
+
+                },
+                error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, lo resolveremos a la brevedad");
+                }
+            });
+        }
+
+        function GuardarEdicionSentido() {
+            var SENTIDO =
+            {
+                ID_SENTIDO: $("#ddlSentido").val(),
+                NOMBRE_SENTIDO: $("#txtNomSentidoEdit").val(),
+                NOMBRE_CORTO_SENTIDO: $("#txtNomSentidoCorto").val()
+            };
+
+            $.ajax({
+                url: '../Mantenedor/SetEditarSentido',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "SENTIDO": SENTIDO
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        CerrarModal();
+                        Limpiar();
+
+                    } else {
+                        alertSuccess(data.Data.message);
+                    }
+
+                }, error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                    Limpiar();
+                }
+            });
+        }
+
+        function ConfirmarEdicion() {
+            $("#txtMostrar").text("editar");
+
+            $("#btnEliminar").css('display', 'none');
+
+            $("#modalConfirmacion").modal("show");
+        }
+
+        function SeleccionarSenCorto() {
+            let sent = $("#ddlSentido").val();
+            $("#btnEliminarSentido").css('display', '');
+            $("#btnShowEdit").css('display', '');
+
+            $("#ddlSentidoCorto option[value='" + sent + "']").attr("selected", "selected");
+        }
+
+        function SeleccionarSen() {
+            let sent = $("#ddlSentidoCorto").val();
+            $("#btnEliminarSentido").css('display', '');
+            $("#btnShowEdit").css('display', '');
+
+            $("#ddlSentido option[value='" + sent + "']").attr("selected", "selected");
+        }
+    </script>
+}

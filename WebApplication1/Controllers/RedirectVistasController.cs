@@ -40,8 +40,11 @@ namespace ConductorEnRed.Controllers
         {
             return View("~/Views/Mantenedores/Bus.cshtml");
         }
-        
 
-       
+        public ActionResult HomeSentido()
+        {
+            return View("~/Views/Mantenedores/Sentido.cshtml");
+        }
+
     }
 }

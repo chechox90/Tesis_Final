@@ -459,13 +459,13 @@ namespace ConductorEnRed.Controllers
         }
 
         [HttpPost]
-        public ActionResult SetEliminarComuna(int idComuna, string motivo)
+        public ActionResult SetEliminarComuna(int idComuna)
         {
             try
             {
                 string alert = "";
 
-                int response = _i_n_Comuna.SetEliminarComuna(idComuna,motivo);
+                int response = _i_n_Comuna.SetEliminarComuna(idComuna);
 
                 if (response == 1)
                 {
@@ -505,7 +505,7 @@ namespace ConductorEnRed.Controllers
                 if (response == 1)
                 {
                     alert = "success";
-                    var message = "El terminal ha sido editado con éxito";
+                    var message = "El Comuna ha sido editado con éxito";
                     return new JsonResult()
                     {
                         Data = Json(new { alert = alert, message = message })
@@ -592,7 +592,7 @@ namespace ConductorEnRed.Controllers
                 {
 
                     alert = "success";
-                    var message = "El bus ha sido guardado con éxito";
+                    var message = "El Servicio ha sido guardado con éxito";
                     return new JsonResult()
                     {
                         Data = Json(new { alert = alert, message = message })
@@ -626,7 +626,7 @@ namespace ConductorEnRed.Controllers
                 if (response == 1)
                 {
                     alert = "success";
-                    var message = "El bus ha sido elimando con éxito";
+                    var message = "El Servicio ha sido elimando con éxito";
                     return new JsonResult()
                     {
                         Data = Json(new { alert = alert, message = message })
@@ -660,7 +660,7 @@ namespace ConductorEnRed.Controllers
                 if (response == 1)
                 {
                     alert = "success";
-                    var message = "El bus ha sido elimando con éxito";
+                    var message = "El Servicio ha sido elimando con éxito";
                     return new JsonResult()
                     {
                         Data = Json(new { alert = alert, message = message })
@@ -689,30 +689,148 @@ namespace ConductorEnRed.Controllers
 
         #region Sentido
 
-        public ActionResult GetSentidoActivos()
+        public ActionResult GetSentidoCmb()
         {
             try
             {
-                List<DTO_Sentido> dtoSentido = new List<DTO_Sentido>();
-                dtoSentido = _i_n_Sentido.GetSentidoByAllActiveForTable();
+                List<DTO_Sentido> list = new List<DTO_Sentido>();
+                List<DTO_Sentido> sentido = new List<DTO_Sentido>();
+                sentido = _i_n_Sentido.GetSentidoByAll();
 
-                if (dtoSentido != null)
+                DTO_Sentido cargaSen = new DTO_Sentido();
+                cargaSen.ID_SENTIDO = 0;
+                cargaSen.NOMBRE_SENTIDO = "Seleccione";
+                cargaSen.NOMBRE_CORTO_SENTIDO = "Seleccione";
+
+                list.Add(cargaSen);
+
+                foreach (var item in sentido)
                 {
-                    return Json(new { data = dtoSentido, });
+                    DTO_Sentido carga = new DTO_Sentido();
+                    carga.ID_SENTIDO = item.ID_SENTIDO;
+                    carga.NOMBRE_SENTIDO = item.NOMBRE_SENTIDO;
+                    carga.NOMBRE_CORTO_SENTIDO = item.NOMBRE_CORTO_SENTIDO;
+
+                    list.Add(carga);
                 }
-                else
+
+
+                return Json(new
                 {
-                    return Json(new
-                    {
-                        EnableError = true,
-                        ErrorTitle = "Error",
-                        ErrorMsg = "Ha ocurrido una insidencia al <b>obtener los terminales</b>"
-                    });
-                }
+                    data = list,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+                });
             }
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+        [HttpPost]
+        public ActionResult SetNuevoSentido(string sentido,string sentidoCorto)
+        {
+            try
+            {
+                string alert = "";
+
+
+                int response = _i_n_Sentido.SetNuevoSentido(sentido,sentidoCorto);
+
+                if (response == 1)
+                {
+
+                    alert = "success";
+                    var message = "El Sentido se ha sido guardada con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetEliminarSentido(int idSentido)
+        {
+            try
+            {
+                string alert = "";
+
+                int response = _i_n_Sentido.SetEliminarSentido(idSentido);
+
+                if (response == 1)
+                {
+
+                    alert = "success";
+                    var message = "La Sentido se ha sido guardada con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetEditarSentido(DTO_Sentido SENTIDO)
+        {
+            try
+            {
+                int response = _i_n_Sentido.SetEditarSentido(SENTIDO);
+                string alert = "";
+
+                if (response == 1)
+                {
+                    alert = "success";
+                    var message = "El Sentido ha sido editado con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

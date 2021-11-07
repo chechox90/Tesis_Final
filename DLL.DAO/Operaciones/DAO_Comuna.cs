@@ -77,7 +77,7 @@ namespace DLL.DAO.Operaciones
             }
         }
 
-        public int SetEliminarComuna(int idComuna, string motivo)
+        public int SetEliminarComuna(int idComuna)
         {
             try
             {
@@ -87,7 +87,6 @@ namespace DLL.DAO.Operaciones
                     using (var contextTransaction = context.Database.BeginTransaction())
                     {
                         COMUNA Old = context.COMUNA.Where(x => x.ESTADO == true && x.ID_COMUNA == idComuna).FirstOrDefault();
-                        Old.MOTVO_EDICION = motivo;
                         Old.ESTADO = false;
                         respuesta = context.SaveChanges();
                         contextTransaction.Commit();

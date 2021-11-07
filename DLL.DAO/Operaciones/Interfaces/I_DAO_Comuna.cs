@@ -13,7 +13,7 @@ namespace DLL.DAO.Operaciones.Interfaces
 
         int SetNuevaComuna(string nomComuna);
 
-        int SetEliminarComuna(int idComuna, string motivo);
+        int SetEliminarComuna(int idComuna);
         
         int SetEditarComuna(DTO_Comuna COMUNA);
 

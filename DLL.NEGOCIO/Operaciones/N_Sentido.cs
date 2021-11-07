@@ -17,9 +17,25 @@ namespace DLL.NEGOCIO.Operaciones
             this.I_DAO_Sentido = I_DAO_Sentido;
         }
 
-        public List<DTO_Sentido> GetSentidoByAllActiveForTable()
+        public List<DTO_Sentido> GetSentidoByAll()
         {
-            return I_DAO_Sentido.GetSentidoByAllActiveForTable();
+            return I_DAO_Sentido.GetSentidoByAll();
         }
+
+        public int SetNuevoSentido(string servicio, string servicioCorto)
+        {
+            return I_DAO_Sentido.SetNuevoSentido(servicio, servicioCorto);
+        }
+
+        public int SetEliminarSentido(int idSentido)
+        {
+            return I_DAO_Sentido.SetEliminarSentido(idSentido);
+        }
+
+        public int SetEditarSentido(DTO_Sentido SENTIDO)
+        {
+            return I_DAO_Sentido.SetEditarSentido(SENTIDO);
+        }
+
     }
 }

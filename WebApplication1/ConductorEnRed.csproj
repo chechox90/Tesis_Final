@@ -463,6 +463,7 @@
     <Content Include="Views\Mantenedores\Comuna.cshtml" />
     <Content Include="Views\Mantenedores\Servicio.cshtml" />
     <Content Include="Views\HorarioConductor\VerHorario.cshtml" />
+    <Content Include="Views\Mantenedores\Sentido.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
