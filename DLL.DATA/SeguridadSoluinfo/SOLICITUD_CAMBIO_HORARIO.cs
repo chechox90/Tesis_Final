@@ -15,29 +15,24 @@ namespace DLL.DATA.SeguridadSoluinfo
 using System;
     using System.Collections.Generic;
     
-public partial class PLATAFORMAS
+public partial class SOLICITUD_CAMBIO_HORARIO
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public PLATAFORMAS()
-    {
+    public int ID_SOLICITUD_CAMBIO { get; set; }
 
-        this.PROYECTOS = new HashSet<PROYECTOS>();
+    public int ID_TIPO_SOLICITUD { get; set; }
 
-    }
+    public int ID_ESTADO_SOLICITUD { get; set; }
 
+    public int ID_USUARIO_SOLICITA { get; set; }
 
-    public byte ID_PLATAFORMA { get; set; }
+    public int ID_USUARIO_APRUEBA { get; set; }
 
-    public string NOMBRE { get; set; }
+    public System.DateTime FECHA_REGISTRO_SOLICITUD { get; set; }
+
+    public Nullable<System.DateTime> FECHA_APROBACION { get; set; }
 
     public bool ESTADO { get; set; }
-
-
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<PROYECTOS> PROYECTOS { get; set; }
 
 }
 

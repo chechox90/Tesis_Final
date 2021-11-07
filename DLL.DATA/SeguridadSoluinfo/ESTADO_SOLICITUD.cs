@@ -15,29 +15,14 @@ namespace DLL.DATA.SeguridadSoluinfo
 using System;
     using System.Collections.Generic;
     
-public partial class PLATAFORMAS
+public partial class ESTADO_SOLICITUD
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public PLATAFORMAS()
-    {
+    public int ID_ESTADO_SOLICITUD { get; set; }
 
-        this.PROYECTOS = new HashSet<PROYECTOS>();
+    public string NOMBRE_ESTADO { get; set; }
 
-    }
-
-
-    public byte ID_PLATAFORMA { get; set; }
-
-    public string NOMBRE { get; set; }
-
-    public bool ESTADO { get; set; }
-
-
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<PROYECTOS> PROYECTOS { get; set; }
+    public Nullable<bool> ESTADO { get; set; }
 
 }
 

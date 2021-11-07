@@ -236,7 +236,8 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           </Key>
           <Property Name="ID_COMUNA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NOMBRE_COMUNA" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="ESTADO" Type="bit" />
+          <Property Name="MOTVO_EDICION" Type="varchar" MaxLength="100" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="EMPRESA">
           <Key>
@@ -246,6 +247,14 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="NOMBRE_EMPRESA" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="UBICACION_EMPRESA" Type="varchar" MaxLength="100" />
           <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ESTADO_SOLICITUD">
+          <Key>
+            <PropertyRef Name="ID_ESTADO_SOLICITUD" />
+          </Key>
+          <Property Name="ID_ESTADO_SOLICITUD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_ESTADO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" />
         </EntityType>
         <EntityType Name="HORARIO_CONDUCTOR">
           <Key>
@@ -289,8 +298,8 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="ID_SERVICIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_EMPRESA" Type="int" Nullable="false" />
           <Property Name="NOMBRE_SERVICIO" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="HORARIO_INICIO_SERVICO" Type="time" Precision="6" />
-          <Property Name="HORARIO_FIN_SERVICO" Type="time" Precision="6" />
+          <Property Name="HORARIO_INI" Type="time" Precision="6" />
+          <Property Name="HORARIO_FIN" Type="time" Precision="6" />
           <Property Name="ESTADO" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SERVICIO_REALIZADO">
@@ -307,6 +316,19 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="HORA_FIN" Type="datetime" />
           <Property Name="HORAS_EXTRAS" Type="time" Precision="5" />
           <Property Name="ID_BUS" Type="int" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SOLICITUD_CAMBIO_HORARIO">
+          <Key>
+            <PropertyRef Name="ID_SOLICITUD_CAMBIO" />
+          </Key>
+          <Property Name="ID_SOLICITUD_CAMBIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_TIPO_SOLICITUD" Type="int" Nullable="false" />
+          <Property Name="ID_ESTADO_SOLICITUD" Type="int" Nullable="false" />
+          <Property Name="ID_USUARIO_SOLICITA" Type="int" Nullable="false" />
+          <Property Name="ID_USUARIO_APRUEBA" Type="int" Nullable="false" />
+          <Property Name="FECHA_REGISTRO_SOLICITUD" Type="datetime" Nullable="false" />
+          <Property Name="FECHA_APROBACION" Type="datetime" />
           <Property Name="ESTADO" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TERMINAL">
@@ -328,6 +350,14 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="NOMBRE_TIPO_CONTRATO" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="NOMBRE_CORTO_CONTRATRO" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CANTIDAD_HORAS_CONTRATO" Type="time" Precision="5" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TIPO_SOLICITUD_CAMBIO">
+          <Key>
+            <PropertyRef Name="ID_TIPO_SOLICITUD" />
+          </Key>
+          <Property Name="ID_TIPO_SOLICITUD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_SOLICITUD" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ESTADO" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_ACCIONES_MENU">
@@ -732,13 +762,16 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <EntitySet Name="CARGA_HORARIO" EntityType="Self.CARGA_HORARIO" Schema="operaciones" store:Type="Tables" />
           <EntitySet Name="COMUNA" EntityType="Self.COMUNA" Schema="operaciones" store:Type="Tables" />
           <EntitySet Name="EMPRESA" EntityType="Self.EMPRESA" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="ESTADO_SOLICITUD" EntityType="Self.ESTADO_SOLICITUD" Schema="operaciones" store:Type="Tables" />
           <EntitySet Name="HORARIO_CONDUCTOR" EntityType="Self.HORARIO_CONDUCTOR" Schema="operaciones" store:Type="Tables" />
           <EntitySet Name="PARAMETROS" EntityType="Self.PARAMETROS" Schema="operaciones" store:Type="Tables" />
           <EntitySet Name="SENTIDO" EntityType="Self.SENTIDO" Schema="operaciones" store:Type="Tables" />
           <EntitySet Name="SERVICIO" EntityType="Self.SERVICIO" Schema="operaciones" store:Type="Tables" />
           <EntitySet Name="SERVICIO_REALIZADO" EntityType="Self.SERVICIO_REALIZADO" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="SOLICITUD_CAMBIO_HORARIO" EntityType="Self.SOLICITUD_CAMBIO_HORARIO" Schema="operaciones" store:Type="Tables" />
           <EntitySet Name="TERMINAL" EntityType="Self.TERMINAL" Schema="operaciones" store:Type="Tables" />
           <EntitySet Name="TIPO_CONTRATO" EntityType="Self.TIPO_CONTRATO" Schema="operaciones" store:Type="Tables" />
+          <EntitySet Name="TIPO_SOLICITUD_CAMBIO" EntityType="Self.TIPO_SOLICITUD_CAMBIO" Schema="operaciones" store:Type="Tables" />
           <EntitySet Name="PERFIL_ACCION" EntityType="Self.PERFIL_ACCION" store:Type="Tables" store:Schema="autorizacion">
             <DefiningQuery>SELECT 
     [PERFIL_ACCION].[ID_PERFIL] AS [ID_PERFIL], 
@@ -1194,7 +1227,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <EntitySet Name="EMPRESA" EntityType="SoluinfoModel.EMPRESA" />
           <EntitySet Name="PARAMETROS" EntityType="SoluinfoModel.PARAMETROS" />
           <EntitySet Name="SENTIDO" EntityType="SoluinfoModel.SENTIDO" />
-          <EntitySet Name="SERVICIO" EntityType="SoluinfoModel.SERVICIO" />
           <EntitySet Name="SERVICIO_REALIZADO" EntityType="SoluinfoModel.SERVICIO_REALIZADO" />
           <EntitySet Name="TERMINAL" EntityType="SoluinfoModel.TERMINAL" />
           <AssociationSet Name="FK_BITACORA_MOVIMIENTOS_TIPO_MOVIEMIENTO_HORARIO" Association="SoluinfoModel.FK_BITACORA_MOVIMIENTOS_TIPO_MOVIEMIENTO_HORARIO">
@@ -1205,20 +1237,12 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             <End Role="BUS" EntitySet="BUS" />
             <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
           </AssociationSet>
-          <AssociationSet Name="FK_SERVICIO_EMPRESA" Association="SoluinfoModel.FK_SERVICIO_EMPRESA">
-            <End Role="EMPRESA" EntitySet="EMPRESA" />
-            <End Role="SERVICIO" EntitySet="SERVICIO" />
-          </AssociationSet>
           <AssociationSet Name="FK_TERMINAL_EMPRESA1" Association="SoluinfoModel.FK_TERMINAL_EMPRESA1">
             <End Role="EMPRESA" EntitySet="EMPRESA" />
             <End Role="TERMINAL" EntitySet="TERMINAL" />
           </AssociationSet>
           <AssociationSet Name="FK_SERVICIO_REALIZADO_SENTIDO" Association="SoluinfoModel.FK_SERVICIO_REALIZADO_SENTIDO">
             <End Role="SENTIDO" EntitySet="SENTIDO" />
-            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SERVICIO_REALIZADO_SERVICIO" Association="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO">
-            <End Role="SERVICIO" EntitySet="SERVICIO" />
             <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
           </AssociationSet>
           <AssociationSet Name="FK_SERVICIO_REALIZADO_TERMINAL" Association="SoluinfoModel.FK_SERVICIO_REALIZADO_TERMINAL">
@@ -1263,6 +1287,18 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <AssociationSet Name="PERFIL_USUARIO_SISTEMA" Association="SoluinfoModel.PERFIL_USUARIO_SISTEMA">
             <End Role="PERFILES" EntitySet="PERFILES" />
             <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+          </AssociationSet>
+          <EntitySet Name="ESTADO_SOLICITUD" EntityType="SoluinfoModel.ESTADO_SOLICITUD" />
+          <EntitySet Name="SERVICIO" EntityType="SoluinfoModel.SERVICIO" />
+          <EntitySet Name="SOLICITUD_CAMBIO_HORARIO" EntityType="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO" />
+          <EntitySet Name="TIPO_SOLICITUD_CAMBIO" EntityType="SoluinfoModel.TIPO_SOLICITUD_CAMBIO" />
+          <AssociationSet Name="FK_SERVICIO_EMPRESA" Association="SoluinfoModel.FK_SERVICIO_EMPRESA">
+            <End Role="EMPRESA" EntitySet="EMPRESA" />
+            <End Role="SERVICIO" EntitySet="SERVICIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICIO_REALIZADO_SERVICIO" Association="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO">
+            <End Role="SERVICIO" EntitySet="SERVICIO" />
+            <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="NOVEDADES">
@@ -1361,8 +1397,9 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           </Key>
           <Property Name="ID_COMUNA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NOMBRE_COMUNA" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ESTADO" Type="Boolean" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA" FromRole="COMUNA" ToRole="USUARIOS_SISTEMA" />
+          <Property Name="MOTVO_EDICION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EMPRESA">
           <Key>
@@ -1372,9 +1409,9 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="NOMBRE_EMPRESA" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="UBICACION_EMPRESA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ESTADO" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="SERVICIO" Relationship="SoluinfoModel.FK_SERVICIO_EMPRESA" FromRole="EMPRESA" ToRole="SERVICIO" />
           <NavigationProperty Name="TERMINAL" Relationship="SoluinfoModel.FK_TERMINAL_EMPRESA1" FromRole="EMPRESA" ToRole="TERMINAL" />
           <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_EMPRESA" FromRole="EMPRESA" ToRole="USUARIOS_SISTEMA" />
+          <NavigationProperty Name="SERVICIO" Relationship="SoluinfoModel.FK_SERVICIO_EMPRESA" FromRole="EMPRESA" ToRole="SERVICIO" />
         </EntityType>
         <EntityType Name="PARAMETROS">
           <Key>
@@ -1398,19 +1435,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="ESTADO" Type="Boolean" />
           <NavigationProperty Name="SERVICIO_REALIZADO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_SENTIDO" FromRole="SENTIDO" ToRole="SERVICIO_REALIZADO" />
         </EntityType>
-        <EntityType Name="SERVICIO">
-          <Key>
-            <PropertyRef Name="ID_SERVICIO" />
-          </Key>
-          <Property Name="ID_SERVICIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_EMPRESA" Type="Int32" Nullable="false" />
-          <Property Name="NOMBRE_SERVICIO" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="HORARIO_INICIO_SERVICO" Type="Time" Precision="6" />
-          <Property Name="HORARIO_FIN_SERVICO" Type="Time" Precision="6" />
-          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="EMPRESA" Relationship="SoluinfoModel.FK_SERVICIO_EMPRESA" FromRole="SERVICIO" ToRole="EMPRESA" />
-          <NavigationProperty Name="SERVICIO_REALIZADO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO" FromRole="SERVICIO" ToRole="SERVICIO_REALIZADO" />
-        </EntityType>
         <EntityType Name="SERVICIO_REALIZADO">
           <Key>
             <PropertyRef Name="ID_RECORRIDO" />
@@ -1427,11 +1451,11 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="ESTADO" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="BUS" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_BUS" FromRole="SERVICIO_REALIZADO" ToRole="BUS" />
           <NavigationProperty Name="SENTIDO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_SENTIDO" FromRole="SERVICIO_REALIZADO" ToRole="SENTIDO" />
-          <NavigationProperty Name="SERVICIO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO" FromRole="SERVICIO_REALIZADO" ToRole="SERVICIO" />
           <NavigationProperty Name="TERMINAL" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_TERMINAL" FromRole="SERVICIO_REALIZADO" ToRole="TERMINAL" />
           <Property Name="HORAS_EXTRAS" Type="Time" Precision="5" />
           <NavigationProperty Name="HORARIO_CONDUCTOR" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_HORARIO_CONDUCTOR" FromRole="SERVICIO_REALIZADO" ToRole="HORARIO_CONDUCTOR" />
           <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_USUARIOS_SISTEMA" FromRole="SERVICIO_REALIZADO" ToRole="USUARIOS_SISTEMA" />
+          <NavigationProperty Name="SERVICIO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO" FromRole="SERVICIO_REALIZADO" ToRole="SERVICIO" />
         </EntityType>
         <EntityType Name="TERMINAL">
           <Key>
@@ -1470,18 +1494,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SERVICIO_EMPRESA">
-          <End Type="SoluinfoModel.EMPRESA" Role="EMPRESA" Multiplicity="1" />
-          <End Type="SoluinfoModel.SERVICIO" Role="SERVICIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EMPRESA">
-              <PropertyRef Name="ID_EMPRESA" />
-            </Principal>
-            <Dependent Role="SERVICIO">
-              <PropertyRef Name="ID_EMPRESA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TERMINAL_EMPRESA1">
           <End Type="SoluinfoModel.EMPRESA" Role="EMPRESA" Multiplicity="1" />
           <End Type="SoluinfoModel.TERMINAL" Role="TERMINAL" Multiplicity="*" />
@@ -1500,18 +1512,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <ReferentialConstraint>
             <Principal Role="SENTIDO">
               <PropertyRef Name="ID_SENTIDO" />
-            </Principal>
-            <Dependent Role="SERVICIO_REALIZADO">
-              <PropertyRef Name="ID_SENTIDO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SERVICIO_REALIZADO_SERVICIO">
-          <End Type="SoluinfoModel.SERVICIO" Role="SERVICIO" Multiplicity="1" />
-          <End Type="SoluinfoModel.SERVICIO_REALIZADO" Role="SERVICIO_REALIZADO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SERVICIO">
-              <PropertyRef Name="ID_SERVICIO" />
             </Principal>
             <Dependent Role="SERVICIO_REALIZADO">
               <PropertyRef Name="ID_SENTIDO" />
@@ -1685,6 +1685,72 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
         <Association Name="PERFIL_USUARIO_SISTEMA">
           <End Type="SoluinfoModel.PERFILES" Role="PERFILES" Multiplicity="*" />
           <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="*" />
+        </Association>
+        <EntityType Name="ESTADO_SOLICITUD">
+          <Key>
+            <PropertyRef Name="ID_ESTADO_SOLICITUD" />
+          </Key>
+          <Property Name="ID_ESTADO_SOLICITUD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_ESTADO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="SERVICIO">
+          <Key>
+            <PropertyRef Name="ID_SERVICIO" />
+          </Key>
+          <Property Name="ID_SERVICIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_EMPRESA" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE_SERVICIO" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="HORARIO_INI" Type="Time" Precision="6" />
+          <Property Name="HORARIO_FIN" Type="Time" Precision="6" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EMPRESA" Relationship="SoluinfoModel.FK_SERVICIO_EMPRESA" FromRole="SERVICIO" ToRole="EMPRESA" />
+          <NavigationProperty Name="SERVICIO_REALIZADO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO" FromRole="SERVICIO" ToRole="SERVICIO_REALIZADO" />
+        </EntityType>
+        <EntityType Name="SOLICITUD_CAMBIO_HORARIO">
+          <Key>
+            <PropertyRef Name="ID_SOLICITUD_CAMBIO" />
+          </Key>
+          <Property Name="ID_SOLICITUD_CAMBIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_TIPO_SOLICITUD" Type="Int32" Nullable="false" />
+          <Property Name="ID_ESTADO_SOLICITUD" Type="Int32" Nullable="false" />
+          <Property Name="ID_USUARIO_SOLICITA" Type="Int32" Nullable="false" />
+          <Property Name="ID_USUARIO_APRUEBA" Type="Int32" Nullable="false" />
+          <Property Name="FECHA_REGISTRO_SOLICITUD" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FECHA_APROBACION" Type="DateTime" Precision="3" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TIPO_SOLICITUD_CAMBIO">
+          <Key>
+            <PropertyRef Name="ID_TIPO_SOLICITUD" />
+          </Key>
+          <Property Name="ID_TIPO_SOLICITUD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_SOLICITUD" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_SERVICIO_EMPRESA">
+          <End Type="SoluinfoModel.EMPRESA" Role="EMPRESA" Multiplicity="1" />
+          <End Type="SoluinfoModel.SERVICIO" Role="SERVICIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPRESA">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Principal>
+            <Dependent Role="SERVICIO">
+              <PropertyRef Name="ID_EMPRESA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICIO_REALIZADO_SERVICIO">
+          <End Type="SoluinfoModel.SERVICIO" Role="SERVICIO" Multiplicity="1" />
+          <End Type="SoluinfoModel.SERVICIO_REALIZADO" Role="SERVICIO_REALIZADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SERVICIO">
+              <PropertyRef Name="ID_SERVICIO" />
+            </Principal>
+            <Dependent Role="SERVICIO_REALIZADO">
+              <PropertyRef Name="ID_SENTIDO" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -1892,6 +1958,7 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <EntitySetMapping Name="COMUNA">
             <EntityTypeMapping TypeName="SoluinfoModel.COMUNA">
               <MappingFragment StoreEntitySet="COMUNA">
+                <ScalarProperty Name="MOTVO_EDICION" ColumnName="MOTVO_EDICION" />
                 <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
                 <ScalarProperty Name="NOMBRE_COMUNA" ColumnName="NOMBRE_COMUNA" />
                 <ScalarProperty Name="ID_COMUNA" ColumnName="ID_COMUNA" />
@@ -1928,18 +1995,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
                 <ScalarProperty Name="NOMBRE_CORTO_SENTIDO" ColumnName="NOMBRE_CORTO_SENTIDO" />
                 <ScalarProperty Name="NOMBRE_SENTIDO" ColumnName="NOMBRE_SENTIDO" />
                 <ScalarProperty Name="ID_SENTIDO" ColumnName="ID_SENTIDO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SERVICIO">
-            <EntityTypeMapping TypeName="SoluinfoModel.SERVICIO">
-              <MappingFragment StoreEntitySet="SERVICIO">
-                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-                <ScalarProperty Name="HORARIO_FIN_SERVICO" ColumnName="HORARIO_FIN_SERVICO" />
-                <ScalarProperty Name="HORARIO_INICIO_SERVICO" ColumnName="HORARIO_INICIO_SERVICO" />
-                <ScalarProperty Name="NOMBRE_SERVICIO" ColumnName="NOMBRE_SERVICIO" />
-                <ScalarProperty Name="ID_EMPRESA" ColumnName="ID_EMPRESA" />
-                <ScalarProperty Name="ID_SERVICIO" ColumnName="ID_SERVICIO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2029,6 +2084,50 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
               <ScalarProperty Name="ID_PERFIL" ColumnName="ID_PERFIL" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="ESTADO_SOLICITUD">
+            <EntityTypeMapping TypeName="SoluinfoModel.ESTADO_SOLICITUD">
+              <MappingFragment StoreEntitySet="ESTADO_SOLICITUD">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="NOMBRE_ESTADO" ColumnName="NOMBRE_ESTADO" />
+                <ScalarProperty Name="ID_ESTADO_SOLICITUD" ColumnName="ID_ESTADO_SOLICITUD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SERVICIO">
+            <EntityTypeMapping TypeName="SoluinfoModel.SERVICIO">
+              <MappingFragment StoreEntitySet="SERVICIO">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="HORARIO_FIN" ColumnName="HORARIO_FIN" />
+                <ScalarProperty Name="HORARIO_INI" ColumnName="HORARIO_INI" />
+                <ScalarProperty Name="NOMBRE_SERVICIO" ColumnName="NOMBRE_SERVICIO" />
+                <ScalarProperty Name="ID_EMPRESA" ColumnName="ID_EMPRESA" />
+                <ScalarProperty Name="ID_SERVICIO" ColumnName="ID_SERVICIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SOLICITUD_CAMBIO_HORARIO">
+            <EntityTypeMapping TypeName="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO">
+              <MappingFragment StoreEntitySet="SOLICITUD_CAMBIO_HORARIO">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="FECHA_APROBACION" ColumnName="FECHA_APROBACION" />
+                <ScalarProperty Name="FECHA_REGISTRO_SOLICITUD" ColumnName="FECHA_REGISTRO_SOLICITUD" />
+                <ScalarProperty Name="ID_USUARIO_APRUEBA" ColumnName="ID_USUARIO_APRUEBA" />
+                <ScalarProperty Name="ID_USUARIO_SOLICITA" ColumnName="ID_USUARIO_SOLICITA" />
+                <ScalarProperty Name="ID_ESTADO_SOLICITUD" ColumnName="ID_ESTADO_SOLICITUD" />
+                <ScalarProperty Name="ID_TIPO_SOLICITUD" ColumnName="ID_TIPO_SOLICITUD" />
+                <ScalarProperty Name="ID_SOLICITUD_CAMBIO" ColumnName="ID_SOLICITUD_CAMBIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPO_SOLICITUD_CAMBIO">
+            <EntityTypeMapping TypeName="SoluinfoModel.TIPO_SOLICITUD_CAMBIO">
+              <MappingFragment StoreEntitySet="TIPO_SOLICITUD_CAMBIO">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="NOMBRE_SOLICITUD" ColumnName="NOMBRE_SOLICITUD" />
+                <ScalarProperty Name="ID_TIPO_SOLICITUD" ColumnName="ID_TIPO_SOLICITUD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

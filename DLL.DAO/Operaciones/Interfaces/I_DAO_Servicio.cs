@@ -14,5 +14,7 @@ namespace DLL.DAO.Operaciones.Interfaces
         int SetNuevoServicio(string nombreTer, string direccion, string numDire);
 
         int SetEliminarServicio(int idServicio);
+
+        int SetEditarServicio(DTO_Servicio SERVICIO);
     }
 }

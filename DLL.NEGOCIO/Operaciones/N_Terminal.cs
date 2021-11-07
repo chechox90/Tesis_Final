@@ -42,5 +42,10 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_Terminal.SetEliminarTerminal(idTerminal);
         }
 
+        public int SetEditarTerminal(DTO_Terminal TERMINAL)
+        {
+            return I_DAO_Terminal.SetEditarTerminal(TERMINAL);
+        }
+
     }
 }

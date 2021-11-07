@@ -27,9 +27,15 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_Comuna.SetNuevaComuna(nomComuna);
         }
 
-        public int SetEliminarComuna(int idComuna)
+        public int SetEliminarComuna(int idComuna, string motivo)
         {
-            return I_DAO_Comuna.SetEliminarComuna(idComuna);
+            return I_DAO_Comuna.SetEliminarComuna(idComuna,motivo);
         }
+
+        public int SetEditarComuna(DTO_Comuna COMUNA)
+        {
+            return I_DAO_Comuna.SetEditarComuna(COMUNA);
+        }
+
     }
 }

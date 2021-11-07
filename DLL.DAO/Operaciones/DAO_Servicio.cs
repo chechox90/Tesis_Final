@@ -35,8 +35,8 @@ namespace DLL.DAO.Operaciones
                                                           ID_EMPRESA = ser.ID_EMPRESA,
                                                           NOMBRE_EMPRESA = em.NOMBRE_EMPRESA,
                                                           NOMBRE_SERVICIO = ser.NOMBRE_SERVICIO,
-                                                          HORARIO_INICIO_SERVICO = ser.HORARIO_INICIO_SERVICO,
-                                                          HORARIO_FIN_SERVICO = ser.HORARIO_FIN_SERVICO,
+                                                          HORARIO_INI = ser.HORARIO_INI,
+                                                          HORARIO_FIN = ser.HORARIO_FIN,
                                                           ESTADO = ser.ESTADO
                                                       }).ToList();
 
@@ -65,8 +65,8 @@ namespace DLL.DAO.Operaciones
                         {
                             ID_EMPRESA = 1,
                             NOMBRE_SERVICIO = nombreTer,
-                            HORARIO_INICIO_SERVICO= TimeSpan.Parse(direccion),
-                            HORARIO_FIN_SERVICO = TimeSpan.Parse(numDire),
+                            HORARIO_INI= TimeSpan.Parse(direccion),
+                            HORARIO_FIN= TimeSpan.Parse(numDire),
                             ESTADO = true
 
                         };
@@ -99,6 +99,39 @@ namespace DLL.DAO.Operaciones
                     {
                         SERVICIO Old = context.SERVICIO.Where(x => x.ESTADO == true && x.ID_SERVICIO == idServicio).FirstOrDefault();
                         Old.ESTADO = false;
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public int SetEditarServicio(DTO_Servicio SERVICIO)
+        {
+            try
+            {
+                int respuesta = 0;
+
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        SERVICIO Old = context.SERVICIO.Where(x => x.ESTADO == true && x.ID_SERVICIO == SERVICIO.ID_SERVICIO).FirstOrDefault();
+
+                        Old.ID_SERVICIO = SERVICIO.ID_SERVICIO;
+                        Old.ID_EMPRESA = SERVICIO.ID_EMPRESA;
+                        Old.NOMBRE_SERVICIO = SERVICIO.NOMBRE_SERVICIO;
+                        Old.HORARIO_INI = SERVICIO.HORARIO_INI;
+                        Old.HORARIO_FIN = SERVICIO.HORARIO_FIN;
+                        Old.ESTADO = true;
                         respuesta = context.SaveChanges();
                         contextTransaction.Commit();
                     }

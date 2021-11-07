@@ -77,7 +77,7 @@ namespace DLL.DAO.Operaciones
             }
         }
 
-        public int SetEliminarComuna(int idComuna)
+        public int SetEliminarComuna(int idComuna, string motivo)
         {
             try
             {
@@ -87,6 +87,7 @@ namespace DLL.DAO.Operaciones
                     using (var contextTransaction = context.Database.BeginTransaction())
                     {
                         COMUNA Old = context.COMUNA.Where(x => x.ESTADO == true && x.ID_COMUNA == idComuna).FirstOrDefault();
+                        Old.MOTVO_EDICION = motivo;
                         Old.ESTADO = false;
                         respuesta = context.SaveChanges();
                         contextTransaction.Commit();
@@ -103,6 +104,36 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public int SetEditarComuna(DTO_Comuna COMUNA)
+        {
+            try
+            {
+                int respuesta = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        COMUNA Old = context.COMUNA.Where(x => x.ESTADO == true && x.ID_COMUNA == COMUNA.ID_COMUNA).FirstOrDefault();
+                        
+                        Old.ID_COMUNA = COMUNA.ID_COMUNA;
+                        Old.NOMBRE_COMUNA = COMUNA.NOMBRE_COMUNA;
+                        Old.MOTVO_EDICION = COMUNA.MOTIVO_EDICION;
+                        Old.ESTADO = true;
+
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+
+                    }
+                }
+
+                return respuesta;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
     }
 }

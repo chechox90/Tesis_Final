@@ -36,15 +36,12 @@
         <EntityTypeShape EntityType="SoluinfoModel.EMPRESA" Width="1.5" PointX="5.625" PointY="11.625" />
         <EntityTypeShape EntityType="SoluinfoModel.PARAMETROS" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="SoluinfoModel.SENTIDO" Width="1.5" PointX="15.375" PointY="17.375" />
-        <EntityTypeShape EntityType="SoluinfoModel.SERVICIO" Width="1.5" PointX="7.875" PointY="16.875" />
         <EntityTypeShape EntityType="SoluinfoModel.SERVICIO_REALIZADO" Width="2.5" PointX="19" PointY="14.125" />
-        <EntityTypeShape EntityType="SoluinfoModel.TERMINAL" Width="1.5" PointX="7.875" PointY="20.125" />
+        <EntityTypeShape EntityType="SoluinfoModel.TERMINAL" Width="1.5" PointX="7.5" PointY="21.5" />
         <AssociationConnector Association="SoluinfoModel.FK_BITACORA_MOVIMIENTOS_TIPO_MOVIEMIENTO_HORARIO" />
         <AssociationConnector Association="SoluinfoModel.FK_SERVICIO_REALIZADO_BUS" />
-        <AssociationConnector Association="SoluinfoModel.FK_SERVICIO_EMPRESA" />
         <AssociationConnector Association="SoluinfoModel.FK_TERMINAL_EMPRESA1" />
         <AssociationConnector Association="SoluinfoModel.FK_SERVICIO_REALIZADO_SENTIDO" />
-        <AssociationConnector Association="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO" />
         <AssociationConnector Association="SoluinfoModel.FK_SERVICIO_REALIZADO_TERMINAL" />
         <EntityTypeShape EntityType="SoluinfoModel.HORARIO_CONDUCTOR" Width="2.375" PointX="15.375" PointY="13.375" />
         <AssociationConnector Association="SoluinfoModel.FK_HORARIO_CONDUCTOR_CARGA_HORARIO" />
@@ -58,6 +55,12 @@
         <AssociationConnector Association="SoluinfoModel.FK_USUARIOS_SISTEMA_EMPRESA" />
         <AssociationConnector Association="SoluinfoModel.FK_USUARIOS_SISTEMA_TIPO_CONTRATO" />
         <AssociationConnector Association="SoluinfoModel.PERFIL_USUARIO_SISTEMA" />
+        <EntityTypeShape EntityType="SoluinfoModel.ESTADO_SOLICITUD" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="SoluinfoModel.SERVICIO" Width="1.5" PointX="8.25" PointY="17.5" />
+        <EntityTypeShape EntityType="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SoluinfoModel.TIPO_SOLICITUD_CAMBIO" Width="1.5" PointX="0.75" PointY="10.75" />
+        <AssociationConnector Association="SoluinfoModel.FK_SERVICIO_EMPRESA" />
+        <AssociationConnector Association="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

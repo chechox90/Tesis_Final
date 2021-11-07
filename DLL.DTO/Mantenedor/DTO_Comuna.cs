@@ -10,6 +10,7 @@ namespace DLL.DTO.Mantenedor
     {
         public int ID_COMUNA { get; set; }
         public string NOMBRE_COMUNA { get; set; }
+        public string MOTIVO_EDICION { get; set; }
         public Nullable<bool> ESTADO { get; set; }
 
     }

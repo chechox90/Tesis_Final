@@ -71,6 +71,9 @@
     <Compile Include="SeguridadSoluinfo\EMPRESA.cs">
       <DependentUpon>Soluseg.tt</DependentUpon>
     </Compile>
+    <Compile Include="SeguridadSoluinfo\ESTADO_SOLICITUD.cs">
+      <DependentUpon>Soluseg.tt</DependentUpon>
+    </Compile>
     <Compile Include="SeguridadSoluinfo\HORARIO_CONDUCTOR.cs">
       <DependentUpon>Soluseg.tt</DependentUpon>
     </Compile>
@@ -107,6 +110,9 @@
     <Compile Include="SeguridadSoluinfo\SERVICIO_REALIZADO.cs">
       <DependentUpon>Soluseg.tt</DependentUpon>
     </Compile>
+    <Compile Include="SeguridadSoluinfo\SOLICITUD_CAMBIO_HORARIO.cs">
+      <DependentUpon>Soluseg.tt</DependentUpon>
+    </Compile>
     <Compile Include="SeguridadSoluinfo\Soluseg.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -132,6 +138,9 @@
       <DependentUpon>Soluseg.tt</DependentUpon>
     </Compile>
     <Compile Include="SeguridadSoluinfo\TIPO_MOVIEMIENTO_HORARIO.cs">
+      <DependentUpon>Soluseg.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SeguridadSoluinfo\TIPO_SOLICITUD_CAMBIO.cs">
       <DependentUpon>Soluseg.tt</DependentUpon>
     </Compile>
     <Compile Include="SeguridadSoluinfo\USUARIOS_SISTEMA.cs">

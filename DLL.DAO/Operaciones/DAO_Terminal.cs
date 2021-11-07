@@ -165,5 +165,39 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public int SetEditarTerminal(DTO_Terminal TERMINAL)
+        {
+            try
+            {
+                int respuesta = 0;
+
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        TERMINAL OldTer = context.TERMINAL.Where(x => x.ESTADO == true && x.ID_TERMINAL == TERMINAL.ID_TERMINAL).FirstOrDefault();
+
+                        OldTer.ID_TERMINAL = TERMINAL.ID_TERMINAL;
+                        OldTer.NOMBRE_TERMINAL = TERMINAL.NOMBRE_TERMINAL;
+                        OldTer.ID_EMPRESA = TERMINAL.ID_EMPRESA;
+                        OldTer.DIRECCION = TERMINAL.DIRECCION;
+                        OldTer.NUM_DIRECCION = TERMINAL.NUM_DIRECCION;
+                        OldTer.ESTADO = true;
+
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

@@ -68,7 +68,8 @@
         <div class="col-md-3 borderInput">
             <div class="form-group">
                 <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnGuaradarNuevo" onclick="GuardarNuevoTerminal();">Guaradar</button>
+                <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoTerminal();"><i class="far fa-plus"></i> Guaradar</button>
+                <button type="button" class="btn btn-success" id="btnGuardarEdicion" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i>  Guardar</button>
             </div>
         </div>
     </div>
@@ -90,12 +91,13 @@
                 </div>
             </div>
             <div class="modal-body">
-                <label>¿Está seguro que desea eliminar el Terminal?</label><h4 id="terEliminar" class="text-primary"></h4>
+                <label>¿Está seguro que desea <span id="txtMostrar"></span> el Terminal <sapan id="terEliminar" class="text-primary"></sapan>?</label> 
             </div>
             <label id="idTerEliminar" style="display:none"></label>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="EliminarTerminal();">Eliminar</button>
+                <button type="button" class="btn btn-danger" id="btnEliminar" onclick="EliminarTerminal();">Eliminar</button>
+                <button type="button" class="btn btn-success" id="btnConfirmar" onclick="GuardarEdicion();">Confirmar</button>
             </div>
         </div>
     </div>
@@ -149,7 +151,10 @@
                         render: function (data, type, full, meta) {
                             var html = '';
 
-                            html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarTerminal(' + full.ID_TERMINAL + "," + "'" + full.NOMBRE_TERMINAL + "'" + ');"><i class="far fa-trash-alt text-danger"></i><span>&nbsp;&nbsp;</span><i class="far fa-edit text-success"></i></a>';
+                            html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarTerminal(' + full.ID_TERMINAL + "," + "'" + full.NOMBRE_TERMINAL + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
+                                '<span>&nbsp;&nbsp;</span>' +
+                                '<a role="button" class="btn-table-bg " onclick="ShowEditarTerminal(' + full.ID_TERMINAL + ',' + "'" + full.NOMBRE_TERMINAL + "'" + ',' + "'" + full.DIRECCION + "'" + ',' + "'" + full.NUM_DIRECCION + "'" + ')">' +
+                                '<i class="far fa-edit text-success"></i></a>';
 
                             return html;
                         }
@@ -227,8 +232,13 @@
         }
 
         function ShowEliminarTerminal(idTerminal, nombreTerminal) {
+            Limpiar();
+            $("#btnEliminar").css('display', '');
+            $("#btnConfirmar").css('display', 'none');
+
             $("#terEliminar").text(nombreTerminal);
             $("#idTerEliminar").val(idTerminal);
+            $("#txtMostrar").text("eliminar");
 
             $("#modalConfirmacion").modal("show");
         }
@@ -238,6 +248,9 @@
         }
 
         function VerNuevoTerminal() {
+            Limpiar();
+            $("#btnGuardarNuevo").css('display', '');
+            $("#btnGuardarEdicion").css('display','none');
             $(".ocultar").css("display", "")
         }
 
@@ -248,6 +261,76 @@
             $(".ocultar").css("display", "none")
         }
 
+        function ShowEditarTerminal(idTerminal, nomTerminal, direccion, numDire) {
+            $("#txtNombreTer").val(nomTerminal);
+
+            if (numDire != "null") {
+                $("#txtNumDire").val(numDire);
+            } else {
+                $("#txtNumDire").val("");
+            }
+
+            if (direccion != "null") {
+                $("#txtDireccion").val(direccion);
+            } else {
+                $("#txtDireccion").val("");
+            }
+
+            $("#idTerEliminar").val(idTerminal);
+
+            $("#btnGuardarNuevo").css("display", "none");
+            $("#btnGuardarEdicion").css("display", "");
+
+            $(".ocultar").css("display", "");
+        }
+
+        function GuardarEdicion() {
+            var TERMINAL =
+            {
+                ID_TERMINAL: $("#idTerEliminar").val(),
+                NOMBRE_TERMINAL: $("#txtNombreTer").val(),
+                DIRECCION: $("#txtDireccion").val(),
+                NUM_DIRECCION: $("#txtNumDire").val(),
+            };
+
+            $.ajax({
+                url: '../Mantenedor/SetEditarTerminal',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "TERMINAL": TERMINAL
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        CerrarModal();
+                        Limpiar();
+                        tblTerminal.ajax.reload(null, false);
+
+                    } else {
+                        alertSuccess(data.Data.message);
+                    }
+
+                }, error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                    tblTerminal.ajax.reload(null, false);
+                }
+            });
+        }
+
+        function ConfirmarEdicion() {
+            let nombreTerminal = $("#txtNombreTer").val();
+            $("#txtMostrar").text("editar");
+
+            $("#btnEliminar").css('display', 'none');
+            $("#btnConfirmar").css('display', '');
+
+            $("#modalConfirmacion").modal("show");
+        }
 
     </script>
 }

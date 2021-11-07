@@ -17,7 +17,9 @@ namespace DLL.DAO.Operaciones.Interfaces
 
         int SetNuevoTerminal(string nombreTer, string direccion, int numDire);
 
-        int SetEliminarTerminal(int idBus);
+        int SetEliminarTerminal(int idTer);
+
+        int SetEditarTerminal(DTO_Terminal TERMINAL);
 
     }
 }

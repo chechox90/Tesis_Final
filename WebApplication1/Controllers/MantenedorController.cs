@@ -183,6 +183,46 @@ namespace ConductorEnRed.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult SetEditarTerminal(DTO_Terminal TERMINAL)
+        {
+            try
+            {
+                TERMINAL.ID_TERMINAL = TERMINAL.ID_TERMINAL;
+                TERMINAL.NOMBRE_TERMINAL = TERMINAL.NOMBRE_TERMINAL;
+                TERMINAL.ID_EMPRESA = 1;
+                TERMINAL.DIRECCION = TERMINAL.DIRECCION;
+                TERMINAL.NUM_DIRECCION = TERMINAL.NUM_DIRECCION;
+            
+                int response = _i_n_Terminal.SetEditarTerminal(TERMINAL);
+                string alert = "";
+
+                if (response == 1)
+                {
+                    alert = "success";
+                    var message = "El terminal ha sido editado con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         #endregion
 
 
@@ -419,13 +459,13 @@ namespace ConductorEnRed.Controllers
         }
 
         [HttpPost]
-        public ActionResult SetEliminarComuna(int idComuna)
+        public ActionResult SetEliminarComuna(int idComuna, string motivo)
         {
             try
             {
                 string alert = "";
 
-                int response = _i_n_Comuna.SetEliminarComuna(idComuna);
+                int response = _i_n_Comuna.SetEliminarComuna(idComuna,motivo);
 
                 if (response == 1)
                 {
@@ -454,6 +494,41 @@ namespace ConductorEnRed.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult SetEditarComuna(DTO_Comuna COMUNA)
+        {
+            try
+            {
+                int response = _i_n_Comuna.SetEditarComuna(COMUNA);
+                string alert = "";
+
+                if (response == 1)
+                {
+                    alert = "success";
+                    var message = "El terminal ha sido editado con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
         #endregion
 
 
@@ -476,8 +551,8 @@ namespace ConductorEnRed.Controllers
                     carga.NOMBRE_EMPRESA = item.NOMBRE_EMPRESA;
                     carga.NOMBRE_SERVICIO = item.NOMBRE_SERVICIO;
 
-                    carga.HORARIO_INICIO = item.HORARIO_INICIO_SERVICO.ToString().Substring(0, 5);
-                    carga.HORARIO_FIN = item.HORARIO_INICIO_SERVICO.ToString().Substring(0, 5);
+                    carga.HORARIO_INICIO = item.HORARIO_INI.ToString().Substring(0, 5);
+                    carga.HORARIO_FIN_ = item.HORARIO_FIN.ToString().Substring(0, 5);
                     list.Add(carga);
                 }
                 list = list.OrderBy(x => x.NOMBRE_SERVICIO).ToList();
@@ -574,6 +649,39 @@ namespace ConductorEnRed.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult SetEditarServicio(DTO_Servicio SERVICIO)
+        {
+            try
+            {
+                int response = _i_n_Servicio.SetEditarServicio(SERVICIO);
+                string alert = "";
+
+                if (response == 1)
+                {
+                    alert = "success";
+                    var message = "El bus ha sido elimando con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
 
         #endregion

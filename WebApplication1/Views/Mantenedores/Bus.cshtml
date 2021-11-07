@@ -65,8 +65,8 @@
         <div class="col-md-3 borderInput">
             <div class="form-group">
                 <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnGuaradarNuevo" onclick="GuardarNuevoBus();"><i class="far fa-plus"></i>  Guardar</button>
-                <button type="button" class="btn btn-success" id="btnGuaradarNuevo" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i>  Guardar</button>
+                <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoBus();"><i class="far fa-plus"></i>  Guardar</button>
+                <button type="button" class="btn btn-success" id="btnGuardarEdicion" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i>  Guardar</button>
             </div>
         </div>
     </div>
@@ -87,16 +87,16 @@
             </div>
             <div class="modal-body">
                 <label>
-                    ¿Está seguro que desea <span id="txtMostrar"></span> el Bus placa patentente única?
+                    ¿Está seguro que desea <span id="txtMostrar"></span> el Bus placa patentente única <sapan id="ppuEliminar" class="text-primary"></sapan>?
                 </label>
-                <h4 id="ppuEliminar" class="text-primary"></h4>
+               
 
                 <label style="display:none" id="idBusEliminar"></label>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
                 <button type="button" class="btn btn-danger" id="btnAceptar" onclick="EliminarBus();">Eliminar</button>
-                <button type="button" class="btn btn-success" id="btnAceptar" onclick="GuardarEdicionBus();">Confirmar</button>
+                <button type="button" class="btn btn-success" id="btnConfirmar" onclick="GuardarEdicion();">Confirmar</button>
             </div>
         </div>
     </div>
@@ -185,6 +185,8 @@
         }
 
         function VerNuevoBus() {
+            Limpiar();
+            $("#btnGuardarEdicion").css("display", "none")
             $(".ocultar").css("display", "")
         }
 
@@ -227,6 +229,7 @@
             $("#ddlTerminalPrincipal option[value='" + 0 + "']").attr("selected", "selected");
             $("#txtPPU").val("");
             $("#txtNumInterno").val("");
+            $("#GuardarNuevoBus").css("display","");
             $(".ocultar").css("display", "none")
         }
 
@@ -263,10 +266,13 @@
         }
 
         function ShowEliminarBus(idBus, PPU) {
+            Limpiar();
+
             $("#ppuEliminar").text(PPU);
             $("#idBusEliminar").val(idBus);
 
-            $("#txtMostrar").text("eliminar")
+            $("#txtMostrar").text("eliminar");
+            $("#btnConfirmar").css("display", 'none');
 
             $("#modalConfirmacion").modal("show");
         }
@@ -279,6 +285,8 @@
             $("#txtPPU").val(PPU);
             $("#txtNumInterno").val(idInternoBus);
             $("#idBusEliminar").val(idBus);
+            $("#btnGuardarNuevo").css('display','none');
+            $("#btnGuardarEdicion").css('display','');
 
             $("#ddlTerminalPrincipal option[value='" + idTerminal + "']").attr("selected", "selected");
             $(".ocultar").css("display", "");

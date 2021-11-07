@@ -31,5 +31,10 @@ namespace DLL.NEGOCIO.Operaciones
         {
             return I_DAO_Servicio.SetEliminarServicio(idServicio);
         }
+
+        public int SetEditarServicio(DTO_Servicio SERVICIO)
+        {
+            return I_DAO_Servicio.SetEditarServicio(SERVICIO);
+        }
     }
 }

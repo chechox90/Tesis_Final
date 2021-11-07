@@ -50,7 +50,7 @@
                 <input id="txtNombreServicio" type="text" name="NumeroServicio" placeholder="Nombre Servicio" class="form-control" />
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" id="divTxtEdit">
             <div class="form-group borderInput">
                 <label for="HoraInicio">Hora inicio del servicio</label>
                 <input id="txtHoraSerIni" type="text" name="HoraInicio" placeholder="HH:mm" class="form-control" />
@@ -65,25 +65,9 @@
         <div class="col-md-3 borderInput">
             <div class="form-group">
                 <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnGuaradarNuevo" onclick="GuardarNuevoServicio();">Guardar</button>
+                <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoServicio();"><i class="far fa-plus"></i>  Guardar</button>
+                <button type="button" class="btn btn-success" id="btnGuardarEdicion" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i>  Guardar</button>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="card" style="display:none">
-    <div class="form-row">
-        <label>Selecciones un Terminal para continuar</label>
-        <div class="form-group">
-            <select id="ddlTerminal" class="form-control col-md-6"></select>
-        </div>
-        <div>
-            <div class="borderInput">
-
-            </div>
-        </div>
-        <div class="form-group">
-            <button id="btnBuscar" class="btn btn-primary borderInput" onclick="BuscarConductorHorario();">Buscar</button>
         </div>
     </div>
 </div>
@@ -106,12 +90,14 @@
                 </div>
             </div>
             <div class="modal-body">
-                <label>¿Está seguro que desea eliminar el Servicio?</label><h4 class="text-primary" id="serEliminar"></h4>
+                <label>¿Está seguro que desea <span id="txtMostrar"></span> el Servicio <span class="text-primary" id="serEliminar"></span>?</label> 
             </div>
             <label id="idSerEliminar" style="display:none"></label>
+            <label id="txtIdEmpresa" style="display:none"></label>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
                 <button type="button" class="btn btn-danger" id="btnAceptar" onclick="EliminarServicio();">Eliminar</button>
+                <button type="button" class="btn btn-success" id="btnConfirmar" onclick="EliminarServicio();">Confirmar</button>
             </div>
         </div>
     </div>
@@ -157,7 +143,7 @@
                     { data: "NOMBRE_EMPRESA", title: "NOMBRE EMPRESA", name: "NOMBRE_EMPRESA" },
                     { data: "NOMBRE_SERVICIO", title: "NOMBRE SERVICIO", name: "NOMBRE_SERVICIO" },
                     { data: "HORARIO_INICIO", title: "HORARIO INICIO", name: "HORARIO_INICIO" },
-                    { data: "HORARIO_FIN", title: "HORARIO FIN SERVICO", name: "HORARIO_FIN" },
+                    { data: "HORARIO_FIN_", title: "HORARIO FIN SERVICO", name: "HORARIO_FIN" },
                     {
                         title: "GESTIÓN",
                         orderable: false,
@@ -165,7 +151,9 @@
                         render: function (data, type, full, meta) {
                             var html = '';
 
-                            html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarServicio(' + full.ID_SERVICIO + ',' + "'" + full.NOMBRE_SERVICIO + "'" +');"><i class="far fa-trash-alt text-danger"></i><span>&nbsp;&nbsp;</span><i class="far fa-edit text-success"></i></a>';
+                            html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarServicio(' + full.ID_SERVICIO + ',' + "'" + full.NOMBRE_SERVICIO + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a><span>&nbsp;&nbsp;</span>' +
+                                '<a role="button" class="btn-table-bg " onclick="ShowEditarServicio(' + full.ID_SERVICIO + ',' + full.ID_EMPRESA + ',' + "'" + full.NOMBRE_SERVICIO + "'" + ','
+                                + "'" + full.HORARIO_INICIO + "'" + ',' + "'" + full.HORARIO_FIN_ + "'" + ')"><i class="far fa-edit text-success"></i></a>';
 
                             return html;
                         }
@@ -207,8 +195,14 @@
         }
 
         function ShowEliminarServicio(idServicio, nombreServicio) {
+            Limpiar();
+
             $("#serEliminar").text(nombreServicio);
             $("#idSerEliminar").val(idServicio);
+            $("#txtMostrar").text("editar");
+
+            $("#btnConfirmar").css('display', 'none');
+            $("#btnAceptar").css('display', '');
 
             $("#modalConfirmacion").modal("show");
         }
@@ -254,11 +248,82 @@
         }
 
         function VerNuevoServicio() {
-            $(".ocultar").css("display", "")
+            $(".ocultar").css("display", "");
+            $("#btnGuardarNuevo").css('display', '');
+            $("#btnGuardarEdicion").css('display', 'none');
         }
 
         function Limpiar() {
+            $("#idSerEliminar").val("");
+            $("#txtIdEmpresa").val("");
+            $("#txtNombreServicio").val("");
+            $("#txtHoraSerIni").val("");
+            $("#txtHoraSerFin").val("");
+
             $(".ocultar").css("display", "none")
+        }
+
+        function ShowEditarServicio(idServicio, idEmpresa, nomServicio, Hini, Hfin) {
+            $("#idSerEliminar").val(idServicio);
+            $("#txtIdEmpresa").val(idEmpresa);
+            $("#txtNombreServicio").val(nomServicio);
+            $("#txtHoraSerIni").val(Hini);
+            $("#txtHoraSerFin").val(Hfin);
+
+            $("#btnGuardarEdicion").css('display', '');
+            $("#btnConfirmar").css('display', '');
+            $("#btnConfirmar").css('display', '');
+
+            $("#btnGuardarNuevo").css('display', 'none');            
+            $("#btnAceptar").css('display', 'none');
+
+            $(".ocultar").css("display", "");
+        };
+
+        function GuardarEdicionServicio() {
+            var SERVICIO =
+            {
+                ID_SERVICIO: $("#idSerEliminar").val(),
+                ID_EMPRESA: $("#txtIdEmpresa").val(),
+                NOMBRE_SERVICIO: $("#txtNombreServicio").val(),
+                HORARIO_INICIO: $("#txtHoraSerIni").val(),
+                HORARIO_FIN: $("#txtHoraSerFin").val(),
+            };
+
+            $.ajax({
+                url: '../Mantenedor/SetEditarServicio',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "SERVICIO": SERVICIO
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+                        CerrarModal();
+                        Limpiar();
+                        tblBuses.ajax.reload(null, false);
+
+                    } else {
+                        alertSuccess(data.Data.message);
+                    }
+
+                }, error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                    tblBuses.ajax.reload(null, false);
+                }
+            });
+        }
+
+        function ConfirmarEdicion() {
+            $("#idSerEliminar").val();
+            $("#txtMostrar").text("editar");
+
+            $("#modalConfirmacion").modal("show");
         }
 
     </script>
