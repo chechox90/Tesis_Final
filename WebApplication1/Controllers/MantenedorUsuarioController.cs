@@ -26,7 +26,7 @@ namespace ConductorEnRed.Controllers
                 DtoUsuario = _i_n_Usuario.GetAllUsuariosActivos();
 
                 List<DTO_UsuarioListar> dtoUserList = new List<DTO_UsuarioListar>();
-               
+
 
                 foreach (var item in DtoUsuario)
                 {
@@ -51,7 +51,7 @@ namespace ConductorEnRed.Controllers
 
                 }
 
-                
+
 
 
                 if (dtoUserList != null)
@@ -114,32 +114,29 @@ namespace ConductorEnRed.Controllers
         {
             try
             {
-                DTO_UsuarioListar DtoUsuarioActivo = new DTO_UsuarioListar();
-                DtoUsuarioActivo = _i_n_Usuario.GetUsuarioActivo(idUsuario);
+                DTO_UsuarioListar DtoUsuario = new DTO_UsuarioListar();
+                DtoUsuario = _i_n_Usuario.GetUsuarioActivo(idUsuario);
 
-                DTO_UsuarioListar dtoUserList = new DTO_UsuarioListar();
+                DTO_UsuarioListar dtoUser = new DTO_UsuarioListar();
+                dtoUser.ID_USUARIO = DtoUsuario.ID_USUARIO;
+                dtoUser.RUT = DtoUsuario.RUT;
+                dtoUser.NOMBRE = DtoUsuario.NOMBRE;
+                dtoUser.SEGUNDO_NOMBRE = DtoUsuario.SEGUNDO_NOMBRE;
+                dtoUser.APELLIDO_PATERNO = DtoUsuario.APELLIDO_PATERNO;
+                dtoUser.APELLIDO_MATERNO = DtoUsuario.APELLIDO_MATERNO;
+                dtoUser.CORREO = DtoUsuario.CORREO;
+                dtoUser.CORREO_ALTERNATIVO = DtoUsuario.CORREO_ALTERNATIVO;
+                dtoUser.CAMBIO_PASSWORD = DtoUsuario.CAMBIO_PASSWORD;
+                dtoUser.NOMBRE_PERFIL = DtoUsuario.NOMBRE_PERFIL;
+                dtoUser.NOMBRE_EMPRESA = "";
+                dtoUser.DIRECCION = "";
+                dtoUser.NOMBRE_CONTRATO = "";
+                dtoUser.CODIGO_BARRA = DtoUsuario.CODIGO_BARRA;
+                dtoUser.ESTADO = DtoUsuario.ESTADO;
 
-                
-                    DTO_UsuarioListar dtoUser = new DTO_UsuarioListar();
-                    dtoUser.ID_USUARIO = dtoUserList.ID_USUARIO;
-                    dtoUser.RUT = dtoUserList.RUT;
-                    dtoUser.NOMBRE = dtoUserList.NOMBRE;
-                    dtoUser.SEGUNDO_NOMBRE = dtoUserList.SEGUNDO_NOMBRE;
-                    dtoUser.APELLIDO_PATERNO = dtoUserList.APELLIDO_PATERNO;
-                    dtoUser.APELLIDO_MATERNO = dtoUserList.APELLIDO_MATERNO;
-                    dtoUser.CORREO = dtoUserList.CORREO;
-                    dtoUser.CORREO_ALTERNATIVO = dtoUserList.CORREO_ALTERNATIVO;
-                    dtoUser.CAMBIO_PASSWORD = dtoUserList.CAMBIO_PASSWORD;
-                    dtoUser.NOMBRE_PERFIL = dtoUserList.NOMBRE_PERFIL;
-                    dtoUser.NOMBRE_EMPRESA = "";
-                    dtoUser.DIRECCION = "";
-                    dtoUser.NOMBRE_CONTRATO = "";
-                    dtoUser.CODIGO_BARRA = dtoUserList.CODIGO_BARRA;
-                    dtoUser.ESTADO = dtoUserList.ESTADO;
-
-                if (dtoUserList != null)
+                if (DtoUsuario != null)
                 {
-                    return Json(new { data = dtoUserList, });
+                    return Json(new { data = DtoUsuario, });
                 }
                 else
                 {
