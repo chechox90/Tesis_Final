@@ -109,5 +109,54 @@ namespace ConductorEnRed.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult GetUsuarioActivo(int idUsuario)
+        {
+            try
+            {
+                DTO_UsuarioListar DtoUsuarioActivo = new DTO_UsuarioListar();
+                DtoUsuarioActivo = _i_n_Usuario.GetUsuarioActivo(idUsuario);
+
+                DTO_UsuarioListar dtoUserList = new DTO_UsuarioListar();
+
+                
+                    DTO_UsuarioListar dtoUser = new DTO_UsuarioListar();
+                    dtoUser.ID_USUARIO = dtoUserList.ID_USUARIO;
+                    dtoUser.RUT = dtoUserList.RUT;
+                    dtoUser.NOMBRE = dtoUserList.NOMBRE;
+                    dtoUser.SEGUNDO_NOMBRE = dtoUserList.SEGUNDO_NOMBRE;
+                    dtoUser.APELLIDO_PATERNO = dtoUserList.APELLIDO_PATERNO;
+                    dtoUser.APELLIDO_MATERNO = dtoUserList.APELLIDO_MATERNO;
+                    dtoUser.CORREO = dtoUserList.CORREO;
+                    dtoUser.CORREO_ALTERNATIVO = dtoUserList.CORREO_ALTERNATIVO;
+                    dtoUser.CAMBIO_PASSWORD = dtoUserList.CAMBIO_PASSWORD;
+                    dtoUser.NOMBRE_PERFIL = dtoUserList.NOMBRE_PERFIL;
+                    dtoUser.NOMBRE_EMPRESA = "";
+                    dtoUser.DIRECCION = "";
+                    dtoUser.NOMBRE_CONTRATO = "";
+                    dtoUser.CODIGO_BARRA = dtoUserList.CODIGO_BARRA;
+                    dtoUser.ESTADO = dtoUserList.ESTADO;
+
+                if (dtoUserList != null)
+                {
+                    return Json(new { data = dtoUserList, });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        EnableError = true,
+                        ErrorTitle = "Error",
+                        ErrorMsg = "Ha ocurrido una insidencia al <b>obtener la lista de usuario</b>"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

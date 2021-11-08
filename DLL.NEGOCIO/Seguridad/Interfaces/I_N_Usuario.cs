@@ -21,5 +21,7 @@ namespace DLL.NEGOCIO.Seguridad.Interfaces
         List<DTO_Usuario> GetAllUsuariosActivos();
 
         int SetEliminarUsuario(int idUser);
+
+        DTO_UsuarioListar GetUsuarioActivo(int idUsuario);
     }
 }

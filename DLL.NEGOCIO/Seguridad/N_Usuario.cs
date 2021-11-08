@@ -49,5 +49,9 @@ namespace DLL.NEGOCIO.Seguridad
             return I_DAO_Usuario.SetEliminarUsuario(idUser);
         }
 
+        public DTO_UsuarioListar GetUsuarioActivo(int idUsuario)
+        {
+            return I_DAO_Usuario.GetUsuarioActivo(idUsuario);
+        }
     }
 }

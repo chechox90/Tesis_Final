@@ -21,5 +21,7 @@ namespace DLL.DAO.Seguridad.Interfaces
 
         int SetEliminarUsuario(int idUser);
 
+        DTO_UsuarioListar GetUsuarioActivo(int idUsuario);
+
     }
 }
