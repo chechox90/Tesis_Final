@@ -16,6 +16,7 @@ namespace DLL.DTO.CargaHorario
         public string APELLIDO_PATERNO { get; set; }
         public string APELLIDO_MATERNO { get; set; }
         public string NOMBRE_JORNADA { get; set; }
+        public string NOMBRE_TERMINAL { get; set; }
         public int ID_TERMINAL { get; set; }
         public int NUMERO_JORNADA { get; set; }
         public DateTime FECHA_HORA_INICIO { get; set; }

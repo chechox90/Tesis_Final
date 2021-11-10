@@ -12,5 +12,7 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
         string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, string nombreCarga, DateTime fechaCarga, string descripcion);
 
         List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut,DateTime fechaIni, DateTime fechaFin);
+
+        List<DTO_HorarioConductorMostrar> GetHorarioConductorById(int idUsuario, DateTime fechaIni, DateTime fechaFin);
     }
 }

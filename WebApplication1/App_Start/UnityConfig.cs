@@ -30,6 +30,7 @@ namespace WebApplication1.App_Start
             container.RegisterType<ReprogramacionController>();
             container.RegisterType<MantenedorController>();
             container.RegisterType<MantenedorUsuarioController>();
+            container.RegisterType<HorarioConductorController>();
             // ==================================================== 
 
         }

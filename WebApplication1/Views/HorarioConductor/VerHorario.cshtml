@@ -31,11 +31,11 @@
             <div class="form-row">
                 <div class="col-12 col-md-12">
                     <div class="borderInput">
-                        <label class="text-primary"> <b>Nombre completo:</b> </label>
-                        <label class="text-info" id="lblNombreConductor"></label>
+                        <span><b>Nombre completo:</b> </span>
+                        <label class="text-primary" id="lblNombreConductor"></label>
                     </div>
                     <div class="borderInput">
-                        <label class="text-primary"><b>R.U.N.:</b> </label> <label class="text-info" id="lblRutConductor"></label>
+                        <span ><b>R.U.N.:</b> </span> <label class="text-info" id="lblRutConductor"></label>
                     </div>
                 </div>
             </div>
@@ -44,11 +44,11 @@
             <div class="form-row">
                 <div class="col-12 col-md-12">
                     <div class="borderInput">
-                        <label class="text-primary"><b>Tipo de Contrato:</b></label>
+                        <span><b>Tipo de Contrato:</b></span>
                         <label class="text-info" id="lblContratoConductor"></label>
                     </div>
                     <div class="borderInput">
-                        <labe class="text-primary"><b>Total horas extras:</b></labe> <label class="text-info" id="lblTotalHorasExtras"></label>
+                        <span><b>Total horas extras:</b></span> <label class="text-info" id="lblTotalHorasExtras"></label>
                     </div>
                 </div>
             </div>
@@ -59,106 +59,273 @@
 
 @*JORNADA MAÑANA*@
 
-<div class="panel">
-    <div class="card">
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="borderInput">
-                    <div>
-                        <div class="card-header">
-                            <h4 class="text-primary">Jornada 1</h4>
-                        </div>
-                        <div class="form-row ocultar">
-                            <button class="btn btn-default" id="btnSemanaAnterior" onclick="SiguienteSemana(this);">Semana anterior</button>
-                        </div>
-                        <div class="form-row">
-                            <label class="col-md-3" id="idLunesT1"></label>
-                            <input class="form-control col-md-2 format-time bg-white" type="text" id="txtHoraLunes1" maxlength="5" placeholder="HH:mm" readonly />
-                            <input type="text" id="txtTerminalLu1" class="form-control col-md-4" readonly />
-                        </div>
-                        <div class="form-row">
-                            <label class="col-md-3" id="idMartesT1"></label>
-                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraMartes1" maxlength="5" placeholder="HH:mm" readonly />
-                            <input type="text" id="txtTerminalMa1" class="form-control col-md-4" readonly />
-                        </div>
-                        <div class="form-row">
-                            <label class="col-md-3" id="idMiercolesT1"></label>
-                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraMiercoles1" maxlength="5" placeholder="HH:mm" readonly />
-                            <input type="text" id="txtTerminalMi1" class="form-control col-md-4" readonly />
-                        </div>
-                        <div class="form-row">
-                            <label class="col-md-3" id="idJuevesT1"></label>
-                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraJueves1" maxlength="5" placeholder="HH:mm" readonly />
-                            <input type="text" id="txtTerminalJu1" class="form-control col-md-4" readonly />
-                        </div>
-                        <div class="form-row">
-                            <label class="col-md-3" id="idViernesT1"></label>
-                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraViernes1" maxlength="5" placeholder="HH:mm" readonly />
-                            <input type="text" id="txtTerminalVi1" class="form-control col-md-4 " readonly />
-                        </div>
-                        <div class="form-row">
-                            <label class="col-md-3" id="idSabadoT1"></label>
-                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraSabado1" maxlength="5" placeholder="HH:mm" readonly />
-                            <input type="text" id="txtTerminalSa1" class="form-control col-md-4" readonly />
-                        </div>
-                        <div class="form-row">
-                            <label class="col-md-3" id="idDomingoT1"></label>
-                            <input class="form-control format-time bg-white col-md-2" type="text" id="txtHoraDomingo1" maxlength="5" placeholder="HH:mm" readonly />
-                            <input type="text" id="txtTerminalDo1" class="form-control col-md-4" readonly />
-                        </div>
+<div class="flex-fill">
+    <div class="panel">
+        <div class="card">
+            <div class="borderInput">
+                <div class="form-row form-group">
+                    <div class="col-md-6">
+                        <h4 class="text-primary text-center">Jornada 1</h4>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="text-primary text-center">Jornada 2</h4>
                     </div>
                 </div>
             </div>
 
-            @*JORNADA TARDE*@
+            <div class="clearfix"></div>
 
-            <div class="col-md-6">
-                <div class="borderInput">
-                    <div class="card-header">
-                        <h4 class="text-primary">Jornada 2</h4>
-                        <div class="clearfix"></div>
+            <div class="borderInput">
+                <div class="form-row">
+                    <div class="form-group col-md-4 ocultar">
+                        <button class="btn btn-outline-light" id="btnSemanaAnterior" onclick="SiguienteSemana(this);">Semana anterior</button>
+                    </div>
+                    <div class="form-group ocultar text-center col-md-4">
+                        <button class="btn btn-outline-light" type="button" id="btnSemanaActual" onclick="SiguienteSemana(this)">Volver a semana actual</button>
+                    </div>
+                    <div class="form-group col-md-4 text-right ocultar">
+                        <button class="btn btn-outline-light " type="button" id="btnSemanaSiguiente" onclick="SiguienteSemana(this)">Próximos 7 dias</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="borderInput">
 
+                        <div class="form-row">
+                            <div class="form-row form-group col-12">
+                                <div class="col-md-3">
+                                    <label id="idLunesT1"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraLunes1" maxlength="5" placeholder="HH:mm" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalLu1" class="form-control  ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <div class="col-md-3">
+                                    <label id="idMartesT1"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraMartes1" maxlength="5" placeholder="HH:mm" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalMa1" class="form-control  ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <div class="col-md-3">
+                                    <label id="idMiercolesT1"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraMiercoles1" maxlength="5" placeholder="HH:mm" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalMi1" class="form-control ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <div class="col-md-3">
+                                    <label id="idJuevesT1"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraJueves1" maxlength="5" placeholder="HH:mm" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalJu1" class="form-control  ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <div class="col-md-3">
+                                    <label id="idViernesT1"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraViernes1" maxlength="5" placeholder="HH:mm" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalVi1" class="form-control  ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <div class="col-md-3">
+                                    <label id="idSabadoT1"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraSabado1" maxlength="5" placeholder="HH:mm" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="ddlTerminalSa1" class="form-control ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <div class="col-md-3">
+                                    <label id="idDomingoT1"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraDomingo1" maxlength="5" placeholder="HH:mm" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalDo1" class="form-control  ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-row ocultar">
-                        <button class="btn btn-default" type="button" id="btnSemanaActual" onclick="SiguienteSemana(this)">Volver a semana actual</button>
-                        <button class="btn btn-default" type="button" id="btnSemanaSiguiente" onclick="SiguienteSemana(this)">Próximos 7 dias >></button>
-                    </div>
-                    <div class="form-row">
-                        <label class="col-md-3" id="idLunesT2"></label>
-                        <input class="form-control format-time bg-white enabled col-md-2" type="text" maxlength="5" placeholder="HH:mm" id="txtHoraLunes2" readonly />
-                        <input type="text" id="txtTerminalLu2" class="form-control col-md-4 " readonly />
-                    </div>
+                </div>
 
-                    <div class="form-row">
-                        <label class="col-md-3" id="idMartesT2"></label>
-                        <input class="form-control col-md-2 format-time bg-white" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMartes2" readonly />
-                        <input type="text" id="txtTerminalMa2" class="form-control col-md-4" readonly />
+                @*JORNADA TARDE*@
+
+                <div class="col-md-6">
+                    <div class="borderInput">
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <div class="col-md-3">
+                                    <label id="idLunesT2"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" maxlength="5" placeholder="HH:mm" id="txtHoraLunes2" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalLu2" class="form-control ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <div class="col-md-3">
+                                    <label id="idMartesT2"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control  txtHor" readonly="readonly" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMartes2" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalMa2" class="form-control  ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <div class="col-md-3">
+                                    <label id="idMiercolesT2"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMiercoles2" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalMi2" class="form-control ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <div class="col-md-3">
+                                    <label id="idJuevesT2"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraJueves2" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalJu2" class="form-control ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <div class="col-md-3">
+                                    <label id="idViernesT2"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraViernes2" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalVi2" class="form-control  ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <div class="col-md-3">
+                                    <label id="idSabadoT2"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraSabado2" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalSa2" class="form-control  ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-row col-12">
+                                <label style="display:none" id="lblIdUsuario"></label>
+                                <label style="display:none" id="idCargaDoT2"></label>
+                                <div class="col-md-3">
+                                    <label id="idDomingoT2"></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control txtHor" readonly="readonly" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraDomingo2" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label id="TerminalDo2" class="form-control  ddlTer"></label>
+                                </div>
+                                <div class="col-md-3">
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-row">
-                        <label class="col-md-3" id="idMiercolesT2"></label>
-                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMiercoles2" readonly />
-                        <input type="text" id="txtTerminalMi2" class="form-control col-md-4" readonly />
+                </div>
+
+                <div class="modal-footer ocultar">
+                    <div class="borderInput">
+                        <div class="divFlot">
+                            <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
+                        </div>
                     </div>
-                    <div class="form-row">
-                        <label class="col-md-3" id="idJuevesT2"></label>
-                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraJueves2" readonly />
-                        <input type="text" id="txtTerminalJu2" class="form-control col-md-4" readonly />
-                    </div>
-                    <div class="form-row">
-                        <label class="col-md-3" id="idViernesT2"></label>
-                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraViernes2" readonly />
-                        <input type="text" id="txtTerminalVi2" class="form-control col-md-4" readonly />
-                    </div>
-                    <div class="form-row">
-                        <label class="col-md-3" id="idSabadoT2"></label>
-                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraSabado2" readonly />
-                        <input type="text" id="txtTerminalSa2" class="form-control col-md-4 " readonly />
-                    </div>
-                    <div class="form-row">
-                        <label style="display:none" id="lblIdUsuario"></label>
-                        <label class="col-md-3" id="idDomingoT2"></label>
-                        <input class="form-control format-time bg-white col-md-2" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraDomingo2" readonly />
-                        <input type="text" id="txtTerminalDo2" class="form-control col-md-4 " readonly />
+                    <div class="borderInput ">
+                        <div class="divFlot">
+                            <button class="btn btn-success" type="button" onclick="GuaradarCambioHorario();">Guardar cambios</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -175,7 +342,7 @@
             $(".ocultar").css("display", "none");
 
             CargaFechasLabel();
-
+            BuscarConductorHorarioClick();
 
             $(".input-num").keypress(function (e) {
                 if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
@@ -184,6 +351,102 @@
             });
 
         });
+
+        function BuscarConductorHorarioClick() {
+            let txtRun = $("#txtRutConductor").val();
+            if (txtRun != "") {
+                $.ajax({
+                    url: '../HorarioConductor/GetHorarioIndividual',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data:null,
+                    success: function (data) {
+                        if (data.ErrorMsg != '') {
+                            let txtRun = $("#txtRutConductor").val("");
+                            alertDanger1(data.ErrorMsg);
+
+                        } else {
+                            if (data.data != null) {
+                                $(".ocultar").css("display", "");
+                                $("#lblNombreConductor").text(data.data[0]["NOMBRE_COMPLETO"]);
+                                $("#lblRutConductor").text(data.data[0]["RUT"]);
+                                $("#txtRutConductor").val("");
+                                $("#lblIdUsuario").text(data.data[0]["ID_USUARIO"]);
+                                $("#lblContratoConductor").text(data.data[0]["TIPO_CONTRATO"]);
+
+                                $(".enabled").removeAttr('disabled');
+
+                                CargaElementos(data);
+                            } else {
+                                alertDanger1("No existen datos para mostrar")
+                            }
+                        }
+
+                    }
+                });
+
+            } else {
+                alertDanger1("Ingrese un R.U.N. válido para realizar una búsqueda")
+            }
+
+
+        }
+
+
+        function CargaElementos(data) {
+
+            $("#idLunesT1").text("Lunes " + data.data[0]["FECHA_INICIO"]);
+            $("#idMartesT1").text("Martes " + data.data[1]["FECHA_INICIO"]);
+            $("#idMiercolesT1").text("Miércoles " + data.data[2]["FECHA_INICIO"]);
+            $("#idJuevesT1").text("Jueves " + data.data[3]["FECHA_INICIO"]);
+            $("#idViernesT1").text("Viernes " + data.data[4]["FECHA_INICIO"]);
+            $("#idSabadoT1").text("Sábado " + data.data[5]["FECHA_INICIO"]);
+            $("#idDomingoT1").text("Domingo " + data.data[6]["FECHA_INICIO"]);
+
+            $("#idLunesT2").text("Lunes " + data.data[7]["FECHA_INICIO"]);
+            $("#idMartesT2").text("Martes " + data.data[8]["FECHA_INICIO"]);
+            $("#idMiercolesT2").text("Miércoles " + data.data[9]["FECHA_INICIO"]);
+            $("#idJuevesT2").text("Jueves " + data.data[10]["FECHA_INICIO"]);
+            $("#idViernesT2").text("Viernes " + data.data[11]["FECHA_INICIO"]);
+            $("#idSabadoT2").text("Sábado " + data.data[12]["FECHA_INICIO"]);
+            $("#idDomingoT2").text("Domingo " + data.data[13]["FECHA_INICIO"]);
+
+            //Horas
+            $("#txtHoraLunes1").val(data.data[0]["HORA_INICIO"]);
+            $("#txtHoraMartes1").val(data.data[1]["HORA_INICIO"]);
+            $("#txtHoraMiercoles1").val(data.data[2]["HORA_INICIO"]);
+            $("#txtHoraJueves1").val(data.data[3]["HORA_INICIO"]);
+            $("#txtHoraViernes1").val(data.data[4]["HORA_INICIO"]);
+            $("#txtHoraSabado1").val(data.data[5]["HORA_INICIO"]);
+            $("#txtHoraDomingo1").val(data.data[6]["HORA_INICIO"]);
+
+            $("#txtHoraLunes2").val(data.data[7]["HORA_INICIO"]);
+            $("#txtHoraMartes2").val(data.data[8]["HORA_INICIO"]);
+            $("#txtHoraMiercoles2").val(data.data[9]["HORA_INICIO"]);
+            $("#txtHoraJueves2").val(data.data[10]["HORA_INICIO"]);
+            $("#txtHoraViernes2").val(data.data[11]["HORA_INICIO"]);
+            $("#txtHoraSabado2").val(data.data[12]["HORA_INICIO"]);
+            $("#txtHoraDomingo2").val(data.data[13]["HORA_INICIO"]);
+
+            //CMB_TERMINAL
+            //MAÑANA
+            $("#TerminalLu1").text(data.data[0]["NOMBRE_TERMINAL"]);
+            $("#TerminalMa1").text(data.data[1]["NOMBRE_TERMINAL"]);
+            $("#TerminalMi1").text(data.data[2]["NOMBRE_TERMINAL"]);
+            $("#TerminalJu1").text(data.data[3]["NOMBRE_TERMINAL"]);
+            $("#TerminalVi1").text(data.data[4]["NOMBRE_TERMINAL"]);
+            $("#TerminalSa1").text(data.data[5]["NOMBRE_TERMINAL"]);
+            $("#TerminalDo1").text(data.data[6]["NOMBRE_TERMINAL"]);
+
+            $("#TerminalLu2").text(data.data[7]["NOMBRE_TERMINAL"]);
+            $("#TerminalMa2").text(data.data[8]["NOMBRE_TERMINAL"]);
+            $("#TerminalMi2").text(data.data[9]["NOMBRE_TERMINAL"]);
+            $("#TerminalJu2").text(data.data[10]["NOMBRE_TERMINAL"]);
+            $("#TerminalVi2").text(data.data[11]["NOMBRE_TERMINAL"]);
+            $("#TerminalSa2").text(data.data[12]["NOMBRE_TERMINAL"]);
+            $("#TerminalDo2").text(data.data[13]["NOMBRE_TERMINAL"]);
+        }
 
         function CargaFechasLabel() {
             $.ajax({
@@ -229,44 +492,21 @@
         }
 
         function Limpiar() {
+            $(".enabled").attr('disabled', 'disabled');
             CargaFechasLabel();
             $(".ocultar").css("display", "none");
 
-            $("#txtHoraLunes1").val("");
-            $("#txtHoraMartes1").val("");
-            $("#txtHoraMiercoles1").val("");
-            $("#txtHoraJueves1").val("");
-            $("#txtHoraViernes1").val("");
-            $("#txtHoraSabado1").val("");
-            $("#txtHoraDomingo1").val("");
+            $(".txtHor").val("");
+            $(".txtCom").val("");
 
-            $("#txtHoraLunes2").val("");
-            $("#txtHoraMartes2").val("");
-            $("#txtHoraMiercoles2").val("");
-            $("#txtHoraJueves2").val("");
-            $("#txtHoraViernes2").val("");
-            $("#txtHoraSabado2").val("");
-            $("#txtHoraDomingo2").val("");
 
-            //CMB_TERMINAL
-            //MAÑANA
-            $("#txtTerminalLu1").val("selected");
-            $("#txtTerminalMa1").val("selected");
-            $("#txtTerminalMi1").val("selected");
-            $("#txtTerminalJu1").val("selected");
-            $("#txtTerminalVi1").val("selected");
-            $("#txtTerminalSa1").val("selected");
-            $("#txtTerminalDo1").val("selected")
+            ////CMB_TERMINAL
+            ////MAÑANA
+            $(".ddlTer option").attr("selected", false);
 
-            //TARDE
-            $("#txtTerminalLu2").val("selected");
-            $("#txtTerminalMa2").val("selected");
-            $("#txtTerminalMi2").val("selected");
-            $("#txtTerminalJu2").val("selected");
-            $("#txtTerminalVi2").val("selected");
-            $("#txtTerminalSa2").val("selected");
-            $("#txtTerminalDo2").val("selected");
-
+            $(".ddlTer option[value='" + 0 + "']").attr("selected", "selected");
         }
+
+
     </script>
 }

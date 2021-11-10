@@ -44,6 +44,7 @@ namespace WebApplication1.Controllers
         {
             return View("~/Views/Programacion/Reprogramacion.cshtml");
         }
+        
 
         [HttpPost]
         public ActionResult GetConductorHorario(string RutConductor, string fechasConsultas)
@@ -139,6 +140,7 @@ namespace WebApplication1.Controllers
             }
 
         }
+
         public static string IngresarPuntosEnRut(string RUN)
         {
             RUN = RUN.Replace("-", "");
