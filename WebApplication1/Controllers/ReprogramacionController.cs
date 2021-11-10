@@ -19,6 +19,7 @@ namespace WebApplication1.Controllers
     {
         OleDbConnection Econ;
 
+        
         private readonly I_N_HorarioConductor _i_n_HorarioConductor;
         private readonly I_N_Terminal _i_n_Terminal;
         private readonly I_N_Usuario _i_n_usuario;
@@ -30,7 +31,9 @@ namespace WebApplication1.Controllers
             this._i_n_HorarioConductor = i_n_HorarioConductor;
             this._i_n_Terminal = i_n_Terminal;
             this._i_n_usuario = i_n_usuario;
+
         }
+
 
         public ActionResult Index()
         {
@@ -110,7 +113,7 @@ namespace WebApplication1.Controllers
                         {
                             EnableError = true,
                             ErrorTitle = "Error",
-                            ErrorMsg = "Error en la <b>carga de datos</b>"
+                            ErrorMsg = "No existen datos para <b> mostrar</b>"
                         });
                     }
                 }
@@ -600,6 +603,8 @@ namespace WebApplication1.Controllers
         public ActionResult SetGuaradarCambioHorario(List<CargaHorarioModel> ObjetoHorario)
         {
             var ObHor = ObjetoHorario;
+
+          //  var resultado = _i_n_HorarioConductor.SetEditarHorarioConductor(ObjetoHorario);
 
             return Json(new
             {

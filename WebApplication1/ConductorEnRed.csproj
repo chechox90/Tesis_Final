@@ -183,6 +183,7 @@
     <Compile Include="Tags\AutenticadoAttribute.cs" />
     <Compile Include="Tags\PermisoAttribute.cs" />
     <Compile Include="ViewModels\Account\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Administracion\VM_Usuario.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Client Scripts\mvcfoolproof.unobtrusive.js" />
@@ -467,6 +468,7 @@
     <Content Include="Views\Mantenedores\Sentido.cshtml" />
     <Content Include="Views\Administracion\ListarUsuarios.cshtml" />
     <Content Include="Views\Administracion\Usuario.cshtml" />
+    <Content Include="Views\Administracion\EditarUsuario.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

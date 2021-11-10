@@ -452,7 +452,7 @@ namespace DLL.DAO.Seguridad
             }
         }
 
-        public DTO_UsuarioListar GetUsuarioActivo(int idUusuario)
+        public DTO_UsuarioListar GetUsuarioActivo(int idUsuario)
         {
             try
             {
@@ -472,39 +472,9 @@ namespace DLL.DAO.Seguridad
                             APELLIDO_MATERNO = x.APELLIDO_MATERNO,
                             CODIGO_BARRA = x.CODIGO_BARRA,
                             CORREO = x.CORREO,
-                            ADMINISTRADOR = x.ADMINISTRADOR,
-                            ESTADO = x.ESTADO,
-                            Perfiles = x.PERFILES.Select(i => new DTO_Perfil
-                            {
-                                IdPerfil = i.ID_PERFIL,
-                                Nombre = i.NOMBRE,
-                                Estado = i.ESTADO,
-                                Acciones = i.ACCIONES.Select(o => new DTO_Accion
-                                {
-                                    IDACCION = o.ID_ACCION,
-                                    Nombre = o.NOMBRE,
-                                    ItemMenu = o.ITEM_MENU,
-                                    Estado = o.ESTADO,
-                                    IdMenu = o.MENU.ID_MENU,
-                                    IdProyecto = o.MENU.PROYECTOS.ID_PROYECTO
-                                })
-                                .Where(o => o.Estado == true)
-                                .ToList()
-                            })
-                            .Where(i => i.Estado == true)
-                            .ToList(),
-                            PermisosEspeciales = x.PERMISOS_ESPECIALES.Select(i => new DTO_PermisosEspeciales
-                            {
-                                IdUsuario = i.ID_USUARIO,
-                                IdProyecto = i.ID_PROYECTO,
-                                IdAccion = i.ID_ACCION,
-                                IdMenu = i.ACCIONES.ID_MENU,
-                                TipoPermiso = i.TIPO_PERMISO
-                            })
-                            .Where(i => i.IdUsuario == idUusuario)
-                            .ToList()
-                        })
-                        .Where(x => x.ID_USUARIO == idUusuario && x.ESTADO == true).FirstOrDefault();
+                            CORREO_ALTERNATIVO = x.CORREO_ALTERNATIVO,
+                            ESTADO = x.ESTADO
+                        }).Where(x => x.ID_USUARIO == idUsuario && x.ESTADO == true).FirstOrDefault();
 
 
                     return usuario;

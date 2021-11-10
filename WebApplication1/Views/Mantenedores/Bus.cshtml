@@ -96,7 +96,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
                 <button type="button" class="btn btn-danger" id="btnAceptar" onclick="EliminarBus();">Eliminar</button>
-                <button type="button" class="btn btn-success" id="btnConfirmar" onclick="GuardarEdicion();">Confirmar</button>
+                <button type="button" class="btn btn-success" id="btnConfirmar" onclick="GuardarEdicionBus();">Confirmar</button>
             </div>
         </div>
     </div>
@@ -270,6 +270,7 @@
 
             $("#ppuEliminar").text(PPU);
             $("#idBusEliminar").val(idBus);
+            $("#btnAceptar").css('display', '');
 
             $("#txtMostrar").text("eliminar");
             $("#btnConfirmar").css("display", 'none');
@@ -285,6 +286,7 @@
             $("#txtPPU").val(PPU);
             $("#txtNumInterno").val(idInternoBus);
             $("#idBusEliminar").val(idBus);
+            $("#btnAceptar").css('display', 'none');
             $("#btnGuardarNuevo").css('display','none');
             $("#btnGuardarEdicion").css('display','');
 

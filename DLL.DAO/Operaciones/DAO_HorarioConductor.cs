@@ -20,6 +20,46 @@ namespace DLL.DAO.Operaciones
             XmlConfigurator.Configure();
         }
 
+        public List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut, DateTime fechaIni, DateTime fechaFin)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    fechaFin = fechaFin.AddDays(1);
+
+                    // Obtengo datos del usuario, perfiles y permisos
+                    List<DTO_HorarioConductorMostrar> dtoHorario = (from usr in context.USUARIOS_SISTEMA
+                                                                    join hrcon in context.HORARIO_CONDUCTOR on usr.ID_USUARIO equals hrcon.ID_USUARIO
+                                                                    join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO
+                                                                    where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin)
+                                                                    select new DTO_HorarioConductorMostrar
+                                                                    {
+                                                                        ID_USUARIO = usr.ID_USUARIO,
+                                                                        RUT = usr.RUT,
+                                                                        NOMBRE = usr.NOMBRE,
+                                                                        SEGUNDO_NOMBRE = usr.SEGUNDO_NOMBRE,
+                                                                        APELLIDO_PATERNO = usr.APELLIDO_PATERNO,
+                                                                        APELLIDO_MATERNO = usr.APELLIDO_MATERNO,
+                                                                        ESTADO = usr.ESTADO,
+                                                                        ID_TERMINAL = hrcon.ID_TERMINAL_INICIO,
+                                                                        NUMERO_JORNADA = hrcon.NUMERO_JORNADA,
+                                                                        FECHA_HORA_INICIO = hrcon.FECHA_INICIO,
+                                                                        TIPO_CONTRATO = tic.NOMBRE_TIPO_CONTRATO
+                                                                    }).Where(x => x.RUT == rut
+                                                                    && x.ESTADO == true).ToList();
+
+
+                    return dtoHorario;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
         public string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, string nombreCarga, DateTime fechaCarga, string descripcion)
         {
             try
@@ -88,45 +128,68 @@ namespace DLL.DAO.Operaciones
 
         }
 
+        public int GetID_CARGA_HORARIO_ByIdHorario(int id_horario)
+        {
+            using (SolusegEntities context = new SolusegEntities())
+            {
 
-        public List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut, DateTime fechaIni, DateTime fechaFin)
+                return (from hc in context.HORARIO_CONDUCTOR where hc.ID_HORARIO == id_horario select hc.ID_HORARIO).FirstOrDefault();
+            }
+        }
+
+        public string SetEditarHorarioConductor(List<DTO_CargarHorarioConductor> list)
         {
             try
             {
+                string respuesta = "";
+                int res = 0;
                 using (SolusegEntities context = new SolusegEntities())
                 {
-                    fechaFin = fechaFin.AddDays(1);
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
 
-                    // Obtengo datos del usuario, perfiles y permisos
-                    List<DTO_HorarioConductorMostrar> dtoHorario = (from usr in context.USUARIOS_SISTEMA
-                                                                    join hrcon in context.HORARIO_CONDUCTOR on usr.ID_USUARIO equals hrcon.ID_USUARIO
-                                                                    join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO
-                                                                    where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin)
-                                                                    select new DTO_HorarioConductorMostrar
-                                                                    {
-                                                                        ID_USUARIO = usr.ID_USUARIO,
-                                                                        RUT = usr.RUT,
-                                                                        NOMBRE = usr.NOMBRE,
-                                                                        SEGUNDO_NOMBRE = usr.SEGUNDO_NOMBRE,
-                                                                        APELLIDO_PATERNO = usr.APELLIDO_PATERNO,
-                                                                        APELLIDO_MATERNO = usr.APELLIDO_MATERNO,
-                                                                        ESTADO = usr.ESTADO,
-                                                                        ID_TERMINAL = hrcon.ID_TERMINAL_INICIO,
-                                                                        NUMERO_JORNADA = hrcon.NUMERO_JORNADA,
-                                                                        FECHA_HORA_INICIO = hrcon.FECHA_INICIO,
-                                                                        TIPO_CONTRATO = tic.NOMBRE_TIPO_CONTRATO
-                                                                    }).Where(x => x.RUT == rut
-                                                                    && x.ESTADO == true).ToList();
+                        foreach (var item in list)
+                        {
+                            HORARIO_CONDUCTOR newItemHorario = new HORARIO_CONDUCTOR()
+                            {
+                                //ID_CARGA_HORARIO = GetID_CARGA_HORARIO_ByIdHorario(id),
+                                ID_USUARIO = 1,
+                                ID_TERMINAL_INICIO = item.TERMINAL_INICIO,
+                                FECHA_INICIO = item.FECHA_HORA_INICIO,
+                                HORARIO_CUBIERTO = false,
+                                ID_BUS_INICIO = item.BUS_INICIO,
+                                ESTADO = true
+                            };
+                            context.HORARIO_CONDUCTOR.Add(newItemHorario);
+                        }
+
+                        res = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                    int filasTotales = list.Count;
 
 
-                    return dtoHorario;
+                    if (res == filasTotales)
+                    {
+                        respuesta = "<b>Se ha guardado con éxito los horarios</b>, el total de filas almacenadas es " + filasTotales;
+                        return respuesta;
+                    }
+                    else
+                    {
+                        respuesta = "Ha ocurrido un error al guardar";
+                        return respuesta;
+                    }
                 }
+
             }
             catch (Exception ex)
             {
                 log.Error(ex.StackTrace);
+                return "Tenemos una incidencia al guardar los datos, intentelo nuevamente. !El equipo de Conductor En Red ya está al tanto!";
                 throw;
             }
+
+
         }
     }
 }

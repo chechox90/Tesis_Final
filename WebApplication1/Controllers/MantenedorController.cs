@@ -571,7 +571,7 @@ namespace ConductorEnRed.Controllers
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;

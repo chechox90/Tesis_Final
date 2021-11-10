@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "Usuario";
 }
 <style>
@@ -29,82 +30,91 @@
 
 <div class="card">
     <div class="flex-fill">
-        <div class="form-group">
-            <div class="form-row ">
+        <div class="form-row">
+            <div class="col-sm-3 form-group">
                 <label for="Numero">Nombre</label>
                 <input id="txtNombre" type="text" name="Numero" placeholder="Nombre" class="form-control" />
             </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group ">
-                <label for="Direcccion">Segundo Nombre</label>
-                <input id="txtSegNombre" type="text" name="segNombre" placeholder="Segundo Nombre" class="form-control" />
+            <div class="col-sm-3 form-group">
+                <div class="form-group ">
+                    <label for="Direcccion">Segundo Nombre</label>
+                    <input id="txtSegNombre" type="text" name="segNombre" placeholder="Segundo Nombre" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-3 form-group">
+                <div class="form-group ">
+                    <label for="Direcccion">Apellido Paterno</label>
+                    <input id="txtApePater" type="text" name="segNombre" placeholder="Apellido Paterno" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-3 form-group">
+                <div class="form-group ">
+                    <label for="ApeMate">Apellido Marterno</label>
+                    <input id="txtApeMate" type="text" name="ApeMate" placeholder="Apellido Materno" class="form-control" />
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="form-group ">
-                <label for="Direcccion">Apellido Paterno</label>
-                <input id="txtApePater" type="text" name="segNombre" placeholder="Apellido Paterno" class="form-control" />
+        <div class="form-row">
+            <div class="col-sm-3 form-group">
+                <div class="form-group ">
+                    <label for="rut">R.U.N.</label>
+                    <input id="txtRut" type="text" name="rut" placeholder="R.U.N." class="form-control" />
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group ">
-                <label for="ApeMate">Apellido Marterno</label>
-                <input id="txtApeMate" type="text" name="ApeMate" placeholder="Apellido Materno" class="form-control" />
+            <div class="col-sm-3 form-group">
+                <div class="form-group ">
+                    <label for="Direccion">Dirección</label>
+                    <input id="txtDireccion" type="text" name="Direccion" autocomplete="off" placeholder="Dirección" class="form-control" />
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group ">
-                <label for="rut">R.U.N.</label>
-                <input id="txtRut" type="text" name="rut" placeholder="R.U.N." class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group ">
-                <label for="correo">Correo</label>
-                <input id="txtCorreo" type="email" name="correo" placeholder="ejemplo@ejemplo.cl" class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group ">
-                <label for="correoAlte">Correo Alternativo</label>
-                <input id="txtDireccion" type="email" name="correoAlte" placeholder="ejemplo@ejemplo.cl" class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group ">
-                <label for="CodigoBarra">Codigo de Barra</label>
-                <input id="txtCodigoBarra" type="text" name="CodigoBarra" placeholder="Codigo de Barra" class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group ">
-                <label for="Direccion">Dirección</label>
-                <input id="txtDireccion" type="text" name="Direccion" autocomplete="off" placeholder="Dirección" class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group ">
-                <label for="txtClave">Clave</label>
-                <input id="txtClave" type="password" name="Clave" autocomplete="off" placeholder="Clave" class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-group ">
-                <label for="repClave">Repita Clave</label>
-                <input id="txtRepClave" type="password" name="repClave" autocomplete="off" placeholder="Repita Clave" class="form-control" />
+            <div class="col-sm-3 form-group">
+                <div class="form-group">
+                    <label for="CodigoBarra">Codigo de Barra</label>
+                    <input id="txtCodigoBarra" type="text" name="CodigoBarra" placeholder="Codigo de Barra" class="form-control" />
+                </div>
             </div>
 
-            <div class="form-group">
-                <div class="input-group">
-                    <label>Cambio Password</label>
+        </div>
+        <div class="form-row">
+            <div class="col-sm-3 form-group">
+                <div class="form-group ">
+                    <label for="correo">Correo</label>
+                    <input id="txtCorreo" type="email" name="correo" placeholder="ejemplo@ejemplo.cl" class="form-control" />
                 </div>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
+            </div>
+            <div class="col-sm-3 form-group">
+                <div class="form-group ">
+                    <label for="correoAlte">Correo Alternativo</label>
+                    <input id="txtDireccion" type="email" name="correoAlte" placeholder="ejemplo@ejemplo.cl" class="form-control" />
+                </div>
+            </div>            
+            <div class="col-sm-3 form-group">
+                <div class="form-group">
+                    <div class="input-group">
+                        <label>Cambio Password</label>
                     </div>
-                    <input type="text" class="form-control dateinput opacity-1" id="txtFechaVencePass" name="FechaVencePass" autocomplete="off" required readonly />
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
+                        </div>
+                        <input type="text" class="form-control dateinput opacity-1" id="txtFechaVencePass" name="FechaVencePass" autocomplete="off" required readonly />
+                    </div>
                 </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-sm-3 form-group">
+                <div class="form-group ">
+                    <label for="txtClave">Clave</label>
+                    <input id="txtClave" type="password" name="Clave" autocomplete="off" placeholder="Clave" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-3 form-group">
+                <div class="form-group ">
+                    <label for="repClave">Repita Clave</label>
+                    <input id="txtRepClave" type="password" name="repClave" autocomplete="off" placeholder="Repita Clave" class="form-control" />
+                </div>
+
             </div>
         </div>
         <div class="col-md-12 ">
