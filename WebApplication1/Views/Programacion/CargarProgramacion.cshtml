@@ -42,7 +42,7 @@
         }
 
         .files:before {
-            content: "Haz click aquí para añadir un archivo";
+            content: "Suelta un archivo aquí o haz click para añadir un archivo";
             position: absolute;
             bottom: 80px;
             left: 0;
@@ -93,16 +93,16 @@
     <div class="card col-md-12">
         <div class="borde-carga">
             <div class="form-row">
-                <div class="form-row col-md-4">
-                    <div class="borde-label">
+                <div class="form-row form-group col-md-4">
+                    <div style="margin:auto 10px">
                         <label>Nombre de la carga</label>
                     </div>
                     <div>
-                        <input id="txtNombreCarga" type="text" />
+                        <input class="form-control" id="txtNombreCarga" type="text" />
                     </div>
                 </div>
-                <div class="form-row col-md-4">
-                    <div class="borde-label">
+                <div class="form-row form-group col-md-4">
+                    <div style="margin:auto 10px">
                         <label>Fecha Carga</label>
                     </div>
                     <div class="input-group">
@@ -112,12 +112,12 @@
                         <input type="text" class="form-control dateinput opacity-1" id="FechaCargaArchivo" name="FechaCargaArchivo" autocomplete="off" required readonly />
                     </div>
                 </div>
-                <div class="form-row col-md-4">
-                    <div class="borde-label">
+                <div class="form-row form-group col-md-4">
+                    <div style="margin:auto 10px">
                         <label>Comentario adicional</label>
                     </div>
                     <div>
-                        <input type="text" id="txtComenatrio" />
+                        <input class="form-control" type="text" id="txtComenatrio" />
                     </div>
                 </div>
             </div>
@@ -349,7 +349,7 @@
         }
 
         function CargarHorarioConductor() {
-           
+
             var fileUpload = $("#FILE-ARCHIVO").get(0);
             var files = fileUpload.files;
             var fileData = new FormData();
@@ -398,35 +398,35 @@
 
         }
 
-                                    //function getExcel() {
-                                    //    $.ajax({
-                                    //        url: '../PlanillasControl/getExcelReporteSeguimientoPlanilla',
-                                    //        dataType: 'json',
-                                    //        data: {
-                                    //            idFolio: $("#idFolio").val(),
-                                    //        },
-                                    //        beforeSend: function () {
-                                    //            $(".loader-1").show();
-                                    //            $(".loader-1 p").text("Generando Excel...");
-                                    //        },
-                                    //        complete: function () {
-                                    //            $(".loader-1").hide();
-                                    //        },
-                                    //        success: function (data) {
-                                    //            $("#btnGenerarExcel").button('reset');
-                                    //            if (data.error) {
-                                    //                alert(data.message);
-                                    //            } else {
-                                    //                window.location.href = "../PlanillasControl/downloadExcel?filepath=" + data.message;
-                                    //            }
+                                        //function getExcel() {
+                                        //    $.ajax({
+                                        //        url: '../PlanillasControl/getExcelReporteSeguimientoPlanilla',
+                                        //        dataType: 'json',
+                                        //        data: {
+                                        //            idFolio: $("#idFolio").val(),
+                                        //        },
+                                        //        beforeSend: function () {
+                                        //            $(".loader-1").show();
+                                        //            $(".loader-1 p").text("Generando Excel...");
+                                        //        },
+                                        //        complete: function () {
+                                        //            $(".loader-1").hide();
+                                        //        },
+                                        //        success: function (data) {
+                                        //            $("#btnGenerarExcel").button('reset');
+                                        //            if (data.error) {
+                                        //                alert(data.message);
+                                        //            } else {
+                                        //                window.location.href = "../PlanillasControl/downloadExcel?filepath=" + data.message;
+                                        //            }
 
-                                    //        },
-                                    //        error: function (xhr, ajaxOptions, thrownError) {
-                                    //            alertDanger("Demasiados datos para generar excel");
-                                    //        }
-                                    //    });
+                                        //        },
+                                        //        error: function (xhr, ajaxOptions, thrownError) {
+                                        //            alertDanger("Demasiados datos para generar excel");
+                                        //        }
+                                        //    });
 
-                                    //}
+                                        //}
 
     </script>
 }

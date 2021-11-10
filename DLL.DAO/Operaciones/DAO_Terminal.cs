@@ -25,7 +25,7 @@ namespace DLL.DAO.Operaciones
                 using (SolusegEntities context = new SolusegEntities())
                 {
                     int dto_Terminal = (from ter in context.TERMINAL
-                                        where ter.ID_EMPRESA == idEmpresa && ter.NOMBRE_TERMINAL == nombreTerminal
+                                        where ter.ID_EMPRESA == idEmpresa && ter.NOMBRE_TERMINAL == nombreTerminal && ter.ESTADO == true
                                         select new DTO_Terminal
                                         {
                                             ID_TERMINAL = ter.ID_TERMINAL,
