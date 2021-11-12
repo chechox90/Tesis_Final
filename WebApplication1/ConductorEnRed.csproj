@@ -184,6 +184,7 @@
     <Compile Include="Tags\PermisoAttribute.cs" />
     <Compile Include="ViewModels\Account\LoginViewModel.cs" />
     <Compile Include="ViewModels\Administracion\VM_Usuario.cs" />
+    <Compile Include="ViewModels\Mantenedores\VM_HORARIO_SOLICITUD.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Client Scripts\mvcfoolproof.unobtrusive.js" />
@@ -469,6 +470,7 @@
     <Content Include="Views\Administracion\ListarUsuarios.cshtml" />
     <Content Include="Views\Administracion\Usuario.cshtml" />
     <Content Include="Views\Administracion\EditarUsuario.cshtml" />
+    <Content Include="Views\HorarioConductor\Solicitudes.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

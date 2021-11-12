@@ -58,7 +58,9 @@ namespace DLL.DAO.Operaciones
                     {
                         COMUNA newCom = new COMUNA()
                         {
+                            ID_COMUNA = 1,
                             NOMBRE_COMUNA = nomComuna,
+                            MOTIVO_EDICION = null,
                             ESTADO = true
                         };
 
@@ -70,7 +72,7 @@ namespace DLL.DAO.Operaciones
 
                 return respuesta;
             }
-            catch (Exception)
+            catch (Exception EX)
             {
 
                 throw;
@@ -116,7 +118,6 @@ namespace DLL.DAO.Operaciones
                         
                         Old.ID_COMUNA = COMUNA.ID_COMUNA;
                         Old.NOMBRE_COMUNA = COMUNA.NOMBRE_COMUNA;
-                        Old.MOTVO_EDICION = COMUNA.MOTIVO_EDICION;
                         Old.ESTADO = true;
 
                         respuesta = context.SaveChanges();

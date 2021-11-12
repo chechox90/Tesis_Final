@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ConductorEnRed.ViewModels.Mantenedores.VM_HORARIO_SOLICITUD
+@{
     ViewBag.Title = "Horario";
 }
 
@@ -26,16 +27,16 @@
 
 <div class="card">
     <div class="form-row">
-
         <div class="col-md-4">
             <div class="form-row">
                 <div class="col-12 col-md-12">
                     <div class="borderInput">
-                        <span><b>Nombre completo:</b> </span>
-                        <label class="text-primary" id="lblNombreConductor"></label>
+                        <span>Nombre completo: </span>
+                        <span class="text-primary" id="lblNombreConductor"></span>
                     </div>
                     <div class="borderInput">
-                        <span ><b>R.U.N.:</b> </span> <label class="text-info" id="lblRutConductor"></label>
+                        <span>R.U.N: </span>
+                        <span class="text-primary" id="lblRutConductor"></span>
                     </div>
                 </div>
             </div>
@@ -44,40 +45,31 @@
             <div class="form-row">
                 <div class="col-12 col-md-12">
                     <div class="borderInput">
-                        <span><b>Tipo de Contrato:</b></span>
-                        <label class="text-info" id="lblContratoConductor"></label>
+                        <span>Tipo de Contrato:</span>
+                        <span class="text-primary" id="lblContratoConductor"></span>
                     </div>
                     <div class="borderInput">
-                        <span><b>Total horas extras:</b></span> <label class="text-info" id="lblTotalHorasExtras"></label>
+                        <span>Total horas extras: </span>
+                        <span class="text-primary" id="lblTotalHorasExtras"></span>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-12 text-center" style="margin:20px">
+                <a type="button" href="" class="btn btn-success">Solicitar modificación</a>
             </div>
         </div>
     </div>
 </div>
 <br />
 
-@*JORNADA MAÑANA*@
-
 <div class="flex-fill">
     <div class="panel">
         <div class="card">
             <div class="borderInput">
-                <div class="form-row form-group">
-                    <div class="col-md-6">
-                        <h4 class="text-primary text-center">Jornada 1</h4>
-                    </div>
-                    <div class="col-md-6">
-                        <h4 class="text-primary text-center">Jornada 2</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <div class="borderInput">
                 <div class="form-row">
-                    <div class="form-group col-md-4 ocultar">
+                    <div class="form-group col-md-4">
                         <button class="btn btn-outline-light" id="btnSemanaAnterior" onclick="SiguienteSemana(this);">Semana anterior</button>
                     </div>
                     <div class="form-group ocultar text-center col-md-4">
@@ -88,261 +80,34 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="col-md-6">
-                    <div class="borderInput">
-
-                        <div class="form-row">
-                            <div class="form-row form-group col-12">
-                                <div class="col-md-3">
-                                    <label id="idLunesT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraLunes1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalLu1" class="form-control  ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idMartesT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraMartes1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalMa1" class="form-control  ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idMiercolesT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraMiercoles1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalMi1" class="form-control ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idJuevesT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraJueves1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalJu1" class="form-control  ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idViernesT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraViernes1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalVi1" class="form-control  ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idSabadoT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraSabado1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="ddlTerminalSa1" class="form-control ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idDomingoT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" id="txtHoraDomingo1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalDo1" class="form-control  ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                @*JORNADA TARDE*@
-
-                <div class="col-md-6">
-                    <div class="borderInput">
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idLunesT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" maxlength="5" placeholder="HH:mm" id="txtHoraLunes2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalLu2" class="form-control ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idMartesT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control  txtHor" readonly="readonly" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMartes2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalMa2" class="form-control  ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idMiercolesT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMiercoles2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalMi2" class="form-control ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idJuevesT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraJueves2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalJu2" class="form-control ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idViernesT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraViernes2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalVi2" class="form-control  ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idSabadoT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraSabado2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalSa2" class="form-control  ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <label style="display:none" id="lblIdUsuario"></label>
-                                <label style="display:none" id="idCargaDoT2"></label>
-                                <div class="col-md-3">
-                                    <label id="idDomingoT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control txtHor" readonly="readonly" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraDomingo2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label id="TerminalDo2" class="form-control  ddlTer"></label>
-                                </div>
-                                <div class="col-md-3">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                @*<div class="modal-footer ocultar">
-                    <div class="borderInput">
-                        <div class="divFlot">
-                            <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-                        </div>
-                    </div>
-                    <div class="borderInput ">
-                        <div class="divFlot">
-                            <button class="btn btn-success" type="button" onclick="GuaradarCambioHorario();">Guardar cambios</button>
-                        </div>
-                    </div>
-                </div>*@
-            </div>
         </div>
     </div>
 </div>
+
+<br />
+
+<div class="col-md-12 card" id="divTablaUno">
+    <table id="tblTurnoUno" class="table table-striped table-hover">
+    </table>
+</div>
+<br />
+
+<div class="col-md-12 card" id="divTablaDos">
+    <table id="tblTurnoDos" class="table table-striped table-hover">
+    </table>
+</div>
+
 
 @section scripts
 {
     <script src="@Url.Content("~/Scripts/general-functions.js")"></script>
 
     <script>
-        $(document).ready(function () {
-            $(".ocultar").css("display", "none");
+        var tblTurnoUno;
+        var tblTurnoDos;
 
-            CargaFechasLabel();
-            BuscarConductorHorarioClick();
+        $(document).ready(function () {
+            BuscarConductorHorario();
 
             $(".input-num").keypress(function (e) {
                 if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
@@ -352,103 +117,8 @@
 
         });
 
-        function BuscarConductorHorarioClick() {
-            let txtRun = $("#txtRutConductor").val();
-            if (txtRun != "") {
-                $.ajax({
-                    url: '../HorarioConductor/GetHorarioIndividual',
-                    type: 'post',
-                    datatype: 'json',
-                    async: false,
-                    data:null,
-                    success: function (data) {
-                        if (data.ErrorMsg != '') {
-                            let txtRun = $("#txtRutConductor").val("");
-                            alertDanger1(data.ErrorMsg);
 
-                        } else {
-                            if (data.data != null) {
-                                $(".ocultar").css("display", "");
-                                $("#lblNombreConductor").text(data.data[0]["NOMBRE_COMPLETO"]);
-                                $("#lblRutConductor").text(data.data[0]["RUT"]);
-                                $("#txtRutConductor").val("");
-                                $("#lblIdUsuario").text(data.data[0]["ID_USUARIO"]);
-                                $("#lblContratoConductor").text(data.data[0]["TIPO_CONTRATO"]);
-
-                                $(".enabled").removeAttr('disabled');
-
-                                CargaElementos(data);
-                            } else {
-                                alertDanger1("No existen datos para mostrar")
-                            }
-                        }
-
-                    }
-                });
-
-            } else {
-                alertDanger1("Ingrese un R.U.N. válido para realizar una búsqueda")
-            }
-
-
-        }
-
-
-        function CargaElementos(data) {
-
-            $("#idLunesT1").text("Lunes " + data.data[0]["FECHA_INICIO"]);
-            $("#idMartesT1").text("Martes " + data.data[1]["FECHA_INICIO"]);
-            $("#idMiercolesT1").text("Miércoles " + data.data[2]["FECHA_INICIO"]);
-            $("#idJuevesT1").text("Jueves " + data.data[3]["FECHA_INICIO"]);
-            $("#idViernesT1").text("Viernes " + data.data[4]["FECHA_INICIO"]);
-            $("#idSabadoT1").text("Sábado " + data.data[5]["FECHA_INICIO"]);
-            $("#idDomingoT1").text("Domingo " + data.data[6]["FECHA_INICIO"]);
-
-            $("#idLunesT2").text("Lunes " + data.data[7]["FECHA_INICIO"]);
-            $("#idMartesT2").text("Martes " + data.data[8]["FECHA_INICIO"]);
-            $("#idMiercolesT2").text("Miércoles " + data.data[9]["FECHA_INICIO"]);
-            $("#idJuevesT2").text("Jueves " + data.data[10]["FECHA_INICIO"]);
-            $("#idViernesT2").text("Viernes " + data.data[11]["FECHA_INICIO"]);
-            $("#idSabadoT2").text("Sábado " + data.data[12]["FECHA_INICIO"]);
-            $("#idDomingoT2").text("Domingo " + data.data[13]["FECHA_INICIO"]);
-
-            //Horas
-            $("#txtHoraLunes1").val(data.data[0]["HORA_INICIO"]);
-            $("#txtHoraMartes1").val(data.data[1]["HORA_INICIO"]);
-            $("#txtHoraMiercoles1").val(data.data[2]["HORA_INICIO"]);
-            $("#txtHoraJueves1").val(data.data[3]["HORA_INICIO"]);
-            $("#txtHoraViernes1").val(data.data[4]["HORA_INICIO"]);
-            $("#txtHoraSabado1").val(data.data[5]["HORA_INICIO"]);
-            $("#txtHoraDomingo1").val(data.data[6]["HORA_INICIO"]);
-
-            $("#txtHoraLunes2").val(data.data[7]["HORA_INICIO"]);
-            $("#txtHoraMartes2").val(data.data[8]["HORA_INICIO"]);
-            $("#txtHoraMiercoles2").val(data.data[9]["HORA_INICIO"]);
-            $("#txtHoraJueves2").val(data.data[10]["HORA_INICIO"]);
-            $("#txtHoraViernes2").val(data.data[11]["HORA_INICIO"]);
-            $("#txtHoraSabado2").val(data.data[12]["HORA_INICIO"]);
-            $("#txtHoraDomingo2").val(data.data[13]["HORA_INICIO"]);
-
-            //CMB_TERMINAL
-            //MAÑANA
-            $("#TerminalLu1").text(data.data[0]["NOMBRE_TERMINAL"]);
-            $("#TerminalMa1").text(data.data[1]["NOMBRE_TERMINAL"]);
-            $("#TerminalMi1").text(data.data[2]["NOMBRE_TERMINAL"]);
-            $("#TerminalJu1").text(data.data[3]["NOMBRE_TERMINAL"]);
-            $("#TerminalVi1").text(data.data[4]["NOMBRE_TERMINAL"]);
-            $("#TerminalSa1").text(data.data[5]["NOMBRE_TERMINAL"]);
-            $("#TerminalDo1").text(data.data[6]["NOMBRE_TERMINAL"]);
-
-            $("#TerminalLu2").text(data.data[7]["NOMBRE_TERMINAL"]);
-            $("#TerminalMa2").text(data.data[8]["NOMBRE_TERMINAL"]);
-            $("#TerminalMi2").text(data.data[9]["NOMBRE_TERMINAL"]);
-            $("#TerminalJu2").text(data.data[10]["NOMBRE_TERMINAL"]);
-            $("#TerminalVi2").text(data.data[11]["NOMBRE_TERMINAL"]);
-            $("#TerminalSa2").text(data.data[12]["NOMBRE_TERMINAL"]);
-            $("#TerminalDo2").text(data.data[13]["NOMBRE_TERMINAL"]);
-        }
-
-        function CargaFechasLabel() {
+        function BuscarConductorHorario() {
             $.ajax({
                 url: '../Reprogramacion/ObtenerFechaSemanas',
                 type: 'post',
@@ -461,50 +131,177 @@
                     $("#btnSemanaAnterior").text(data.data[0]);
                     $("#btnSemanaActual").text(data.data[1]);
                     $("#btnSemanaSiguiente").text(data.data[2]);
+                },
+                error: function () {
+                    alertDanger("Ups! algo ha salido mal, pero lo estamos solucionando");
+                }
 
-                    let fechaLunes = data.data[3];
+            });
 
-                    let dia = fechaLunes.split('/')[0];
-                    let mes = fechaLunes.split('/')[1];
-                    let anio = fechaLunes.split('/')[2];
+            tblTurnoUno = $("#tblTurnoUno").DataTable({
+                scrollX: true,
+                processing: true,
+                destroy: true,
+                language: {
+                    "url": "../Plugins/DataTables/js/Spanish.json"
+                },
+                order: [[0, "desc"]],
+                initComplete: function () {
+                    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
 
-                    $("#idLunesT1").text("Lunes " + parseInt(dia) + "/" + mes + "/" + anio);
-                    $("#idMartesT1").text("Martes " + (parseInt(dia) + 1) + "/" + mes + "/" + anio);
-                    $("#idMiercolesT1").text("Miércoles " + (parseInt(dia) + 2) + "/" + mes + "/" + anio);
-                    $("#idJuevesT1").text("Jueves " + (parseInt(dia) + 3) + "/" + mes + "/" + anio);
-                    $("#idViernesT1").text("Viernes " + (parseInt(dia) + 4) + "/" + mes + "/" + anio);
-                    $("#idSabadoT1").text("Sábado " + (parseInt(dia) + 5) + "/" + mes + "/" + anio);
-                    $("#idDomingoT1").text("Domingo " + (parseInt(dia) + 6) + "/" + mes + "/" + anio);
+                },
+                ajax: {
+                    url: "../HorarioConductor/GetHorarioIndividualTurnoUno",
+                    type: "POST",
+                    dataType: "json",
+                    data: null
+                },
+                columns: [
+                    { data: "ID_HORARIO", visible: false },
+                    { data: "ID_CARGA_HORARIO", visible: false },
+                    { data: "NUMERO_JORNADA", visible: false },
+                    { data: "NOMBRE_DIA", title: "NOMBRE DÍA", name: "NOMBRE_DIA" },
+                    {
+                        data: null, title: "FECHA INICIO", name: "FECHA_HORA_INICIO", render:
+                            function (full) {
+                                if (moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY') != '31/12/0000') {
+                                    return moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY');
+                                } else {
+                                    return "";
+                                }
 
+                            }
+                    },
+                    { data: "NOMBRE_TERMINAL", title: "TERMINAL INICIO", name: "NOMBRE_TERMINAL" },
+                    { data: "HORA_INICIO", title: "HORA", name: "HORA" },
+                    {
+                        title: "GESTIÓN",
+                        orderable: false,
+                        render: function (data, type, full, meta) {
+                            var html = '';
+                            if (full.ID_HORARIO > 0) {
+                                html = '<a href="/HorarioConductor/SetEditHorario?idHorario=' + full.ID_HORARIO + '"><i class="far fa-edit text-success"></i>\</a>';
 
-                    $("#idLunesT2").text("Lunes " + parseInt(dia) + "/" + mes + "/" + anio);
-                    $("#idMartesT2").text("Martes " + (parseInt(dia) + 1) + "/" + mes + "/" + anio);
-                    $("#idMiercolesT2").text("Miércoles " + (parseInt(dia) + 2) + "/" + mes + "/" + anio);
-                    $("#idJuevesT2").text("Jueves " + (parseInt(dia) + 3) + "/" + mes + "/" + anio);
-                    $("#idViernesT2").text("Viernes " + (parseInt(dia) + 4) + "/" + mes + "/" + anio);
-                    $("#idSabadoT2").text("Sábado " + (parseInt(dia) + 5) + "/" + mes + "/" + anio);
-                    $("#idDomingoT2").text("Domingo " + (parseInt(dia) + 6) + "/" + mes + "/" + anio);
+                            }
+
+                            return html;
+
+                        }
+                    },
+                ]
+            });
+
+            tblTurnoDos = $("#tblTurnoDos").DataTable({
+                scrollX: true,
+                processing: true,
+                destroy: true,
+                language: {
+                    "url": "../Plugins/DataTables/js/Spanish.json"
+                },
+                order: [[0, "desc"]],
+                initComplete: function (full) {
+                    if (full != undefined) {
+                        $("#divTablaDos").css('display', 'none');
+                    } else {
+                        $("#divTablaDos").css('display', '');
+                    }
+                    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+
+                },
+                ajax: {
+                    url: "../HorarioConductor/GetHorarioIndividualTurnoDos",
+                    type: "POST",
+                    dataType: "json",
+                    data: null
+                },
+                columns: [
+                    { data: "ID_HORARIO", visible: false },
+                    { data: "ID_CARGA_HORARIO", visible: false },
+                    { data: "NUMERO_JORNADA", visible: false },
+                    {
+                        data: null, title: "N°", name: "ROW_NUMBER", render:
+                            function (full) {
+                                if (full.ROW_NUMBER != 0) {
+                                    return full.ROW_NUMBER;
+                                } else {
+                                    return "";
+                                }
+                            }
+                    },
+                    {
+                        data: null, title: "FECHA INICIO", name: "FECHA_HORA_INICIO", render:
+                            function (full) {
+                                if (moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY') != '31/12/0000') {
+                                    return moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY');
+                                } else {
+                                    return "";
+                                }
+
+                            }
+                    },
+                    { data: "NOMBRE_TERMINAL", title: "TERMINAL INICIO", name: "NOMBRE_TERMINAL" },
+                    { data: "HORA_INICIO", title: "HORA", name: "HORA" },
+                    {
+                        title: "GESTIÓN",
+                        orderable: false,
+                        render: function (data, type, full, meta) {
+                            var html = '';
+                            if (full.ID_HORARIO > 0) {
+                                html = '<a href="/HorarioConductor/SetEditHorario?idHorario=' + full.ID_HORARIO + '"><i class="far fa-edit text-success"></i>\</a>';
+
+                            }
+
+                            return html;
+
+                        }
+                    },
+                ]
+            });
+        }
+
+        function SiguienteSemana(btn) {
+            var fechaString = $(btn).text();
+
+            $.ajax({
+                url: '../Reprogramacion/ObtenerFechaBotones',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "fechaSemanas": fechaString
+                },
+                success: function (data) {
+                    $("#btnSemanaAnterior").text(data.data[0]);
+                    $("#btnSemanaActual").text(data.data[1]);
+                    $("#btnSemanaSiguiente").text(data.data[2]);
+
                 },
                 error: function () {
                     alertDanger("Ups! algo ha salido mal, pero lo estamos solucionando");
                 }
             });
+
         }
 
-        function Limpiar() {
-            $(".enabled").attr('disabled', 'disabled');
-            CargaFechasLabel();
-            $(".ocultar").css("display", "none");
+        function ObtenerFechaBotones(fecha) {
+            $.ajax({
+                url: '../Reprogramacion/ObtenerFechaBotones',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "fechaSemanas": fecha
+                },
+                success: function (data) {
+                    $("#btnSemanaAnterior").text(data.data[0]);
+                    $("#btnSemanaActual").text(data.data[1]);
+                    $("#btnSemanaSiguiente").text(data.data[2]);
 
-            $(".txtHor").val("");
-            $(".txtCom").val("");
-
-
-            ////CMB_TERMINAL
-            ////MAÑANA
-            $(".ddlTer option").attr("selected", false);
-
-            $(".ddlTer option[value='" + 0 + "']").attr("selected", "selected");
+                },
+                error: function () {
+                    alertDanger("Ups! algo ha salido mal, pero lo estamos solucionando");
+                }
+            });
         }
 
 

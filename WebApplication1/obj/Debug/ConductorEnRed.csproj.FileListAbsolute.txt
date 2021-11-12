@@ -262,6 +262,7 @@ C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\ConductorEnRED-proyectoUni\WebApp
 C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\ConductorEnRED-proyectoUni\WebApplication1\obj\Debug\ConductorEnRed.csproj.CopyComplete
 C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\ConductorEnRED-proyectoUni\WebApplication1\obj\Debug\ConductorEnRed.dll
 C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\ConductorEnRED-proyectoUni\WebApplication1\obj\Debug\ConductorEnRed.pdb
+C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\CON_USUUARIOS\Tesis_Final\WebApplication1\obj\Debug\ConductorEnRed.csproj.CoreCompileInputs.cache
 C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\CON_USUUARIOS\Tesis_Final\WebApplication1\bin\ConductorEnRed.dll.config
 C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\CON_USUUARIOS\Tesis_Final\WebApplication1\bin\ConductorEnRed.dll
 C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\CON_USUUARIOS\Tesis_Final\WebApplication1\bin\ConductorEnRed.pdb
@@ -390,7 +391,6 @@ C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\CON_USUUARIOS\Tesis_Final\WebAppl
 C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\CON_USUUARIOS\Tesis_Final\WebApplication1\bin\es\System.Web.WebPages.Deployment.resources.dll
 C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\CON_USUUARIOS\Tesis_Final\WebApplication1\bin\es\System.Web.WebPages.Razor.resources.dll
 C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\CON_USUUARIOS\Tesis_Final\WebApplication1\obj\Debug\ConductorEnRed.csproj.AssemblyReference.cache
-C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\CON_USUUARIOS\Tesis_Final\WebApplication1\obj\Debug\ConductorEnRed.csproj.CoreCompileInputs.cache
 C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\CON_USUUARIOS\Tesis_Final\WebApplication1\obj\Debug\ConductorEnRed.csproj.CopyComplete
 C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\CON_USUUARIOS\Tesis_Final\WebApplication1\obj\Debug\ConductorEnRed.dll
 C:\Users\sandr\Desktop\SOLUINFO-CONDUCTORENRED\CON_USUUARIOS\Tesis_Final\WebApplication1\obj\Debug\ConductorEnRed.pdb

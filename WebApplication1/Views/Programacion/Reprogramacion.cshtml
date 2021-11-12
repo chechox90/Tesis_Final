@@ -30,11 +30,12 @@
             <div class="form-row">
                 <div style="display:none" class="col-12 col-md-12 ocultar">
                     <div class="borderInput">
-                        <span> <b>Nombre completo:</b> </span>
+                        <span>Nombre completo: </span>
                         <span class="text-primary" id="lblNombreConductor"></span>
                     </div>
                     <div class="borderInput">
-                        <span><b>R.U.N.:</b> </span> <label class="text-primary" id="lblRutConductor"></label>
+                        <span>R.U.N: </span>
+                        <span class="text-primary" id="lblRutConductor"></span>
                     </div>
                 </div>
             </div>
@@ -43,11 +44,11 @@
             <div class="form-row">
                 <div style="display:none" class="col-12 col-md-12 ocultar">
                     <div class="borderInput">
-                        <span><b>Tipo de Contrato:</b></span>
+                        <span>Tipo de Contrato: </span>
                         <span class="text-primary" id="lblContratoConductor"></span>
                     </div>
                     <div class="borderInput">
-                        <span><b>Total horas extras:</b></span>
+                        <span>Total horas extras: </span>
                         <span class="text-primary" id="lblTotalHorasExtras"></span>
                     </div>
                 </div>
@@ -70,285 +71,287 @@
 
 @*JORNADA MAÑANA*@
 
-<div class="flex-fill">
-    <div class="panel">
-        <div class="card">
-            <div class="borderInput">
-                <div class="form-row form-group">
-                    <div class="col-md-6">
-                        <h4 class="text-primary text-center">Jornada 1</h4>
-                    </div>
-                    <div class="col-md-6">
-                        <h4 class="text-primary text-center">Jornada 2</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <div class="borderInput">
-                <div class="form-row col-12">
-                    <div class="form-group col-md-4 ocultar">
-                        <button class="btn btn-outline-light" id="btnSemanaAnterior" onclick="SiguienteSemana(this);">Semana anterior</button>
-                    </div>
-                    <div class="form-group ocultar text-center col-md-4">
-                        <button class="btn btn-outline-light" type="button" id="btnSemanaActual" onclick="SiguienteSemana(this)">Volver a semana actual</button>
-                    </div>
-                    <div class="form-group col-md-4 text-right ocultar">
-                        <button class="btn btn-outline-light " type="button" id="btnSemanaSiguiente" onclick="SiguienteSemana(this)">Próximos 7 dias</button>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-6">
-                    <div class="borderInput">
-
-                        <div class="form-row">
-                            <div class="form-row form-group col-12">
-                                <div class="col-md-3">
-                                    <label id="idLunesT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control  format-time bg-white enabled txtHor" type="text" id="txtHoraLunes1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalLu1" class="form-control enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idMartesT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraMartes1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalMa1" class="form-control enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioMa1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idMiercolesT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraMiercoles1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalMi1" class="form-control enabled  ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioMi1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idJuevesT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraJueves1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalJu1" class="form-control enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioJu1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idViernesT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraViernes1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalVi1" class="form-control enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioVi1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idSabadoT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraSabado1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalSa1" class="form-control enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioSa1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idDomingoT1"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraDomingo1" maxlength="5" placeholder="HH:mm" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalDo1" class="form-control enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioDo1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                @*JORNADA TARDE*@
-
-                <div class="col-md-6">
-                    <div class="borderInput">
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idLunesT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled enabled txtHor" type="text" maxlength="5" placeholder="HH:mm" id="txtHoraLunes2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalLu2" class="form-control enabled enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idMartesT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMartes2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalMa2" class="form-control enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idMiercolesT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMiercoles2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalMi2" class="form-control enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idJuevesT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraJueves2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalJu2" class="form-control enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idViernesT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraViernes2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalVi2" class="form-control enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <div class="col-md-3">
-                                    <label id="idSabadoT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraSabado2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalSa2" class="form-control enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-row col-12">
-                                <label style="display:none" id="lblIdUsuario"></label>
-                                <label style="display:none" id="idCargaDoT2"></label>
-                                <div class="col-md-3">
-                                    <label id="idDomingoT2"></label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraDomingo2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="ddlTerminalDo2" class="form-control enabled ddlTer"></select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer ocultar">
+<div class="jombotron">
+    <div class="flex-fill">
+        <div class="panel">
+            <div class="card">
                 <div class="borderInput">
-                    <div class="divFlot">
-                        <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
+                    <div class="form-row form-group">
+                        <div class="col-md-6">
+                            <h4 class="text-primary text-center">Jornada 1</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="text-primary text-center">Jornada 2</h4>
+                        </div>
                     </div>
                 </div>
-                <div class="borderInput ">
-                    <div class="divFlot">
-                        <button class="btn btn-success" type="button" onclick="GuaradarCambioHorario();">Guardar cambios</button>
+
+                <div class="clearfix"></div>
+
+                <div class="borderInput">
+                    <div class="form-row col-12">
+                        <div class="form-group col-md-4 ocultar">
+                            <button class="btn btn-outline-light" id="btnSemanaAnterior" onclick="SiguienteSemana(this);">Semana anterior</button>
+                        </div>
+                        <div class="form-group ocultar text-center col-md-4">
+                            <button class="btn btn-outline-light" type="button" id="btnSemanaActual" onclick="SiguienteSemana(this)">Volver a semana actual</button>
+                        </div>
+                        <div class="form-group col-md-4 text-right ocultar">
+                            <button class="btn btn-outline-light " type="button" id="btnSemanaSiguiente" onclick="SiguienteSemana(this)">Próximos 7 dias</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="borderInput">
+
+                            <div class="form-row">
+                                <div class="form-row form-group col-12">
+                                    <div class="col-md-3">
+                                        <label id="idLunesT1"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control  format-time bg-white enabled txtHor" type="text" id="txtHoraLunes1" maxlength="5" placeholder="HH:mm" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalLu1" class="form-control enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <div class="col-md-3">
+                                        <label id="idMartesT1"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraMartes1" maxlength="5" placeholder="HH:mm" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalMa1" class="form-control enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioMa1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <div class="col-md-3">
+                                        <label id="idMiercolesT1"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraMiercoles1" maxlength="5" placeholder="HH:mm" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalMi1" class="form-control enabled  ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioMi1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <div class="col-md-3">
+                                        <label id="idJuevesT1"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraJueves1" maxlength="5" placeholder="HH:mm" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalJu1" class="form-control enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioJu1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <div class="col-md-3">
+                                        <label id="idViernesT1"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraViernes1" maxlength="5" placeholder="HH:mm" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalVi1" class="form-control enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioVi1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <div class="col-md-3">
+                                        <label id="idSabadoT1"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraSabado1" maxlength="5" placeholder="HH:mm" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalSa1" class="form-control enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioSa1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <div class="col-md-3">
+                                        <label id="idDomingoT1"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraDomingo1" maxlength="5" placeholder="HH:mm" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalDo1" class="form-control enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioDo1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*JORNADA TARDE*@
+
+                    <div class="col-md-6">
+                        <div class="borderInput">
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <div class="col-md-3">
+                                        <label id="idLunesT2"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled enabled txtHor" type="text" maxlength="5" placeholder="HH:mm" id="txtHoraLunes2" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalLu2" class="form-control enabled enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <div class="col-md-3">
+                                        <label id="idMartesT2"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMartes2" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalMa2" class="form-control enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <div class="col-md-3">
+                                        <label id="idMiercolesT2"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraMiercoles2" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalMi2" class="form-control enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <div class="col-md-3">
+                                        <label id="idJuevesT2"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraJueves2" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalJu2" class="form-control enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <div class="col-md-3">
+                                        <label id="idViernesT2"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraViernes2" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalVi2" class="form-control enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <div class="col-md-3">
+                                        <label id="idSabadoT2"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraSabado2" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalSa2" class="form-control enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group form-row col-12">
+                                    <label style="display:none" id="lblIdUsuario"></label>
+                                    <label style="display:none" id="idCargaDoT2"></label>
+                                    <div class="col-md-3">
+                                        <label id="idDomingoT2"></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraDomingo2" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="ddlTerminalDo2" class="form-control enabled ddlTer"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control enabled txtCom" type="text" id="txtComentarioLu1" placeholder="Motivo" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer ocultar">
+                    <div class="borderInput">
+                        <div class="divFlot">
+                            <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
+                        </div>
+                    </div>
+                    <div class="borderInput ">
+                        <div class="divFlot">
+                            <button class="btn btn-success" type="button" onclick="GuaradarCambioHorario();">Guardar cambios</button>
+                        </div>
                     </div>
                 </div>
             </div>

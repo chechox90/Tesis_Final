@@ -236,8 +236,8 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           </Key>
           <Property Name="ID_COMUNA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NOMBRE_COMUNA" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="MOTVO_EDICION" Type="varchar" MaxLength="100" />
-          <Property Name="ESTADO" Type="bit" Nullable="false" />
+          <Property Name="MOTIVO_EDICION" Type="varchar" MaxLength="100" />
+          <Property Name="ESTADO" Type="bit" />
         </EntityType>
         <EntityType Name="EMPRESA">
           <Key>
@@ -1223,7 +1223,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <EntitySet Name="TIPO_MOVIEMIENTO_HORARIO" EntityType="SoluinfoModel.TIPO_MOVIEMIENTO_HORARIO" />
           <EntitySet Name="BUS" EntityType="SoluinfoModel.BUS" />
           <EntitySet Name="CARGA_HORARIO" EntityType="SoluinfoModel.CARGA_HORARIO" />
-          <EntitySet Name="COMUNA" EntityType="SoluinfoModel.COMUNA" />
           <EntitySet Name="EMPRESA" EntityType="SoluinfoModel.EMPRESA" />
           <EntitySet Name="PARAMETROS" EntityType="SoluinfoModel.PARAMETROS" />
           <EntitySet Name="SENTIDO" EntityType="SoluinfoModel.SENTIDO" />
@@ -1272,10 +1271,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
             <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
           </AssociationSet>
-          <AssociationSet Name="FK_USUARIOS_SISTEMA_COMUNA" Association="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA">
-            <End Role="COMUNA" EntitySet="COMUNA" />
-            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
-          </AssociationSet>
           <AssociationSet Name="FK_USUARIOS_SISTEMA_EMPRESA" Association="SoluinfoModel.FK_USUARIOS_SISTEMA_EMPRESA">
             <End Role="EMPRESA" EntitySet="EMPRESA" />
             <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
@@ -1299,6 +1294,11 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <AssociationSet Name="FK_SERVICIO_REALIZADO_SERVICIO" Association="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO">
             <End Role="SERVICIO" EntitySet="SERVICIO" />
             <End Role="SERVICIO_REALIZADO" EntitySet="SERVICIO_REALIZADO" />
+          </AssociationSet>
+          <EntitySet Name="COMUNA" EntityType="SoluinfoModel.COMUNA" />
+          <AssociationSet Name="FK_USUARIOS_SISTEMA_COMUNA" Association="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA">
+            <End Role="COMUNA" EntitySet="COMUNA" />
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="NOVEDADES">
@@ -1390,16 +1390,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="NUMERO_JORNADA" Type="Int16" />
           <NavigationProperty Name="HORARIO_CONDUCTOR" Relationship="SoluinfoModel.FK_HORARIO_CONDUCTOR_CARGA_HORARIO" FromRole="CARGA_HORARIO" ToRole="HORARIO_CONDUCTOR" />
           <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_CARGA_HORARIO_USUARIOS_SISTEMA" FromRole="CARGA_HORARIO" ToRole="USUARIOS_SISTEMA" />
-        </EntityType>
-        <EntityType Name="COMUNA">
-          <Key>
-            <PropertyRef Name="ID_COMUNA" />
-          </Key>
-          <Property Name="ID_COMUNA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NOMBRE_COMUNA" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA" FromRole="COMUNA" ToRole="USUARIOS_SISTEMA" />
-          <Property Name="MOTVO_EDICION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EMPRESA">
           <Key>
@@ -1594,10 +1584,10 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <NavigationProperty Name="CARGA_HORARIO" Relationship="SoluinfoModel.FK_CARGA_HORARIO_USUARIOS_SISTEMA" FromRole="USUARIOS_SISTEMA" ToRole="CARGA_HORARIO" />
           <NavigationProperty Name="PERMISOS_ESPECIALES" Relationship="SoluinfoModel.FK_PERMISOS_ESPECIALES_USUARIOS_SISTEMA" FromRole="USUARIOS_SISTEMA" ToRole="PERMISOS_ESPECIALES" />
           <NavigationProperty Name="SERVICIO_REALIZADO" Relationship="SoluinfoModel.FK_SERVICIO_REALIZADO_USUARIOS_SISTEMA" FromRole="USUARIOS_SISTEMA" ToRole="SERVICIO_REALIZADO" />
-          <NavigationProperty Name="COMUNA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA" FromRole="USUARIOS_SISTEMA" ToRole="COMUNA" />
           <NavigationProperty Name="EMPRESA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_EMPRESA" FromRole="USUARIOS_SISTEMA" ToRole="EMPRESA" />
           <NavigationProperty Name="TIPO_CONTRATO" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_TIPO_CONTRATO" FromRole="USUARIOS_SISTEMA" ToRole="TIPO_CONTRATO" />
           <NavigationProperty Name="PERFILES" Relationship="SoluinfoModel.PERFIL_USUARIO_SISTEMA" FromRole="USUARIOS_SISTEMA" ToRole="PERFILES" />
+          <NavigationProperty Name="COMUNA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA" FromRole="USUARIOS_SISTEMA" ToRole="COMUNA" />
         </EntityType>
         <EntityType Name="TIPO_CONTRATO">
           <Key>
@@ -1643,18 +1633,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Principal>
             <Dependent Role="SERVICIO_REALIZADO">
               <PropertyRef Name="ID_USUARIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_USUARIOS_SISTEMA_COMUNA">
-          <End Type="SoluinfoModel.COMUNA" Role="COMUNA" Multiplicity="1" />
-          <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="COMUNA">
-              <PropertyRef Name="ID_COMUNA" />
-            </Principal>
-            <Dependent Role="USUARIOS_SISTEMA">
-              <PropertyRef Name="ID_COMUNA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1749,6 +1727,28 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Principal>
             <Dependent Role="SERVICIO_REALIZADO">
               <PropertyRef Name="ID_SENTIDO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="COMUNA">
+          <Key>
+            <PropertyRef Name="ID_COMUNA" />
+          </Key>
+          <Property Name="ID_COMUNA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_COMUNA" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MOTIVO_EDICION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Boolean" />
+          <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA" FromRole="COMUNA" ToRole="USUARIOS_SISTEMA" />
+        </EntityType>
+        <Association Name="FK_USUARIOS_SISTEMA_COMUNA">
+          <End Type="SoluinfoModel.COMUNA" Role="COMUNA" Multiplicity="1" />
+          <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMUNA">
+              <PropertyRef Name="ID_COMUNA" />
+            </Principal>
+            <Dependent Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_COMUNA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1955,16 +1955,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="COMUNA">
-            <EntityTypeMapping TypeName="SoluinfoModel.COMUNA">
-              <MappingFragment StoreEntitySet="COMUNA">
-                <ScalarProperty Name="MOTVO_EDICION" ColumnName="MOTVO_EDICION" />
-                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-                <ScalarProperty Name="NOMBRE_COMUNA" ColumnName="NOMBRE_COMUNA" />
-                <ScalarProperty Name="ID_COMUNA" ColumnName="ID_COMUNA" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="EMPRESA">
             <EntityTypeMapping TypeName="SoluinfoModel.EMPRESA">
               <MappingFragment StoreEntitySet="EMPRESA">
@@ -2125,6 +2115,16 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
                 <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
                 <ScalarProperty Name="NOMBRE_SOLICITUD" ColumnName="NOMBRE_SOLICITUD" />
                 <ScalarProperty Name="ID_TIPO_SOLICITUD" ColumnName="ID_TIPO_SOLICITUD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMUNA">
+            <EntityTypeMapping TypeName="SoluinfoModel.COMUNA">
+              <MappingFragment StoreEntitySet="COMUNA">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="MOTIVO_EDICION" ColumnName="MOTIVO_EDICION" />
+                <ScalarProperty Name="NOMBRE_COMUNA" ColumnName="NOMBRE_COMUNA" />
+                <ScalarProperty Name="ID_COMUNA" ColumnName="ID_COMUNA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

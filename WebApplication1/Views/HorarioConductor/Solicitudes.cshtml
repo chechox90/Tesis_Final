@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Solicitudes";
+}
+
+<style>
+    .borderInput {
+        margin: 10px;
+    }
+
+    .divFlot {
+        text-align: right
+    }
+</style>
+
+<div class="page-title">
+    <div class="content-title">
+        <h3>Solicitudes</h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="#">Mi horario</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Solicitudes</a></li>
+            </ol>
+        </nav>
+    </div>   
+</div>
+
+
+<div class="flex-fill">
+    <div class="card">
+        <div class="form-row col-12">
+            <div class="col-6">
+                <div class="col-12 text-left">
+                    <span>NOMBRES:</span>
+                </div>
+            </div>
+            <div class="form-row col-6">
+                <input class="label" value="@Model.NOMBRE + @Model.SEGUNDO_NOMBRE" />
+            </div>
+        </div>
+
+        <div class="form-row col-12">
+            <div class="form-row col-6">
+                <span>APELLIDO PATERNO:</span>
+            </div>
+            <div class="form-row col-6">
+                <input class="label" value="@Model.APELLIDO_PATERNO" />
+            </div>
+        </div>
+        <div class="form-row col-12">
+            <div class="form-row col-6">
+                <span>APELLIDO MATERNO:</span>
+            </div>
+            <div class="form-row col-6">
+                <input class="label" value="@Model.APELLIDO_MATERNO" />
+            </div>
+        </div>
+        <div class="form-row col-12">
+            <div class="form-row col-6">
+                <span>NOMBRE TERMINAL INICIO ACTUAL</span>
+            </div>
+            <div class="form-row col-6">
+                <input value="@Model.NOMBRE_TERMINAL" />
+            </div>
+        </div>
+        <div class="form-row col-12">
+            <div class="form-row form-group col-6 text-left">                
+                <span>FECHA Y HORA DE INICIO ACTUAL</span>
+            </div>
+            <div class="form-row col-6">
+                <input value="@Model.FECHA_HORA_INICIO" />
+            </div>
+        </div>        
+    </div>
+</div>

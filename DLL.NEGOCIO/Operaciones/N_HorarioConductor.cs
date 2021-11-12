@@ -27,10 +27,16 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_HorarioConductor.GetHorarioConductorByRut(rut, fechaIni, fechaFin);
         }
 
-        public List<DTO_HorarioConductorMostrar> GetHorarioConductorById(int idUsuario, DateTime fechaIni, DateTime fechaFin)
+        public List<DTO_HorarioConductorMostrar> GetHorarioConductorById(int idUsuario, DateTime fechaIni, DateTime fechaFin, int idTurno)
         {
-            return I_DAO_HorarioConductor.GetHorarioConductorById(idUsuario,fechaIni,fechaFin);
+            return I_DAO_HorarioConductor.GetHorarioConductorById(idUsuario,fechaIni,fechaFin, idTurno);
         }
+
+        public DTO_HorarioConductorMostrar GetHorarioConductorByIdHorario(int idHorario)
+        {
+            return I_DAO_HorarioConductor.GetHorarioConductorByIdHorario(idHorario);
+        }
+
 
     }
 }

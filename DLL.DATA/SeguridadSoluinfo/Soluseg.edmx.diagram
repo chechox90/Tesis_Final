@@ -32,7 +32,6 @@
         <EntityTypeShape EntityType="SoluinfoModel.TIPO_MOVIEMIENTO_HORARIO" Width="1.5" PointX="13.75" PointY="1" />
         <EntityTypeShape EntityType="SoluinfoModel.BUS" Width="1.5" PointX="15.375" PointY="9.5" />
         <EntityTypeShape EntityType="SoluinfoModel.CARGA_HORARIO" Width="1.5" PointX="13.125" PointY="13.5" />
-        <EntityTypeShape EntityType="SoluinfoModel.COMUNA" Width="1.5" PointX="8.625" PointY="14" />
         <EntityTypeShape EntityType="SoluinfoModel.EMPRESA" Width="1.5" PointX="5.625" PointY="11.625" />
         <EntityTypeShape EntityType="SoluinfoModel.PARAMETROS" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="SoluinfoModel.SENTIDO" Width="1.5" PointX="15.375" PointY="17.375" />
@@ -51,7 +50,6 @@
         <AssociationConnector Association="SoluinfoModel.FK_CARGA_HORARIO_USUARIOS_SISTEMA" />
         <AssociationConnector Association="SoluinfoModel.FK_PERMISOS_ESPECIALES_USUARIOS_SISTEMA" />
         <AssociationConnector Association="SoluinfoModel.FK_SERVICIO_REALIZADO_USUARIOS_SISTEMA" />
-        <AssociationConnector Association="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA" />
         <AssociationConnector Association="SoluinfoModel.FK_USUARIOS_SISTEMA_EMPRESA" />
         <AssociationConnector Association="SoluinfoModel.FK_USUARIOS_SISTEMA_TIPO_CONTRATO" />
         <AssociationConnector Association="SoluinfoModel.PERFIL_USUARIO_SISTEMA" />
@@ -61,6 +59,8 @@
         <EntityTypeShape EntityType="SoluinfoModel.TIPO_SOLICITUD_CAMBIO" Width="1.5" PointX="0.75" PointY="10.75" />
         <AssociationConnector Association="SoluinfoModel.FK_SERVICIO_EMPRESA" />
         <AssociationConnector Association="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO" />
+        <EntityTypeShape EntityType="SoluinfoModel.COMUNA" Width="1.5" PointX="0.75" PointY="13.875" />
+        <AssociationConnector Association="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

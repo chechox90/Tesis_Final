@@ -60,7 +60,7 @@ namespace DLL.DAO.Operaciones
             }
         }
 
-        public List<DTO_HorarioConductorMostrar> GetHorarioConductorById(int idUsuario, DateTime fechaIni, DateTime fechaFin)
+        public List<DTO_HorarioConductorMostrar> GetHorarioConductorById(int idUsuario, DateTime fechaIni, DateTime fechaFin,int idTurno)
         {
             try
             {
@@ -71,7 +71,48 @@ namespace DLL.DAO.Operaciones
                                                                     join hrcon in context.HORARIO_CONDUCTOR on usr.ID_USUARIO equals hrcon.ID_USUARIO
                                                                     join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO
                                                                     join ter in context.TERMINAL on hrcon.ID_TERMINAL_INICIO equals ter.ID_TERMINAL
-                                                                    where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin && usr.ID_USUARIO == idUsuario)
+                                                                    where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin && usr.ID_USUARIO == idUsuario && hrcon.NUMERO_JORNADA == idTurno)
+                                                                    select new DTO_HorarioConductorMostrar
+                                                                    {
+                                                                        ID_USUARIO = usr.ID_USUARIO,
+                                                                        ID_HORARIO = hrcon.ID_HORARIO,
+                                                                        ID_CARGA_HORARIO = hrcon.ID_CARGA_HORARIO,
+                                                                        RUT = usr.RUT,
+                                                                        NOMBRE = usr.NOMBRE,
+                                                                        SEGUNDO_NOMBRE = usr.SEGUNDO_NOMBRE,
+                                                                        APELLIDO_PATERNO = usr.APELLIDO_PATERNO,
+                                                                        APELLIDO_MATERNO = usr.APELLIDO_MATERNO,
+                                                                        ESTADO = usr.ESTADO,
+                                                                        ID_TERMINAL = hrcon.ID_TERMINAL_INICIO,
+                                                                        NOMBRE_TERMINAL = ter.NOMBRE_TERMINAL,
+                                                                        NUMERO_JORNADA = hrcon.NUMERO_JORNADA,
+                                                                        FECHA_HORA_INICIO = hrcon.FECHA_INICIO,
+                                                                        TIPO_CONTRATO = tic.NOMBRE_TIPO_CONTRATO
+                                                                    }).Where(x => x.ID_USUARIO == idUsuario
+                                                                    && x.ESTADO == true).OrderBy(x => x.FECHA_HORA_INICIO).ToList();
+
+                    return dtoHorario;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
+        public DTO_HorarioConductorMostrar GetHorarioConductorByIdHorario(int idHorario)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    // Obtengo datos del usuario, perfiles y permisos
+                    DTO_HorarioConductorMostrar dtoHorario = (from usr in context.USUARIOS_SISTEMA
+                                                                    join hrcon in context.HORARIO_CONDUCTOR on usr.ID_USUARIO equals hrcon.ID_USUARIO
+                                                                    join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO
+                                                                    join ter in context.TERMINAL on hrcon.ID_TERMINAL_INICIO equals ter.ID_TERMINAL
+                                                                    where (hrcon.ID_HORARIO == idHorario)
                                                                     select new DTO_HorarioConductorMostrar
                                                                     {
                                                                         ID_USUARIO = usr.ID_USUARIO,
@@ -86,8 +127,7 @@ namespace DLL.DAO.Operaciones
                                                                         NUMERO_JORNADA = hrcon.NUMERO_JORNADA,
                                                                         FECHA_HORA_INICIO = hrcon.FECHA_INICIO,
                                                                         TIPO_CONTRATO = tic.NOMBRE_TIPO_CONTRATO
-                                                                    }).Where(x => x.ID_USUARIO == idUsuario
-                                                                    && x.ESTADO == true).OrderBy(x => x.FECHA_HORA_INICIO).ToList();
+                                                                    }).Where(x=> x.ESTADO == true).FirstOrDefault();
 
                     return dtoHorario;
                 }

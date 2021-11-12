@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace DLL.DTO.CargaHorario
+namespace ConductorEnRed.ViewModels.Mantenedores
 {
-    public class DTO_HorarioConductorMostrar
+    public class VM_HORARIO_SOLICITUD
     {
-        public string NOMBRE_DIA { get; set; }
         public int ID_HORARIO { get; set; }
         public int ID_USUARIO { get; set; }
         public int ID_CARGA_HORARIO { get; set; }
@@ -18,7 +16,6 @@ namespace DLL.DTO.CargaHorario
         public string RUT { get; set; }
         public string APELLIDO_PATERNO { get; set; }
         public string APELLIDO_MATERNO { get; set; }
-        public string NOMBRE_JORNADA { get; set; }
         public string NOMBRE_TERMINAL { get; set; }
         public int ID_TERMINAL { get; set; }
         public int NUMERO_JORNADA { get; set; }

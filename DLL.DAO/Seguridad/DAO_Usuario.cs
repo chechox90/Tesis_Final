@@ -160,7 +160,7 @@ namespace DLL.DAO.Seguridad
                                 IdMenu = i.ACCIONES.ID_MENU,
                                 TipoPermiso = i.TIPO_PERMISO
                             })
-                            .Where(i => i.IdUsuario == login.ID_USUARIO)
+                            .Where(i => i.IdUsuario == x.ID_USUARIO)
                             .ToList()
                         })
                         .Where(x => x.RUT == login.RUT && x.ESTADO == true && x.CLAVE == login.CLAVE).FirstOrDefault();

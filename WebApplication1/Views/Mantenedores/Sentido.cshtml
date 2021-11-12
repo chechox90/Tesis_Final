@@ -24,43 +24,50 @@
     </div>
 </div>
 
-<div class="card">
-    <div class="modal-title">
+<div class="flex-fill">
+    <div class="card">
+        <div class="modal-title">
+            <div class="form-row">
+                <div class="borderInput">
+                    <h4 class="modal-title text-primary">Sentido</h4>
+                </div>
+                <button type="button" class="close col-mb-0" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+        </div>
         <div class="form-row">
-            <div class="borderInput">
-                <h4 class="modal-title text-primary">Sentido</h4>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="borderInput" for="NombreSentido">Sentido</label>
+                    <select id="ddlSentido" onchange="SeleccionarSenCorto();" name="NombreSentido" class="form-control borderInput"></select>
+                </div>
             </div>
-            <button type="button" class="close col-mb-0" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
-                <i class="far fa-times"></i>
-            </button>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="borderInput" for="NombreSentido">Sentido</label>
-                <select id="ddlSentido" onchange="SeleccionarSenCorto();" name="NombreSentido" class="form-control borderInput"></select>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="borderInput" for="SentidoCorto">Sentido Abreviado</label>
+                    <select id="ddlSentidoCorto" onchange="SeleccionarSen();" name="SentidoCorto" class="form-control borderInput"></select>
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="borderInput" for="SentidoCorto">Sentido Abreviado</label>
-                <select id="ddlSentidoCorto" onchange="SeleccionarSen();" name="SentidoCorto" class="form-control borderInput"></select>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div>
-                <button class="btn btn-primary borderInput" Style="display:none" type="button" id="btnShowEdit" onclick="ShowEditarSentido();">Editar</button>
-                <button class="btn btn-danger borderInput" Style="display:none" id="btnEliminarSentido" onclick="ShowModalEliminar();">Eliminar</button>
+            <div class="col-md-4">
+                <div class="col-12 form-group form-row">
+                    <div class="col-6 text-center">
+                        <button class="btn btn-primary" Style="display:none" type="button" id="btnShowEdit" onclick="ShowEditarSentido();">Editar</button>
+                    </div>
+                    <div class="col-6 text-center">
+                        <button class="btn btn-danger" Style="display:none" id="btnEliminarSentido" onclick="ShowModalEliminar();">Eliminar</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 <br />
 
 <div class="col-md-12 card">
     <div class="form-row">
-        <div class="col-md-4" >
+        <div class="col-md-4">
             <div class="form-group borderInput" id="divSentidoNew">
                 <label for="NombreSentido">Nombre Sentido</label>
                 <input id="txtNomSentido" type="text" name="NombreSentido" maxlength="50" onkeyup="MostrarBotonGuardar();" placeholder="Nombre Sentido" class="form-control" />
