@@ -56,7 +56,7 @@ namespace WebApplication1.Controllers
                 if (ValidarRutCompleto(RutConductor))
                 {
                     DateTime fechaIni = DateTime.Parse(fechasConsultas.Split('-')[0].Trim());
-                    DateTime fechaFin = DateTime.Parse(fechasConsultas.Split('-')[1].Trim()).AddDays(7);
+                    DateTime fechaFin = DateTime.Parse(fechasConsultas.Split('-')[1].Trim());
 
                     List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut(RutConductor, fechaIni, fechaFin);
                     List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
@@ -114,7 +114,7 @@ namespace WebApplication1.Controllers
                         {
                             EnableError = true,
                             ErrorTitle = "Error",
-                            ErrorMsg = "No existen datos para <b> mostrar</b>"
+                            ErrorMsg = "NO se ha cargado el horario aún para la semana seleccionada"
                         });
                     }
                 }
@@ -411,13 +411,18 @@ namespace WebApplication1.Controllers
             int dia = Convert.ToInt32(fechaHoy.DayOfWeek);
             dia = dia - 1;
 
+            if (dia == -1)
+            {
+                dia = Convert.ToInt32(fechaHoy.AddDays(-1).DayOfWeek);
+            }
+
             string fechaList = "";
 
             List<string> list = new List<string>();
 
             //semana anterior a la fecha de la semana actual
-            DateTime fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(-7);
-            DateTime fechaSemActDomingo = fechaSemActLunnes.AddDays((dia) * (-1)).AddDays(7);
+            DateTime fechaSemActLunnes = fechaHoy.AddDays(dia * -1).AddDays(-7);
+            DateTime fechaSemActDomingo = fechaSemActLunnes.AddDays(dia * -1);
             fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
             list.Add(fechaList);
 
@@ -457,56 +462,7 @@ namespace WebApplication1.Controllers
 
         }
 
-        public ActionResult ObtenerFechaBotones(string fechaSemanas)
-        {
-            DateTime fechaHoy = DateTime.Parse(fechaSemanas.Split('-')[0].ToString().Trim());
-
-
-            int dia = Convert.ToInt32(fechaHoy.DayOfWeek);
-            dia = dia - 1;
-
-            string fechaList = "";
-
-            List<string> list = new List<string>();
-
-            //semana anterior a la fecha de la semana actual
-            DateTime fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(-7);
-            DateTime fechaSemActDomingo = fechaSemActLunnes.AddDays((dia) * (-1)).AddDays(6);
-            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
-            list.Add(fechaList);
-
-            //semana actual de lunes a domingo
-            fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1));
-            fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(6);
-            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
-            list.Add(fechaList);
-
-            //semana siguiente a la semana actual
-            fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(7);
-            fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(13);
-            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
-            list.Add(fechaList);
-
-            if (list.Count > 1)
-            {
-                return Json(new
-                {
-                    data = list,
-                    ErrorMsg = "",
-                    JsonRequestBehavior.AllowGet
-                });
-            }
-            else
-            {
-                return Json(new
-                {
-                    EnableError = true,
-                    ErrorTitle = "Error",
-                    ErrorMsg = "Se ha producido un error por favor <b>vuelva a intentarlo</b>"
-                });
-            }
-
-        }
+        
 
         [HttpPost]
         public ActionResult SetGuardarHorarioConductor()

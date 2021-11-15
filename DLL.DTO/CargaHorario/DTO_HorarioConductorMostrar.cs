@@ -9,6 +9,7 @@ namespace DLL.DTO.CargaHorario
     public class DTO_HorarioConductorMostrar
     {
         public string NOMBRE_DIA { get; set; }
+        public int NUM_ROW { get; set; }
         public int ID_HORARIO { get; set; }
         public int ID_USUARIO { get; set; }
         public int ID_CARGA_HORARIO { get; set; }

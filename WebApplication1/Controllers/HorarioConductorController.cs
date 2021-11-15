@@ -44,11 +44,15 @@ namespace ConductorEnRed.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetHorarioIndividualTurnoUno()
+        public ActionResult GetHorarioIndividualTurnoUno(string fechaSemanaActual)
         {
             try
             {
-                string fechaSemana = ObtenerFechaSemanas();
+                string fechaSemana = "";
+                if (fechaSemanaActual == null)
+                    fechaSemana = ObtenerFechaSemana();
+                else
+                    fechaSemana = fechaSemanaActual;
 
                 DateTime fechaIni = DateTime.Parse(fechaSemana.Split('-')[0].ToString());
                 DateTime fechaFin = DateTime.Parse(fechaSemana.Split('-')[1].ToString());
@@ -59,12 +63,15 @@ namespace ConductorEnRed.Controllers
                 if (dto_Horario.Count > 0)
                 {
                     int ind = 0;
-                    for (int i = 1; i < 15; i++)
+                    DateTime fechaAnterior = DateTime.Now;
+                    for (int i = 1; i < 8; i++)
                     {
 
                         DTO_HorarioConductorMostrar carga = new DTO_HorarioConductorMostrar();
                         if (i <= dto_Horario.Count)
                         {
+                            fechaAnterior = dto_Horario[ind].FECHA_HORA_INICIO;
+                            carga.NUM_ROW = i;
                             carga.ID_HORARIO = dto_Horario[ind].ID_HORARIO;
                             carga.ID_CARGA_HORARIO = dto_Horario[ind].ID_CARGA_HORARIO;
                             carga.NOMBRE_DIA = dto_Horario[ind].FECHA_HORA_INICIO.ToString("dddd");
@@ -78,12 +85,14 @@ namespace ConductorEnRed.Controllers
                         else
                         {
                             carga.ID_HORARIO = 0;
+                            carga.NUM_ROW = i;
                             carga.ID_CARGA_HORARIO = 0;
-                            carga.NOMBRE_DIA = DateTime.Now.AddDays(ind).ToString("dddd");
+                            carga.NOMBRE_DIA = fechaAnterior.AddDays(1).ToString("dddd");
                             carga.FECHA_INICIO = DateTime.Now.ToString("dd/MM/yyyy HH:mm").Split(' ')[0];
                             carga.NOMBRE_TERMINAL = "";
                             carga.HORA_INICIO = "";
 
+                            fechaAnterior = fechaAnterior.AddDays(1);
                             carga.RUT = "";
                             carga.NOMBRE_COMPLETO = "";
 
@@ -93,12 +102,14 @@ namespace ConductorEnRed.Controllers
                     }
                 }
 
+
                 return Json(new
                 {
-                    data = list.OrderBy(x => x.NOMBRE_DIA),
+                    data = list.OrderBy(x => x.NUM_ROW),
                     ErrorMsg = "",
                     JsonRequestBehavior.AllowGet
                 });
+
 
             }
             catch (Exception)
@@ -121,7 +132,7 @@ namespace ConductorEnRed.Controllers
             try
             {
 
-                string fechaSemana = ObtenerFechaSemanas();
+                string fechaSemana = ObtenerFechaSemana();
 
                 DateTime fechaIni = DateTime.Parse(fechaSemana.Split('-')[0].ToString());
                 DateTime fechaFin = DateTime.Parse(fechaSemana.Split('-')[1].ToString());
@@ -186,7 +197,7 @@ namespace ConductorEnRed.Controllers
 
         }
 
-        public static string ObtenerFechaSemanas()
+        public static string ObtenerFechaSemana()
         {
             DateTime fechaHoy = DateTime.Now;
 
@@ -195,12 +206,139 @@ namespace ConductorEnRed.Controllers
 
             string fechaList = "";
 
-            //semana actual de lunes a domingo
-            DateTime fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1));
-            DateTime fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(6);
-            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            if (dia == -1)
+            {
+                DateTime fechaSemActLunes = fechaHoy.AddDays(6 * -1);
+                DateTime fechaSemActDomingo = fechaHoy.AddDays(6 * -1).AddDays(6);
+                fechaList = fechaSemActLunes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            }
+            else
+            {
+                //semana actual de lunes a domingo
+                DateTime fechaSemActLunnes = fechaHoy.AddDays(dia * -1);
+                DateTime fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(6);
+                fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            }
+
+
 
             return fechaList;
+
+        }
+
+        public ActionResult ObtenerFechaBotonesClick(string fechaSemanas)
+        {
+            DateTime fechaHoy = DateTime.Parse(fechaSemanas.Split('-')[0].ToString().Trim());
+
+
+            int dia = Convert.ToInt32(fechaHoy.DayOfWeek);
+            dia = dia - 1;
+
+
+            if (dia == -1)
+            {
+                dia = Convert.ToInt32(fechaHoy.AddDays(-1).DayOfWeek);
+            }
+
+            string fechaList = "";
+
+            List<string> list = new List<string>();
+
+            //semana anterior a la fecha de la semana actual
+            DateTime fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(-7);
+            DateTime fechaSemActDomingo = fechaSemActLunnes.AddDays((dia) * (-1)).AddDays(6);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            //semana actual de lunes a domingo
+            fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1));
+            fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(6);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            //semana siguiente a la semana actual
+            fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(7);
+            fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(13);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            if (list.Count > 1)
+            {
+                return Json(new
+                {
+                    data = list,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    EnableError = true,
+                    ErrorTitle = "Error",
+                    ErrorMsg = "Se ha producido un error por favor <b>vuelva a intentarlo</b>"
+                });
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult ObtenerFechaBotonesInicial()
+        {
+            DateTime fechaHoy = DateTime.Now;
+
+            int dia = Convert.ToInt32(fechaHoy.DayOfWeek);
+            dia = dia - 1;
+
+            if (dia == -1)
+            {
+                dia = Convert.ToInt32(fechaHoy.AddDays(-1).DayOfWeek);
+            }
+
+            string fechaList = "";
+
+            List<string> list = new List<string>();
+
+            //semana anterior a la fecha de la semana actual
+            DateTime fechaSemActLunnes = fechaHoy.AddDays(dia * -1).AddDays(-7);
+            DateTime fechaSemActDomingo = fechaSemActLunnes.AddDays(6);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            //semana actual de lunes a domingo
+            fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1));
+            fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(6);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            //semana siguiente a la semana actual
+            fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(7);
+            fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(13);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            string fechaFormaList = fechaHoy.AddDays((dia) * (-1)).ToString("dd/MM/yyyy");
+            list.Add(fechaFormaList);
+
+            if (list.Count > 1)
+            {
+                return Json(new
+                {
+                    data = list,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    EnableError = true,
+                    ErrorTitle = "Error",
+                    ErrorMsg = "Se ha producido un error por favor <b>vuelva a intentarlo</b>"
+                });
+            }
 
         }
 
