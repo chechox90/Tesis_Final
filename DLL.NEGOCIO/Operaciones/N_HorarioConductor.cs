@@ -37,6 +37,11 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_HorarioConductor.GetHorarioConductorByIdHorario(idHorario);
         }
 
+        public string SetEditarHorarioConductor(List<DTO_HorarioConductorMostrar> list)
+        {
+            return I_DAO_HorarioConductor.SetEditarHorarioConductor(list);
+        }
+
 
     }
 }

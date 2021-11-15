@@ -108,6 +108,7 @@
                             <div class="form-row">
                                 <div class="form-row form-group col-12">
                                     <div class="col-md-3">
+                                        <label id="idHorarioLunesT1" class="idHorario"></label>
                                         <label id="idLunesT1"></label>
                                     </div>
                                     <div class="col-md-2">
@@ -124,6 +125,7 @@
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
                                     <div class="col-md-3">
+                                        <label id="idHorarioMartesT1" class="idHorario"></label>
                                         <label id="idMartesT1"></label>
                                     </div>
                                     <div class="col-md-2">
@@ -140,7 +142,8 @@
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
                                     <div class="col-md-3">
-                                        <label id="idMiercolesT1"></label>
+                                        <label id="idHorarioMiercolesT1" class="idHorario"></label>
+                                        <label id="idMiercolesT1" ></label>
                                     </div>
                                     <div class="col-md-2">
                                         <input class="form-control format-time bg-white enabled txtHor" type="text" id="txtHoraMiercoles1" maxlength="5" placeholder="HH:mm" />
@@ -156,6 +159,7 @@
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
                                     <div class="col-md-3">
+                                        <label id="idHorarioJuevesT1" class="idHorario"></label>
                                         <label id="idJuevesT1"></label>
                                     </div>
                                     <div class="col-md-2">
@@ -172,6 +176,7 @@
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
                                     <div class="col-md-3">
+                                        <label id="idHorarioViernesT1" class="idHorario"></label>
                                         <label id="idViernesT1"></label>
                                     </div>
                                     <div class="col-md-2">
@@ -188,6 +193,7 @@
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
                                     <div class="col-md-3">
+                                        <label id="idHorarioSabadoT1" class="idHorario"></label>
                                         <label id="idSabadoT1"></label>
                                     </div>
                                     <div class="col-md-2">
@@ -204,6 +210,7 @@
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
                                     <div class="col-md-3">
+                                        <label id="idHorarioDomingoT1" class="idHorario"></label>
                                         <label id="idDomingoT1"></label>
                                     </div>
                                     <div class="col-md-2">
@@ -227,6 +234,7 @@
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
                                     <div class="col-md-3">
+                                        <label id="idHorarioLunesT2" class="idHorario"></label>
                                         <label id="idLunesT2"></label>
                                     </div>
                                     <div class="col-md-2">
@@ -244,6 +252,7 @@
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
                                     <div class="col-md-3">
+                                        <label id="idHorarioMartesT2" class="idHorario"></label>
                                         <label id="idMartesT2"></label>
                                     </div>
                                     <div class="col-md-2">
@@ -260,6 +269,7 @@
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
                                     <div class="col-md-3">
+                                        <label id="idHorarioMiercolesT2" class="idHorario"></label>
                                         <label id="idMiercolesT2"></label>
                                     </div>
                                     <div class="col-md-2">
@@ -276,6 +286,7 @@
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
                                     <div class="col-md-3">
+                                        <label id="idHorarioJuevesT2" class="idHorario"></label>
                                         <label id="idJuevesT2"></label>
                                     </div>
                                     <div class="col-md-2">
@@ -292,6 +303,7 @@
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
                                     <div class="col-md-3">
+                                        <label id="idHorarioViernesT2" class="idHorario"></label>
                                         <label id="idViernesT2"></label>
                                     </div>
                                     <div class="col-md-2">
@@ -308,6 +320,7 @@
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
                                     <div class="col-md-3">
+                                        <label id="idHorarioSabadoT2" class="idHorario"></label>
                                         <label id="idSabadoT2"></label>
                                     </div>
                                     <div class="col-md-2">
@@ -323,10 +336,9 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group form-row col-12">
-                                    <label style="display:none" id="lblIdUsuario"></label>
-                                    <label style="display:none" id="idCargaDoT2"></label>
                                     <div class="col-md-3">
-                                        <label id="idDomingoT2"></label>
+                                        <label id="idHorarioDomingoT2" class="idHorario"></label>
+                                        <label id="idDomingoT2"></label>                                        
                                     </div>
                                     <div class="col-md-2">
                                         <input class="form-control format-time bg-white enabled txtHor" type="text" placeholder="HH:mm" maxlength="5" id="txtHoraDomingo2" />
@@ -367,6 +379,7 @@
     <script>
         $(document).ready(function () {
             $(".enabled").attr('disabled', 'disabled');
+            $(".idHorario").css('display', 'none');
             $(".ocultar").css("display", "none");
 
             CargaFechasLabel();
@@ -512,7 +525,15 @@
         }
 
         function BuscarConductorHorarioClick() {
-            let txtRun = $("#txtRutConductor").val();
+            var txtRun = $("#txtRutConductor").val();
+
+            if (txtRun.toString() == "") {
+                txtRun = $("#lblRutConductor").text();
+                LimpiarMotivo();
+            }
+
+            
+
             if (txtRun != "") {
                 $.ajax({
                     url: '../Reprogramacion/GetConductorHorario',
@@ -549,162 +570,12 @@
                 });
 
             } else {
-                alertDanger1("Ingrese un R.U.N. válido para realizar una búsqueda")
+                alertDanger1("Ingrese un R.U.N. para realizar una búsqueda")
             }
 
 
         }
-
-        function GuaradarCambioHorario() {
-            var DTO_HorarioReprogramado = [
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalLu1").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 1,
-                    FECHA_INICIO: $("#idLunesT1").text(),
-                    HORA_INICIO: $("#txtHoraLunes1").val(),
-                    COMENTARIO: $("#txtComentarioLu1").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalMa1").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 1,
-                    FECHA_INICIO: $("#idMartesT1").text(),
-                    HORA_INICIO: $("#txtHoraMartes1").val(),
-                    COMENTARIO: $("#txtComentarioMa1").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalMi1").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 1,
-                    FECHA_INICIO: $("#idMiercolesT1").text(),
-                    HORA_INICIO: $("#txtHoraMiercoles1").val(),
-                    COMENTARIO: $("#txtComentarioMi1").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalJu1").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 1,
-                    FECHA_INICIO: $("#idJuevesT1").text(),
-                    HORA_INICIO: $("#txtHoraJueves1").val(),
-                    COMENTARIO: $("#txtComentarioJu1").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalVi1").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 1,
-                    FECHA_INICIO: $("#idViernesT1").text(),
-                    HORA_INICIO: $("#txtHoraViernes1").val(),
-                    COMENTARIO: $("#txtComentarioVi1").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalLSa1").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 1,
-                    FECHA_INICIO: $("#idSabadoT1").text(),
-                    HORA_INICIO: $("#txtHoraSabado1").val(),
-                    COMENTARIO: $("#txtComentarioSa1").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalDo1").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 1,
-                    FECHA_INICIO: $("#idDomingoT1").text(),
-                    HORA_INICIO: $("#txtHoraDomingo1").val(),
-                    COMENTARIO: $("#txtComentarioDo1").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalLu2").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 2,
-                    FECHA_INICIO: $("#idLunesT2").text(),
-                    HORA_INICIO: $("#txtHoraLunes2").val(),
-                    COMENTARIO: $("#txtComentarioLu2").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalMa2").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 2,
-                    FECHA_INICIO: $("#idMartesT2").text(),
-                    HORA_INICIO: $("#txtHoraMartes2").val(),
-                    COMENTARIO: $("#txtComentarioMa2").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalMi2").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 2,
-                    FECHA_INICIO: $("#idMiercolesT2").text(),
-                    HORA_INICIO: $("#txtHoraMiercoles2").val(),
-                    COMENTARIO: $("#txtComentarioMa2").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalJu2").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 2,
-                    FECHA_INICIO: $("#idJuevesT2").text(),
-                    HORA_INICIO: $("#txtHoraJueves2").val(),
-                    COMENTARIO: $("#txtComentariJu2").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalVi2").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 2,
-                    FECHA_INICIO: $("#idViernesT2").text(),
-                    HORA_INICIO: $("#txtHoraViernes2").val(),
-                    COMENTARIO: $("#txtComentarioVi2").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalSa1").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 2,
-                    FECHA_INICIO: $("#idSabadoT2").text(),
-                    HORA_INICIO: $("#txtHoraSabado2").val(),
-                    COMENTARIO: $("#txtComentarioSa2").val()
-                },
-                {
-                    ID_USUARIO: $("#lblIdUsuario").text(),
-                    ID_TERMINAL: $("#ddlTerminalDo2").prop('selectedIndex'),
-                    RUT: $("#lblRutConductor").text(),
-                    NUMERO_JORNADA: 2,
-                    FECHA_INICIO: $("#idSabadoT2").text(),
-                    HORA_INICIO: $("#txtHoraDomingo2").val(),
-                    COMENTARIO: $("#txtComentarioDo2").val()
-                }
-
-            ]
-
-
-            $.ajax({
-                url: '../Reprogramacion/SetGuaradarCambioHorario',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: {
-                    ObjetoHorario: DTO_HorarioReprogramado
-                },
-                success: function (data) {
-                    if (data.ErrorMsg != '') {
-                        alertDanger1(data.ErrorMsg);
-                    } else {
-                        alertSuccess1(data.ErrorMsg);
-                    }
-                }
-            });
-        }
-
+        
         function alertDanger1(msg) {
             const Toast = Swal.mixin({
                 toast: true,
@@ -738,20 +609,34 @@
 
         function CargaElementos(data) {
 
+            $("#idHorarioLunesT1").text(data.data[0]["ID_HORARIO"]);
             $("#idLunesT1").text("Lunes " + data.data[0]["FECHA_INICIO"]);
+            $("#idHorarioMartesT1").text(data.data[1]["ID_HORARIO"]);
             $("#idMartesT1").text("Martes " + data.data[1]["FECHA_INICIO"]);
+            $("#idHorarioMiercolesT1").text(data.data[2]["ID_HORARIO"]);
             $("#idMiercolesT1").text("Miércoles " + data.data[2]["FECHA_INICIO"]);
+            $("#idHorarioJuevesT1").text(data.data[3]["ID_HORARIO"]);
             $("#idJuevesT1").text("Jueves " + data.data[3]["FECHA_INICIO"]);
+            $("#idHorarioViernesT1").text(data.data[4]["ID_HORARIO"]);
             $("#idViernesT1").text("Viernes " + data.data[4]["FECHA_INICIO"]);
+            $("#idHorarioSabadoT1").text(data.data[5]["ID_HORARIO"]);
             $("#idSabadoT1").text("Sábado " + data.data[5]["FECHA_INICIO"]);
+            $("#idHorarioDomingoT1").text(data.data[6]["ID_HORARIO"]);
             $("#idDomingoT1").text("Domingo " + data.data[6]["FECHA_INICIO"]);
 
+            $("#idHorarioLunesT2").text(data.data[7]["ID_HORARIO"]);
             $("#idLunesT2").text("Lunes " + data.data[7]["FECHA_INICIO"]);
+            $("#idHorarioMartesT2").text(data.data[8]["ID_HORARIO"]);
             $("#idMartesT2").text("Martes " + data.data[8]["FECHA_INICIO"]);
+            $("#idHorarioMiercolesT2").text(data.data[9]["ID_HORARIO"]);
             $("#idMiercolesT2").text("Miércoles " + data.data[9]["FECHA_INICIO"]);
+            $("#idHorarioJuevesT2").text(data.data[10]["ID_HORARIO"]);
             $("#idJuevesT2").text("Jueves " + data.data[10]["FECHA_INICIO"]);
+            $("#idHorarioViernesT2").text(data.data[11]["ID_HORARIO"]);
             $("#idViernesT2").text("Viernes " + data.data[11]["FECHA_INICIO"]);
+            $("#idHorarioSabadoT2").text(data.data[12]["ID_HORARIO"]);
             $("#idSabadoT2").text("Sábado " + data.data[12]["FECHA_INICIO"]);
+            $("#idHorarioDomingoT2").text(data.data[13]["ID_HORARIO"]);
             $("#idDomingoT2").text("Domingo " + data.data[13]["FECHA_INICIO"]);
 
             //Horas
@@ -773,22 +658,22 @@
 
             //CMB_TERMINAL
             //MAÑANA
-            $("#ddlTerminalLu1 option[value='" + data.data[0]["ID_TERMINAL"] + "']").attr("selected", "selected");
-            $("#ddlTerminalMa1 option[value='" + data.data[1]["ID_TERMINAL"] + "']").attr("selected", "selected");
-            $("#ddlTerminalMi1 option[value='" + data.data[2]["ID_TERMINAL"] + "']").attr("selected", "selected");
-            $("#ddlTerminalJu1 option[value='" + data.data[3]["ID_TERMINAL"] + "']").attr("selected", "selected");
-            $("#ddlTerminalVi1 option[value='" + data.data[4]["ID_TERMINAL"] + "']").attr("selected", "selected");
-            $("#ddlTerminalSa1 option[value='" + data.data[5]["ID_TERMINAL"] + "']").attr("selected", "selected");
-            $("#ddlTerminalDo1 option[value='" + data.data[6]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalLu1 option[value='" + data.data[0]["ID_TERMINAL"] + "']").prop("selected", true);            
+            $("#ddlTerminalMa1 option[value='" + data.data[1]["ID_TERMINAL"] + "']").prop("selected", true );
+            $("#ddlTerminalMi1 option[value='" + data.data[2]["ID_TERMINAL"] + "']").prop("selected", true );
+            $("#ddlTerminalJu1 option[value='" + data.data[3]["ID_TERMINAL"] + "']").prop("selected", true );
+            $("#ddlTerminalVi1 option[value='" + data.data[4]["ID_TERMINAL"] + "']").prop("selected", true );
+            $("#ddlTerminalSa1 option[value='" + data.data[5]["ID_TERMINAL"] + "']").prop("selected", true );
+            $("#ddlTerminalDo1 option[value='" + data.data[6]["ID_TERMINAL"] + "']").prop("selected", true );
 
             //TARDE
-            $("#ddlTerminalLu2 option[value='" + data.data[7]["ID_TERMINAL"] + "']").attr("selected", "selected");
-            $("#ddlTerminalMa2 option[value='" + data.data[8]["ID_TERMINAL"] + "']").attr("selected", "selected");
-            $("#ddlTerminalMi2 option[value='" + data.data[9]["ID_TERMINAL"] + "']").attr("selected", "selected");
-            $("#ddlTerminalJu2 option[value='" + data.data[10]["ID_TERMINAL"] + "']").attr("selected", "selected");
-            $("#ddlTerminalVi2 option[value='" + data.data[11]["ID_TERMINAL"] + "']").attr("selected", "selected");
-            $("#ddlTerminalSa2 option[value='" + data.data[12]["ID_TERMINAL"] + "']").attr("selected", "selected");
-            $("#ddlTerminalDo2 option[value='" + data.data[13]["ID_TERMINAL"] + "']").attr("selected", "selected");
+            $("#ddlTerminalLu2 option[value='" + data.data[7]["ID_TERMINAL"] + "']").prop("selected", true );
+            $("#ddlTerminalMa2 option[value='" + data.data[8]["ID_TERMINAL"] + "']").prop("selected", true );
+            $("#ddlTerminalMi2 option[value='" + data.data[9]["ID_TERMINAL"] + "']").prop("selected", true );
+            $("#ddlTerminalJu2 option[value='" + data.data[10]["ID_TERMINAL"] + "']").prop("selected", true );
+            $("#ddlTerminalVi2 option[value='" + data.data[11]["ID_TERMINAL"] + "']").prop("selected", true );
+            $("#ddlTerminalSa2 option[value='" + data.data[12]["ID_TERMINAL"] + "']").prop("selected", true );
+            $("#ddlTerminalDo2 option[value='" + data.data[13]["ID_TERMINAL"] + "']").prop("selected", true );
         }
 
         function Limpiar() {
@@ -805,6 +690,123 @@
             $(".ddlTer option").attr("selected", false);
 
             $(".ddlTer option[value='" + 0 + "']").attr("selected", "selected");
+        }
+
+        function LimpiarMotivo() {
+            $(".txtHor").val("");
+            $(".txtCom").val("");
+
+        }
+
+        function GuaradarCambioHorario() {
+            var DTO_HorarioReprogramado = [
+                {
+                    ID_HORARIO: $("#idHorarioLunesT1").text(),
+                    ID_TERMINAL: $("#ddlTerminalLu1 option:selected").val(),
+                    HORA_INICIO: $("#txtHoraLunes1").val(),
+                    COMENTARIO: $("#txtComentarioLu1").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioMartesT1").text(),
+                    ID_TERMINAL: $("#ddlTerminalMa1").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraMartes1").val(),
+                    COMENTARIO: $("#txtComentarioMa1").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioMiercolesT1").text(),
+                    ID_TERMINAL: $("#ddlTerminalMi1").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraMiercoles1").val(),
+                    COMENTARIO: $("#txtComentarioMi1").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioJuevesT1").text(),
+                    ID_TERMINAL: $("#ddlTerminalJu1").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraJueves1").val(),
+                    COMENTARIO: $("#txtComentarioJu1").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioViernesT1").text(),
+                    ID_TERMINAL: $("#ddlTerminalVi1").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraViernes1").val(),
+                    COMENTARIO: $("#txtComentarioVi1").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioSabadoT1").text(),
+                    ID_TERMINAL: $("#ddlTerminalLSa1").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraSabado1").val(),
+                    COMENTARIO: $("#txtComentarioSa1").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioDomingoT1").text(),
+                    ID_TERMINAL: $("#ddlTerminalDo1").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraDomingo1").val(),
+                    COMENTARIO: $("#txtComentarioDo1").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioLunesT2").text(),
+                    ID_TERMINAL: $("#ddlTerminalLu2").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraLunes2").val(),
+                    COMENTARIO: $("#txtComentarioLu2").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioMartesT2").text(),
+                    ID_TERMINAL: $("#ddlTerminalMa2").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraMartes2").val(),
+                    COMENTARIO: $("#txtComentarioMa2").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioMiercolesT2").text(),
+                    ID_TERMINAL: $("#ddlTerminalMi2").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraMiercoles2").val(),
+                    COMENTARIO: $("#txtComentarioMa2").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioJuevesT2").text(),
+                    ID_TERMINAL: $("#ddlTerminalJu2").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraJueves2").val(),
+                    COMENTARIO: $("#txtComentariJu2").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioViernesT2").text(),
+                    ID_TERMINAL: $("#ddlTerminalVi2").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraViernes2").val(),
+                    COMENTARIO: $("#txtComentarioVi2").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioSabadoT2").text(),
+                    ID_TERMINAL: $("#ddlTerminalSa1").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraSabado2").val(),
+                    COMENTARIO: $("#txtComentarioSa2").val()
+                },
+                {
+                    ID_HORARIO: $("#idHorarioDomingoT2").text(),
+                    ID_TERMINAL: $("#ddlTerminalDo2").prop('selectedIndex'),
+                    HORA_INICIO: $("#txtHoraDomingo2").val(),
+                    COMENTARIO: $("#txtComentarioDo2").val()
+                }
+
+            ]
+
+
+            $.ajax({
+                url: '../Reprogramacion/SetGuaradarCambioHorario',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    ObjetoHorario: DTO_HorarioReprogramado
+                },
+                success: function (data) {
+                    if (data.ErrorTitle != '') {
+                        alertDanger1(data.ErrorMsg);
+                    } else {
+                        alertSuccess(data.ErrorMsg);
+                        
+                    }
+                }
+            });
+
+            BuscarConductorHorarioClick();
         }
 
     </script>

@@ -16,5 +16,7 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
         List<DTO_HorarioConductorMostrar> GetHorarioConductorById(int idUsuario, DateTime fechaIni, DateTime fechaFin, int idTurno);
         
         DTO_HorarioConductorMostrar GetHorarioConductorByIdHorario(int idHorario);
+
+        string SetEditarHorarioConductor(List<DTO_HorarioConductorMostrar> list);
     }
 }

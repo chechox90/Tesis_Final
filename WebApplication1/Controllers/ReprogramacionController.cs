@@ -55,8 +55,8 @@ namespace WebApplication1.Controllers
 
                 if (ValidarRutCompleto(RutConductor))
                 {
-                    DateTime fechaIni = DateTime.Parse(fechasConsultas.Split('-')[0].Trim());
-                    DateTime fechaFin = DateTime.Parse(fechasConsultas.Split('-')[1].Trim());
+                    DateTime fechaIni = DateTime.Parse(fechasConsultas.Split('-')[0].Trim() + " 00:00");
+                    DateTime fechaFin = DateTime.Parse(fechasConsultas.Split('-')[1].Trim() + " 23:59");
 
                     List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut(RutConductor, fechaIni, fechaFin);
                     List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
@@ -69,7 +69,7 @@ namespace WebApplication1.Controllers
                             DTO_HorarioConductorMostrar carga = new DTO_HorarioConductorMostrar();
                             if (i <= dto_Horario.Count)
                             {
-                                carga.ID_USUARIO = dto_Horario[ind].ID_USUARIO;
+                                carga.ID_HORARIO = dto_Horario[ind].ID_HORARIO;
                                 carga.FECHA_INICIO = dto_Horario[ind].FECHA_HORA_INICIO.ToString().Split(' ')[0];
 
                                 carga.HORA_INICIO = dto_Horario[ind].FECHA_HORA_INICIO.ToString("dd/MM/yyyy HH:mm").Split(' ')[1];
@@ -83,9 +83,8 @@ namespace WebApplication1.Controllers
                             }
                             else
                             {
-
+                                carga.ID_HORARIO = 0;
                                 carga.FECHA_INICIO = DateTime.Now.ToString("dd/MM/yyyy HH:mm").Split(' ')[0];
-
                                 carga.HORA_INICIO = "--:--";
                                 carga.RUT = "";
 
@@ -135,7 +134,7 @@ namespace WebApplication1.Controllers
                 {
                     EnableError = true,
                     ErrorTitle = "Error",
-                    ErrorMsg = "El R.U.N. ingresado <b>no es válido</b>"
+                    ErrorMsg = "Ups! tenemos una incidencia al buscar este R.U.N., por favor intenta nuevamente"
                 });
             }
 
@@ -522,7 +521,7 @@ namespace WebApplication1.Controllers
                         return Json(new
                         {
                             EnableError = false,
-                            ErrorTitle = "Correcto",
+                            ErrorTitle = "",
                             ErrorMsg = resultado
                         });
                     }
@@ -560,15 +559,30 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult SetGuaradarCambioHorario(List<CargaHorarioModel> ObjetoHorario)
         {
-            var ObHor = ObjetoHorario;
+            List<DTO_HorarioConductorMostrar> dto_horario_guardar = new List<DTO_HorarioConductorMostrar>();
 
-          //  var resultado = _i_n_HorarioConductor.SetEditarHorarioConductor(ObjetoHorario);
+            foreach (var item in ObjetoHorario)
+            {
+                if (item.ID_HORARIO != 0)
+                {
+                    DTO_HorarioConductorMostrar dto_horario = new DTO_HorarioConductorMostrar();
+                    dto_horario.ID_HORARIO = item.ID_HORARIO;
+                    dto_horario.ID_TERMINAL = item.ID_TERMINAL;
+                    dto_horario.HORA_INICIO = item.HORA_INICIO;
+                    dto_horario.COMENTARIO = item.COMENTARIO;
+
+                    dto_horario_guardar.Add(dto_horario);
+                }
+                
+            }
+
+            var resultado = _i_n_HorarioConductor.SetEditarHorarioConductor(dto_horario_guardar);
 
             return Json(new
             {
                 EnableError = false,
-                ErrorTitle = "Correcto",
-                ErrorMsg = ""
+                ErrorTitle = "",
+                ErrorMsg = resultado
             });
         }
 
