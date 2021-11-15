@@ -52,7 +52,7 @@ namespace DLL.DAO.Operaciones
             }
         }
 
-        public int SetNuevoServicio(string nombreTer, string direccion, string numDire)
+        public int SetNuevoServicio(string nombreTer, string horario_ini, string horario_fin)
         {
             try
             {
@@ -65,8 +65,8 @@ namespace DLL.DAO.Operaciones
                         {
                             ID_EMPRESA = 1,
                             NOMBRE_SERVICIO = nombreTer,
-                            HORARIO_INI= TimeSpan.Parse(direccion),
-                            HORARIO_FIN= TimeSpan.Parse(numDire),
+                            HORARIO_INI= TimeSpan.Parse(horario_ini),
+                            HORARIO_FIN= TimeSpan.Parse(horario_fin),
                             ESTADO = true
 
                         };
@@ -126,9 +126,9 @@ namespace DLL.DAO.Operaciones
                     {
                         SERVICIO Old = context.SERVICIO.Where(x => x.ESTADO == true && x.ID_SERVICIO == SERVICIO.ID_SERVICIO).FirstOrDefault();
 
-                        Old.ID_SERVICIO = SERVICIO.ID_SERVICIO;
-                        Old.ID_EMPRESA = SERVICIO.ID_EMPRESA;
-                        Old.NOMBRE_SERVICIO = SERVICIO.NOMBRE_SERVICIO;
+                        Old.ID_SERVICIO = Old.ID_SERVICIO;
+                        Old.ID_EMPRESA = Old.ID_EMPRESA;
+                        Old.NOMBRE_SERVICIO =SERVICIO.NOMBRE_SERVICIO;
                         Old.HORARIO_INI = SERVICIO.HORARIO_INI;
                         Old.HORARIO_FIN = SERVICIO.HORARIO_FIN;
                         Old.ESTADO = true;

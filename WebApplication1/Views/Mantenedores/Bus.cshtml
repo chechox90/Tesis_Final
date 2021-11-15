@@ -53,13 +53,13 @@
         <div class="col-md-2">
             <div class="form-group borderInput">
                 <label for="txtNumeroInterno">Número Interno</label>
-                <input id="txtNumInterno" type="number" name="txtNumeroInterno" placeholder="Número Interno" class="form-control" />
+                <input id="txtNumInterno" type="number" name="txtNumeroInterno" maxlength="6" placeholder="Número Interno" class="form-control" />
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group borderInput">
                 <label for="txtPPU">Placa Patente Única</label>
-                <input id="txtPPU" type="text" name="txtPPU" placeholder="CCRR-21" class="form-control" />
+                <input id="txtPPU" type="text" name="txtPPU" maxlength="7" placeholder="CCRR-21" class="form-control" />
             </div>
         </div>
         <div class="col-md-3 borderInput">
@@ -89,7 +89,7 @@
                 <label>
                     ¿Está seguro que desea <span id="txtMostrar"></span> el Bus placa patentente única <sapan id="ppuEliminar" class="text-primary"></sapan>?
                 </label>
-               
+
 
                 <label style="display:none" id="idBusEliminar"></label>
             </div>
@@ -142,13 +142,10 @@
                 lengthChange: true,
                 pageLength: 10,
                 lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
-                columnDefs: [
-                    { targets: [0, 3, 4], searchable: false, orderable: false }
-                ],
                 language: {
                     "url": "../Plugins/DataTables/js/Spanish.json"
                 },
-                order: [[0, "desc"]],
+                order: [[1, "asc"]],
                 initComplete: function () {
                     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
                 },
@@ -159,15 +156,15 @@
                     data: null
                 },
                 columns: [
-                    { data: "ID_BUS", visible: false },
+                    { data: "ID_BUS", visible: false, searchable: false },
                     { data: "ID_INTERNO_BUS", title: "NÚMERO BUS", name: "ID_INTERNO_BUS" },
-                    { data: "ID_TERMINAL", visible: false },
-                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL" },
-                    { data: "PPU", title: "PPU", name: "PPU" },
+                    { data: "ID_TERMINAL", visible: false, orderable: false },
+                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL", orderable: false },
+                    { data: "PPU", title: "PPU", name: "PPU", orderable: false },
                     {
                         title: "GESTIÓN",
                         orderable: false,
-
+                        searchable: false,
                         render: function (data, type, full, meta) {
                             var html = '';
 
@@ -175,8 +172,12 @@
                                 html = '<a role="button" class="btn-table-bg" onclick="ShowEliminarBus(' + full.ID_BUS + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
                                     '<span>&nbsp;&nbsp;</span>' +
                                     '<a role="button" class="btn-table-bg" onclick="ShowEditarBus(' + full.ID_BUS + ',' + full.ID_INTERNO_BUS + ',' + full.ID_TERMINAL + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-edit text-success"</i></a>';
-                            }
+                            } else {
+                                html = '<a role="button" class="btn-table-bg" onclick="ShowEliminarBus(' + full.ID_BUS + ',' + "'" + " " + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
+                                    '<span>&nbsp;&nbsp;</span>' +
+                                    '<a role="button" class="btn-table-bg" onclick="ShowEditarBus(' + full.ID_BUS + ',' + full.ID_INTERNO_BUS + ',' + full.ID_TERMINAL + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-edit text-success"</i></a>';
 
+                            }
                             return html;
                         }
                     },
@@ -229,7 +230,7 @@
             $("#ddlTerminalPrincipal option[value='" + 0 + "']").attr("selected", "selected");
             $("#txtPPU").val("");
             $("#txtNumInterno").val("");
-            $("#GuardarNuevoBus").css("display","");
+            $("#GuardarNuevoBus").css("display", "");
             $(".ocultar").css("display", "none")
         }
 
@@ -287,8 +288,8 @@
             $("#txtNumInterno").val(idInternoBus);
             $("#idBusEliminar").val(idBus);
             $("#btnAceptar").css('display', 'none');
-            $("#btnGuardarNuevo").css('display','none');
-            $("#btnGuardarEdicion").css('display','');
+            $("#btnGuardarNuevo").css('display', 'none');
+            $("#btnGuardarEdicion").css('display', '');
 
             $("#ddlTerminalPrincipal option[value='" + idTerminal + "']").attr("selected", "selected");
             $(".ocultar").css("display", "");

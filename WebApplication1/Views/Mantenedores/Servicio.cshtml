@@ -47,19 +47,19 @@
         <div class="col-md-3">
             <div class="form-group borderInput">
                 <label for="NumeroServicio">Nombre Servicio</label>
-                <input id="txtNombreServicio" type="text" name="NumeroServicio" placeholder="Nombre Servicio" class="form-control" />
+                <input id="txtNombreServicio" type="text" maxlength="6" name="NumeroServicio" placeholder="Nombre Servicio" class="form-control" />
             </div>
         </div>
         <div class="col-md-3" id="divTxtEdit">
             <div class="form-group borderInput">
                 <label for="HoraInicio">Hora inicio del servicio</label>
-                <input id="txtHoraSerIni" type="text" name="HoraInicio" placeholder="HH:mm" class="form-control" />
+                <input id="txtHoraSerIni" type="text" maxlength="5" name="HoraInicio" placeholder="HH:mm" class="form-control" />
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group borderInput">
                 <label for="HoraFin">Hora fin del servicio</label>
-                <input id="txtHoraSerFin" type="text" name="HoraFin" placeholder="HH:mm" class="form-control" />
+                <input id="txtHoraSerFin" type="text" maxlength="5" name="HoraFin" placeholder="HH:mm" class="form-control" />
             </div>
         </div>
         <div class="col-md-3 borderInput">
@@ -90,14 +90,14 @@
                 </div>
             </div>
             <div class="modal-body">
-                <label>¿Está seguro que desea <span id="txtMostrar"></span> el Servicio <span class="text-primary" id="serEliminar"></span>?</label> 
+                <label>¿Está seguro que desea <span id="txtMostrar"></span> el Servicio <span class="text-primary" id="serEliminar"></span>?</label>
             </div>
             <label id="idSerEliminar" style="display:none"></label>
             <label id="txtIdEmpresa" style="display:none"></label>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
                 <button type="button" class="btn btn-danger" id="btnAceptar" onclick="EliminarServicio();">Eliminar</button>
-                <button type="button" class="btn btn-success" id="btnConfirmar" onclick="EliminarServicio();">Confirmar</button>
+                <button type="button" class="btn btn-success" id="btnConfirmar" onclick="GuardarEdicionServicio();">Confirmar</button>
             </div>
         </div>
     </div>
@@ -121,13 +121,10 @@
                 lengthChange: true,
                 pageLength: 10,
                 lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
-                columnDefs: [
-                    { targets: [0, 3, 4], searchable: false, orderable: false }
-                ],
                 language: {
                     "url": "../Plugins/DataTables/js/Spanish.json"
                 },
-                order: [[0, "desc"]],
+                order: [[2, "asc"]],
                 initComplete: function () {
                     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
                 },
@@ -138,16 +135,15 @@
                     data: null
                 },
                 columns: [
-                    { data: "ID_SERVICIO", visible: false },
-                    { data: "ID_EMPRESA", visible: false },
-                    { data: "NOMBRE_EMPRESA", title: "NOMBRE EMPRESA", name: "NOMBRE_EMPRESA" },
-                    { data: "NOMBRE_SERVICIO", title: "NOMBRE SERVICIO", name: "NOMBRE_SERVICIO" },
-                    { data: "HORARIO_INICIO", title: "HORARIO INICIO", name: "HORARIO_INICIO" },
-                    { data: "HORARIO_FIN_", title: "HORARIO FIN SERVICO", name: "HORARIO_FIN" },
+                    { data: "ID_SERVICIO", visible: false, searchable: false },
+                    { data: "ID_EMPRESA", visible: false, searchable: false },
+                    { data: "NOMBRE_SERVICIO", title: "NOMBRE SERVICIO", name: "NOMBRE_SERVICIO", orderable: false },
+                    { data: "HORARIO_INICIO", title: "HORARIO INICIO", name: "HORARIO_INICIO", orderable: false },
+                    { data: "HORARIO_FIN_", title: "HORARIO FIN SERVICO", name: "HORARIO_FIN", orderable: false },
                     {
                         title: "GESTIÓN",
                         orderable: false,
-
+                        searchable: false,
                         render: function (data, type, full, meta) {
                             var html = '';
 
@@ -269,12 +265,13 @@
             $("#txtNombreServicio").val(nomServicio);
             $("#txtHoraSerIni").val(Hini);
             $("#txtHoraSerFin").val(Hfin);
+            $("#serEliminar").text(nomServicio);
 
             $("#btnGuardarEdicion").css('display', '');
             $("#btnConfirmar").css('display', '');
             $("#btnConfirmar").css('display', '');
 
-            $("#btnGuardarNuevo").css('display', 'none');            
+            $("#btnGuardarNuevo").css('display', 'none');
             $("#btnAceptar").css('display', 'none');
 
             $(".ocultar").css("display", "");
@@ -286,7 +283,7 @@
                 ID_SERVICIO: $("#idSerEliminar").val(),
                 ID_EMPRESA: $("#txtIdEmpresa").val(),
                 NOMBRE_SERVICIO: $("#txtNombreServicio").val(),
-                HORARIO_INICIO: $("#txtHoraSerIni").val(),
+                HORARIO_INI: $("#txtHoraSerIni").val(),
                 HORARIO_FIN: $("#txtHoraSerFin").val(),
             };
 
@@ -305,16 +302,17 @@
                         }, 500);
                         CerrarModal();
                         Limpiar();
-                        tblBuses.ajax.reload(null, false);
+                        tblServicio.ajax.reload(null, false);
 
                     } else {
                         alertSuccess(data.Data.message);
+                        tblServicio.ajax.reload(null, false);
                     }
 
                 }, error: function () {
                     CerrarModal();
                     alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
-                    tblBuses.ajax.reload(null, false);
+                    tblServicio.ajax.reload(null, false);
                 }
             });
         }

@@ -75,14 +75,14 @@
             <div id="divSentidoEdit" style="display:none">
                 <div class="form-group borderInput">
                     <label for="NombreSentidoEdit">Nombre Sentido</label>
-                    <input id="txtNomSentidoEdit" type="text" name="NombreSentidoEdit" placeholder="Nombre Sentido" class="form-control" />
+                    <input id="txtNomSentidoEdit" type="text" name="NombreSentidoEdit" maxlength="30" placeholder="Nombre Sentido" class="form-control" />
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group borderInput">
                 <label for="NombreSentidoCorto">Nombre Sentido Abreviado</label>
-                <input id="txtNomSentidoCorto" type="text" name="NombreSentidoCorto" maxlength="10" placeholder="Nombre Sentido Abreviado" class="form-control" />
+                <input id="txtNomSentidoCorto" type="text" name="NombreSentidoCorto" maxlength="6" placeholder="Nombre Sentido Abreviado" class="form-control" />
             </div>
         </div>
     </div>
@@ -196,6 +196,7 @@
         }
 
         function ShowModalEliminar() {
+            $("#btnEliminar").css('display', '');
             $("#divMotivoEliminar").css('display', '');
             var sentido = $("#ddlSentido option:selected").text();
             $("#btnAceptarEditar").css('display', 'none');
@@ -267,7 +268,7 @@
         }
 
         function GuardarNuevoSentido() {
-            let sentido = $("#txtNomSentidoEdit").val();
+            let sentido = $("#txtNomSentido").val();
             let sentidoCorto = $("#txtNomSentidoCorto").val();
 
             $.ajax({
@@ -304,7 +305,7 @@
             var SENTIDO =
             {
                 ID_SENTIDO: $("#ddlSentido").val(),
-                NOMBRE_SENTIDO: $("#txtNomSentidoEdit").val(),
+                NOMBRE_SENTIDO: $("#txtNomSentidoEdit").text(),
                 NOMBRE_CORTO_SENTIDO: $("#txtNomSentidoCorto").val()
             };
 

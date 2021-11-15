@@ -49,20 +49,20 @@
     <div class="form-row">
         <div class="col-md-3">
             <div class="form-group borderInput">
-                <label for="NumeroTerminal">Nombre del terminal</label>
-                <input id="txtNombreTer" type="text" name="NumeroTerminal" placeholder="Nombre" class="form-control" />
+                <label for="NomTerminal">Nombre del terminal</label>
+                <input id="txtNombreTer" type="text" name="NomTerminal" maxlength="50" placeholder="Nombre" class="form-control" />
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group borderInput">
                 <label for="Direcccion">Dirección del terminal</label>
-                <input id="txtDireccion" type="text" name="Direcccion" placeholder="Diercción" class="form-control" />
+                <input id="txtDireccion" type="text" name="Direcccion" maxlength="100" placeholder="Diercción" class="form-control" />
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group borderInput">
                 <label for="NumeroDirecccion">Número de dierección</label>
-                <input id="txtNumDire" type="text" name="NumeroDireccion" placeholder="Número Dirección" class="form-control" />
+                <input id="txtNumDire" type="text" name="NumeroDireccion" maxlength="6" placeholder="Número Dirección" class="form-control" />
             </div>
         </div>
         <div class="col-md-3 borderInput">
@@ -128,7 +128,7 @@
                 language: {
                     "url": "../Plugins/DataTables/js/Spanish.json"
                 },
-                order: [[0, "desc"]],
+                order: [[1, "asc"]],
                 initComplete: function () {
                     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
                 },
@@ -139,15 +139,15 @@
                     data: null
                 },
                 columns: [
-                    { data: "ID_TERMINAL", visible: false },
-                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL" },
-                    { data: "DIRECCION", title: "DIRECCIÓN", name: "DIRECCION" },
-                    { data: "NUM_DIRECCION", title: "N° DIRECCION", name: "NUM_DIRECCION" },
-                    { data: "NOMBRE_EMPRESA", title: "NOMBRE EMPRESA", name: "NOMBRE_EMPRESA" },
+                    { data: "ID_TERMINAL", visible: false,searchable:false },
+                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL",orderable:false },
+                    { data: "DIRECCION", title: "DIRECCIÓN", name: "DIRECCION", orderable: false },
+                    { data: "NUM_DIRECCION", title: "N° DIRECCION", name: "NUM_DIRECCION", orderable: false },
+                    { data: "NOMBRE_EMPRESA", title: "NOMBRE EMPRESA", name: "NOMBRE_EMPRESA", orderable: false },
                     {
                         title: "GESTIÓN",
                         orderable: false,
-
+                        searchable: false,
                         render: function (data, type, full, meta) {
                             var html = '';
 

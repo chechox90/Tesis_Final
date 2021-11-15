@@ -44,7 +44,7 @@ namespace ConductorEnRed.Controllers
 
                 if (DtoTerminal != null)
                 {
-                    return Json(new { data = DtoTerminal, });
+                    return Json(new { data = DtoTerminal.OrderBy(x => x.NOMBRE_TERMINAL), });
                 }
                 else
                 {
@@ -92,7 +92,7 @@ namespace ConductorEnRed.Controllers
 
                     return Json(new
                     {
-                        data = list,
+                        data = list.OrderBy(x => x.NOMBRE_TERMINAL),
                         ErrorMsg = "",
                         JsonRequestBehavior.AllowGet
                     });
@@ -238,7 +238,7 @@ namespace ConductorEnRed.Controllers
 
                 if (dtoBus != null)
                 {
-                    return Json(new { data = dtoBus, });
+                    return Json(new { data = dtoBus.OrderBy(x => x.ID_INTERNO_BUS), });
                 }
                 else
                 {
@@ -717,7 +717,7 @@ namespace ConductorEnRed.Controllers
 
                 return Json(new
                 {
-                    data = list,
+                    data = list.OrderBy(x => x.NOMBRE_SENTIDO),
                     ErrorMsg = "",
                     JsonRequestBehavior.AllowGet
                 });
