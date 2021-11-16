@@ -61,6 +61,11 @@
         <AssociationConnector Association="SoluinfoModel.FK_SERVICIO_REALIZADO_SERVICIO" />
         <EntityTypeShape EntityType="SoluinfoModel.COMUNA" Width="1.5" PointX="0.75" PointY="13.875" />
         <AssociationConnector Association="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA" />
+        <EntityTypeShape EntityType="SoluinfoModel.REGISTRO_HORARIO" Width="1.5" PointX="13.125" PointY="20.25" />
+        <EntityTypeShape EntityType="SoluinfoModel.REGISTRO_VUELTAS" Width="1.5" PointX="15.375" PointY="20.5" />
+        <AssociationConnector Association="SoluinfoModel.FK_REGISTRO_HORARIO_USUARIOS_SISTEMA" />
+        <AssociationConnector Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_USUARIOS_SISTEMA" />
+        <AssociationConnector Association="SoluinfoModel.FK_REGISTRO_VUELTAS_REGISTRO_HORARIO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

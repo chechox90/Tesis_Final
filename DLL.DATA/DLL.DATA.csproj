@@ -101,6 +101,12 @@
     <Compile Include="SeguridadSoluinfo\PROYECTO_AGRUPACION.cs">
       <DependentUpon>Soluseg.tt</DependentUpon>
     </Compile>
+    <Compile Include="SeguridadSoluinfo\REGISTRO_HORARIO.cs">
+      <DependentUpon>Soluseg.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SeguridadSoluinfo\REGISTRO_VUELTAS.cs">
+      <DependentUpon>Soluseg.tt</DependentUpon>
+    </Compile>
     <Compile Include="SeguridadSoluinfo\SENTIDO.cs">
       <DependentUpon>Soluseg.tt</DependentUpon>
     </Compile>

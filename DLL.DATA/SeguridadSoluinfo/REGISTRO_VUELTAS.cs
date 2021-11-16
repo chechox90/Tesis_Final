@@ -12,17 +12,16 @@ namespace DLL.DATA.SeguridadSoluinfo
     using System;
     using System.Collections.Generic;
     
-    public partial class SOLICITUD_CAMBIO_HORARIO
+    public partial class REGISTRO_VUELTAS
     {
-        public int ID_SOLICITUD_CAMBIO { get; set; }
-        public int ID_TIPO_SOLICITUD { get; set; }
-        public int ID_ESTADO_SOLICITUD { get; set; }
-        public int ID_USUARIO_SOLICITA { get; set; }
-        public int ID_USUARIO_APRUEBA { get; set; }
-        public System.DateTime FECHA_REGISTRO_SOLICITUD { get; set; }
-        public Nullable<System.DateTime> FECHA_APROBACION { get; set; }
-        public bool ESTADO { get; set; }
+        public int ID_REGISTRO_VUELTAS { get; set; }
+        public int ID_REGISTRO_HORARIO { get; set; }
+        public int NUMERO_VUELTA { get; set; }
+        public int ID_TERMINAL_INICIO { get; set; }
+        public System.TimeSpan HORA_INICIO { get; set; }
+        public Nullable<int> ID_TERMINAL_FIN { get; set; }
+        public Nullable<System.TimeSpan> HORA_FIN { get; set; }
     
-        public virtual USUARIOS_SISTEMA USUARIOS_SISTEMA { get; set; }
+        public virtual REGISTRO_HORARIO REGISTRO_HORARIO { get; set; }
     }
 }
