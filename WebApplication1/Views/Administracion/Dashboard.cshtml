@@ -1,0 +1,166 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+
+<div class="col-lg-6">
+    <div class="card h-100">
+        <div class="card-body p-3 h-75">
+            <div id="PapelNoUsado" class="h-100 d-flex"></div>
+        </div>
+    </div>
+</div>
+
+<h2>Dashboard</h2>
+
+<script>
+    function myfunction() {
+        if (ValorPlanillasRevisadas <= 0 && ValorPlanillasNoRevisadas <= 0) {
+            $('#PapelNoUsado').html('<span>No existen registros</span>')
+        } else {
+            Highcharts.chart('PapelNoUsado', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Uso de papel eliminado',
+                    align: 'left',
+                    style: {
+                        fontSize: '1.25rem'
+                    }
+                },
+                legend: {
+                    align: 'right',
+                    verticalAlign: 'top',
+                    layout: 'vertical',
+                    labelFormat: '{name} <span style="color:#34394F;"> {y}</span>',
+                    itemMarginBottom: 15,
+                    itemStyle: {
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        color: "#6E7B8F"
+                    },
+                    itemHoverStyle: {
+                        color: "#34394F"
+                    },
+                    itemHiddenStyle: {
+                        color: "rgba(110, 123, 143, .4)"
+                    },
+                    y: 80,
+                    x: -40
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:16px"></span><br>',
+                    pointFormat: '<span style="color:rgba(255,255,255,.75);">{point.name}: </span> <b> {point.y}</b>',
+                    padding: 8,
+                    borderRadius: 8,
+                    borderColor: '#34394F',
+                    backgroundColor: '#34394F',
+                    style: {
+                        fontSize: '12px',
+                        color: '#FFF'
+                    },
+                    shadow: false
+                },
+                lang: {
+                    printChart: '<i class="far fa-print mr-2"></i> Imprimir',
+                    downloadPNG: '<i class="far fa-file-image mr-2"></i> Descargar PNG',
+                    downloadJPEG: '<i class="fas fa-file-image mr-2"></i> Descargar JPG',
+                    downloadPDF: '<i class="far fa-file-pdf mr-2"></i> Descargar PDF',
+                    downloadXLS: '<i class="far fa-cloud-download mr-2"></i> Descargar Excel',
+                    exportData: {
+                        categoryHeader: 'Categoría'
+                    }
+                },
+                exporting: {
+                    buttons: {
+                        contextButton: {
+                            symbol: 'menuball',
+                            symbolSize: 13,
+                            symbolFill: '#6E7B8F',
+                            symbolStrokeWidth: 2,
+                            symbolStroke: '#6E7B8F',
+                            menuItems: ['downloadPNG', 'downloadJPEG', 'downloadPDF', 'separator', 'downloadXLS']
+                        }
+                    }
+                },
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                align: 'left',
+                                verticalAlign: 'top',
+                                layout: 'horizontal',
+                                itemMarginBottom: 6,
+                                y: 0,
+                                x: -8
+                            },
+                            yAxis: {
+                                labels: {
+                                    align: 'left',
+                                    x: 0,
+                                    y: -5
+                                },
+                                title: {
+                                    text: null
+                                }
+                            },
+                            subtitle: {
+                                text: null
+                            },
+                            credits: {
+                                enabled: false
+                            }
+                        }
+                    }]
+                },
+                plotOptions: {
+                    pie: {
+                        colors: [
+                            "#006BE6",
+                            "#FFD000"
+                        ],
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            style: {
+                                fontSize: 13,
+                                fontFamily: 'Roboto',
+                                textOutline: 0,
+                            },
+                            format: '<b>{point.name}</b><br/> {point.percentage:.1f} %',
+                            distance: -40,
+                            y: -10
+                        }
+                    },
+                },
+                series: [{
+                    name: 'Total',
+                    colorByPoint: true,
+                    size: '80%',
+                    innerSize: '45%',
+                    showInLegend: true,
+                    data: [{
+                        name: 'Revisadas',
+                        y: parseInt(ValorPlanillasRevisadas)
+                    }, {
+                        name: 'No revisadas',
+                        y: parseInt(ValorPlanillasNoRevisadas)
+                    }],
+                }],
+                credits: {
+                    enabled: false
+                },
+            });
+        }
+    }
+
+</script>

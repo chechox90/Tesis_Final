@@ -63,5 +63,9 @@ namespace ConductorEnRed.Controllers
             return View("~/Views/HorarioConductor/Solicitudes.cshtml");
         }
 
+        public ActionResult HomeRuta()
+        {
+            return View("~/Views/HorarioConductor/Ruta.cshtml");
+        }
     }
 }

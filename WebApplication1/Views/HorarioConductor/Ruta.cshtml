@@ -1,0 +1,233 @@
+﻿
+@{
+    ViewBag.Title = "Ruta";
+}
+
+<style>
+    .borderInput {
+        margin: 10px;
+    }
+
+    .divFlot {
+        text-align: right
+    }
+</style>
+
+<div class="page-title">
+    <div class="content-title">
+        <h3>Mi Bitácora</h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Registrar horario</a></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="panel">
+        <div class="form-group">
+            <div class="form-row">
+                <div class="form-group">
+                    <h4>Registro de jornada</h4>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-row form-group col-12">
+                        <div class="col-md-4">
+                            <span>Terminal de inicio</span>
+                            <select class="form-control ddlTer" id="cmbTerminalInicio"></select>
+                        </div>
+                        <div class="col-md-4">
+                            <div style="margin:auto 10px">
+                                <label>Fecha inicio jornada</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control dateinput opacity-1" id="fechaInicioJornada" name="FechaCargaArchivo" autocomplete="off" required readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <span>Hora inicio jornada</span>
+                            <input class="form-control" placeholder="HH:MM" maxlength="5" id="txtHoraInicio" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group form-row col-12">
+                <div class="col-4">
+                    <span>Terminal fin jornada</span>
+                    <select class="form-control ddlTer" id="cmbTerminalTermino"></select>
+                </div>
+                <div class="col-4">
+                    <div style="margin:auto 10px">
+                        <label>Fecha fin jornada</label>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
+                        </div>
+                        <input type="text" class="form-control dateinput opacity-1" id="fechaFinJornada" name="FechaCargaArchivo" autocomplete="off" required readonly />
+                    </div>
+                </div>
+                <div class="col-4">
+                    <span>Hora fin jornada</span>
+                    <input type="text" class="form-control" placeholder="HH:MM" maxlength="5" id="txtFinJornada" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="borderInput">
+            <button id="btnSalir" onclick="Limpiar();" class="btn btn-outline-light">Salir</button>
+        </div>
+        <div class="borderInput">
+            <button id="btnRegistrar" class="btn btn-success borderInput" onclick="RegistrarMiHorario();">Guardar</button>
+        </div>
+
+    </div>
+</div>
+<br />
+<div class="jombotron">
+    <div class="card">
+        <div class="flex-fill">
+            <div class="panel">
+                <div class="form-row">
+                    <h4>Registro de Ruta</h4>
+                </div>
+                <div class="form-row">
+                    <div class="form-row form-group col-12">
+                        <div class="col-4">
+                            <span>Terminal de Inicio</span>
+                            <select class="form-control ddlTer" id="cmbTerminalInicioVuelta"></select>
+                        </div>
+                        <div class="col-4">
+                            <span>Hora de presentación</span>
+                            <input class="form-control" placeholder="HH:MM" maxlength="5" id="txtIniVuelta" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-row form-group col-12">
+                        <div class="col-4">
+                            <span>Terminal de término</span>
+                            <select class="form-control ddlTer" id="cmbTerminalTerminoVuelta"></select>
+                        </div>
+                        <div class="col-4">
+                            <span>Hora de término</span>
+                            <input type="text" placeholder="HH:MM" maxlength="5" class="form-control" id="txtFinVuelta" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <button id="btnSalir" onclick="Limpiar();" class="btn btn-outline-light">Cancelar</button>
+                </div>
+                <div class="form-group">
+                    <button id="btnRegistrar" class="btn btn-success borderInput" onclick="RegistrarMiHorario();">Registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="col-md-12 card" id="divTablaRuta">
+    <table id="tblRuta" class="table table-striped table-hover">
+    </table>
+</div>
+
+
+@section scripts
+    {
+    <script>
+        var tblRuta;
+
+        $(document).ready(function () {
+            CargarCmb();
+            CargarTablaRuta();
+            
+        });
+
+        function CargarCmb() {
+            $.ajax({
+                url: '../Mantenedor/GetTerminalesActivos',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionTer = $(document.createElement('option'));
+                        optionTer.val(data.data[i]["ID_TERMINAL"]);
+                        optionTer.text(data.data[i]["NOMBRE_TERMINAL"]);
+
+                        $(".ddlTer").append(optionTer);
+                    }
+                }
+            });
+        }
+
+        function CargarTablaRuta() {
+            tblRuta = $("#tblRuta").DataTable({
+                dom: "<'card-header flex-column flex-lg-row align-items-start align-items-lg-center'<'d-flex flex-column flex-lg-row justify-content-start align-items-lg-center'<'titleRev mr-2'><'comboFil mb-2 mb-lg-0'>><'d-flex justify-content-md-end'fl>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
+                scrollX: true,
+                processing: true,
+                destroy: true,
+                lengthChange: true,
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+                language: {
+                    "url": "../Plugins/DataTables/js/Spanish.json"
+                },
+                order: [[1, "asc"]],
+                initComplete: function () {
+                    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+                },
+                ajax: {
+                    url: "../Mantenedor/GetBusesActivos",
+                    type: "POST",
+                    dataType: "json",
+                    data: null
+                },
+                columns: [
+                    { data: "ID_BUS", visible: false, searchable: false },
+                    { data: "ID_INTERNO_BUS", title: "NÚMERO BUS", name: "ID_INTERNO_BUS" },
+                    { data: "ID_TERMINAL", visible: false, orderable: false },
+                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL", orderable: false },
+                    { data: "PPU", title: "PPU", name: "PPU", orderable: false },
+                    {
+                        title: "GESTIÓN",
+                        orderable: false,
+                        searchable: false,
+                        render: function (data, type, full, meta) {
+                            var html = '';
+
+                            if (full.PPU != null) {
+                                html = '<a role="button" class="btn-table-bg" onclick="ShowEliminarBus(' + full.ID_BUS + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
+                                    '<span>&nbsp;&nbsp;</span>' +
+                                    '<a role="button" class="btn-table-bg" onclick="ShowEditarBus(' + full.ID_BUS + ',' + full.ID_INTERNO_BUS + ',' + full.ID_TERMINAL + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-edit text-success"</i></a>';
+                            } else {
+                                html = '<a role="button" class="btn-table-bg" onclick="ShowEliminarBus(' + full.ID_BUS + ',' + "'" + " " + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
+                                    '<span>&nbsp;&nbsp;</span>' +
+                                    '<a role="button" class="btn-table-bg" onclick="ShowEditarBus(' + full.ID_BUS + ',' + full.ID_INTERNO_BUS + ',' + full.ID_TERMINAL + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-edit text-success"</i></a>';
+
+                            }
+                            return html;
+                        }
+                    },
+                ]
+            });
+        }
+
+    </script>
+}
