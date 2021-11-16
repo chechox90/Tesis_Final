@@ -85,7 +85,7 @@ namespace WebApplication1.Controllers
                             {
                                 carga.ID_HORARIO = 0;
                                 carga.FECHA_INICIO = DateTime.Now.ToString("dd/MM/yyyy HH:mm").Split(' ')[0];
-                                carga.HORA_INICIO = "--:--";
+                                carga.HORA_INICIO = "";
                                 carga.RUT = "";
 
                                 carga.FECHA_HORA_INICIO = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));

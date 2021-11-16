@@ -18,13 +18,15 @@ namespace ConductorEnRed.Controllers
         private readonly I_N_Bus _i_n_Bus;
         private readonly I_N_Servicio _i_n_Servicio;
         private readonly I_N_Sentido _i_n_Sentido;
+        private readonly I_N_RegistroHorario _i_n_RegistroHorario;
 
         public MantenedorController(I_N_Terminal i_n_Terminal,
            I_N_Usuario i_n_usuario,
             I_N_Bus i_n_bus,
             I_N_Comuna i_n_comuna,
             I_N_Sentido i_n_sentido,
-            I_N_Servicio i_n_servicio)
+            I_N_Servicio i_n_servicio,
+            I_N_RegistroHorario _i_n_RegistroHorario)
         {
             this._i_n_Terminal = i_n_Terminal;
             this._i_n_usuario = i_n_usuario;
@@ -32,6 +34,7 @@ namespace ConductorEnRed.Controllers
             this._i_n_Bus = i_n_bus;
             this._i_n_Servicio = i_n_servicio;
             this._i_n_Sentido = i_n_sentido;
+            this._i_n_RegistroHorario = _i_n_RegistroHorario;
         }
 
         #region Terminales
@@ -193,7 +196,7 @@ namespace ConductorEnRed.Controllers
                 TERMINAL.ID_EMPRESA = 1;
                 TERMINAL.DIRECCION = TERMINAL.DIRECCION;
                 TERMINAL.NUM_DIRECCION = TERMINAL.NUM_DIRECCION;
-            
+
                 int response = _i_n_Terminal.SetEditarTerminal(TERMINAL);
                 string alert = "";
 
@@ -729,14 +732,14 @@ namespace ConductorEnRed.Controllers
             }
         }
         [HttpPost]
-        public ActionResult SetNuevoSentido(string sentido,string sentidoCorto)
+        public ActionResult SetNuevoSentido(string sentido, string sentidoCorto)
         {
             try
             {
                 string alert = "";
 
 
-                int response = _i_n_Sentido.SetNuevoSentido(sentido,sentidoCorto);
+                int response = _i_n_Sentido.SetNuevoSentido(sentido, sentidoCorto);
 
                 if (response == 1)
                 {
@@ -838,6 +841,72 @@ namespace ConductorEnRed.Controllers
         #endregion
 
 
+
+        #region Bitacora Conductor
+
+        public ActionResult GetRegistro()
+        {
+            try
+            {
+                string alert = "";
+
+                List<DTO_RegistroHorario> dTO_RegistroHorarios = new List<DTO_RegistroHorario>();
+
+                dTO_RegistroHorarios = _i_n_RegistroHorario.GetRegistroByAll();
+
+                return Json(new
+                {
+                    data = dTO_RegistroHorarios,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+
+
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetRegistroHorario(string HoraInicio, int Idterminal)
+        {
+            try
+            {
+                string alert = "";
+
+                int response = _i_n_RegistroHorario.SetIngresarInicioJornada(HoraInicio, Idterminal);
+
+                if (response == 1)
+                {
+
+                    alert = "success";
+                    var message = "El Sentido se ha sido guardada con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        #endregion
 
     }
 

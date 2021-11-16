@@ -63,11 +63,13 @@
     <Compile Include="Operaciones\DAO_Bus.cs" />
     <Compile Include="Operaciones\DAO_Comuna.cs" />
     <Compile Include="Operaciones\DAO_HorarioConductor.cs" />
+    <Compile Include="Operaciones\DAO_RegistroHorario.cs" />
     <Compile Include="Operaciones\DAO_Sentido.cs" />
     <Compile Include="Operaciones\DAO_Servicio.cs" />
     <Compile Include="Operaciones\DAO_Terminal.cs" />
     <Compile Include="Operaciones\Interfaces\I_DAO_Bus.cs" />
     <Compile Include="Operaciones\Interfaces\I_DAO_HorarioConductor.cs" />
+    <Compile Include="Operaciones\Interfaces\I_DAO_RegistroHorario.cs" />
     <Compile Include="Operaciones\Interfaces\I_DAO_Servicio.cs" />
     <Compile Include="Operaciones\Interfaces\I_DAO_Terminal.cs" />
     <Compile Include="Operaciones\Interfaces\I_DAO_Sentido.cs" />

@@ -53,7 +53,7 @@ namespace DLL.DATA.SeguridadSoluinfo
         public virtual DbSet<SOLICITUD_CAMBIO_HORARIO> SOLICITUD_CAMBIO_HORARIO { get; set; }
         public virtual DbSet<TIPO_SOLICITUD_CAMBIO> TIPO_SOLICITUD_CAMBIO { get; set; }
         public virtual DbSet<COMUNA> COMUNA { get; set; }
-        public virtual DbSet<REGISTRO_HORARIO> REGISTRO_HORARIO { get; set; }
         public virtual DbSet<REGISTRO_VUELTAS> REGISTRO_VUELTAS { get; set; }
+        public virtual DbSet<REGISTRO_HORARIO> REGISTRO_HORARIO { get; set; }
     }
 }

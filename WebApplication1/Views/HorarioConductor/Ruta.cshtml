@@ -35,50 +35,28 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="form-row">
-                    <div class="form-row form-group col-12">
-                        <div class="col-md-4">
-                            <span>Terminal de inicio</span>
-                            <select class="form-control ddlTer" id="cmbTerminalInicio"></select>
-                        </div>
-                        <div class="col-md-4">
-                            <div style="margin:auto 10px">
-                                <label>Fecha inicio jornada</label>
-                            </div>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
-                                </div>
-                                <input type="text" class="form-control dateinput opacity-1" id="fechaInicioJornada" name="FechaCargaArchivo" autocomplete="off" required readonly />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <span>Hora inicio jornada</span>
-                            <input class="form-control" placeholder="HH:MM" maxlength="5" id="txtHoraInicio" />
-                        </div>
+                <div class="form-row form-group col-12">
+                    <span>Terminal de inicio</span>
+                    <div class="col-md-3">
+                        <select class="form-control ddlTer" id="cmbTerminalInicio"></select>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <span>Hora inicio</span>
+                    <div class="col-md-1">
+                        <input class="form-control" placeholder="HH:MM" maxlength="5" id="txtHoraInicio" />
                     </div>
                 </div>
             </div>
         </div>
-        <div class="form-row">
+        <div class="form-group">
             <div class="form-group form-row col-12">
-                <div class="col-4">
-                    <span>Terminal fin jornada</span>
+                <span>Terminal fin jornada</span>
+                <div class="col-3">
                     <select class="form-control ddlTer" id="cmbTerminalTermino"></select>
                 </div>
-                <div class="col-4">
-                    <div style="margin:auto 10px">
-                        <label>Fecha fin jornada</label>
-                    </div>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
-                        </div>
-                        <input type="text" class="form-control dateinput opacity-1" id="fechaFinJornada" name="FechaCargaArchivo" autocomplete="off" required readonly />
-                    </div>
-                </div>
-                <div class="col-4">
-                    <span>Hora fin jornada</span>
+                <div class="col-md-1"></div>
+                <span>Hora fin</span>
+                <div class="col-1">
                     <input type="text" class="form-control" placeholder="HH:MM" maxlength="5" id="txtFinJornada" />
                 </div>
             </div>
@@ -155,7 +133,7 @@
         $(document).ready(function () {
             CargarCmb();
             CargarTablaRuta();
-            
+
         });
 
         function CargarCmb() {
@@ -194,17 +172,18 @@
                     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
                 },
                 ajax: {
-                    url: "../Mantenedor/GetBusesActivos",
+                    url: "../Mantenedor/GetRegistro",
                     type: "POST",
                     dataType: "json",
                     data: null
                 },
                 columns: [
-                    { data: "ID_BUS", visible: false, searchable: false },
-                    { data: "ID_INTERNO_BUS", title: "NÚMERO BUS", name: "ID_INTERNO_BUS" },
-                    { data: "ID_TERMINAL", visible: false, orderable: false },
-                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL", orderable: false },
-                    { data: "PPU", title: "PPU", name: "PPU", orderable: false },
+                    { data: "ID_REGISTRO_HORARIO", visible: false, searchable: false },
+                    { data: "ID_USUARIO", visible: false, searchable: false },
+                    { data: "ID_TERMINAL_INICIO", title: "TERMINAL INICIO", orderable: false },
+                    { data: "FECHA_HORA_INICIO", title: "FECHA INICIO", name: "FECHA_HORA_INICIO", orderable: false },
+                    { data: "ID_TERMINAL_FIN", title: "TERMINAL FIN", name: "ID_TERMINAL_FIN", orderable: false },
+                    { data: "FECHA_HORA_FIN", title: "FECHA FIN", name: "FECHA_HORA_FIN", orderable: false },
                     {
                         title: "GESTIÓN",
                         orderable: false,
@@ -212,20 +191,29 @@
                         render: function (data, type, full, meta) {
                             var html = '';
 
-                            if (full.PPU != null) {
-                                html = '<a role="button" class="btn-table-bg" onclick="ShowEliminarBus(' + full.ID_BUS + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
-                                    '<span>&nbsp;&nbsp;</span>' +
-                                    '<a role="button" class="btn-table-bg" onclick="ShowEditarBus(' + full.ID_BUS + ',' + full.ID_INTERNO_BUS + ',' + full.ID_TERMINAL + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-edit text-success"</i></a>';
-                            } else {
-                                html = '<a role="button" class="btn-table-bg" onclick="ShowEliminarBus(' + full.ID_BUS + ',' + "'" + " " + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
-                                    '<span>&nbsp;&nbsp;</span>' +
-                                    '<a role="button" class="btn-table-bg" onclick="ShowEditarBus(' + full.ID_BUS + ',' + full.ID_INTERNO_BUS + ',' + full.ID_TERMINAL + ',' + "'" + full.PPU + "'" + ');"><i class="far fa-edit text-success"</i></a>';
-
-                            }
                             return html;
                         }
                     },
                 ]
+            });
+        }
+
+        function RegistrarMiHorario() {
+            let terminalInicio = $("#cmbTerminalInicio").val();
+            let HoraInicio = $("#txtHoraInicio").text();
+
+            $.ajax({
+                url: '../Mantenedor/SetRegistroHorario',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "HoraInicio": HoraInicio,
+                    "Idterminal": terminalInicio
+                },
+                success: function (data) {
+                   
+                }
             });
         }
 

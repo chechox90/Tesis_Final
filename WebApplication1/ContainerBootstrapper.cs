@@ -35,6 +35,9 @@ namespace WebApplication1
 
             container.RegisterType<I_N_Servicio, N_Servicio>();
             container.RegisterType<I_DAO_Servicio, DAO_Servicio>();
+
+            container.RegisterType<I_N_RegistroHorario, N_RegistroHorario>();
+            container.RegisterType<I_DAO_RegistroHorario, DAO_RegistroHorario>();
         }
     }
 }

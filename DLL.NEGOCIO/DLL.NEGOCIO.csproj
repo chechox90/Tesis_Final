@@ -65,12 +65,14 @@
     <Compile Include="Operaciones\Interfaces\I_N_Bus.cs" />
     <Compile Include="Operaciones\Interfaces\I_N_Comuna.cs" />
     <Compile Include="Operaciones\Interfaces\I_N_HorarioConductor.cs" />
+    <Compile Include="Operaciones\Interfaces\I_N_RegistroHorario.cs" />
     <Compile Include="Operaciones\Interfaces\I_N_Sentido.cs" />
     <Compile Include="Operaciones\Interfaces\I_N_Servicio.cs" />
     <Compile Include="Operaciones\Interfaces\I_N_Terminal.cs" />
     <Compile Include="Operaciones\N_Bus.cs" />
     <Compile Include="Operaciones\N_Comuna.cs" />
     <Compile Include="Operaciones\N_HorarioConductor.cs" />
+    <Compile Include="Operaciones\N_RegistroHorario.cs" />
     <Compile Include="Operaciones\N_Sentido.cs" />
     <Compile Include="Operaciones\N_Servicio.cs" />
     <Compile Include="Operaciones\N_Terminal.cs" />
