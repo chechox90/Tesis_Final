@@ -12,16 +12,32 @@ namespace DLL.NEGOCIO.Operaciones
     public class N_RegistroHorario: I_N_RegistroHorario
     {
         private readonly I_DAO_RegistroHorario I_Dao_RegistroHorario;
+
         public N_RegistroHorario(I_DAO_RegistroHorario i_dao_RegistroHorario)
         {
             this.I_Dao_RegistroHorario = i_dao_RegistroHorario;
         }
 
-        public List<DTO_RegistroHorario> GetRegistroByAll()
+
+
+        public List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idRegistroHorario)
         {
-            return I_Dao_RegistroHorario.GetRegistroByAll();
+            return I_Dao_RegistroHorario.GetRegistroVueltasByAll(idRegistroHorario);
         }
 
+        public DTO_RegistroHorario GetRegistroHorarioByAll(int idUsuario)
+        {
+            return I_Dao_RegistroHorario.GetRegistroHorarioByAll(idUsuario);
+        }
 
+        public int SetIngresaHorario(DTO_RegistroHorario list)
+        {
+            return I_Dao_RegistroHorario.SetIngresaHorario(list);
+        }
+        
+        public int SetIngresaVuelta(DTO_RegistroVueltas list)
+        {
+            return I_Dao_RegistroHorario.SetIngresaVuelta(list);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DLL.DTO.Mantenedor;
+﻿using ConductorEnRed.ViewModels.Mantenedores;
+using DLL.DTO.Mantenedor;
 using DLL.DTO.Terminales;
 using DLL.NEGOCIO.Operaciones.Interfaces;
 using DLL.NEGOCIO.Seguridad.Interfaces;
@@ -844,19 +845,29 @@ namespace ConductorEnRed.Controllers
 
         #region Bitacora Conductor
 
-        public ActionResult GetRegistro()
+
+        [HttpPost]
+        public ActionResult GetInicioTurno()
         {
             try
             {
                 string alert = "";
 
-                List<DTO_RegistroHorario> dTO_RegistroHorarios = new List<DTO_RegistroHorario>();
+                DTO_RegistroHorario dTO_RegistroHorarios = new DTO_RegistroHorario();
 
-                dTO_RegistroHorarios = _i_n_RegistroHorario.GetRegistroByAll();
+                int idUsuario = 1;
+
+                dTO_RegistroHorarios = _i_n_RegistroHorario.GetRegistroHorarioByAll(idUsuario);
+
+                VM_Registro_Horario vmRegistro = new VM_Registro_Horario();
+
+                vmRegistro.ID_REGISTRO_HORARIO = dTO_RegistroHorarios.ID_REGISTRO_HORARIO;
+                vmRegistro.ID_TERMINAL_INICIO = dTO_RegistroHorarios.ID_TERMINAL_INICIO;
+                vmRegistro.HORA_INICIO = dTO_RegistroHorarios.FECHA_HORA_INICIO.ToString().Split(' ')[1].Trim().Substring(0, 5);
 
                 return Json(new
                 {
-                    data = dTO_RegistroHorarios,
+                    data = vmRegistro,
                     ErrorMsg = "",
                     JsonRequestBehavior.AllowGet
 
@@ -870,13 +881,67 @@ namespace ConductorEnRed.Controllers
         }
 
         [HttpPost]
-        public ActionResult SetRegistroHorario(string HoraInicio, int Idterminal)
+        public ActionResult GetRegistroVueltas()
         {
             try
             {
                 string alert = "";
 
-                int response = _i_n_RegistroHorario.SetIngresarInicioJornada(HoraInicio, Idterminal);
+                List<DTO_RegistroVueltas> vueltas = new List<DTO_RegistroVueltas>();
+                List<DTO_RegistroVueltas> vueltasM = new List<DTO_RegistroVueltas>();
+                vueltas = _i_n_RegistroHorario.GetRegistroVueltasByAll(3);
+
+                int i = 1;
+                foreach (var item in vueltas)
+                {
+                    DTO_RegistroVueltas v = new DTO_RegistroVueltas();
+                    v.ID_REGISTRO_VUELTAS = item.ID_REGISTRO_VUELTAS;
+                    v.ID_REGISTRO_HORARIO = item.ID_REGISTRO_HORARIO;
+                    v.NUMERO_VUELTA = i;
+                    v.ID_TERMINAL_INICIO = item.ID_TERMINAL_INICIO;
+                    v.NOMBRE_TERMINAL_INICIO = item.NOMBRE_TERMINAL_INICIO;
+                    v.FECHA_HORA_INICIO = item.FECHA_HORA_INICIO;
+                    v.ID_TERMINAL_FIN = item.ID_TERMINAL_FIN;
+                    v.NOMBRE_TERMINAL_FIN = item.NOMBRE_TERMINAL_FIN;
+                    
+                    vueltasM.Add(v);
+
+                    i++;
+                }
+
+                return Json(new
+                {
+                    data = vueltasM,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+
+
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetRegistroInicioHorario(string HoraInicio, int Idterminal)
+        {
+            try
+            {
+                string alert = "";
+                DTO_RegistroHorario newReg = new DTO_RegistroHorario()
+                {
+                    ID_REGISTRO_HORARIO = 1,
+                    ID_USUARIO = 1,
+                    ID_TERMINAL_INICIO = Idterminal,
+                    FECHA_HORA_INICIO = DateTime.Parse(DateTime.Now.ToString().Substring(0, 10) + " " + HoraInicio),
+                    ID_TERMINAL_FIN = null,
+                    FECHA_HORA_FIN = null,
+                    ESTADO = true
+
+                };
+                int response = _i_n_RegistroHorario.SetIngresaHorario(newReg);
 
                 if (response == 1)
                 {
@@ -899,11 +964,57 @@ namespace ConductorEnRed.Controllers
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
         }
+
+        [HttpPost]
+        public ActionResult SetRegistroInicioVuelta(string HoraInicio, int Idterminal, int idHorario)
+        {
+            try
+            {
+                string alert = "";
+                DTO_RegistroVueltas newReg = new DTO_RegistroVueltas()
+                {
+                    ID_REGISTRO_VUELTAS = 1,
+                    ID_REGISTRO_HORARIO = idHorario,
+                    ID_TERMINAL_INICIO = Idterminal,
+                    FECHA_HORA_INICIO = DateTime.Parse(DateTime.Now.ToString().Substring(0, 10) + " " + HoraInicio),
+                    ID_TERMINAL_FIN = null,
+                    FECHA_HORA_FIN = null,
+
+                };
+                int response = _i_n_RegistroHorario.SetIngresaVuelta(newReg);
+
+                if (response == 1)
+                {
+
+                    alert = "success";
+                    var message = "Vuelta registrada con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
 
 
         #endregion
