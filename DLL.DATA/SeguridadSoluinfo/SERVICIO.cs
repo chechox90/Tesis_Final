@@ -17,7 +17,7 @@ namespace DLL.DATA.SeguridadSoluinfo
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SERVICIO()
         {
-            this.SERVICIO_REALIZADO = new HashSet<SERVICIO_REALIZADO>();
+            this.REGISTRO_VUELTAS = new HashSet<REGISTRO_VUELTAS>();
         }
     
         public int ID_SERVICIO { get; set; }
@@ -29,6 +29,6 @@ namespace DLL.DATA.SeguridadSoluinfo
     
         public virtual EMPRESA EMPRESA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SERVICIO_REALIZADO> SERVICIO_REALIZADO { get; set; }
+        public virtual ICollection<REGISTRO_VUELTAS> REGISTRO_VUELTAS { get; set; }
     }
 }

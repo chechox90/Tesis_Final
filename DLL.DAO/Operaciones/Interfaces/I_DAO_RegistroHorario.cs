@@ -5,13 +5,18 @@ namespace DLL.DAO.Operaciones.Interfaces
 {
     public interface I_DAO_RegistroHorario
     {
-        int SetIngresaHorario(DTO_RegistroHorario list);
-        
-        int SetIngresaVuelta(DTO_RegistroVueltas list);
-
         List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idRegistroHorario);
 
-        DTO_RegistroHorario GetRegistroHorarioByAll(int idUsuario);
+        DTO_RegistroHorario GetRegistroHorarioByAll(int idHorario);
 
+        int SetIngresaHorario(DTO_RegistroHorario list);
+
+        int SetIngresaVuelta(DTO_RegistroVueltas list);
+        
+        int SetFinalizaVuelta(DTO_RegistroVueltas list);
+        
+        int SetEliminarVuelta(int idVuelta);
+
+        int SetIngresaFinHorario(DTO_RegistroHorario list);
     }
 }

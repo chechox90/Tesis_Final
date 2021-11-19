@@ -70,19 +70,19 @@
         <div class="col-md-4">
             <div class="form-group borderInput" id="divSentidoNew">
                 <label for="NombreSentido">Nombre Sentido</label>
-                <input id="txtNomSentido" type="text" name="NombreSentido" maxlength="50" onkeyup="MostrarBotonGuardar();" placeholder="Nombre Sentido" class="form-control" />
+                <input id="txtNomSentido" type="text" name="NombreSentido" maxlength="50" onkeypress="return Sololetras(event)" onkeyup="MostrarBotonGuardar();" placeholder="Nombre Sentido" class="form-control" />
             </div>
             <div id="divSentidoEdit" style="display:none">
                 <div class="form-group borderInput">
                     <label for="NombreSentidoEdit">Nombre Sentido</label>
-                    <input id="txtNomSentidoEdit" type="text" name="NombreSentidoEdit" maxlength="30" placeholder="Nombre Sentido" class="form-control" />
+                    <input id="txtNomSentidoEdit" type="text" name="NombreSentidoEdit" onkeypress="return Sololetras(event)" maxlength="30" placeholder="Nombre Sentido" class="form-control" />
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group borderInput">
                 <label for="NombreSentidoCorto">Nombre Sentido Abreviado</label>
-                <input id="txtNomSentidoCorto" type="text" name="NombreSentidoCorto" maxlength="6" placeholder="Nombre Sentido Abreviado" class="form-control" />
+                <input id="txtNomSentidoCorto" type="text" name="NombreSentidoCorto" onkeypress="return Sololetras(event)" maxlength="6" placeholder="Nombre Sentido Abreviado" class="form-control" />
             </div>
         </div>
     </div>
@@ -256,7 +256,6 @@
         }
 
         function MostrarBotonGuardar() {
-
             var comuna = $("#txtNomSentido").val();
             if (comuna.length > 3) {
                 $("#btnGuardarSentido").css('display', '');
@@ -360,5 +359,12 @@
 
             $("#ddlSentido option[value='" + sent + "']").attr("selected", "selected");
         }
+
+        function Sololetras(e) {
+            var k;
+            document.all ? k = e.keyCode : k = e.which;
+            return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+        }
+
     </script>
 }

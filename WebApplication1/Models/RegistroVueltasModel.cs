@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace DLL.DTO.Mantenedor
+namespace ConductorEnRed.Models
 {
-    public class DTO_RegistroVueltas
+    public class RegistroVueltasModel
     {
         public int ID_REGISTRO_VUELTAS { get; set; }
         public int ID_REGISTRO_HORARIO { get; set; }
@@ -31,5 +30,7 @@ namespace DLL.DTO.Mantenedor
         public int ID_BUS_FIN { get; set; }
         public string SEN_INI_CORTO { get; set; }
         public string SEN_FIN_CORTO { get; set; }
+        public string HORA_INICIO { get; set; }
+        public string HORA_FIN { get; set; }
     }
 }

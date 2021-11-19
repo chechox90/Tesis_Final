@@ -9,14 +9,18 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
 {
     public interface I_N_RegistroHorario
     {
-        int SetIngresaHorario(DTO_RegistroHorario list);
-        int SetIngresaVuelta(DTO_RegistroVueltas list);
-
         List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idRegistroHorario);
 
         DTO_RegistroHorario GetRegistroHorarioByAll(int idUsuario);
 
-        
+        int SetIngresaHorario(DTO_RegistroHorario list);
 
+        int SetIngresaVuelta(DTO_RegistroVueltas list);
+
+        int SetFinalizaVuelta(DTO_RegistroVueltas list);
+        
+        int SetEliminarVuelta(int idVuelta);
+
+        int SetIngresaFinHorario(DTO_RegistroHorario list);
     }
 }

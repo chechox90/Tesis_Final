@@ -59,7 +59,7 @@
         <div class="col-md-2">
             <div class="form-group borderInput">
                 <label for="txtPPU">Placa Patente Única</label>
-                <input id="txtPPU" type="text" name="txtPPU" maxlength="7" placeholder="CCRR-21" class="form-control" />
+                <input id="txtPPU" type="text" name="txtPPU" maxlength="7" onkeypress="return Sololetras(event)" placeholder="CCRR-21" class="form-control" />
             </div>
         </div>
         <div class="col-md-3 borderInput">
@@ -87,7 +87,7 @@
             </div>
             <div class="modal-body">
                 <label>
-                    ¿Está seguro que desea <span id="txtMostrar"></span> el Bus placa patentente única <sapan id="ppuEliminar" class="text-primary"></sapan>?
+                    ¿Está seguro que desea <span id="txtMostrar"></span>  el Bus placa patentente única <sapan id="ppuEliminar" class="text-primary"></sapan>?
                 </label>
 
 
@@ -340,6 +340,12 @@
             $("#txtMostrar").text("editar")
 
             $("#modalConfirmacion").modal("show");
+        }
+
+        function Sololetras(e) {
+            var k;
+            document.all ? k = e.keyCode : k = e.which;
+            return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
         }
 
     </script>

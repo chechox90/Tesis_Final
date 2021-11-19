@@ -113,9 +113,6 @@
     <Compile Include="SeguridadSoluinfo\SERVICIO.cs">
       <DependentUpon>Soluseg.tt</DependentUpon>
     </Compile>
-    <Compile Include="SeguridadSoluinfo\SERVICIO_REALIZADO.cs">
-      <DependentUpon>Soluseg.tt</DependentUpon>
-    </Compile>
     <Compile Include="SeguridadSoluinfo\SOLICITUD_CAMBIO_HORARIO.cs">
       <DependentUpon>Soluseg.tt</DependentUpon>
     </Compile>

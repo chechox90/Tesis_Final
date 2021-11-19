@@ -117,7 +117,7 @@
                         <label>Comentario adicional</label>
                     </div>
                     <div>
-                        <input class="form-control" type="text" id="txtComenatrio" />
+                        <input class="form-control" onkeypress="return Sololetras(event)" type="text" id="txtComenatrio" />
                     </div>
                 </div>
             </div>
@@ -189,6 +189,12 @@
 
             }
 
+        }
+
+        function Sololetras(e) {
+            var k;
+            document.all ? k = e.keyCode : k = e.which;
+            return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
         }
 
         function ValidaSizeFile(element) {

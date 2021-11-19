@@ -177,6 +177,7 @@
     <Compile Include="Models\CargaHorarioModel.cs" />
     <Compile Include="Models\Commons\FrontUser.cs" />
     <Compile Include="Models\Commons\RolesPermisos.cs" />
+    <Compile Include="Models\RegistroVueltasModel.cs" />
     <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\UnityDependencyResolver.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="ViewModels\Account\LoginViewModel.cs" />
     <Compile Include="ViewModels\Administracion\VM_Usuario.cs" />
     <Compile Include="ViewModels\Mantenedores\VM_HORARIO_SOLICITUD.cs" />
+    <Compile Include="ViewModels\Mantenedores\VM_RegistroVueltas.cs" />
     <Compile Include="ViewModels\Mantenedores\VM_Registro_Horario.cs" />
   </ItemGroup>
   <ItemGroup>

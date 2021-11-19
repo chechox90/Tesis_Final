@@ -19,7 +19,6 @@ namespace DLL.DATA.SeguridadSoluinfo
         {
             this.CARGA_HORARIO = new HashSet<CARGA_HORARIO>();
             this.PERMISOS_ESPECIALES = new HashSet<PERMISOS_ESPECIALES>();
-            this.SERVICIO_REALIZADO = new HashSet<SERVICIO_REALIZADO>();
             this.PERFILES = new HashSet<PERFILES>();
             this.SOLICITUD_CAMBIO_HORARIO = new HashSet<SOLICITUD_CAMBIO_HORARIO>();
             this.REGISTRO_HORARIO = new HashSet<REGISTRO_HORARIO>();
@@ -47,8 +46,6 @@ namespace DLL.DATA.SeguridadSoluinfo
         public virtual ICollection<CARGA_HORARIO> CARGA_HORARIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERMISOS_ESPECIALES> PERMISOS_ESPECIALES { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SERVICIO_REALIZADO> SERVICIO_REALIZADO { get; set; }
         public virtual EMPRESA EMPRESA { get; set; }
         public virtual TIPO_CONTRATO TIPO_CONTRATO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -16,11 +16,22 @@ namespace DLL.DATA.SeguridadSoluinfo
     {
         public int ID_REGISTRO_VUELTAS { get; set; }
         public int ID_REGISTRO_HORARIO { get; set; }
+        public int ID_BUS_INICIO { get; set; }
+        public int ID_SERVICIO_INICIO { get; set; }
         public int ID_TERMINAL_INICIO { get; set; }
+        public int ID_SENTIDO_INICIO { get; set; }
         public System.DateTime FECHA_HORA_INICIO { get; set; }
+        public Nullable<int> ID_BUS_BUS { get; set; }
+        public Nullable<int> ID_SERVICIO_FIN { get; set; }
+        public Nullable<int> ID_SENTIDO_FIN { get; set; }
         public Nullable<int> ID_TERMINAL_FIN { get; set; }
         public Nullable<System.DateTime> FECHA_HORA_FIN { get; set; }
+        public bool ESTADO { get; set; }
     
+        public virtual BUS BUS { get; set; }
         public virtual REGISTRO_HORARIO REGISTRO_HORARIO { get; set; }
+        public virtual SENTIDO SENTIDO { get; set; }
+        public virtual SERVICIO SERVICIO { get; set; }
+        public virtual TERMINAL TERMINAL { get; set; }
     }
 }

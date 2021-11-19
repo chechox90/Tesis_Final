@@ -25,75 +25,100 @@
     </div>
 </div>
 
-
-<div class="card">
-    <div class="panel">
-        <div class="form-group">
-            <div class="form-row">
-                <div class="form-group">
-                    <h4>Registro de jornada</h4>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="form-row form-group col-12">
-                    <span>Terminal de inicio</span>
-                    <label style="display:none" id="idTurnoActual"></label>
-                    <div class="col-md-3">
-                        <select class="form-control ddlTer Ini" id="cmbTerminalInicio"></select>
-                    </div>
-                    <div class="col-md-1"></div>
-                    <span>Hora inicio</span>
-                    <div class="col-md-1">
-                        <input class="form-control Ini" placeholder="HH:MM" maxlength="5" id="txtHoraInicio" />
-                    </div>
-                    <span>Sentido Inicio</span>
-                    <div class="col-md-3">
-                        <select class="form-control" id="cmbSentidoInicio"></select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="borderInput">
-            <button id="btnSalir" onclick="Limpiar();" class="btn btn-outline-light">Salir</button>
-        </div>
-        <div class="borderInput">
-            <button id="btnRegistrarInicio" class="btn btn-success borderInput" onclick="RegistrarInicioHorario();">Guardar</button>
-            <button id="btnRegistrarFin" class="btn btn-success borderInput" onclick="RegistrarFinHorario();">Guardar</button>
-        </div>
-
-    </div>
-</div>
-<br />
 <div class="jombotron">
-    <div class="card">
-        <div class="flex-fill">
-            <div class="panel">
-                <div class="form-row">
-                    <h4>Registro de Ruta</h4>
-                </div>
-                <div class="form-row">
-                    <div class="form-row form-group col-12">
-                        <div class="col-4">
-                            <span>Terminal de Inicio</span>
-                            <select class="form-control ddlTer" id="cmbTerminalInicioVuelta"></select>
-                        </div>
-                        <div class="col-4">
-                            <span>Hora de presentación</span>
-                            <input class="form-control" placeholder="HH:MM" maxlength="5" id="txtIniVuelta" />
+    <div class="flex-fill">
+        <div class="panel">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="modal-body">
+                            <div class="modal-title">
+                                <div class="form-group">
+                                    <h4>Registro de jornada</h4>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-row form-group col-12">
+                                    <div class="col-md-10">
+                                        <span>Terminal inicio jornda</span>
+                                        <select class="form-control cmbTer Ini" id="cmbTerminalInicio"></select>
+                                        <label style="display:none" id="idTurnoActual"></label>
+                                    </div>
+                                </div>
+                                <div class="form-row form-group col-12"></div>
+                                <div class="form-row form-group col-12">
+                                    <div class="col-md-10">
+                                        <span>Hora de inicio de la jornada</span>
+                                        <input type="time" class="form-control Ini" placeholder="HH:MM" maxlength="5" id="txtHoraInicio" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="borderInput">
+                                    <label id="lblAviso1" style="display:none" class="text-danger">Existe una vuelta sin finalizar, NO puede finalizar la jornada</label>
+                                </div>
+                                <button id="btnRegistrarInicio" class="btn btn-success borderInput" onclick="RegistrarInicioHorario();">Guardar</button>
+                                <button id="btnShowFin" class="btn btn-primary borderInput" onclick="ShowFinHorario();">Termino de jornada</button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <button id="btnSalir" onclick="Limpiar();" class="btn btn-outline-light">Cancelar</button>
-                </div>
-                <div class="form-group">
-                    <button id="btnRegistrarIniVuelta" class="btn btn-success borderInput" onclick="RegistrarInicioInicioVuelta();">Guradar</button>
-                    <button id="btnRegistrarFinVuelta" class="btn btn-success borderInput" style="display:none" onclick="RegistrarInicioFinVuelta();">Guaradar</button>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="modal-body">
+                            <div class="modal-title">
+                                <h4>Registro de Ruta</h4>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-row form-group col-12">
+                                    <div class="col-md-6">
+                                        <span>Terminal de inicio</span>
+                                        <select class="form-control cmbTer lockedFinalizar" id="cmbTerminalIniVuelta"></select>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span>Hora de salida</span>
+                                        <input type="time" class="form-control lockedFinalizar" placeholder="HH:MM" maxlength="5" id="txtIniVuelta" />
+                                    </div>
+                                </div>
+                                <div class="form-row form-group col-12">
+                                    <div class="col-md-6">
+                                        <span>Bus</span>
+                                        <select class="form-control cmbBus lockedFinalizar" id="cmbBusInicio"></select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span>Servicio salida</span>
+                                        <select class="form-control cmbSer lockedFinalizar" id="cmbServicioInicio"></select>
+                                    </div>
+                                </div>
+                                <div class="form-row form-group col-12">
+                                    <div class="col-md-6">
+                                        <span>Sentido inicio</span>
+                                        <select class="form-control cmbSent lockedFinalizar" id="cmbSentidoInicio"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <label id="lblAviso2" style="display:none" class="text-danger">Existe una vuelta sin finalizar</label>
+                            <div class="borderInput">
+                                <div class="divFlot">
+                                    <button id="btnSalir" type="button" onclick="Limpiar();" class="btn btn-outline-light">Cancelar</button>
+                                </div>
+                            </div>
+                            <div class="borderInput">
+                                <div class="divFlot">
+                                    <button id="btnRegistrarIniVuelta" class="btn btn-success borderInput" onclick="RegistrarInicioVuelta();">Guradar</button>
+                                </div>
+                            </div>
+                            <div class="borderInput">
+                                <div class="divFlot">
+                                    <button id="btnRegistrarFinVuelta" class="btn btn-primary borderInput" style="display:none" onclick="ShowCerrarVuelta();">Finalizar Vuelta</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -118,22 +143,22 @@
             <div class="modal-body">
                 <div class="form-group">
                     <div class="form-group form-row col-12">
-                        <span>Terminal fin jornada</span>
-                        <div class="col-3">
-                            <select class="form-control ddlTer" id="cmbTerminalFin"></select>
+                        <div class="col-12">
+                            <span>Terminal fin jornada</span>
+                            <select class="form-control cmbTer" id="cmbTerminalFin"></select>
                         </div>
-                        <div class="col-md-1"></div>
-                        <span>Hora fin</span>
-                        <div class="col-1">
-                            <input type="text" class="form-control" placeholder="HH:MM" maxlength="5" id="txtHoraFin" />
+                    </div>
+                    <div class="form-group form-row col-12">
+                        <div class="col-12">
+                            <span>Hora fin jornada</span>
+                            <input type="time" class="form-control" placeholder="HH:MM" maxlength="5" id="txtHoraFin" />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnEliminar" onclick="EliminarSentido();">Eliminar</button>
-                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionSentido();">Guardar</button>
+                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="RegistrarFinJornada();">Guardar</button>
             </div>
         </div>
     </div>
@@ -150,20 +175,33 @@
             <div class="modal-body">
                 <div class="form-row form-group col-12">
                     <div class="col-12">
-                        <span>Terminal de término</span>
-                        <select class="form-control ddlTer" id="cmbTerminalTerminoVuelta"></select>
-                    </div>                    
+                        <span>Terminal llegada</span>
+                        <select class="form-control cmbTer" id="cmbTerminalFinVuelta"></select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <span>Bus</span>
+                    <select class="form-control cmbBus" id="cmbBusFin"></select>
+                </div>
+                <div class="col-md-12">
+                    <span>Servicio llegada</span>
+                    <select class="form-control cmbSer" id="cmbServicioFin"></select>
                 </div>
                 <div class="form-row form-group col-12">
                     <div class="col-4 text-center">
-                        <span>Hora de término</span>
-                        <input type="text" placeholder="HH:MM" maxlength="5" class="form-control" id="txtFinVuelta" />
+                        <span>Hora de llegada</span>
+                        <input type="time" placeholder="HH:MM" maxlength="5" class="form-control" id="txtFinVuelta" />
                     </div>
                 </div>
+                <div class="form-row form-group col-12">
+                    <span>Sentido llegada</span>
+                    <select class="form-control cmbSent" id="cmbSentidoFin"></select>
+                </div>
+                <label style="display:none" id="idVueltaActual"></label>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionSentido();">Guardar</button>
+                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="RegistrarFinVuelta();">Guardar</button>
             </div>
         </div>
     </div>
@@ -178,17 +216,16 @@
                 </div>
             </div>
             <div class="modal-body">
-                <label>¿Está seguro que desea <span id="txtMostrar"></span> el Terminal <sapan id="terEliminar" class="text-primary"></sapan>?</label>
+                <label>¿Está seguro que desea eliminar la vuelta?</label>
             </div>
-            <label id="idTerEliminar" style="display:none"></label>
+            <label id="idVueEliminar" style="display:none"></label>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnEliminar" onclick="EliminarTerminal();">Eliminar</button>
+                <button type="button" class="btn btn-danger" id="btnEliminar" onclick="EliminarVuelta();">Eliminar</button>
             </div>
         </div>
     </div>
 </div>
-
 
 
 @section scripts
@@ -198,7 +235,6 @@
 
         $(document).ready(function () {
             CargarCmb();
-            CargarTablaRuta();
             GetInicioTurno();
         });
 
@@ -215,24 +251,7 @@
                         optionTer.val(data.data[i]["ID_TERMINAL"]);
                         optionTer.text(data.data[i]["NOMBRE_TERMINAL"]);
 
-                        $(".ddlTer").append(optionTer);
-                    }
-                }
-            });
-
-            $.ajax({
-                url: '../Mantenedor/GetTerminalesActivos',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: null,
-                success: function (data) {
-                    for (var i = 0; i < data.data.length; i++) {
-                        var optionTer = $(document.createElement('option'));
-                        optionTer.val(data.data[i]["ID_TERMINAL"]);
-                        optionTer.text(data.data[i]["NOMBRE_TERMINAL"]);
-
-                        $("#cmbTerminalInicio").append(optionTer);
+                        $(".cmbTer").append(optionTer);
                     }
                 }
             });
@@ -249,10 +268,73 @@
                         optionSent.val(data.data[i]["ID_SENTIDO"]);
                         optionSent.text(data.data[i]["NOMBRE_SENTIDO"]);
 
-                        $("#cmbSentidoInicio").append(optionSent);
+                        $(".cmbSent").append(optionSent);
                     }
                 }
             });
+
+            $.ajax({
+                url: '../Mantenedor/GetServiciosActivos',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionSent = $(document.createElement('option'));
+                        optionSent.val(data.data[i]["ID_SERVICIO"]);
+                        optionSent.text(data.data[i]["NOMBRE_SERVICIO"]);
+
+                        $(".cmbSer").append(optionSent);
+                    }
+                }
+            });
+
+            $.ajax({
+                url: '../Mantenedor/GetBusesActivos',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionSent = $(document.createElement('option'));
+                        optionSent.val(data.data[i]["ID_BUS"]);
+                        optionSent.text(data.data[i]["ID_INTERNO_BUS"]);
+
+                        $(".cmbBus").append(optionSent);
+                    }
+                }
+            });
+        }
+
+        function GetInicioTurno() {
+            $.ajax({
+                url: '../Mantenedor/GetInicioTurno',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    if (data.data.ID_REGISTRO_HORARIO > 0) {
+                        $("#idTurnoActual").val(data.data.ID_REGISTRO_HORARIO)
+                        $("#txtHoraInicio").val(data.data.HORA_INICIO);
+
+                        $("cmbTerminalInicio option").attr("selected", false);
+                        $("#cmbTerminalInicio option[value='" + data.data.ID_TERMINAL_INICIO + "']").attr("selected", "selected");
+
+                        $("#btnRegistrarInicio").css('display', 'none');
+                        $(".Ini").prop('disabled', true);
+
+                        CargarTablaRuta();
+                    } else {
+                        $("#btnRegistrarInicio").css('display', '');
+                        $(".Ini").prop('disabled');
+                    }
+
+                }
+            });
+
         }
 
         function CargarTablaRuta() {
@@ -275,21 +357,24 @@
                     url: "../Mantenedor/GetRegistroVueltas",
                     type: "POST",
                     dataType: "json",
-                    data: null
+                    data: {
+                        "idHorarioActual": $("#idTurnoActual").val()
+                    }
                 },
                 columns: [
                     { data: "ID_REGISTRO_VUELTAS", visible: false, searchable: false },
-                    { data: "ID_REGISTRO_HORARIO", visible: false, searchable: false },
-                    { data: "NUMERO_VUELTA", title: "Numero vuelta", name: "NUMERO_VUELTA" },
-                    { data: "ID_TERMINAL_INICIO", visible: false },
-                    { data: "NOMBRE_TERMINAL_INICIO", title: "TERMINAL INICIO", orderable: false },
+                    { data: "NUMERO_VUELTA", title: "N°", name: "NUMERO_VUELTA" },
+                    { data: "NOMBRE_SERVICIO_INICIO", title: "Servicio inicio", name: "SERVICIO_INICIO", searchable: false },
+                    { data: "NUMERO_BUS_INICIO", title: "Bus inicio", name: "BUS", searchable: false },
+                    { data: "SEN_INI_CORTO", title: "Sentido", name: "SERVICIO_INICIO", searchable: false },
+                    { data: "NOMBRE_TERMINAL_INICIO", title: "Terminal inicio", orderable: false },
                     {
                         data: null
-                        , title: "FECHA INICIO"
+                        , title: "Fecha Inicio"
                         , orderable: false,
                         render:
                             function (full) {
-                                if (moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY') != '31/12/0000') {
+                                if (full.FECHA_HORA_INICIO != null) {
                                     return moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY HH:MM');
                                 } else {
                                     return "";
@@ -297,38 +382,59 @@
 
                             }
                     },
-                    { data: "ID_TERMINAL_FIN", title: "TERMINAL FIN", visible: false },
-                    { data: "NOMBRE_TERMINAL_FIN", title: "TERMINAL FIN", name: "ID_TERMINAL_FIN", orderable: false },
-                    { data: "FECHA_HORA_FIN", title: "FECHA FIN", name: "FECHA_HORA_FIN", orderable: false },
+                    { data: "NOMBRE_TERMINAL_FIN", title: "Terminal fin", name: "ID_TERMINAL_FIN", orderable: false },
+                    { data: "NUMERO_BUS_FIN", title: "Bus fin", name: "BUS", searchable: false },
                     {
-                        title: "GESTIÓN",
+                        data: null
+                        , title: "Fecha fin"
+                        , orderable: false,
+                        render:
+                            function (full) {
+                                if (full.FECHA_HORA_FIN != null) {
+                                    $("#lblAviso1").css("display", "none");
+                                    $("#lblAviso2").css("display", "none");
+                                    $("#btnRegistrarFinVuelta").css("display", "none");
+                                    $(".lockedFinalizar").prop("disabled");
+                                    $("#btnShowFin").css("display", "");
+                                    $("#btnRegistrarInicio").css('display', 'none');
+
+                                    return moment(full.FECHA_HORA_FIN).format('DD/MM/YYYY HH:MM');
+                                } else {
+                                    $("#btnRegistrarIniVuelta").css("display", "none");
+                                    $("#btnSalir").css("display", "none");
+
+                                    $("#btnRegistrarFinVuelta").css("display", "");
+                                    $("#btnRegistrarFinVuelta").css("display", "");
+                                    $("#lblAviso1").css("display", "");
+                                    $("#lblAviso2").css("display", "");
+
+                                    $(".lockedFinalizar").prop("disabled", true)
+
+                                    return "";
+                                }
+
+                            }
+                    },
+                    {
+                        title: "Gestión",
                         orderable: false,
                         searchable: false,
                         render: function (data, type, full, meta) {
                             var html = '';
 
-                            html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarVuelta(' + full.ID_REGISTRO_VUELTAS + "," + "'" + full.ID_REGISTRO_HORARIO + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
-                                '<span>&nbsp;&nbsp;</span>' +
-                                '<a role="button" class="btn-table-bg " onclick="ShowCerrarVuelta()"><i class="far fa-edit text-success"></i></a>';
+                            $("#idVueltaActual").val(full.ID_REGISTRO_VUELTAS);
+                            html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarVuelta(' + full.ID_REGISTRO_VUELTAS + ');"><i class="far fa-trash-alt text-danger"></i></a><span>&nbsp;&nbsp;</span>';
+
+
+                            if (full.NOMBRE_TERMINAL_FIN != "") {
+                                html = html + '<a role="button" class="btn-table-bg " onclick="ShowEditarVuelta(' + full.ID_REGISTRO_VUELTAS + ')"><i class="text-success fas fa-edit"></i></a>';
+                            }
 
                             return html;
                         }
                     },
                 ]
             });
-        }
-
-        function ShowEliminarVuelta(idTerminal, nombreTerminal) {
-            $("#modalConfirmacion").modal("show");
-        }
-
-        function ShowCerrarVuelta(idTerminal, idRegistro) {
-            $("#modalCierreVuelta").modal("show");
-        }
-
-        function CerrarModal() {
-            $("#modalConfirmacion").modal("hide");
-            $("#modalCierreVuelta").modal("hide");
         }
 
         function RegistrarInicioHorario() {
@@ -346,67 +452,30 @@
                 },
                 success: function (data) {
                     if (data.alert != '') {
-                        alertSuccess(data.message)
+                        alertSuccess(data.Data.message);
+                        GetInicioTurno();
+                    } else {
+                        alertDanger("Se ha producido un error guardar los datos, intente nuevamente")
                     }
                 }
             });
         }
 
-        function RegistrarFinHorario() {
-            let terminalInicio = $("#cmbTerminalFin").val();
-            let HoraInicio = $("#txtHoraFin").text();
-
-            $.ajax({
-                url: '../Mantenedor/SetRegistroBitacoraInicioHorario',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: {
-                    "HoraInicio": HoraInicio,
-                    "Idterminal": terminalInicio
+        function ShowFinHorario() {
+            $("#modalCierreJornada").modal("show");
+        }
+        
+        function RegistrarInicioVuelta() {
+            var vuelta = [
+                {
+                    ID_REGISTRO_HORARIO: $("#idTurnoActual").val(),
+                    HORA_INICIO: $("#txtIniVuelta").val(),
+                    ID_BUS_INICIO: $("#cmbBusInicio option:selected").val(),
+                    ID_SERVICIO_INICIO: $("#cmbServicioInicio option:selected").val(),
+                    ID_SENTIDO_INICIO: $("#cmbSentidoInicio").val(),
+                    ID_TERMINAL_INICIO: $("#cmbTerminalIniVuelta option:selected").val(),
                 },
-                success: function (data) {
-                    if (data.Data.alert != '') {
-                        alertSuccess(data.Data.message)
-                        tblRuta.ajax.reload(null, false);
-
-                        $("#cmbTerminalFin option").attr("selected", false);
-
-                        $("cmbTerminalFin option[value='" + 0 + "']").attr("selected", "selected");
-                    }
-                }
-            });
-        }
-
-        function GetInicioTurno() {
-            $.ajax({
-                url: '../Mantenedor/GetInicioTurno',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: null,
-                success: function (data) {
-                    if (data.data != null) {
-                        $("#idTurnoActual").val(data.data.ID_REGISTRO_HORARIO)
-
-                        $("cmbTerminalInicio option").attr("selected", false);
-
-                        $("#cmbTerminalInicio option[value='" + data.data.ID_TERMINAL_INICIO + "']").attr("selected", "selected");
-
-                        $("#txtHoraInicio").val(data.data.HORA_INICIO);
-                        $("#btnRegistrarInicio").css('display', 'none');
-
-                        $(".Ini").prop('disabled', true);
-                    }
-
-                }
-            });
-        }
-
-        function RegistrarInicioInicioVuelta() {
-            let terminalInicio = $("#cmbTerminalInicioVuelta").val();
-            let HoraInicio = $("#txtIniVuelta").val();
-            let HoraTurno = $("#idTurnoActual").val();
+            ]
 
             $.ajax({
                 url: '../Mantenedor/SetRegistroInicioVuelta',
@@ -414,21 +483,150 @@
                 datatype: 'json',
                 async: false,
                 data: {
-                    "HoraInicio": HoraInicio,
-                    "Idterminal": terminalInicio,
-                    "idHorario": HoraTurno
+                    Vueltas: vuelta,
                 },
                 success: function (data) {
                     if (data.Data.alert != '') {
                         alertSuccess(data.Data.message)
                         tblRuta.ajax.reload(null, false);
 
-                        $("#cmbTerminalInicioVuelta").val();
                         $("#txtIniVuelta").val("");
+                        $("#lblAviso").css("display", "none");
 
-                        $("#cmbTerminalInicioVuelta option").attr("selected", false);
+                        $("#cmbTerminalIniVuelta option").attr("selected", false);
+                        $("#cmbBusInicio option").attr("selected", false);
+                        $("#cmbServicioInicio option").attr("selected", false);
+                        $("#cmbSentidoInicio option").attr("selected", false);
 
-                        $("cmbTerminalInicioVuelta option[value='" + 0 + "']").attr("selected", "selected");
+                        $("cmbTerminalIniVuelta option[value='" + 0 + "']").attr("selected", "selected");
+                        $("cmbBusInicio option[value='" + 0 + "']").attr("selected", "selected");
+                        $("cmbServicioInicio option[value='" + 0 + "']").attr("selected", "selected");
+                        $("cmbSentidoInicio option[value='" + 0 + "']").attr("selected", "selected");
+                    }
+                }
+            });
+        }
+
+        function RegistrarFinVuelta() {
+            var vuelta = [
+                {
+                    ID_REGISTRO_VUELTAS: $("#idVueltaActual").val(),
+                    HORA_FIN: $("#txtFinVuelta").val(),
+                    ID_BUS_FIN: $("#cmbBusFin  option:selected").val(),
+                    ID_SERVICIO_FIN: $("#cmbServicioFin option:selected").val(),
+                    ID_SENTIDO_FIN: $("#cmbSentidoFin option:selected").val(),
+                    ID_TERMINAL_FIN: $("#cmbTerminalFinVuelta option:selected").val(),
+                },
+            ]
+
+            $.ajax({
+                url: '../Mantenedor/SetRegistroFinalizaVuelta',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    Vueltas: vuelta,
+                },
+                success: function (data) {
+                    if (data.Data.alert != '') {
+                        alertSuccess(data.Data.message)
+                        tblRuta.ajax.reload(null, false);
+
+                        $("#cmbTerminalFinVuelta option").attr("selected", false);
+                        $("#cmbBusFin option").attr("selected", false);
+                        $("#cmbServicioFin option").attr("selected", false);
+                        $("#cmbTerminalFinVuelta option").attr("selected", false);
+
+                        $("cmbTerminalFinVuelta option[value='" + 0 + "']").attr("selected", "selected");
+                        $("cmbBusFin option[value='" + 0 + "']").attr("selected", "selected");
+                        $("cmbServicioFin option[value='" + 0 + "']").attr("selected", "selected");
+                        $("cmbTerminalFinVuelta option[value='" + 0 + "']").attr("selected", "selected");
+
+                        CerrarModal();
+                    }
+                }
+            });
+        }
+
+        function ShowEliminarVuelta(idVuelta) {
+            console.log(idVuelta)
+            $("#idVueEliminar").text(idVuelta)
+            $("#modalConfirmacion").modal("show");
+        }
+
+        function ShowCerrarVuelta(idVuelta) {
+            if (idVuelta != undefined) {
+                $("#idVueltaActual").val(idVuelta)
+            }
+
+            console.log($("#idVueltaActual").val())
+
+            $("#modalCierreVuelta").modal("show");
+        }
+
+        function CerrarModal() {
+            $("#modalConfirmacion").modal("hide");
+            $("#modalCierreVuelta").modal("hide");
+            $("#modalCierreJornada").modal("hide");
+        }
+
+        function EliminarVuelta() {
+            var idVuelta = $("#idVueEliminar").text();
+
+            $.ajax({
+                url: '../Mantenedor/SetEliminarVuelta',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "idVuelta": idVuelta
+                },
+                success: function (data) {
+                    if (data.Data.alert == "success") {
+                        setTimeout(function () {
+                            alertSuccess(data.Data.message);
+                        }, 500);
+
+                        CerrarModal();
+
+                        tblRuta.ajax.reload(null, false);
+
+                    } else {
+                        alertDanger(data.Data.message);
+                        tblRuta.ajax.reload(null, false);
+                    }
+                },
+                error: function () {
+                    CerrarModal();
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                    tblRuta.ajax.reload(null, false);
+                }
+            });
+        }
+
+        function RegistrarFinJornada() {
+            let idTurnoActual = $("#idTurnoActual").val();
+            let terminalInicio = $("#cmbTerminalFin").val();
+            let HoraFin = $("#txtHoraFin").val();
+
+            $.ajax({
+                url: '../Mantenedor/SetFinJornada',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "idJornada": idTurnoActual,
+                    "HoraFin": HoraFin,
+                    "Idterminal": terminalInicio
+                },
+                success: function (data) {
+                    if (data.Data.alert != '') {
+                        alertSuccess(data.Data.message)
+                        CerrarModal();
+
+                        $("#cmbTerminalFin option").attr("selected", false);
+
+                        $("cmbTerminalFin option[value='" + 0 + "']").attr("selected", "selected");
                     }
                 }
             });

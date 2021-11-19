@@ -26,17 +26,24 @@ namespace DLL.DAO.Operaciones
                 {
                     List<DTO_RegistroVueltas> dtoRegistro = (from reg in context.REGISTRO_VUELTAS
                                                              join ter in context.TERMINAL on reg.ID_TERMINAL_INICIO equals ter.ID_TERMINAL
-                                                             where reg.ID_REGISTRO_HORARIO == idRegistroHorario
+                                                             join ser in context.SERVICIO on reg.ID_SERVICIO_INICIO equals ser.ID_SERVICIO
+                                                             join sen in context.SENTIDO on reg.ID_SENTIDO_INICIO equals sen.ID_SENTIDO
+                                                             join b in context.BUS on reg.ID_BUS_INICIO equals b.ID_BUS
+                                                             where reg.ID_REGISTRO_HORARIO == idRegistroHorario && reg.ESTADO == true
                                                              select new DTO_RegistroVueltas
                                                              {
                                                                  ID_REGISTRO_VUELTAS = reg.ID_REGISTRO_VUELTAS,
-                                                                 ID_REGISTRO_HORARIO = reg.ID_REGISTRO_HORARIO,
-                                                                 ID_TERMINAL_INICIO = reg.ID_TERMINAL_INICIO,
+                                                                 NOMBRE_SERVICIO_INICIO = ser.NOMBRE_SERVICIO,
+                                                                 NUMERO_BUS_INICIO = b.ID_INTERNO_BUS,
+                                                                 SEN_INI_CORTO = sen.NOMBRE_CORTO_SENTIDO,
                                                                  NOMBRE_TERMINAL_INICIO = ter.NOMBRE_TERMINAL,
                                                                  FECHA_HORA_INICIO = reg.FECHA_HORA_INICIO,
-                                                                 ID_TERMINAL_FIN = reg.ID_TERMINAL_FIN,
-                                                                 NOMBRE_TERMINAL_FIN = ter.NOMBRE_TERMINAL,
-                                                                 FECHA_HORA_FIN = reg.FECHA_HORA_FIN
+                                                                 NOMBRE_SERVICIO_FIN = context.SERVICIO.Where(s => s.ID_SERVICIO == reg.ID_SERVICIO_FIN).Select(s => s.NOMBRE_SERVICIO).FirstOrDefault(),
+                                                                 NOMBRE_TERMINAL_FIN = context.TERMINAL.Where(x => x.ID_TERMINAL == reg.ID_TERMINAL_FIN).Select(x => x.NOMBRE_TERMINAL).FirstOrDefault(),
+                                                                 NUMERO_BUS_FIN = context.BUS.Where(b => b.ID_BUS == reg.ID_BUS_BUS).Select(b => b.ID_INTERNO_BUS).FirstOrDefault(),
+                                                                 SEN_FIN_CORTO = context.SENTIDO.Where(se => se.ID_SENTIDO == reg.ID_SENTIDO_FIN).Select(se => se.NOMBRE_CORTO_SENTIDO).FirstOrDefault(),
+                                                                 FECHA_HORA_FIN = reg.FECHA_HORA_FIN,
+
                                                              }).ToList();
 
                     return dtoRegistro;
@@ -135,11 +142,17 @@ namespace DLL.DAO.Operaciones
                     {
                         REGISTRO_VUELTAS newReg = new REGISTRO_VUELTAS()
                         {
+                            ID_REGISTRO_VUELTAS = 1,
                             ID_REGISTRO_HORARIO = list.ID_REGISTRO_HORARIO,
+                            ID_BUS_INICIO = list.ID_BUS_INICIO,
+                            ID_SERVICIO_INICIO = list.ID_SERVICIO_INICIO,
+                            ID_SENTIDO_INICIO = list.ID_SENTIDO_INICIO,
                             ID_TERMINAL_INICIO = list.ID_TERMINAL_INICIO,
                             FECHA_HORA_INICIO = list.FECHA_HORA_INICIO,
-                            ID_TERMINAL_FIN = list.ID_TERMINAL_FIN,
-                            FECHA_HORA_FIN = list.FECHA_HORA_FIN
+                            ID_SENTIDO_FIN = null,
+                            ID_TERMINAL_FIN = null,
+                            FECHA_HORA_FIN = null,
+                            ESTADO = true
 
                         };
 
@@ -160,5 +173,100 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public int SetFinalizaVuelta(DTO_RegistroVueltas list)
+        {
+            try
+            {
+                int respuesta = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        REGISTRO_VUELTAS reg = new REGISTRO_VUELTAS();
+                        reg = context.REGISTRO_VUELTAS.Where(x => x.ID_REGISTRO_VUELTAS == list.ID_REGISTRO_VUELTAS).FirstOrDefault();
+                        reg.ID_SERVICIO_FIN = list.ID_SERVICIO_FIN;
+                        reg.ID_SENTIDO_FIN = list.ID_SENTIDO_FIN;
+                        reg.ID_TERMINAL_FIN = list.ID_TERMINAL_FIN;
+                        reg.FECHA_HORA_FIN = list.FECHA_HORA_FIN;
+                        reg.ID_BUS_BUS = list.ID_BUS_FIN;
+
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+
+                    return respuesta;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
+        public int SetEliminarVuelta(int idVuelta)
+        {
+            try
+            {
+                int respuesta = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        REGISTRO_VUELTAS reg = new REGISTRO_VUELTAS();
+                        reg = context.REGISTRO_VUELTAS.Where(x => x.ID_REGISTRO_VUELTAS == idVuelta).FirstOrDefault();
+                        reg.ESTADO = false; 
+
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+
+                    return respuesta;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
+        public int SetIngresaFinHorario(DTO_RegistroHorario list)
+        {
+            try
+            {
+                int respuesta = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        REGISTRO_HORARIO reg = new REGISTRO_HORARIO();
+                        reg = context.REGISTRO_HORARIO.Where(x => x.ID_REGISTRO_HORARIO == list.ID_REGISTRO_HORARIO).FirstOrDefault();
+                        reg.ID_USUARIO = 1;
+                        reg.ID_TERMINAL_INICIO = reg.ID_TERMINAL_INICIO;
+                        reg.FECHA_HORA_INICIO = reg.FECHA_HORA_INICIO;
+                        reg.ID_TERMINAL_FIN = list.ID_TERMINAL_FIN;
+                        reg.FECHA_HORA_FIN = list.FECHA_HORA_FIN;
+                        reg.ESTADO = list.ESTADO;
+
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+
+                    return respuesta;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
     }
 }

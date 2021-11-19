@@ -39,5 +39,21 @@ namespace DLL.NEGOCIO.Operaciones
         {
             return I_Dao_RegistroHorario.SetIngresaVuelta(list);
         }
+
+        public int SetFinalizaVuelta(DTO_RegistroVueltas list)
+        {
+            return I_Dao_RegistroHorario.SetFinalizaVuelta(list);
+        }
+
+        public int SetEliminarVuelta(int idVuelta)
+        {
+            return I_Dao_RegistroHorario.SetEliminarVuelta(idVuelta);
+        }
+
+        public int SetIngresaFinHorario(DTO_RegistroHorario list)
+        {
+            return I_Dao_RegistroHorario.SetIngresaFinHorario(list);
+        }
+
     }
 }
