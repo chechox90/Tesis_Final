@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -26,6 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>4.3</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -319,6 +321,9 @@
     <Content Include="Plugins\FoolProof\MvcFoolproofJQueryValidation.min.js" />
     <Content Include="Plugins\FoolProof\MvcFoolproofValidation.js" />
     <Content Include="Plugins\FoolProof\MvcFoolproofValidation.min.js" />
+    <Content Include="Plugins\Graficos\bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="Plugins\Graficos\jquery\jquery-3.3.1.min.js" />
+    <Content Include="Plugins\Graficos\slimscroll\jquery.slimscroll.js" />
     <Content Include="Plugins\jquery-timepicker\css\jquery.timepicker.css" />
     <Content Include="Plugins\jquery-timepicker\css\jquery.timepicker.min.css" />
     <Content Include="Plugins\jquery-timepicker\js\jquery.timepicker.js" />
@@ -338,6 +343,11 @@
     <Content Include="Plugins\moment.js" />
     <Content Include="Plugins\moment\moment.js" />
     <Content Include="Plugins\Normalize\normalize.css" />
+    <Content Include="Plugins\package\dist\chart.esm.js" />
+    <Content Include="Plugins\package\dist\chart.js" />
+    <Content Include="Plugins\package\dist\chart.min.js" />
+    <Content Include="Plugins\package\dist\chunks\helpers.segment.js" />
+    <Content Include="Plugins\package\dist\helpers.esm.js" />
     <Content Include="Plugins\Plyr\css\plyr.css" />
     <Content Include="Plugins\Plyr\js\plyr.js" />
     <Content Include="Plugins\ScrollReveal\scrollreveal.js" />
@@ -563,11 +573,15 @@
       <Name>DLL.NEGOCIO</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

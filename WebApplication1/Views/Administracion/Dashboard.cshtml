@@ -4,163 +4,188 @@
 }
 
 
-<div class="col-lg-6">
-    <div class="card h-100">
-        <div class="card-body p-3 h-75">
-            <div id="PapelNoUsado" class="h-100 d-flex"></div>
+<h2>Dashboard</h2>
+
+<div class="col-12">
+    <div class="form-row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body" height="100">
+                    <canvas id="AguaNoUsada"  ></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="PapelNoUsado"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<h2>Dashboard</h2>
+<br />
+<div class="col-md-12 card" id="divTablaHorarios">
+    <table id="tblTerminales" class="table table-striped table-hover">
+    </table>
+</div>
 
-<script>
-    function myfunction() {
-        if (ValorPlanillasRevisadas <= 0 && ValorPlanillasNoRevisadas <= 0) {
-            $('#PapelNoUsado').html('<span>No existen registros</span>')
-        } else {
-            Highcharts.chart('PapelNoUsado', {
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false,
-                    type: 'pie'
-                },
-                title: {
-                    text: 'Uso de papel eliminado',
-                    align: 'left',
-                    style: {
-                        fontSize: '1.25rem'
-                    }
-                },
-                legend: {
-                    align: 'right',
-                    verticalAlign: 'top',
-                    layout: 'vertical',
-                    labelFormat: '{name} <span style="color:#34394F;"> {y}</span>',
-                    itemMarginBottom: 15,
-                    itemStyle: {
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        color: "#6E7B8F"
-                    },
-                    itemHoverStyle: {
-                        color: "#34394F"
-                    },
-                    itemHiddenStyle: {
-                        color: "rgba(110, 123, 143, .4)"
-                    },
-                    y: 80,
-                    x: -40
-                },
-                tooltip: {
-                    headerFormat: '<span style="font-size:16px"></span><br>',
-                    pointFormat: '<span style="color:rgba(255,255,255,.75);">{point.name}: </span> <b> {point.y}</b>',
-                    padding: 8,
-                    borderRadius: 8,
-                    borderColor: '#34394F',
-                    backgroundColor: '#34394F',
-                    style: {
-                        fontSize: '12px',
-                        color: '#FFF'
-                    },
-                    shadow: false
-                },
-                lang: {
-                    printChart: '<i class="far fa-print mr-2"></i> Imprimir',
-                    downloadPNG: '<i class="far fa-file-image mr-2"></i> Descargar PNG',
-                    downloadJPEG: '<i class="fas fa-file-image mr-2"></i> Descargar JPG',
-                    downloadPDF: '<i class="far fa-file-pdf mr-2"></i> Descargar PDF',
-                    downloadXLS: '<i class="far fa-cloud-download mr-2"></i> Descargar Excel',
-                    exportData: {
-                        categoryHeader: 'Categoría'
-                    }
-                },
-                exporting: {
-                    buttons: {
-                        contextButton: {
-                            symbol: 'menuball',
-                            symbolSize: 13,
-                            symbolFill: '#6E7B8F',
-                            symbolStrokeWidth: 2,
-                            symbolStroke: '#6E7B8F',
-                            menuItems: ['downloadPNG', 'downloadJPEG', 'downloadPDF', 'separator', 'downloadXLS']
-                        }
-                    }
-                },
-                responsive: {
-                    rules: [{
-                        condition: {
-                            maxWidth: 500
-                        },
-                        chartOptions: {
-                            legend: {
-                                align: 'left',
-                                verticalAlign: 'top',
-                                layout: 'horizontal',
-                                itemMarginBottom: 6,
-                                y: 0,
-                                x: -8
-                            },
-                            yAxis: {
-                                labels: {
-                                    align: 'left',
-                                    x: 0,
-                                    y: -5
-                                },
-                                title: {
-                                    text: null
-                                }
-                            },
-                            subtitle: {
-                                text: null
-                            },
-                            credits: {
-                                enabled: false
-                            }
-                        }
+@section scripts
+{
+
+    <script src="~/Plugins/package/dist/chart.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            graficoIncio();
+            CargarTerminales();
+        });
+
+        function graficoIncio() {
+            const ctx = document.getElementById('PapelNoUsado').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Papel usado en noviembre-2020', 'Papel no usado noviembre-2021'],
+                    datasets: [{
+                        label:
+                            'Número de Hojas'
+                        ,
+                        data: [12850, 3522],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        borderWidth: 1
                     }]
                 },
-                plotOptions: {
-                    pie: {
-                        colors: [
-                            "#006BE6",
-                            "#FFD000"
-                        ],
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            style: {
-                                fontSize: 13,
-                                fontFamily: 'Roboto',
-                                textOutline: 0,
-                            },
-                            format: '<b>{point.name}</b><br/> {point.percentage:.1f} %',
-                            distance: -40,
-                            y: -10
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Uso del papel',
+                            padding: {
+                                top: 10,
+                                bottom: 30
+                            }
                         }
                     },
+                    animations: {
+                        tension: {
+                            duration: 1500,
+                            easing: 'linear',
+                            from: 1,
+                            to: 0,
+                            loop: true
+                        }
+                    },
+                   
+                }
+            });
+
+            const ctx2 = document.getElementById('AguaNoUsada').getContext('2d');
+            const myChart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Litros usados en noviembre-2020', 'Litros usados en noviembre-2021'],
+                    datasets: [{
+                        label: ['Hojas 2020'
+                        ],
+                        data: [80211, 20512],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
                 },
-                series: [{
-                    name: 'Total',
-                    colorByPoint: true,
-                    size: '80%',
-                    innerSize: '45%',
-                    showInLegend: true,
-                    data: [{
-                        name: 'Revisadas',
-                        y: parseInt(ValorPlanillasRevisadas)
-                    }, {
-                        name: 'No revisadas',
-                        y: parseInt(ValorPlanillasNoRevisadas)
-                    }],
-                }],
-                credits: {
-                    enabled: false
-                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Uso del agua',
+                            padding: {
+                                top: 10,
+                                bottom: 30
+                            }
+                        }
+                    },
+                    animations: {
+                        tension: {
+                            duration: 1500,
+                            easing: 'linear',
+                            from: 1,
+                            to: 0,
+                            loop: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
             });
         }
-    }
 
-</script>
+        function CargarTerminales() {
+            tblTerminal = $("#tblTerminales").DataTable({
+                dom: "<'card-header flex-column flex-lg-row align-items-start align-items-lg-center'<'d-flex flex-column flex-lg-row justify-content-start align-items-lg-center'<'titleRev mr-2'><'comboFil mb-2 mb-lg-0'>><'d-flex justify-content-md-end'fl>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
+                scrollX: true,
+                processing: true,
+                destroy: true,
+                lengthChange: true,
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+                columnDefs: [
+                    { targets: [0, 3, 4], searchable: false, orderable: false }
+                ],
+                language: {
+                    "url": "../Plugins/DataTables/js/Spanish.json"
+                },
+                order: [[1, "asc"]],
+                initComplete: function () {
+                    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+                },
+                ajax: {
+                    url: "../Mantenedor/GetTerminalesActivos",
+                    type: "POST",
+                    dataType: "json",
+                    data: null
+                },
+                columns: [
+                    { data: "ID_TERMINAL", visible: false, searchable: false },
+                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL", orderable: false },
+                    { data: "DIRECCION", title: "DIRECCIÓN", name: "DIRECCION", orderable: false },
+                    { data: "NUM_DIRECCION", title: "N° DIRECCION", name: "NUM_DIRECCION", orderable: false },
+                    { data: "NOMBRE_EMPRESA", title: "NOMBRE EMPRESA", name: "NOMBRE_EMPRESA", orderable: false },
+                    {
+                        title: "GESTIÓN",
+                        orderable: false,
+                        searchable: false,
+                        render: function (data, type, full, meta) {
+                            var html = '';
+
+                            html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarTerminal(' + full.ID_TERMINAL + "," + "'" + full.NOMBRE_TERMINAL + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
+                                '<span>&nbsp;&nbsp;</span>' +
+                                '<a role="button" class="btn-table-bg " onclick="ShowEditarTerminal(' + full.ID_TERMINAL + ',' + "'" + full.NOMBRE_TERMINAL + "'" + ',' + "'" + full.DIRECCION + "'" + ',' + "'" + full.NUM_DIRECCION + "'" + ')">' +
+                                '<i class="far fa-edit text-success"></i></a>';
+
+                            return html;
+                        }
+                    },
+                ]
+            });
+        }
+
+    </script>
+}

@@ -67,5 +67,10 @@ namespace ConductorEnRed.Controllers
         {
             return View("~/Views/HorarioConductor/Ruta.cshtml");
         }
+
+        public ActionResult HomeDashBoard()
+        {
+            return View("~/Views/Administracion/Dashboard.cshtml");
+        }
     }
 }
