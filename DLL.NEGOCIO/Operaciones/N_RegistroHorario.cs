@@ -55,5 +55,10 @@ namespace DLL.NEGOCIO.Operaciones
             return I_Dao_RegistroHorario.SetIngresaFinHorario(list);
         }
 
+        public int SetIditaVuelta(DTO_RegistroVueltas list)
+        {
+            return I_Dao_RegistroHorario.SetIditaVuelta(list);
+        }
+
     }
 }

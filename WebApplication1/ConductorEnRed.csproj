@@ -486,6 +486,7 @@
     <Content Include="Views\HorarioConductor\Solicitudes.cshtml" />
     <Content Include="Views\Administracion\Dashboard.cshtml" />
     <Content Include="Views\HorarioConductor\Ruta.cshtml" />
+    <Content Include="Views\HorarioConductor\_EditarVuelta.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

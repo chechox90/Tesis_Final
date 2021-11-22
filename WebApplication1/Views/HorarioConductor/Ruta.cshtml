@@ -638,7 +638,6 @@
         }
 
         function ShowEliminarVuelta(idVuelta) {
-            console.log(idVuelta)
             $("#idVueEliminar").text(idVuelta)
             $("#modalConfirmacion").modal("show");
         }
@@ -721,8 +720,10 @@
             });
         }
 
-        function ShowEditarVuelta() {
-
+        function ShowEditarVuelta(idVuelta) {
+            $("#idVueEliminar").text(idVuelta)
+            $("#modalConfirmacion").modal("show");
+            
         }
 
     </script>

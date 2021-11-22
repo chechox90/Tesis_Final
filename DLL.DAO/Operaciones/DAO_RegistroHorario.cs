@@ -217,7 +217,7 @@ namespace DLL.DAO.Operaciones
                     {
                         REGISTRO_VUELTAS reg = new REGISTRO_VUELTAS();
                         reg = context.REGISTRO_VUELTAS.Where(x => x.ID_REGISTRO_VUELTAS == idVuelta).FirstOrDefault();
-                        reg.ESTADO = false; 
+                        reg.ESTADO = false;
 
                         respuesta = context.SaveChanges();
                         contextTransaction.Commit();
@@ -268,5 +268,48 @@ namespace DLL.DAO.Operaciones
                 throw;
             }
         }
+
+        public int SetIditaVuelta(DTO_RegistroVueltas list)
+        {
+            try
+            {
+                int respuesta = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        REGISTRO_VUELTAS reg = new REGISTRO_VUELTAS();
+                        reg = context.REGISTRO_VUELTAS.Where(x => x.ID_REGISTRO_VUELTAS == list.ID_REGISTRO_VUELTAS).FirstOrDefault();
+
+                        reg.ID_REGISTRO_VUELTAS = 1;
+                        reg.ID_REGISTRO_HORARIO = list.ID_REGISTRO_HORARIO;
+                        reg.ID_BUS_INICIO = list.ID_BUS_INICIO;
+                        reg.ID_SERVICIO_INICIO = list.ID_SERVICIO_INICIO;
+                        reg.ID_SENTIDO_INICIO = list.ID_SENTIDO_INICIO;
+                        reg.ID_TERMINAL_INICIO = list.ID_TERMINAL_INICIO;
+                        reg.FECHA_HORA_INICIO = list.FECHA_HORA_INICIO;
+                        reg.ID_SERVICIO_FIN = list.ID_SERVICIO_FIN;
+                        reg.ID_SENTIDO_FIN = list.ID_SENTIDO_FIN;
+                        reg.ID_TERMINAL_FIN = list.ID_TERMINAL_FIN;
+                        reg.FECHA_HORA_FIN = list.FECHA_HORA_FIN;
+                        reg.ID_BUS_BUS = list.ID_BUS_FIN;
+                        reg.ESTADO = true;
+
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
     }
 }

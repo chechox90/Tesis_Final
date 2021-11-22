@@ -1155,6 +1155,59 @@ namespace ConductorEnRed.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult SetRegistroEdicionVuelta(List<RegistroVueltasModel> Vueltas)
+        {
+            try
+            {
+                string alert = "";
+                DTO_RegistroVueltas newReg = new DTO_RegistroVueltas()
+                {
+                    ID_REGISTRO_VUELTAS = 1,
+                    ID_REGISTRO_HORARIO = Vueltas[0].ID_REGISTRO_HORARIO,
+                    ID_BUS_INICIO = Vueltas[0].ID_BUS_INICIO,
+                    ID_SERVICIO_INICIO = Vueltas[0].ID_SERVICIO_INICIO,
+                    ID_SENTIDO_INICIO = Vueltas[0].ID_SENTIDO_INICIO,
+                    ID_TERMINAL_INICIO = Vueltas[0].ID_TERMINAL_INICIO,
+                    FECHA_HORA_INICIO = DateTime.Parse(DateTime.Now.ToString().Substring(0, 10) + " " + Vueltas[0].HORA_INICIO),
+                    ID_BUS_FIN = Vueltas[0].ID_BUS_FIN,
+                    ID_SERVICIO_FIN = Vueltas[0].ID_SERVICIO_FIN,
+                    ID_SENTIDO_FIN = Vueltas[0].ID_SENTIDO_FIN,
+                    ID_TERMINAL_FIN = Vueltas[0].ID_TERMINAL_FIN,
+                    FECHA_HORA_FIN = DateTime.Parse(DateTime.Now.ToString().Substring(0, 10) + " " + Vueltas[0].HORA_FIN),
+                    ESTADO = true
+
+
+                };
+                int response = _i_n_RegistroHorario.SetIditaVuelta(newReg);
+
+                if (1 == 1)
+                {
+
+                    alert = "success";
+                    var message = "Vuelta editada con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         #endregion
 
     }

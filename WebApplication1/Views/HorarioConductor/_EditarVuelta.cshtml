@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewBag.Title = "_EditarVuelta";
+}
+
+<style>
+    .borderInput {
+        margin: 10px;
+    }
+
+    .divFlot {
+        text-align: right
+    }
+</style>
+
+<div class="page-title">
+    <div class="content-title">
+        <h3>Editar Vuelta</h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Editar Vuelta</a></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="jombotron">
+    <div class="flex-fill">
+        <div class="panel">
+            <div class="form-row">
+                <div class="card">
+                    <div class="modal-body">
+                        <div class="modal-title">
+                            <h4>Registro de Ruta</h4>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-row form-group col-12">
+                                <div class="col-md-6">
+                                    <span>Terminal de inicio</span>
+                                    <select class="form-control cmbTer lockedFinalizar" id="cmbTerminalIniVuelta"></select>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <span>Hora de salida</span>
+                                    <input type="time" class="form-control lockedFinalizar" placeholder="HH:MM" maxlength="5" id="txtIniVuelta" />
+                                </div>
+                            </div>
+                            <div class="form-row form-group col-12">
+                                <div class="col-md-6">
+                                    <span>Bus</span>
+                                    <select class="form-control cmbBus lockedFinalizar" id="cmbBusInicio"></select>
+                                </div>
+                                <div class="col-md-6">
+                                    <span>Servicio salida</span>
+                                    <select class="form-control cmbSer lockedFinalizar" id="cmbServicioInicio"></select>
+                                </div>
+                            </div>
+                            <div class="form-row form-group col-12">
+                                <div class="col-md-6">
+                                    <span>Sentido inicio</span>
+                                    <select class="form-control cmbSent lockedFinalizar" id="cmbSentidoInicio"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-row form-group col-12">
+                                <div class="col-12">
+                                    <span>Terminal llegada</span>
+                                    <select class="form-control cmbTer" id="cmbTerminalFinVuelta"></select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <span>Bus</span>
+                                <select class="form-control cmbBus" id="cmbBusFin"></select>
+                            </div>
+                            <div class="col-md-12">
+                                <span>Servicio llegada</span>
+                                <select class="form-control cmbSer" id="cmbServicioFin"></select>
+                            </div>
+                            <div class="form-row form-group col-12">
+                                <div class="col-4 text-center">
+                                    <span>Hora de llegada</span>
+                                    <input type="time" placeholder="HH:MM" maxlength="5" class="form-control" id="txtFinVuelta" />
+                                </div>
+                            </div>
+                            <div class="form-row form-group col-12">
+                                <span>Sentido llegada</span>
+                                <select class="form-control cmbSent" id="cmbSentidoFin"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="borderInput">
+                    <div class="divFlot">
+                        <button id="btnSalir" type="button" onclick="Limpiar();" class="btn btn-outline-light">Cancelar</button>
+                    </div>
+                </div>
+                <div class="borderInput">
+                    <div class="divFlot">
+                        <button id="btnRegistrarIniVuelta" class="btn btn-success borderInput" onclick="RegistrarInicioVuelta();">Guradar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+    {
+    <script>
+        var tblRuta;
+
+        $(document).ready(function () {
+        });
+
+        function ShowConfitmarEditVuelta(idVuelta) {
+            console.log(idVuelta)
+            $("#idVueEliminar").text(idVuelta)
+            $("#modalConfirmacion").modal("show");
+        }
+
+        function RegistrarIdicionVuelta() {
+            var vuelta = [
+                {
+                    ID_REGISTRO_HORARIO: $("#idTurnoActual").val(),
+                    HORA_INICIO: $("#txtIniVuelta").val(),
+                    ID_BUS_INICIO: $("#cmbBusInicio option:selected").val(),
+                    ID_SERVICIO_INICIO: $("#cmbServicioInicio option:selected").val(),
+                    ID_SENTIDO_INICIO: $("#cmbSentidoInicio").val(),
+                    ID_TERMINAL_INICIO: $("#cmbTerminalIniVuelta option:selected").val(),
+                    HORA_FIN: $("#txtFinVuelta").val(),
+                    ID_BUS_FIN: $("#cmbBusFin  option:selected").val(),
+                    ID_SERVICIO_FIN: $("#cmbServicioFin option:selected").val(),
+                    ID_SENTIDO_FIN: $("#cmbSentidoFin option:selected").val(),
+                    ID_TERMINAL_FIN: $("#cmbTerminalFinVuelta option:selected").val(),
+                },
+            ]
+
+            $.ajax({
+                url: '../Mantenedor/SetRegistroEdicionVuelta',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    Vueltas: vuelta,
+                },
+                success: function (data) {
+                    if (data.Data.alert != '') {
+                        alertSuccess(data.Data.message)
+                        tblRuta.ajax.reload(null, false);
+
+                        $("#txtIniVuelta").val("");
+                        $("#lblAviso").css("display", "none");
+
+                        $("#cmbTerminalIniVuelta option").attr("selected", false);
+                        $("#cmbBusInicio option").attr("selected", false);
+                        $("#cmbServicioInicio option").attr("selected", false);
+                        $("#cmbSentidoInicio option").attr("selected", false);
+
+                        $("cmbTerminalIniVuelta option[value='" + 0 + "']").attr("selected", "selected");
+                        $("cmbBusInicio option[value='" + 0 + "']").attr("selected", "selected");
+                        $("cmbServicioInicio option[value='" + 0 + "']").attr("selected", "selected");
+                        $("cmbSentidoInicio option[value='" + 0 + "']").attr("selected", "selected");
+                    }
+                }
+            });
+        }
+    </script>
+}
