@@ -52,7 +52,7 @@ namespace WebApplication1.Controllers
                 usuario.RUT = FrontUser.GetSessionUsuario().RUT;
                 usuario.CLAVE = password;
 
-                usuario = _i_n_usuario.Autenticacion(usuario);
+                usuario = _i_n_usuario.Autenticacion(usuario, ConfigurationManager.AppSettings["NombreProyecto"]);
 
                 if (usuario != null)
                 {
@@ -110,7 +110,7 @@ namespace WebApplication1.Controllers
                 usuario.RUT = model.RutRestablece;
                 usuario.CLAVE = password;
 
-                usuario = _i_n_usuario.Autenticacion(usuario);
+                usuario = _i_n_usuario.Autenticacion(usuario, ConfigurationManager.AppSettings["NombreProyecto"]);
 
                 if (usuario != null)
                 {
@@ -171,7 +171,8 @@ namespace WebApplication1.Controllers
                 usuario.RUT = model.Rut;
                 usuario.CLAVE = password;
 
-                usuario = _i_n_usuario.Autenticacion(usuario);
+                //usuario = _i_n_usuario.Autenticacion(usuario, ConfigurationManager.AppSettings["AgrupacionProyectos"], ConfigurationManager.AppSettings["NombreProyecto"]);
+                usuario = _i_n_usuario.Autenticacion(usuario, ConfigurationManager.AppSettings["NombreProyecto"]);
 
                 if (usuario != null && usuario.Perfiles.Count != 0)
                 {

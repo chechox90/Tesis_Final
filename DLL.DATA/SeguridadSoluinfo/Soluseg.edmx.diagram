@@ -7,17 +7,14 @@
       <Diagram DiagramId="66b7b214f7544bd2a044dd731c58630b" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="SoluinfoModel.ACCIONES" Width="1.5" PointX="10.5" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="SoluinfoModel.AREAS" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SoluinfoModel.MENU" Width="1.5" PointX="8.25" PointY="4.625" IsExpanded="true" />
         <EntityTypeShape EntityType="SoluinfoModel.PERFILES" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SoluinfoModel.PLATAFORMAS" Width="1.5" PointX="3.75" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SoluinfoModel.PROYECTO_AGRUPACION" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SoluinfoModel.PROYECTOS" Width="1.5" PointX="6" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="SoluinfoModel.VERSION_PROYECTO" Width="1.5" PointX="8.25" PointY="8.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SoluinfoModel.PERMISOS_ESPECIALES" Width="1.5" PointX="12.75" PointY="9.625" IsExpanded="true" />
-        <AssociationConnector Association="SoluinfoModel.FK_ACCIONES_MENU" ManuallyRouted="false" />
         <AssociationConnector Association="SoluinfoModel.FK_PERMISOS_ESPECIALES_ACCIONES" ManuallyRouted="false" />
         <AssociationConnector Association="SoluinfoModel.FK_PERFILES_AREAS1" ManuallyRouted="false" />
-        <AssociationConnector Association="SoluinfoModel.FK_MENU_PROYECTOS" ManuallyRouted="false" />
         <AssociationConnector Association="SoluinfoModel.FK_PROYECTOS_PLATAFORMAS" ManuallyRouted="false" />
         <AssociationConnector Association="SoluinfoModel.FK_PERMISOS_ESPECIALES_PROYECTOS" ManuallyRouted="false" />
         <AssociationConnector Association="SoluinfoModel.FK_VERSION_PROYECTO_PROYECTOS" ManuallyRouted="false" />
@@ -63,6 +60,10 @@
         <AssociationConnector Association="SoluinfoModel.FK_REGISTRO_VUELTAS_SENTIDO" />
         <AssociationConnector Association="SoluinfoModel.FK_REGISTRO_VUELTAS_SERVICIO" />
         <AssociationConnector Association="SoluinfoModel.FK_REGISTRO_VUELTAS_TERMINAL" />
+        <EntityTypeShape EntityType="SoluinfoModel.MENU" Width="1.5" PointX="8.25" PointY="12.875" />
+        <AssociationConnector Association="SoluinfoModel.FK_ACCIONES_MENU" />
+        <AssociationConnector Association="SoluinfoModel.FK_MENU_MENU" />
+        <AssociationConnector Association="SoluinfoModel.FK_MENU_PROYECTOS" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -27,7 +27,7 @@ namespace WebApplication1.Models.Commons
                     return true;
             }
 
-            if (usuario.Perfiles.Where(x => x.Acciones.Where(i => i.IDACCION == permiso).Any()).Any())
+            if (usuario.Perfiles.Where(x => x.Acciones.Where(i => i.ID_ACCION == permiso).Any()).Any())
                 if (usuario.PermisosEspeciales.Where(x => x.IdAccion == permiso && x.TipoPermiso == false).Any())
                     return false;
                 else
@@ -39,7 +39,7 @@ namespace WebApplication1.Models.Commons
         public static DTO_Usuario Get()
         {
             I_N_Usuario i_usuario = new N_Usuario(new DAO_Usuario());
-            return i_usuario.getUsuario(SessionHelper.GetUser());
+            return i_usuario.getUsuario(SessionHelper.GetUser(), ConfigurationManager.AppSettings["NombreProyecto"]);
         }
 
 

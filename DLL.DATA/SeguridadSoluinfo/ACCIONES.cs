@@ -27,10 +27,10 @@ namespace DLL.DATA.SeguridadSoluinfo
         public bool ITEM_MENU { get; set; }
         public bool ESTADO { get; set; }
     
-        public virtual MENU MENU { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERMISOS_ESPECIALES> PERMISOS_ESPECIALES { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERFILES> PERFILES { get; set; }
+        public virtual MENU MENU { get; set; }
     }
 }

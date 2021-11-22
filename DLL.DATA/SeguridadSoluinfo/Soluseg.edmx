@@ -422,6 +422,18 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MENU_MENU">
+          <End Role="MENU" Type="Self.MENU" Multiplicity="0..1" />
+          <End Role="MENU1" Type="Self.MENU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MENU">
+              <PropertyRef Name="ID_MENU" />
+            </Principal>
+            <Dependent Role="MENU1">
+              <PropertyRef Name="ID_PADRE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MENU_PROYECTOS">
           <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="0..1" />
           <End Role="MENU" Type="Self.MENU" Multiplicity="*" />
@@ -847,6 +859,10 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             <End Role="CARGA_HORARIO" EntitySet="CARGA_HORARIO" />
             <End Role="HORARIO_CONDUCTOR" EntitySet="HORARIO_CONDUCTOR" />
           </AssociationSet>
+          <AssociationSet Name="FK_MENU_MENU" Association="Self.FK_MENU_MENU">
+            <End Role="MENU" EntitySet="MENU" />
+            <End Role="MENU1" EntitySet="MENU" />
+          </AssociationSet>
           <AssociationSet Name="FK_MENU_PROYECTOS" Association="Self.FK_MENU_PROYECTOS">
             <End Role="PROYECTOS" EntitySet="PROYECTOS" />
             <End Role="MENU" EntitySet="MENU" />
@@ -977,9 +993,9 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ITEM_MENU" Type="Boolean" Nullable="false" />
           <Property Name="ESTADO" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="MENU" Relationship="Self.FK_ACCIONES_MENU" FromRole="ACCIONES" ToRole="MENU" />
           <NavigationProperty Name="PERMISOS_ESPECIALES" Relationship="Self.FK_PERMISOS_ESPECIALES_ACCIONES" FromRole="ACCIONES" ToRole="PERMISOS_ESPECIALES" />
           <NavigationProperty Name="PERFILES" Relationship="Self.PERFIL_ACCION" FromRole="ACCIONES" ToRole="PERFILES" />
+          <NavigationProperty Name="MENU" Relationship="SoluinfoModel.FK_ACCIONES_MENU" FromRole="ACCIONES" ToRole="MENU" />
         </EntityType>
         <EntityType Name="AREAS">
           <Key>
@@ -990,22 +1006,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="ESTADO" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="PERFILES" Relationship="Self.FK_PERFILES_AREAS1" FromRole="AREAS" ToRole="PERFILES" />
           <NavigationProperty Name="PROYECTOS" Relationship="Self.PROYECTOS_AREAS" FromRole="AREAS" ToRole="PROYECTOS" />
-        </EntityType>
-        <EntityType Name="MENU">
-          <Key>
-            <PropertyRef Name="ID_MENU" />
-          </Key>
-          <Property Name="ID_MENU" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_PADRE" Type="Int32" />
-          <Property Name="ORDEN" Type="Int32" Nullable="false" />
-          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
-          <Property Name="CONTROLADOR" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ICONO_URL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ID_PROYECTO" Type="Int16" />
-          <NavigationProperty Name="ACCIONES" Relationship="Self.FK_ACCIONES_MENU" FromRole="MENU" ToRole="ACCIONES" />
-          <NavigationProperty Name="PROYECTOS" Relationship="Self.FK_MENU_PROYECTOS" FromRole="MENU" ToRole="PROYECTOS" />
         </EntityType>
         <EntityType Name="PERFILES">
           <Key>
@@ -1053,13 +1053,13 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="FECHA_VERSION" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="VERSION" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ESTADO" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="MENU" Relationship="Self.FK_MENU_PROYECTOS" FromRole="PROYECTOS" ToRole="MENU" />
           <NavigationProperty Name="PLATAFORMAS" Relationship="Self.FK_PROYECTOS_PLATAFORMAS" FromRole="PROYECTOS" ToRole="PLATAFORMAS" />
           <NavigationProperty Name="PERMISOS_ESPECIALES" Relationship="Self.FK_PERMISOS_ESPECIALES_PROYECTOS" FromRole="PROYECTOS" ToRole="PERMISOS_ESPECIALES" />
           <NavigationProperty Name="VERSION_PROYECTO" Relationship="Self.FK_VERSION_PROYECTO_PROYECTOS" FromRole="PROYECTOS" ToRole="VERSION_PROYECTO" />
           <NavigationProperty Name="PROYECTO_AGRUPACION" Relationship="Self.PROYECTO_AGRUPACION_PROYECTOS" FromRole="PROYECTOS" ToRole="PROYECTO_AGRUPACION" />
           <NavigationProperty Name="AREAS" Relationship="Self.PROYECTOS_AREAS" FromRole="PROYECTOS" ToRole="AREAS" />
           <NavigationProperty Name="NOVEDADES" Relationship="SoluinfoModel.FK_NOVEDADES_PROYECTOS" FromRole="PROYECTOS" ToRole="NOVEDADES" />
+          <NavigationProperty Name="MENU" Relationship="SoluinfoModel.FK_MENU_PROYECTOS" FromRole="PROYECTOS" ToRole="MENU" />
         </EntityType>
         <EntityType Name="VERSION_PROYECTO">
           <Key>
@@ -1094,18 +1094,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <NavigationProperty Name="PROYECTOS" Relationship="Self.FK_PERMISOS_ESPECIALES_PROYECTOS" FromRole="PERMISOS_ESPECIALES" ToRole="PROYECTOS" />
           <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_PERMISOS_ESPECIALES_USUARIOS_SISTEMA" FromRole="PERMISOS_ESPECIALES" ToRole="USUARIOS_SISTEMA" />
         </EntityType>
-        <Association Name="FK_ACCIONES_MENU">
-          <End Role="MENU" Type="Self.MENU" Multiplicity="1" />
-          <End Role="ACCIONES" Type="Self.ACCIONES" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MENU">
-              <PropertyRef Name="ID_MENU" />
-            </Principal>
-            <Dependent Role="ACCIONES">
-              <PropertyRef Name="ID_MENU" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PERMISOS_ESPECIALES_ACCIONES">
           <End Role="ACCIONES" Type="Self.ACCIONES" Multiplicity="1" />
           <End Role="PERMISOS_ESPECIALES" Type="Self.PERMISOS_ESPECIALES" Multiplicity="*" />
@@ -1127,18 +1115,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Principal>
             <Dependent Role="PERFILES">
               <PropertyRef Name="ID_AREA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MENU_PROYECTOS">
-          <End Role="PROYECTOS" Type="Self.PROYECTOS" Multiplicity="0..1" />
-          <End Role="MENU" Type="Self.MENU" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PROYECTOS">
-              <PropertyRef Name="ID_PROYECTO" />
-            </Principal>
-            <Dependent Role="MENU">
-              <PropertyRef Name="ID_PROYECTO" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1193,17 +1169,12 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
         <EntityContainer Name="SolusegEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ACCIONES" EntityType="Self.ACCIONES" />
           <EntitySet Name="AREAS" EntityType="Self.AREAS" />
-          <EntitySet Name="MENU" EntityType="Self.MENU" />
           <EntitySet Name="PERFILES" EntityType="Self.PERFILES" />
           <EntitySet Name="PLATAFORMAS" EntityType="Self.PLATAFORMAS" />
           <EntitySet Name="PROYECTO_AGRUPACION" EntityType="Self.PROYECTO_AGRUPACION" />
           <EntitySet Name="PROYECTOS" EntityType="Self.PROYECTOS" />
           <EntitySet Name="VERSION_PROYECTO" EntityType="Self.VERSION_PROYECTO" />
           <EntitySet Name="PERMISOS_ESPECIALES" EntityType="Self.PERMISOS_ESPECIALES" />
-          <AssociationSet Name="FK_ACCIONES_MENU" Association="Self.FK_ACCIONES_MENU">
-            <End Role="MENU" EntitySet="MENU" />
-            <End Role="ACCIONES" EntitySet="ACCIONES" />
-          </AssociationSet>
           <AssociationSet Name="FK_PERMISOS_ESPECIALES_ACCIONES" Association="Self.FK_PERMISOS_ESPECIALES_ACCIONES">
             <End Role="ACCIONES" EntitySet="ACCIONES" />
             <End Role="PERMISOS_ESPECIALES" EntitySet="PERMISOS_ESPECIALES" />
@@ -1211,10 +1182,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <AssociationSet Name="FK_PERFILES_AREAS1" Association="Self.FK_PERFILES_AREAS1">
             <End Role="AREAS" EntitySet="AREAS" />
             <End Role="PERFILES" EntitySet="PERFILES" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MENU_PROYECTOS" Association="Self.FK_MENU_PROYECTOS">
-            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
-            <End Role="MENU" EntitySet="MENU" />
           </AssociationSet>
           <AssociationSet Name="FK_PROYECTOS_PLATAFORMAS" Association="Self.FK_PROYECTOS_PLATAFORMAS">
             <End Role="PLATAFORMAS" EntitySet="PLATAFORMAS" />
@@ -1335,6 +1302,19 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <AssociationSet Name="FK_REGISTRO_VUELTAS_TERMINAL" Association="SoluinfoModel.FK_REGISTRO_VUELTAS_TERMINAL">
             <End Role="TERMINAL" EntitySet="TERMINAL" />
             <End Role="REGISTRO_VUELTAS" EntitySet="REGISTRO_VUELTAS" />
+          </AssociationSet>
+          <EntitySet Name="MENU" EntityType="SoluinfoModel.MENU" />
+          <AssociationSet Name="FK_ACCIONES_MENU" Association="SoluinfoModel.FK_ACCIONES_MENU">
+            <End Role="MENU" EntitySet="MENU" />
+            <End Role="ACCIONES" EntitySet="ACCIONES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MENU_MENU" Association="SoluinfoModel.FK_MENU_MENU">
+            <End Role="MENU" EntitySet="MENU" />
+            <End Role="MENU1" EntitySet="MENU" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MENU_PROYECTOS" Association="SoluinfoModel.FK_MENU_PROYECTOS">
+            <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+            <End Role="MENU" EntitySet="MENU" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="NOVEDADES">
@@ -1816,6 +1796,60 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MENU">
+          <Key>
+            <PropertyRef Name="ID_MENU" />
+          </Key>
+          <Property Name="ID_MENU" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_PADRE" Type="Int32" />
+          <Property Name="ORDEN" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <Property Name="CONTROLADOR" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ICONO_URL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ID_PROYECTO" Type="Int16" />
+          <NavigationProperty Name="ACCIONES" Relationship="SoluinfoModel.FK_ACCIONES_MENU" FromRole="MENU" ToRole="ACCIONES" />
+          <NavigationProperty Name="MENU1" Relationship="SoluinfoModel.FK_MENU_MENU" FromRole="MENU" ToRole="MENU1" />
+          <NavigationProperty Name="MENU2" Relationship="SoluinfoModel.FK_MENU_MENU" FromRole="MENU1" ToRole="MENU" />
+          <NavigationProperty Name="PROYECTOS" Relationship="SoluinfoModel.FK_MENU_PROYECTOS" FromRole="MENU" ToRole="PROYECTOS" />
+        </EntityType>
+        <Association Name="FK_ACCIONES_MENU">
+          <End Type="SoluinfoModel.MENU" Role="MENU" Multiplicity="1" />
+          <End Type="SoluinfoModel.ACCIONES" Role="ACCIONES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MENU">
+              <PropertyRef Name="ID_MENU" />
+            </Principal>
+            <Dependent Role="ACCIONES">
+              <PropertyRef Name="ID_MENU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MENU_MENU">
+          <End Type="SoluinfoModel.MENU" Role="MENU" Multiplicity="0..1" />
+          <End Type="SoluinfoModel.MENU" Role="MENU1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MENU">
+              <PropertyRef Name="ID_MENU" />
+            </Principal>
+            <Dependent Role="MENU1">
+              <PropertyRef Name="ID_PADRE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MENU_PROYECTOS">
+          <End Type="SoluinfoModel.PROYECTOS" Role="PROYECTOS" Multiplicity="0..1" />
+          <End Type="SoluinfoModel.MENU" Role="MENU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTOS">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Principal>
+            <Dependent Role="MENU">
+              <PropertyRef Name="ID_PROYECTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1839,21 +1873,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
                 <ScalarProperty Name="ID_AREA" ColumnName="ID_AREA" />
                 <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MENU">
-            <EntityTypeMapping TypeName="SoluinfoModel.MENU">
-              <MappingFragment StoreEntitySet="MENU">
-                <ScalarProperty Name="ID_MENU" ColumnName="ID_MENU" />
-                <ScalarProperty Name="ID_PADRE" ColumnName="ID_PADRE" />
-                <ScalarProperty Name="ORDEN" ColumnName="ORDEN" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-                <ScalarProperty Name="CONTROLADOR" ColumnName="CONTROLADOR" />
-                <ScalarProperty Name="ICONO_URL" ColumnName="ICONO_URL" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2204,6 +2223,21 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
                 <ScalarProperty Name="ID_BUS_INICIO" ColumnName="ID_BUS_INICIO" />
                 <ScalarProperty Name="ID_REGISTRO_HORARIO" ColumnName="ID_REGISTRO_HORARIO" />
                 <ScalarProperty Name="ID_REGISTRO_VUELTAS" ColumnName="ID_REGISTRO_VUELTAS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MENU">
+            <EntityTypeMapping TypeName="SoluinfoModel.MENU">
+              <MappingFragment StoreEntitySet="MENU">
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="ICONO_URL" ColumnName="ICONO_URL" />
+                <ScalarProperty Name="CONTROLADOR" ColumnName="CONTROLADOR" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ORDEN" ColumnName="ORDEN" />
+                <ScalarProperty Name="ID_PADRE" ColumnName="ID_PADRE" />
+                <ScalarProperty Name="ID_MENU" ColumnName="ID_MENU" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

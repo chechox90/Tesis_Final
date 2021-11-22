@@ -18,6 +18,7 @@ namespace DLL.DATA.SeguridadSoluinfo
         public MENU()
         {
             this.ACCIONES = new HashSet<ACCIONES>();
+            this.MENU1 = new HashSet<MENU>();
         }
     
         public int ID_MENU { get; set; }
@@ -32,6 +33,9 @@ namespace DLL.DATA.SeguridadSoluinfo
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ACCIONES> ACCIONES { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MENU> MENU1 { get; set; }
+        public virtual MENU MENU2 { get; set; }
         public virtual PROYECTOS PROYECTOS { get; set; }
     }
 }

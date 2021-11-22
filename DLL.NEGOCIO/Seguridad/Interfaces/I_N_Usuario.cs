@@ -10,11 +10,11 @@ namespace DLL.NEGOCIO.Seguridad.Interfaces
 {
     public interface I_N_Usuario
     {
-        DTO_Usuario getUsuario(int rol);
+        DTO_Usuario getUsuario(int rol, string nombreSistema);
 
         bool CambioPassword(int rol, string contraseniaNueva, string contraseniaNuevaNoEncriptada);
 
-        DTO_Usuario Autenticacion(DTO_Usuario login);
+        DTO_Usuario Autenticacion(DTO_Usuario login, string nombreSistema);
 
         int GetUsuarioByRut(string rut);
 

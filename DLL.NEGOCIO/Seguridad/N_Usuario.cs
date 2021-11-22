@@ -24,14 +24,15 @@ namespace DLL.NEGOCIO.Seguridad
             return I_DAO_Usuario.CambioPassword(rol, contraseniaNueva, contraseniaNuevaNoEncriptada);
         }
 
-        public DTO_Usuario getUsuario(int rol)
+        public DTO_Usuario getUsuario(int rol, string nombreSistema)
         {
-            return I_DAO_Usuario.getUsuario(rol);
+            return I_DAO_Usuario.getUsuario(rol, nombreSistema);
         }
 
-        public DTO_Usuario Autenticacion(DTO_Usuario login)
+        //public DTO_Usuario Autenticacion(DTO_Usuario login)
+        public DTO_Usuario Autenticacion(DTO_Usuario login, string nombreSistema)
         {
-            return I_DAO_Usuario.Autenticacion(login);
+            return I_DAO_Usuario.Autenticacion(login, nombreSistema);
         }
 
         public int GetUsuarioByRut(string rut)
@@ -44,6 +45,8 @@ namespace DLL.NEGOCIO.Seguridad
             return I_DAO_Usuario.GetAllUsuariosActivos();
         }
 
+
+
         public int SetEliminarUsuario(int idUser)
         {
             return I_DAO_Usuario.SetEliminarUsuario(idUser);
@@ -54,4 +57,5 @@ namespace DLL.NEGOCIO.Seguridad
             return I_DAO_Usuario.GetUsuarioActivo(idUsuario);
         }
     }
+
 }

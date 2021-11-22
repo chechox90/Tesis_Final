@@ -9,11 +9,11 @@ namespace DLL.DAO.Seguridad.Interfaces
 {
     public interface I_DAO_Usuario
     {
-        DTO_Usuario getUsuario(int idUsuario);
+        DTO_Usuario getUsuario(int idUsuario, string nombreSistema);
 
         bool CambioPassword(int idUsuario, string contraseniaNueva, string contraseniaNuevaNoEncriptada);
 
-        DTO_Usuario Autenticacion(DTO_Usuario login);
+        DTO_Usuario Autenticacion(DTO_Usuario login, string nombreSistema);
 
         int GetUsuarioByRut(string rut);
 

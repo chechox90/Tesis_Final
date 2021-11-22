@@ -18,12 +18,13 @@ namespace DLL.DAO.Seguridad
             XmlConfigurator.Configure();
         }
 
-        public DTO_Usuario getUsuario(int rol)
+        public DTO_Usuario getUsuario(int rol, string nombreSistema)
         {
             try
             {
                 using (SolusegEntities context = new SolusegEntities())
                 {
+                    DTO_Proyecto proyecto = GetProyecto(nombreSistema);
 
                     // Obtengo datos del usuario, perfiles y permisos
                     DTO_Usuario usuario = context.USUARIOS_SISTEMA
@@ -44,14 +45,14 @@ namespace DLL.DAO.Seguridad
                                 Estado = i.ESTADO,
                                 Acciones = i.ACCIONES.Select(o => new DTO_Accion
                                 {
-                                    IDACCION = o.ID_ACCION,
+                                    ID_ACCION = o.ID_ACCION,
                                     Nombre = o.NOMBRE,
                                     ItemMenu = o.ITEM_MENU,
                                     Estado = o.ESTADO,
                                     IdMenu = o.MENU.ID_MENU,
                                     IdProyecto = o.MENU.PROYECTOS.ID_PROYECTO
                                 })
-                                .Where(o => o.Estado == true)
+                                .Where(o => o.Estado == true && o.IdProyecto == proyecto.IdProyecto)
                                 .ToList()
                             })
                             .Where(i => i.Estado == true)
@@ -64,13 +65,51 @@ namespace DLL.DAO.Seguridad
                                 IdMenu = i.ACCIONES.ID_MENU,
                                 TipoPermiso = i.TIPO_PERMISO
                             })
-                            .Where(i => i.IdUsuario == rol)
+                            .Where(i => i.IdProyecto == proyecto.IdProyecto && i.IdUsuario == rol)
                             .ToList()
                         })
                         .Where(x => x.ID_USUARIO == rol && x.ESTADO == true).FirstOrDefault();
-
-
+                    
                     return usuario;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
+        private DTO_ProyectoAgrupacion GetProyectoAgrupacion(string nombreAgrupacionProyecto)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    return context.PROYECTO_AGRUPACION
+                        .Select(x => new DTO_ProyectoAgrupacion
+                        {
+                            IdProyectoAgrupacion = x.ID_PROYECTO_AGRUPACION,
+                            NombreInterno = x.NOMBRE_INTERNO,
+                            NombreVisible = x.NOMBRE_VISIBLE,
+                            Estado = x.ESTADO,
+                            Proyectos = x.PROYECTOS.Select(i => new DTO_Proyecto
+                            {
+                                IdProyecto = i.ID_PROYECTO,
+                                NombreInterno = i.NOMBRE_INTERNO,
+                                NombreVisible = i.NOMBRE_VISIBLE,
+                                PaginaInicio = i.PAGINA_INICIO,
+                                UrlProyecto = i.URL_PROYECTO,
+                                IconUno = i.ICON_UNO,
+                                IconDos = i.ICON_DOS,
+                                Version = i.VERSION,
+                                Estado = i.ESTADO
+                            })
+                            .Where(i => i.Estado == true)
+                            .ToList()
+                        })
+                        .Where(x => x.NombreInterno == nombreAgrupacionProyecto && x.Estado == true)
+                        .FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -112,15 +151,15 @@ namespace DLL.DAO.Seguridad
             }
         }
 
-        public DTO_Usuario Autenticacion(DTO_Usuario login)
+        public DTO_Usuario Autenticacion(DTO_Usuario login, string nombreSistema)
         {
             try
             {
                 using (SolusegEntities context = new SolusegEntities())
                 {
-                    DTO_Proyecto proyecto = GetProyecto("ConductorEnRed");
+                    DTO_Proyecto proyecto = GetProyecto(nombreSistema);
 
-                    //Obtengo datos del usuario, perfiles y permisos
+                    // Obtengo datos del usuario, perfiles y permisos                    
                     DTO_Usuario usuario = context.USUARIOS_SISTEMA
                         .Select(x => new DTO_Usuario
                         {
@@ -140,16 +179,16 @@ namespace DLL.DAO.Seguridad
                                 Estado = i.ESTADO,
                                 Acciones = i.ACCIONES.Select(o => new DTO_Accion
                                 {
-                                    IDACCION = o.ID_ACCION,
+                                    ID_ACCION = o.ID_ACCION,
                                     Nombre = o.NOMBRE,
                                     ItemMenu = o.ITEM_MENU,
                                     Estado = o.ESTADO,
                                     IdMenu = o.MENU.ID_MENU,
                                     IdProyecto = o.MENU.PROYECTOS.ID_PROYECTO
                                 })
-                                .Where(o => o.Estado == true)
+                                .Where(o => o.Estado == true && o.IdProyecto == proyecto.IdProyecto)
                                 .ToList()
-                            }).ToList()
+                            })
                             .Where(i => i.Estado == true)
                             .ToList(),
                             PermisosEspeciales = x.PERMISOS_ESPECIALES.Select(i => new DTO_PermisosEspeciales
@@ -160,16 +199,17 @@ namespace DLL.DAO.Seguridad
                                 IdMenu = i.ACCIONES.ID_MENU,
                                 TipoPermiso = i.TIPO_PERMISO
                             })
-                            .Where(i => i.IdUsuario == x.ID_USUARIO)
+                            .Where(i => i.IdProyecto == proyecto.IdProyecto && i.IdUsuario == login.ID_USUARIO)
                             .ToList()
                         })
                         .Where(x => x.RUT == login.RUT && x.ESTADO == true && x.CLAVE == login.CLAVE).FirstOrDefault();
-
-
-
-                    usuario.Proyecto = LimpiaMenuSegunPermisos(proyecto, usuario);
-
-
+                    if (usuario != null)
+                    {
+                        if (proyecto != null)
+                        {
+                            usuario.Proyecto = LimpiaMenuSegunPermisos(proyecto, usuario);
+                        }
+                    }
 
                     return usuario;
                 }
@@ -268,19 +308,19 @@ namespace DLL.DAO.Seguridad
                 IconoUrl = i.IconoUrl,
                 URL = i.URL,
                 Estado = i.Estado,
-                //MenuHijo = i.MenuHijo.Select(o => new DTO_MenuSubMenu
-                //{
-                //    IdMenu = o.IdMenu,
-                //    IdPadre = o.IdPadre,
-                //    Orden = o.Orden,
-                //    Nombre = o.Nombre,
-                //    Controlador = o.Controlador,
-                //    IconoUrl = o.IconoUrl,
-                //    URL = o.URL,
-                //    Estado = o.Estado
-                //})
-                //.Where(o => o.Estado == true)
-                //.ToList()
+                MenuHijo = i.MenuHijo.Select(o => new DTO_MenuSubMenu
+                {
+                    IdMenu = o.IdMenu,
+                    IdPadre = o.IdPadre,
+                    Orden = o.Orden,
+                    Nombre = o.Nombre,
+                    Controlador = o.Controlador,
+                    IconoUrl = o.IconoUrl,
+                    URL = o.URL,
+                    Estado = o.Estado
+                })
+                .Where(o => o.Estado == true)
+                .ToList()
             })
             .Where(i => i.Estado == true && i.IdPadre == null)
             .ToList();
@@ -332,19 +372,19 @@ namespace DLL.DAO.Seguridad
                             IconoUrl = i.ICONO_URL,
                             URL = i.URL,
                             Estado = i.ESTADO,
-                            //MenuHijo = i.MENU1.Select(o => new DTO_MenuSubMenu
-                            //{
-                            //    IdMenu = o.ID_MENU,
-                            //    IdPadre = o.ID_PADRE,
-                            //    Orden = o.ORDEN,
-                            //    Nombre = o.NOMBRE,
-                            //    Controlador = o.CONTROLADOR,
-                            //    IconoUrl = o.ICONO_URL,
-                            //    URL = o.URL,
-                            //    Estado = o.ESTADO
-                            //})
-                            //.Where(o => o.Estado == true)
-                            //.ToList()
+                            MenuHijo = i.MENU1.Select(o => new DTO_MenuSubMenu
+                            {
+                                IdMenu = o.ID_MENU,
+                                IdPadre = o.ID_PADRE,
+                                Orden = o.ORDEN,
+                                Nombre = o.NOMBRE,
+                                Controlador = o.CONTROLADOR,
+                                IconoUrl = o.ICONO_URL,
+                                URL = o.URL,
+                                Estado = o.ESTADO
+                            })
+                            .Where(o => o.Estado == true)
+                            .ToList()
                         })
                         .Where(i => i.Estado == true && i.IdPadre == null)
                         .ToList()
@@ -389,7 +429,7 @@ namespace DLL.DAO.Seguridad
                                 Estado = i.ESTADO,
                                 Acciones = i.ACCIONES.Select(o => new DTO_Accion
                                 {
-                                    IDACCION = o.ID_ACCION,
+                                    ID_ACCION = o.ID_ACCION,
                                     Nombre = o.NOMBRE,
                                     ItemMenu = o.ITEM_MENU,
                                     Estado = o.ESTADO,

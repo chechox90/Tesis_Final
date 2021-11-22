@@ -33,7 +33,6 @@
                 <li class="nav-item">
                     <a class="nav-link">
                         <div class="nav-logo">
-                            @*<img src="~/Images/@WebProyectoCompartido.Models.Commons.FrontUser.GetSessionUsuario().Proyecto.IconDos.Replace("~/Images/", "")" alt="Logo Vule" class="img-fluid" />*@
                             <img src="~/Images/Logo_CdeR.svg" alt="Logo Modulo" class="img-fluid" />
                         </div>
                     </a>
@@ -52,9 +51,6 @@
                 </li>
             </ul>
             <ul class="nav flex-column mt-auto mb-3">
-                @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Actividad">
-                    <a class="nav-link" href="#" data-toggle="modal" id="btnActividad"><i class="far fa-heart-rate"></i></a>
-                </li>*@
                 <li class="nav-item d-none" data-toggle="tooltip" data-placement="right" title="Novedades">
                     <a class="nav-link position-relative" href="#" data-toggle="modal" data-target="#modalNews">
                         <span class="alert-circle d-none"></span>
@@ -72,7 +68,6 @@
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tu Perfil">
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#modalUser">
-                        @*<span id="username">@Usuario.Get.Nombre</span>*@
                         <div class="nav-foto">
                             <img src="~/Images/img-user.png" alt="Imagen Usuario Conectado" class="img-fluid" />
                         </div>
@@ -91,11 +86,6 @@
         </main>
 
         <a id="toTop" class="btn-primary" onclick="topFunction()"></a>
-
-        <!-- Modal Menú ELIMINAR -->
-        @*<div class="modal fade" id="modalMenu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                @Html.Partial("~/Views/Shared/_MenuModulosLayout.cshtml")
-            </div>*@
 
         <!-- Modal Ayúdanos a Mejorar -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -123,13 +113,6 @@
             </div>
         </div>
 
-        <!-- Modal Activity -->
-        @*<div class="modal fade pl-0" id="modalActivity" tabindex="-1" role="dialog" aria-labelledby="modalActivity" aria-hidden="true">
-            <div class="modal-dialog modal-auto m-0 mr-auto left" role="document">
-                <table id="tblActividadUsuario" class="table table-striped table-hover"></table>
-            </div>
-        </div>*@
-
         <!-- Modal Help -->
         <div class="modal fade" id="modalHelp" tabindex="-1" role="dialog" aria-labelledby="modalHelp" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
@@ -141,76 +124,6 @@
                         </button>
                     </div>
                     <div class="modal-body pt-0">
-                        @*<div class="row">
-                            <div class="col-lg-3 border-right pr-lg-2r">
-                                <h5>Revisión de planillas</h5>
-                                <div class="list-group border mb-4 mb-lg-0" id="list-tab-videos" role="tablist">
-                                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 active" id="list-video1-list" data-toggle="list" href="#list-video1" role="tab" aria-controls="video1" onclick="pauseVid();">
-                                        <span><i class="fas fa-play-circle mr-2"></i> No revisadas</span>
-                                        <small>07:21</small>
-                                    </a>
-                                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0" id="list-video2-list" data-toggle="list" href="#list-video2" role="tab" aria-controls="video2" onclick="pauseVid();">
-                                        <span><i class="fas fa-play-circle mr-2"></i> Revisadas</span>
-                                        <small>08:21</small>
-                                    </a>
-                                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0" id="list-video3-list" data-toggle="list" href="#list-video3" role="tab" aria-controls="video3" onclick="pauseVid();">
-                                        <span><i class="fas fa-play-circle mr-2"></i> Resumen</span>
-                                        <small>03:29</small>
-                                    </a>
-                                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0" id="list-video4-list" data-toggle="list" href="#list-video4" role="tab" aria-controls="video4" onclick="pauseVid();">
-                                        <span><i class="fas fa-play-circle mr-2"></i> Por contingencia</span>
-                                        <small>07:24</small>
-                                    </a>
-                                </div>
-                            </div>*@
-                        @*<div class="col-lg-9 pl-lg-2r">
-                                    <div class="tab-content mb-4" id="nav-tabContent-video">
-                                        <div class="tab-pane fade show active" id="list-video1" role="tabpanel" aria-labelledby="list-video1-list">
-                                            <h5>Planillas no revisadas</h5>
-                                            <div class="embed-responsive rounded-6r mb-3">
-                                                <video id="player1" playsinline controls>
-                                                    <source src="~/Imagenes/Videos/1-PlanillasNoRevisadasRRHHPlanillas.mp4" type="video/mp4" />
-                                                </video>
-                                            </div>
-                                            <p>Video descriptivo para aprender a utilizar la herramienta de planillas no revisadas. Para registros de planillas con o sin diferencias.</p>
-                                        </div>
-                                        <div class="tab-pane fade" id="list-video2" role="tabpanel" aria-labelledby="list-video2-list">
-                                            <h5>Planillas revisadas</h5>
-                                            <div class="embed-responsive rounded-6r mb-3">
-                                                <video id="player2" playsinline controls>
-                                                    <source src="~/Imagenes/Videos/2-PlanillasRevisadasRRHHPlanillas.mp4" type="video/mp4" />
-                                                </video>
-                                            </div>
-                                            <p>Video descriptivo para aprender a utilizar la herramienta de planillas revisadas. Para ver planillas revisadas, editar y confirmar.</p>
-                                        </div>
-                                        <div class="tab-pane fade" id="list-video3" role="tabpanel" aria-labelledby="list-video3-list">
-                                            <h5>Resumen de planillas</h5>
-                                            <div class="embed-responsive rounded-6r mb-3">
-                                                <video id="player3" playsinline controls>
-                                                    <source src="~/Imagenes/Videos/3-DashBoardRRHHPlanillas.mp4" type="video/mp4" />
-                                                </video>
-                                            </div>
-                                            <p>Video descriptivo para aprender a utilizar la herramienta de resumen de planillas. Consultar resumen completo.</p>
-                                        </div>
-                                        <div class="tab-pane fade" id="list-video4" role="tabpanel" aria-labelledby="list-video4-list">
-                                            <h5>Planillas por contingencia</h5>
-                                            <div class="embed-responsive rounded-6r mb-3">
-                                                <video id="player4" playsinline controls>
-                                                    <source src="~/Imagenes/Videos/4-PlanillasPorContingenciaRRHHPlanillas.mp4" type="video/mp4" />
-                                                </video>
-                                            </div>
-                                            <p>Video descriptivo para aprender a utilizar la herramienta de planillas por contingencia. Agregar planilla con imagen adjunta, editar imagen. Modificar y eliminar planillas.</p>
-                                        </div>
-                                    </div>
-                                    <div class="media border-0">
-                                        <i class="fad fa-question-circle text-secondary fa-3x mr-3"></i>
-                                        <div class="media-body p-0">
-                                            <h5 class="mb-2">¿Aún tienes dudas?</h5>
-                                            <p>Si aún tienes dudas respecto al funcionamiento de la herramienta, puedes enviarnos un correo a <a href="mailto:expert@nmvule.cl" class="btn-link">expert@nmvule.cl</a>.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>*@
                     </div>
                     <div class="modal-footer pt-0"></div>
                 </div>

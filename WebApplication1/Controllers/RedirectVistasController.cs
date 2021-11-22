@@ -10,9 +10,14 @@ namespace ConductorEnRed.Controllers
 {
     public class RedirectVistasController : Controller
     {
-        public ActionResult Index()
+        public ActionResult HomeCargaProgramacion()
         {
             return View("~/Views/Programacion/CargarProgramacion.cshtml");
+        }
+        
+        public ActionResult HomeModificarReprogramacion()
+        {
+            return View("~/Views/Programacion/Reprogramacion.cshtml");
         }
 
         //Horario conductor
@@ -68,7 +73,7 @@ namespace ConductorEnRed.Controllers
             return View("~/Views/HorarioConductor/Ruta.cshtml");
         }
 
-        public ActionResult HomeDashBoard()
+        public ActionResult HomeDashboard()
         {
             return View("~/Views/Administracion/Dashboard.cshtml");
         }

@@ -9,73 +9,89 @@
     @{
         bool menuHijoSeleccionado = false;
         DLL.DTO.Seguridad.DTO_Menu menuSeleccionado = null;
-        //if (WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().Proyecto.Menus.Where(x => x.MenuHijo.Where(i => i.URL == Request.Url.AbsolutePath).Any()).Any())
-        //{
-        menuHijoSeleccionado = true;
-
-        menuSeleccionado = WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().Proyecto.Menus.Select(x => new DLL.DTO.Seguridad.DTO_Menu
+        if (WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().Proyecto.Menus.Where(x => x.MenuHijo.Where(i => i.URL == Request.Url.AbsolutePath).Any()).Any())
         {
-            IdMenu = x.IdMenu,
-            IdPadre = x.IdPadre,
-            Orden = x.Orden,
-            Nombre = x.Nombre,
-            Controlador = x.Controlador,
-            IconoUrl = x.IconoUrl,
-            URL = x.URL,
-            Estado = x.Estado,
-            //    MenuHijo = x.MenuHijo.Select(o => new DLL.DTO..DTO_MenuSubMenu
-            //    {
-            //        IdMenu = o.IdMenu,
-            //        IdPadre = o.IdPadre,
-            //        Orden = o.Orden,
-            //        Nombre = o.Nombre,
-            //        Controlador = o.Controlador,
-            //        IconoUrl = o.IconoUrl,
-            //        URL = o.URL,
-            //        Estado = o.Estado
-            //    })
-            //.Where(o => o.URL == Request.Url.AbsolutePath)
-            //.ToList()
-        }).FirstOrDefault();
-        //}
+            menuHijoSeleccionado = true;
+
+            menuSeleccionado = WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().Proyecto.Menus.Select(x => new DLL.DTO.Seguridad.DTO_Menu
+            {
+                IdMenu = x.IdMenu,
+                IdPadre = x.IdPadre,
+                Orden = x.Orden,
+                Nombre = x.Nombre,
+                Controlador = x.Controlador,
+                IconoUrl = x.IconoUrl,
+                URL = x.URL,
+                Estado = x.Estado,
+                MenuHijo = x.MenuHijo.Select(o => new DLL.DTO.Seguridad.DTO_MenuSubMenu
+                {
+                    IdMenu = o.IdMenu,
+                    IdPadre = o.IdPadre,
+                    Orden = o.Orden,
+                    Nombre = o.Nombre,
+                    Controlador = o.Controlador,
+                    IconoUrl = o.IconoUrl,
+                    URL = o.URL,
+                    Estado = o.Estado
+                })
+            .Where(o => o.URL == Request.Url.AbsolutePath)
+            .ToList()
+            })
+            .Where(x => x.MenuHijo.Count > 0).FirstOrDefault();
+        }
 
         if (WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().Proyecto.Menus.Count > 0)
         {
             foreach (var menu in WebApplication1.Models.Commons.FrontUser.GetSessionUsuario().Proyecto.Menus.OrderBy(x => x.Orden))
             {
-
-                string linkActivePadre = "nav-link-active";
-                string expanded = "false";
-                string show = "show";
-                //if (menuHijoSeleccionado && menuSeleccionado.IdMenu == menu.IdMenu)
-                //{
-                //string linkActivePadre = "nav-link-active";
-                //string expanded = "true";
-                //string show = "show";
-                // //}
-                <!--Con sub menu-->
-                <li class="nav-item">
-                   
-                    <a class="nav-link @linkActivePadre" href="~/@menu.Controlador" role="button" aria-expanded="@expanded" aria-controls="collapse1">
-                        <span class="icon-link"><i class="@menu.IconoUrl"></i></span>
-                        <span class="text-link">@menu.Nombre</span>
-                    </a>
-                    
-                </li>
-
-                //string linkActive = "";
-                //if (menu.URL == Request.Url.AbsolutePath)
-                //{
-                //    linkActive = "nav-link-active";
-                //}
-                <!--Link Directo-->
-                @*<li class="nav-item">
-                    <a class="nav-link @linkActive" href="@menu.URL">
-                        <span class="icon-link"><i class="@menu.IconoUrl"></i></span>
-                        <span class="text-link">@menu.Nombre</span>
-                    </a>
-                </li>*@
-
+                if (menu.MenuHijo != null && menu.MenuHijo.Count > 0)
+                {
+                    string linkActivePadre = "collapsed";
+                    string expanded = "false";
+                    string show = "";
+                    if (menuHijoSeleccionado && menuSeleccionado.IdMenu == menu.IdMenu)
+                    {
+                        linkActivePadre = "nav-link-active";
+                        expanded = "true";
+                        show = "show";
+                    }
+                    <!--Con sub menu-->
+                    <li class="nav-item">
+                        <a class="nav-link @linkActivePadre" data-toggle="collapse" href="#@menu.Controlador" role="button" aria-expanded="@expanded" aria-controls="collapse1">
+                            <span class="icon-link"><i class="@menu.IconoUrl"></i></span>
+                            <span class="text-link">@menu.Nombre</span>
+                        </a>
+                        <div class="collapse @show" id="@menu.Controlador">
+                            @foreach (var menuHijo in menu.MenuHijo.OrderBy(x => x.Orden))
+                            {
+                                string linkActiveHijo = "";
+                                if (menuHijo.URL == Request.Url.AbsolutePath)
+                                {
+                                    linkActiveHijo = "text-link-active";
+                                }
+                                <a class="nav-link" href="@menuHijo.URL">
+                                    <span class="icon-link @linkActiveHijo"></span>
+                                    <span class="text-link @linkActiveHijo">@menuHijo.Nombre</span>
+                                </a>
+                            }
+                        </div>
+                    </li>
+                }
+                else
+                {
+                    string linkActive = "";
+                    if (menu.URL == Request.Url.AbsolutePath)
+                    {
+                        linkActive = "nav-link-active";
+                    }
+                    <!--Link Directo-->
+                    <li class="nav-item">
+                        <a class="nav-link @linkActive" href="@menu.URL">
+                            <span class="icon-link"><i class="@menu.IconoUrl"></i></span>
+                            <span class="text-link">@menu.Nombre</span>
+                        </a>
+                    </li>
+                }
             }
         }
 

@@ -3,7 +3,7 @@ namespace DLL.DTO.Seguridad
 {
     public class DTO_Accion
     {
-        public int IDACCION { get; set; }
+        public int ID_ACCION { get; set; }
         public string Nombre { get; set; }
         public bool ItemMenu { get; set; }
         public bool Estado { get; set; }

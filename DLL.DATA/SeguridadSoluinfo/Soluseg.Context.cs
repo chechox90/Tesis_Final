@@ -27,7 +27,6 @@ namespace DLL.DATA.SeguridadSoluinfo
     
         public virtual DbSet<ACCIONES> ACCIONES { get; set; }
         public virtual DbSet<AREAS> AREAS { get; set; }
-        public virtual DbSet<MENU> MENU { get; set; }
         public virtual DbSet<PERFILES> PERFILES { get; set; }
         public virtual DbSet<PLATAFORMAS> PLATAFORMAS { get; set; }
         public virtual DbSet<PROYECTO_AGRUPACION> PROYECTO_AGRUPACION { get; set; }
@@ -54,5 +53,6 @@ namespace DLL.DATA.SeguridadSoluinfo
         public virtual DbSet<COMUNA> COMUNA { get; set; }
         public virtual DbSet<REGISTRO_HORARIO> REGISTRO_HORARIO { get; set; }
         public virtual DbSet<REGISTRO_VUELTAS> REGISTRO_VUELTAS { get; set; }
+        public virtual DbSet<MENU> MENU { get; set; }
     }
 }

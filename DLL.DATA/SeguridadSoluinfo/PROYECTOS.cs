@@ -17,12 +17,12 @@ namespace DLL.DATA.SeguridadSoluinfo
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PROYECTOS()
         {
-            this.MENU = new HashSet<MENU>();
             this.PERMISOS_ESPECIALES = new HashSet<PERMISOS_ESPECIALES>();
             this.VERSION_PROYECTO = new HashSet<VERSION_PROYECTO>();
             this.PROYECTO_AGRUPACION = new HashSet<PROYECTO_AGRUPACION>();
             this.AREAS = new HashSet<AREAS>();
             this.NOVEDADES = new HashSet<NOVEDADES>();
+            this.MENU = new HashSet<MENU>();
         }
     
         public short ID_PROYECTO { get; set; }
@@ -37,8 +37,6 @@ namespace DLL.DATA.SeguridadSoluinfo
         public string VERSION { get; set; }
         public bool ESTADO { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MENU> MENU { get; set; }
         public virtual PLATAFORMAS PLATAFORMAS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERMISOS_ESPECIALES> PERMISOS_ESPECIALES { get; set; }
@@ -50,5 +48,7 @@ namespace DLL.DATA.SeguridadSoluinfo
         public virtual ICollection<AREAS> AREAS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NOVEDADES> NOVEDADES { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MENU> MENU { get; set; }
     }
 }

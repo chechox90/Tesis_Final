@@ -34,16 +34,6 @@ namespace WebApplication1.Controllers
 
         }
 
-
-        public ActionResult Index()
-        {
-            return View("~/Views/Programacion/CargarProgramacion.cshtml");
-        }
-
-        public ActionResult ModificarReprogramacion(string id)
-        {
-            return View("~/Views/Programacion/Reprogramacion.cshtml");
-        }
         
 
         [HttpPost]

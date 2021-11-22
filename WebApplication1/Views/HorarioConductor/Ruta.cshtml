@@ -207,6 +207,95 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalEditarInicioVuelta" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-title">
+                <div class="text-center">
+                    <h3>Editar Fin Vuelta</h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-row form-group col-12">
+                    <div class="col-md-6">
+                        <span>Terminal de inicio</span>
+                        <select class="form-control cmbTer lockedFinalizar" id="cmbTerminalIniVuelta"></select>
+
+                    </div>
+                    <div class="col-md-6">
+                        <span>Hora de salida</span>
+                        <input type="time" class="form-control lockedFinalizar" placeholder="HH:MM" maxlength="5" id="txtIniVuelta" />
+                    </div>
+                </div>
+                <div class="form-row form-group col-12">
+                    <div class="col-md-6">
+                        <span>Bus</span>
+                        <select class="form-control cmbBus lockedFinalizar" id="cmbBusInicio"></select>
+                    </div>
+                    <div class="col-md-6">
+                        <span>Servicio salida</span>
+                        <select class="form-control cmbSer lockedFinalizar" id="cmbServicioInicio"></select>
+                    </div>
+                </div>
+                <div class="form-row form-group col-12">
+                    <div class="col-md-6">
+                        <span>Sentido inicio</span>
+                        <select class="form-control cmbSent lockedFinalizar" id="cmbSentidoInicio"></select>
+                    </div>
+                </div>
+                <label style="display:none" id="idVueltaActual"></label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionInicioVuelta();">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditarFinVuelta" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-title">
+                <div class="text-center">
+                    <h3>Editar Inicio Vuelta</h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-row form-group col-12">
+                    <div class="col-12">
+                        <span>Terminal llegada</span>
+                        <select class="form-control cmbTer" id="cmbTerminalFinVuelta"></select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <span>Bus</span>
+                    <select class="form-control cmbBus" id="cmbBusFin"></select>
+                </div>
+                <div class="col-md-12">
+                    <span>Servicio llegada</span>
+                    <select class="form-control cmbSer" id="cmbServicioFin"></select>
+                </div>
+                <div class="form-row form-group col-12">
+                    <div class="col-4 text-center">
+                        <span>Hora de llegada</span>
+                        <input type="time" placeholder="HH:MM" maxlength="5" class="form-control" id="txtFinVuelta" />
+                    </div>
+                </div>
+                <div class="form-row form-group col-12">
+                    <span>Sentido llegada</span>
+                    <select class="form-control cmbSent" id="cmbSentidoFin"></select>
+                </div>
+                <label style="display:none" id="idVueltaActual"></label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionFinVuelta();">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content shadow">
@@ -464,7 +553,7 @@
         function ShowFinHorario() {
             $("#modalCierreJornada").modal("show");
         }
-        
+
         function RegistrarInicioVuelta() {
             var vuelta = [
                 {
@@ -630,6 +719,10 @@
                     }
                 }
             });
+        }
+
+        function ShowEditarVuelta() {
+
         }
 
     </script>
