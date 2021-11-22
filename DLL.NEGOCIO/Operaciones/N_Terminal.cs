@@ -26,7 +26,12 @@ namespace DLL.NEGOCIO.Operaciones
         {
             return I_DAO_Terminal.GetTerminalByAllActive();
         }
-        
+
+        public DTO_Terminal GetNombreTerminal(int idProgramacion)
+        {
+            return I_DAO_Terminal.GetNombreTerminal(idProgramacion);
+        }
+
         public List<DTO_Terminal> GetTerminalByAllActiveForTable()
         {
             return I_DAO_Terminal.GetTerminalByAllActiveForTable();

@@ -39,13 +39,22 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-row form-group col-12">
+                                    <div class="col-md-6">
+                                        <span>Horas de inicio Disponibles</span>
+                                        <select class="form-control Ini" id="cmbTurnosDisponibles" onchange="AsignarTerminalLabel()"></select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span>Terminal Inicio</span>
+                                        <label class="form-control Ini" id="lblTerminalJornadainicio"></label>
+                                    </div>
+                                </div>
+                                <div class="form-row form-group col-12">
                                     <div class="col-md-10">
                                         <span>Terminal inicio jornda</span>
                                         <select class="form-control cmbTer Ini" id="cmbTerminalInicio"></select>
                                         <label style="display:none" id="idTurnoActual"></label>
                                     </div>
                                 </div>
-                                <div class="form-row form-group col-12"></div>
                                 <div class="form-row form-group col-12">
                                     <div class="col-md-10">
                                         <span>Hora de inicio de la jornada</span>
@@ -53,13 +62,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <div class="borderInput">
-                                    <label id="lblAviso1" style="display:none" class="text-danger">Existe una vuelta sin finalizar, NO puede finalizar la jornada</label>
-                                </div>
-                                <button id="btnRegistrarInicio" class="btn btn-success borderInput" onclick="RegistrarInicioHorario();">Guardar</button>
-                                <button id="btnShowFin" class="btn btn-primary borderInput" onclick="ShowFinHorario();">Termino de jornada</button>
-                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <label id="lblAviso1" style="display:none" class="text-danger">Existe una vuelta sin finalizar, NO puede finalizar la jornada</label>
+                            <button id="btnRegistrarInicio" class="btn btn-success borderInput" onclick="RegistrarInicioHorario();">Guardar</button>
+                            <button id="btnShowFin" class="btn btn-primary borderInput" onclick="ShowFinHorario();">Termino de jornada</button>
                         </div>
                     </div>
                 </div>
@@ -329,7 +336,7 @@
 
         function CargarCmb() {
             $.ajax({
-                url: '../Mantenedor/GetTerminalesActivos',
+                url: '../Mantenedor/GetCargarTerminalesCmb',
                 type: 'post',
                 datatype: 'json',
                 async: false,
@@ -363,7 +370,7 @@
             });
 
             $.ajax({
-                url: '../Mantenedor/GetServiciosActivos',
+                url: '../Mantenedor/GetServiciosActivosCmb',
                 type: 'post',
                 datatype: 'json',
                 async: false,
@@ -380,7 +387,7 @@
             });
 
             $.ajax({
-                url: '../Mantenedor/GetBusesActivos',
+                url: '../Mantenedor/GetBusesActivosCmb',
                 type: 'post',
                 datatype: 'json',
                 async: false,
@@ -389,9 +396,26 @@
                     for (var i = 0; i < data.data.length; i++) {
                         var optionSent = $(document.createElement('option'));
                         optionSent.val(data.data[i]["ID_BUS"]);
-                        optionSent.text(data.data[i]["ID_INTERNO_BUS"]);
+                        optionSent.text(data.data[i]["NOMBRE_TERMINAL"]);
 
                         $(".cmbBus").append(optionSent);
+                    }
+                }
+            });
+
+            $.ajax({
+                url: '../Reprogramacion/GetCargarTunosDisponiblesCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionSent = $(document.createElement('option'));
+                        optionSent.val(data.data[i]["ID_HORARIO"]);
+                        optionSent.text(data.data[i]["HORA_INICIO"]);
+
+                        $("#cmbTurnosDisponibles").append(optionSent);
                     }
                 }
             });
@@ -418,7 +442,12 @@
                         CargarTablaRuta();
                     } else {
                         $("#btnRegistrarInicio").css('display', '');
+                        $("#btnRegistrarIniVuelta").css('display', 'none');
+                        $("#btnSalir").css('display', 'none');
+                        $("#btnShowFin").css('display', 'none');
                         $(".Ini").prop('disabled');
+
+                        CargarTablaRuta();
                     }
 
                 }
@@ -427,6 +456,10 @@
         }
 
         function CargarTablaRuta() {
+            let idTurnoActual = 0;
+            if ($("#idTurnoActual").val() != "") {
+                idTurnoActual = $("#idTurnoActual").val();
+            }
             tblRuta = $("#tblRuta").DataTable({
                 dom: "<'card-header flex-column flex-lg-row align-items-start align-items-lg-center'<'d-flex flex-column flex-lg-row justify-content-start align-items-lg-center'<'titleRev mr-2'><'comboFil mb-2 mb-lg-0'>><'d-flex justify-content-md-end'fl>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
                 scrollX: true,
@@ -447,7 +480,7 @@
                     type: "POST",
                     dataType: "json",
                     data: {
-                        "idHorarioActual": $("#idTurnoActual").val()
+                        "idHorarioActual": idTurnoActual
                     }
                 },
                 columns: [
@@ -472,7 +505,21 @@
                             }
                     },
                     { data: "NOMBRE_TERMINAL_FIN", title: "Terminal fin", name: "ID_TERMINAL_FIN", orderable: false },
-                    { data: "NUMERO_BUS_FIN", title: "Bus fin", name: "BUS", searchable: false },
+                    {
+                        data: null
+                        , title: "Bus fin"
+                        , orderable: false,
+                        render:
+                            function (full) {
+                                if (full.NUMERO_BUS_FIN > 0) {
+                                    return full.NUMERO_BUS_FIN;
+                                } else {
+                                    return "";
+                                }
+
+                            }
+
+                    },
                     {
                         data: null
                         , title: "Fecha fin"
@@ -486,6 +533,8 @@
                                     $(".lockedFinalizar").prop("disabled");
                                     $("#btnShowFin").css("display", "");
                                     $("#btnRegistrarInicio").css('display', 'none');
+                                    $("#btnRegistrarIniVuelta").css('display', '');
+                                    $("#btnSalir").css("display", "");
 
                                     return moment(full.FECHA_HORA_FIN).format('DD/MM/YYYY HH:MM');
                                 } else {
@@ -647,8 +696,6 @@
                 $("#idVueltaActual").val(idVuelta)
             }
 
-            console.log($("#idVueltaActual").val())
-
             $("#modalCierreVuelta").modal("show");
         }
 
@@ -712,9 +759,7 @@
                         alertSuccess(data.Data.message)
                         CerrarModal();
 
-                        $("#cmbTerminalFin option").attr("selected", false);
-
-                        $("cmbTerminalFin option[value='" + 0 + "']").attr("selected", "selected");
+                        GetInicioTurno();
                     }
                 }
             });
@@ -723,7 +768,40 @@
         function ShowEditarVuelta(idVuelta) {
             $("#idVueEliminar").text(idVuelta)
             $("#modalConfirmacion").modal("show");
-            
+
+        }
+
+        function AsignarTerminalLabel() {
+            let idProgramacion = $("#cmbTurnosDisponibles option:selected").val();
+            if (idProgramacion > 0) {
+                $.ajax({
+                    url: '../Mantenedor/GetNombreTerminal',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "idProgramacion": idProgramacion,
+                    },
+                    success: function (data) {
+                        if (data.alert != '') {
+                            $("#lblTerminalJornadainicio").text(data.data.NOMBRE_TERMINAL);
+
+                            $("#cmbTerminalInicio option").attr("selected", false);
+                            $("#cmbTerminalInicio option[value='" + data.data.ID_TERMINAL + "']").attr("selected", "selected");
+
+                        } else {
+                            alertDanger("Se ha producido un error guardar los datos, intente nuevamente");
+                            
+                        }
+                    }
+                });
+
+            } else {
+                $("#cmbTerminalInicio option").attr("selected", false);
+                $("#cmbTerminalInicio option[value='" + 0 + "']").attr("selected", "selected");
+                $("#lblTerminalJornadainicio").text("");
+
+            }
         }
 
     </script>

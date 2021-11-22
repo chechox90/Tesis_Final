@@ -24,5 +24,7 @@ namespace DLL.DATA.SeguridadSoluinfo
         public bool ESTADO { get; set; }
     
         public virtual USUARIOS_SISTEMA USUARIOS_SISTEMA { get; set; }
+        public virtual ESTADO_SOLICITUD ESTADO_SOLICITUD { get; set; }
+        public virtual TIPO_SOLICITUD_CAMBIO TIPO_SOLICITUD_CAMBIO { get; set; }
     }
 }

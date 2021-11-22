@@ -19,7 +19,7 @@ namespace WebApplication1.Controllers
     {
         OleDbConnection Econ;
 
-        
+
         private readonly I_N_HorarioConductor _i_n_HorarioConductor;
         private readonly I_N_Terminal _i_n_Terminal;
         private readonly I_N_Usuario _i_n_usuario;
@@ -34,7 +34,7 @@ namespace WebApplication1.Controllers
 
         }
 
-        
+
 
         [HttpPost]
         public ActionResult GetConductorHorario(string RutConductor, string fechasConsultas)
@@ -134,10 +134,10 @@ namespace WebApplication1.Controllers
         {
             RUN = RUN.Replace("-", "");
             var primerGrupo = RUN.Substring(RUN.Length - 4);
-            var segundoGrupo = RUN.Substring(RUN.Length - 7).Substring(0,3);
+            var segundoGrupo = RUN.Substring(RUN.Length - 7).Substring(0, 3);
             int resta = RUN.Length - 7;
             var tercerGrupo = RUN.Substring(0, resta);
-            string rut = tercerGrupo + "." + segundoGrupo + "." + primerGrupo.Substring(0,3) + "-" + primerGrupo.Substring(3,1);
+            string rut = tercerGrupo + "." + segundoGrupo + "." + primerGrupo.Substring(0, 3) + "-" + primerGrupo.Substring(3, 1);
 
             return rut;
         }
@@ -185,6 +185,56 @@ namespace WebApplication1.Controllers
                         ErrorMsg = "Ha ocurrido una insidencia al <b>obtener los terminales</b>"
                     });
                 }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult GetCargarTunosDisponiblesCmb()
+        {
+            try
+            {
+                DateTime fechaHoy = DateTime.Now;
+
+                DateTime fechaIni = DateTime.Parse(fechaHoy.ToString().Split(' ')[0].Trim() + " 00:00");
+                DateTime fechaFin = DateTime.Parse(fechaHoy.ToString().Split(' ')[0].Trim() + " 23:59");
+
+                List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut("17459567-4", fechaIni, fechaFin);
+                List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
+
+                //SELECCIONE
+                DTO_HorarioConductorMostrar cargaInicial = new DTO_HorarioConductorMostrar();
+                cargaInicial.ID_HORARIO = 0;
+                cargaInicial.HORA_INICIO = "Seleccione";
+                list.Add(cargaInicial);
+
+                if (dto_Horario.Count > 0)
+                {
+                    for (int i = 0; i < dto_Horario.Count; i++)
+                    {
+                        DTO_HorarioConductorMostrar carga = new DTO_HorarioConductorMostrar();
+                        if (i <= dto_Horario.Count)
+                        {
+                            carga.ID_HORARIO = dto_Horario[i].ID_HORARIO;
+                            carga.HORA_INICIO = dto_Horario[i].FECHA_HORA_INICIO.ToString("dd/MM/yyyy HH:mm").Split(' ')[1].Trim();
+                            list.Add(carga);
+                        }
+                    }
+                }
+
+                return Json(new
+                {
+                    data = list,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+                });
+
+
             }
             catch (Exception)
             {
@@ -316,7 +366,7 @@ namespace WebApplication1.Controllers
 
         public static bool ValidarRutCompleto(string rut)
         {
-            
+
             Regex expresion = new Regex("^([0-9]+-[0-9K])$");
             string dv = rut.Substring(rut.Length - 1, 1);
 
@@ -451,8 +501,6 @@ namespace WebApplication1.Controllers
 
         }
 
-        
-
         [HttpPost]
         public ActionResult SetGuardarHorarioConductor()
         {
@@ -563,7 +611,7 @@ namespace WebApplication1.Controllers
 
                     dto_horario_guardar.Add(dto_horario);
                 }
-                
+
             }
 
             var resultado = _i_n_HorarioConductor.SetEditarHorarioConductor(dto_horario_guardar);

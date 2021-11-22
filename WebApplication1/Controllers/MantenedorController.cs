@@ -97,7 +97,7 @@ namespace ConductorEnRed.Controllers
 
                     return Json(new
                     {
-                        data = list.OrderBy(x => x.NOMBRE_TERMINAL),
+                        data = list,
                         ErrorMsg = "",
                         JsonRequestBehavior.AllowGet
                     });
@@ -111,6 +111,30 @@ namespace ConductorEnRed.Controllers
                         ErrorMsg = "Ha ocurrido una insidencia al <b>obtener los terminales</b>"
                     });
                 }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult GetNombreTerminal(int idProgramacion)
+        {
+            try
+            {
+                DTO_Terminal list = new DTO_Terminal();
+                list = _i_n_Terminal.GetNombreTerminal(idProgramacion);
+
+
+                return Json(new
+                {
+                    data = list,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+                });
             }
             catch (Exception)
             {
@@ -254,6 +278,38 @@ namespace ConductorEnRed.Controllers
                         Data = Json(new { alert = alert, message = message })
                     };
                 }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetBusesActivosCmb()
+        {
+            try
+            {
+                //Seleccione NOTA: se usa nombre terminal por el tipo de dato string
+                List<DTO_Bus> dtoBus = new List<DTO_Bus>();
+                dtoBus = _i_n_Bus.GetBusByAllActiveForTable();
+                List<DTO_Bus> list = new List<DTO_Bus>();
+
+                DTO_Bus cargaInicial = new DTO_Bus();
+                cargaInicial.ID_BUS = 0;
+                cargaInicial.NOMBRE_TERMINAL = "Seleccione";
+                list.Add(cargaInicial);
+                
+                foreach (var item in dtoBus)
+                {
+                    DTO_Bus carga = new DTO_Bus();
+                    carga.ID_BUS = item.ID_BUS;
+                    carga.NOMBRE_TERMINAL = item.ID_INTERNO_BUS.ToString();
+                    list.Add(carga);
+                }
+
+                return Json(new { data = list, });
             }
             catch (Exception)
             {
@@ -407,7 +463,7 @@ namespace ConductorEnRed.Controllers
 
                 if (dtoComuna != null)
                 {
-                    return Json(new { data = dtoComuna.ToList().OrderBy(x => x.NOMBRE_COMUNA), });
+                    return Json(new { data = dtoComuna.ToList(), });
                 }
                 else
                 {
@@ -548,6 +604,7 @@ namespace ConductorEnRed.Controllers
                 dtoServicio = _i_n_Servicio.GetServicioByAllActiveForTable();
 
                 List<DTO_Servicio> list = new List<DTO_Servicio>();
+
                 foreach (var item in dtoServicio)
                 {
                     DTO_Servicio carga = new DTO_Servicio();
@@ -560,7 +617,44 @@ namespace ConductorEnRed.Controllers
                     carga.HORARIO_FIN_ = item.HORARIO_FIN.ToString().Substring(0, 5);
                     list.Add(carga);
                 }
-                list = list.OrderBy(x => x.NOMBRE_SERVICIO).ToList();
+                list = list.ToList();
+
+                return Json(new { data = list, });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public ActionResult GetServiciosActivosCmb()
+        {
+            try
+            {
+                List<DTO_Servicio> dtoServicio = new List<DTO_Servicio>();
+                dtoServicio = _i_n_Servicio.GetServicioByAllActiveForTable();
+
+                List<DTO_Servicio> list = new List<DTO_Servicio>();
+
+                DTO_Servicio cargaInicial = new DTO_Servicio();
+                cargaInicial.ID_SERVICIO = 0;
+                cargaInicial.NOMBRE_SERVICIO = "Seleccione";
+                list.Add(cargaInicial);
+
+                foreach (var item in dtoServicio)
+                {
+                    DTO_Servicio carga = new DTO_Servicio();
+                    carga.ID_SERVICIO = item.ID_SERVICIO;
+                    carga.ID_EMPRESA = item.ID_EMPRESA;
+                    carga.NOMBRE_EMPRESA = item.NOMBRE_EMPRESA;
+                    carga.NOMBRE_SERVICIO = item.NOMBRE_SERVICIO;
+
+                    carga.HORARIO_INICIO = item.HORARIO_INI.ToString().Substring(0, 5);
+                    carga.HORARIO_FIN_ = item.HORARIO_FIN.ToString().Substring(0, 5);
+                    list.Add(carga);
+                }
 
                 if (list != null)
                 {
@@ -722,7 +816,7 @@ namespace ConductorEnRed.Controllers
 
                 return Json(new
                 {
-                    data = list.OrderBy(x => x.NOMBRE_SENTIDO),
+                    data = list,
                     ErrorMsg = "",
                     JsonRequestBehavior.AllowGet
                 });
@@ -864,8 +958,8 @@ namespace ConductorEnRed.Controllers
                     vmRegistro.ID_REGISTRO_HORARIO = registroHorarios.ID_REGISTRO_HORARIO;
                     vmRegistro.ID_TERMINAL_INICIO = registroHorarios.ID_TERMINAL_INICIO;
                     var split = registroHorarios.FECHA_HORA_INICIO.ToString().Split(' ')[1].Trim().Split(':');
-                    vmRegistro.HORA_INICIO = split[0].Count() == 1 ? "0"+ split[0] + ":" + split[1]: split[0] + ":" + split[1];
-                        
+                    vmRegistro.HORA_INICIO = split[0].Count() == 1 ? "0" + split[0] + ":" + split[1] : split[0] + ":" + split[1];
+
                 }
 
 
@@ -899,7 +993,7 @@ namespace ConductorEnRed.Controllers
                 foreach (var item in vueltas)
                 {
                     DTO_RegistroVueltas v = new DTO_RegistroVueltas();
-                    
+
                     v.ID_REGISTRO_VUELTAS = item.ID_REGISTRO_VUELTAS;
                     v.NUMERO_VUELTA = i;
                     v.NOMBRE_SERVICIO_INICIO = item.NOMBRE_SERVICIO_INICIO;
@@ -912,7 +1006,7 @@ namespace ConductorEnRed.Controllers
                     v.NUMERO_BUS_FIN = item.NUMERO_BUS_FIN;
                     v.NOMBRE_TERMINAL_FIN = item.NOMBRE_TERMINAL_FIN;
                     v.FECHA_HORA_FIN = item.FECHA_HORA_FIN;
-                    
+
                     vueltasM.Add(v);
 
                     i++;
@@ -985,7 +1079,7 @@ namespace ConductorEnRed.Controllers
             try
             {
                 string alert = "";
-               
+
                 int response = _i_n_RegistroHorario.SetEliminarVuelta(idVuelta);
 
                 if (response == 1)
@@ -1079,7 +1173,7 @@ namespace ConductorEnRed.Controllers
                     ID_SERVICIO_FIN = Vueltas[0].ID_SERVICIO_FIN,
                     ID_SENTIDO_FIN = Vueltas[0].ID_SENTIDO_FIN,
                     ID_TERMINAL_FIN = Vueltas[0].ID_TERMINAL_FIN,
-                    FECHA_HORA_FIN = DateTime.Parse(DateTime.Now.ToString().Substring(0, 10) + " " + Vueltas[0].HORA_FIN),                    
+                    FECHA_HORA_FIN = DateTime.Parse(DateTime.Now.ToString().Substring(0, 10) + " " + Vueltas[0].HORA_FIN),
                     ESTADO = true
 
                 };
@@ -1113,7 +1207,7 @@ namespace ConductorEnRed.Controllers
         }
 
         [HttpPost]
-        public ActionResult SetFinJornada(int IdJornada,string HoraFin, int Idterminal)
+        public ActionResult SetFinJornada(int IdJornada, string HoraFin, int Idterminal)
         {
             try
             {
@@ -1132,7 +1226,7 @@ namespace ConductorEnRed.Controllers
                 {
 
                     alert = "success";
-                    var message = "El Sentido se ha sido guardada con éxito";
+                    var message = "El término de jornada se ha ingresado con éxito";
                     return new JsonResult()
                     {
                         Data = Json(new { alert = alert, message = message })

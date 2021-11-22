@@ -14,8 +14,17 @@ namespace DLL.DATA.SeguridadSoluinfo
     
     public partial class ESTADO_SOLICITUD
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ESTADO_SOLICITUD()
+        {
+            this.SOLICITUD_CAMBIO_HORARIO = new HashSet<SOLICITUD_CAMBIO_HORARIO>();
+        }
+    
         public int ID_ESTADO_SOLICITUD { get; set; }
         public string NOMBRE_ESTADO { get; set; }
         public Nullable<bool> ESTADO { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SOLICITUD_CAMBIO_HORARIO> SOLICITUD_CAMBIO_HORARIO { get; set; }
     }
 }

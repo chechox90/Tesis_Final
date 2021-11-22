@@ -60,6 +60,47 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public List<DTO_HorarioConductorMostrar> GetHorarioConductorByRutEstado(string rut, DateTime fechaIni, DateTime fechaFin)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    fechaFin = fechaFin.AddDays(1);
+
+                    // Obtengo datos del usuario, perfiles y permisos
+                    List<DTO_HorarioConductorMostrar> dtoHorario = (from usr in context.USUARIOS_SISTEMA
+                                                                    join hrcon in context.HORARIO_CONDUCTOR on usr.ID_USUARIO equals hrcon.ID_USUARIO
+                                                                    join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO
+                                                                    where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin)
+                                                                    select new DTO_HorarioConductorMostrar
+                                                                    {
+                                                                        ID_HORARIO = hrcon.ID_HORARIO,
+                                                                        RUT = usr.RUT,
+                                                                        NOMBRE = usr.NOMBRE,
+                                                                        SEGUNDO_NOMBRE = usr.SEGUNDO_NOMBRE,
+                                                                        APELLIDO_PATERNO = usr.APELLIDO_PATERNO,
+                                                                        APELLIDO_MATERNO = usr.APELLIDO_MATERNO,
+                                                                        ESTADO = usr.ESTADO,
+                                                                        ID_TERMINAL = hrcon.ID_TERMINAL_INICIO,
+                                                                        NUMERO_JORNADA = hrcon.NUMERO_JORNADA,
+                                                                        FECHA_HORA_INICIO = hrcon.FECHA_INICIO,
+                                                                        TIPO_CONTRATO = tic.NOMBRE_TIPO_CONTRATO,
+                                                                        HORARIO_CUBIERTO = hrcon.HORARIO_CUBIERTO
+                                                                    }).Where(x => x.RUT == rut
+                                                                    && x.ESTADO == true && x.HORARIO_CUBIERTO == true).ToList();
+
+
+                    return dtoHorario;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
         public List<DTO_HorarioConductorMostrar> GetHorarioConductorById(int idUsuario, DateTime fechaIni, DateTime fechaFin, int idTurno)
         {
             try

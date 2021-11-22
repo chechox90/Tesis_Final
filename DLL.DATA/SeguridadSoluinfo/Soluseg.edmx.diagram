@@ -64,6 +64,8 @@
         <AssociationConnector Association="SoluinfoModel.FK_ACCIONES_MENU" />
         <AssociationConnector Association="SoluinfoModel.FK_MENU_MENU" />
         <AssociationConnector Association="SoluinfoModel.FK_MENU_PROYECTOS" />
+        <AssociationConnector Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD" />
+        <AssociationConnector Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

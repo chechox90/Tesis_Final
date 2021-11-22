@@ -73,6 +73,32 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public DTO_Terminal GetNombreTerminal(int idProgramacion)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    int idTerminal = context.HORARIO_CONDUCTOR.Where(x => x.ID_HORARIO == idProgramacion && x.ESTADO == true).Select(x => x.ID_TERMINAL_INICIO).FirstOrDefault();
+                    DTO_Terminal dto_Terminal = (from ter in context.TERMINAL
+                                                       where ter.ESTADO == true
+                                                       select new DTO_Terminal
+                                                       {
+                                                           ID_TERMINAL = ter.ID_TERMINAL,
+                                                           NOMBRE_TERMINAL = ter.NOMBRE_TERMINAL
+                                                       }).Where(x => x.ID_TERMINAL == idTerminal).FirstOrDefault();
+
+                    return dto_Terminal;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
         public List<DTO_Terminal> GetTerminalByAllActiveForTable()
         {
             try
