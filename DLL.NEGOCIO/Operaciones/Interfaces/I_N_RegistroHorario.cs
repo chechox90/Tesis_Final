@@ -11,6 +11,8 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
     {
         List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idRegistroHorario);
 
+        DTO_RegistroVueltas GetRegistroVueltasByAllId(int idVuelta);
+
         DTO_RegistroHorario GetRegistroHorarioByAll(int idUsuario);
 
         int SetIngresaHorario(DTO_RegistroHorario list);

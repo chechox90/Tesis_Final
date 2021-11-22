@@ -1026,7 +1026,7 @@ namespace ConductorEnRed.Controllers
                 throw;
             }
         }
-
+       
         [HttpPost]
         public ActionResult SetRegistroInicioHorario(string HoraInicio, int Idterminal)
         {
@@ -1300,6 +1300,31 @@ namespace ConductorEnRed.Controllers
             {
                 throw;
             }
+        }
+
+        [HttpGet]
+        public ActionResult GetEditarVuelta(int idVuelta)
+        {
+            DTO_RegistroVueltas dtoVueltas = new DTO_RegistroVueltas();
+            dtoVueltas = _i_n_RegistroHorario.GetRegistroVueltasByAllId(idVuelta);
+
+            VM_RegistroVueltas vuelta = new VM_RegistroVueltas();
+            vuelta.ID_REGISTRO_VUELTAS = dtoVueltas.ID_REGISTRO_VUELTAS;
+            vuelta.ID_BUS_INICIO = dtoVueltas.ID_BUS_INICIO;
+            vuelta.ID_SERVICIO = dtoVueltas.ID_SERVICIO_INICIO;
+            vuelta.ID_TERMINAL_INICIO = dtoVueltas.ID_TERMINAL_INICIO;
+            vuelta.ID_SENTIDO_INICIO = dtoVueltas.ID_SENTIDO_INICIO;
+            vuelta.FECHA_HORA_INICIO = dtoVueltas.FECHA_HORA_INICIO;
+            vuelta.HORA_INICIO = dtoVueltas.FECHA_HORA_INICIO.ToString().Split(' ')[1];
+            vuelta.ID_SENTIDO_FIN = dtoVueltas.ID_SENTIDO_FIN;
+            vuelta.ID_TERMINAL_FIN = dtoVueltas.ID_TERMINAL_FIN;
+            vuelta.FECHA_HORA_FIN = dtoVueltas.FECHA_HORA_FIN;
+            vuelta.ID_BUS_FIN = dtoVueltas.ID_BUS_FIN;
+            vuelta.HORA_FIN = dtoVueltas.FECHA_HORA_FIN.ToString().Split(' ')[1];
+            vuelta.ESTADO = dtoVueltas.ESTADO;
+
+            return View("~/Views/HorarioConductor/_EditarVuelta.cshtml", vuelta);
+
         }
 
         #endregion

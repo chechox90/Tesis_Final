@@ -19,7 +19,6 @@ namespace DLL.NEGOCIO.Operaciones
         }
 
 
-
         public List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idRegistroHorario)
         {
             return I_Dao_RegistroHorario.GetRegistroVueltasByAll(idRegistroHorario);
@@ -28,6 +27,11 @@ namespace DLL.NEGOCIO.Operaciones
         public DTO_RegistroHorario GetRegistroHorarioByAll(int idUsuario)
         {
             return I_Dao_RegistroHorario.GetRegistroHorarioByAll(idUsuario);
+        }
+
+        public DTO_RegistroVueltas GetRegistroVueltasByAllId(int idVuelta)
+        {
+            return I_Dao_RegistroHorario.GetRegistroVueltasByAllId(idVuelta);
         }
 
         public int SetIngresaHorario(DTO_RegistroHorario list)

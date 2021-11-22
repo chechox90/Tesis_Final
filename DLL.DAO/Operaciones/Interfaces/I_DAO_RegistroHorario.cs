@@ -7,6 +7,8 @@ namespace DLL.DAO.Operaciones.Interfaces
     {
         List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idRegistroHorario);
 
+        DTO_RegistroVueltas GetRegistroVueltasByAllId(int idVuelta);
+
         DTO_RegistroHorario GetRegistroHorarioByAll(int idHorario);
 
         int SetIngresaHorario(DTO_RegistroHorario list);

@@ -12,6 +12,7 @@ namespace DLL.NEGOCIO.Operaciones
     public class N_HorarioConductor : I_N_HorarioConductor
     {
         private readonly I_DAO_HorarioConductor I_DAO_HorarioConductor;
+
         public N_HorarioConductor(I_DAO_HorarioConductor I_DAO_HorarioConductor)
         {
             this.I_DAO_HorarioConductor = I_DAO_HorarioConductor;

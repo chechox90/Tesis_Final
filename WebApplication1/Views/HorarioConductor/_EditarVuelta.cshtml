@@ -1,4 +1,4 @@
-﻿
+﻿@model ConductorEnRed.ViewModels.Mantenedores.VM_RegistroVueltas
 @{
     ViewBag.Title = "_EditarVuelta";
 }
@@ -28,78 +28,80 @@
 <div class="jombotron">
     <div class="flex-fill">
         <div class="panel">
-            <div class="form-row">
-                <div class="card">
+            <div class="card">
+                <div class="form-row">
                     <div class="modal-body">
                         <div class="modal-title">
-                            <h4>Registro de Ruta</h4>
+                            <h4>Editar Vuelta Ingresada</h4>
                         </div>
                         <div class="form-row">
                             <div class="form-row form-group col-12">
                                 <div class="col-md-6">
-                                    <span>Terminal de inicio</span>
-                                    <select class="form-control cmbTer lockedFinalizar" id="cmbTerminalIniVuelta"></select>
-
-                                </div>
-                                <div class="col-md-6">
-                                    <span>Hora de salida</span>
-                                    <input type="time" class="form-control lockedFinalizar" placeholder="HH:MM" maxlength="5" id="txtIniVuelta" />
-                                </div>
-                            </div>
-                            <div class="form-row form-group col-12">
-                                <div class="col-md-6">
-                                    <span>Bus</span>
-                                    <select class="form-control cmbBus lockedFinalizar" id="cmbBusInicio"></select>
-                                </div>
-                                <div class="col-md-6">
-                                    <span>Servicio salida</span>
-                                    <select class="form-control cmbSer lockedFinalizar" id="cmbServicioInicio"></select>
-                                </div>
-                            </div>
-                            <div class="form-row form-group col-12">
-                                <div class="col-md-6">
                                     <span>Sentido inicio</span>
-                                    <select class="form-control cmbSent lockedFinalizar" id="cmbSentidoInicio"></select>
+                                    <select class="form-control" value="@Model.ID_SENTIDO_INICIO" id="cmbSentidoInicio"></select>
+                                </div>
+                                <div class="col-md-6">
+                                    <span>Hora de Inicio</span>
+                                    <input type="time" class="form-control" value="@Model.HORA_INICIO" placeholder="HH:MM" maxlength="5" id="txtIniVuelta" />
+                                </div>
+                            </div>
+                            <div class="form-row form-group col-12">
+                                <div class="col-md-6">
+                                    <span>Terminal de inicio</span>
+                                    <select class="form-control" value="@Model.ID_TERMINAL_INICIO" id="cmbTerminalIniVuelta"></select>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <span>Servicio Inicio</span>
+                                    <select class="form-control" value="@Model.ID_SERVICIO" id="cmbServicioInicio"></select>
+                                </div>
+                            </div>
+                            <div class="form-row form-group col-12">
+                                <div class="col-md-6">
+                                    <span>Bus Inicio</span>
+                                    <select class="form-control" value="@Model.ID_BUS" id="cmbBusInicio"></select>
                                 </div>
                             </div>
 
                             <div class="form-row form-group col-12">
-                                <div class="col-12">
-                                    <span>Terminal llegada</span>
-                                    <select class="form-control cmbTer" id="cmbTerminalFinVuelta"></select>
+                                <div class="col-md-6">
+                                    <span>Sentido llegada</span>
+                                    <select class="form-control" value="@Model.ID_SENTIDO_INICIO" id="cmbSentidoFin"></select>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <span>Bus</span>
-                                <select class="form-control cmbBus" id="cmbBusFin"></select>
-                            </div>
-                            <div class="col-md-12">
-                                <span>Servicio llegada</span>
-                                <select class="form-control cmbSer" id="cmbServicioFin"></select>
-                            </div>
-                            <div class="form-row form-group col-12">
-                                <div class="col-4 text-center">
+                                <div class="col-md-6">
                                     <span>Hora de llegada</span>
-                                    <input type="time" placeholder="HH:MM" maxlength="5" class="form-control" id="txtFinVuelta" />
+                                    <input type="time" placeholder="HH:MM" value="@Model.HORA_FIN" maxlength="5" class="form-control" id="txtFinVuelta" />
                                 </div>
                             </div>
                             <div class="form-row form-group col-12">
-                                <span>Sentido llegada</span>
-                                <select class="form-control cmbSent" id="cmbSentidoFin"></select>
+                                <div class="col-6">
+                                    <span>Terminal llegada</span>
+                                    <select class="form-control" value="@Model.ID_TERMINAL_FIN" id="cmbTerminalFinVuelta"></select>
+                                </div>
+                                <div class="col-md-6">
+                                    <span>Servicio llegada</span>
+                                    <select class="form-control" value="@Model.ID_SERVICIO" id="cmbServicioFin"></select>
+                                </div>
+                            </div>
+                            <div class="form-row form-group col-12">
+                                <div class="col-md-6">
+                                    <span>Bus Fin</span>
+                                    <select class="form-control" value="@Model.ID_BUS_FIN" id="cmbBusFin"></select>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <div class="borderInput">
-                    <div class="divFlot">
-                        <button id="btnSalir" type="button" onclick="Limpiar();" class="btn btn-outline-light">Cancelar</button>
+                <div class="modal-footer">
+                    <div class="borderInput">
+                        <div class="divFlot">
+                            <button id="btnSalir" type="button" onclick="Limpiar();" class="btn btn-outline-light">Cancelar</button>
+                        </div>
                     </div>
-                </div>
-                <div class="borderInput">
-                    <div class="divFlot">
-                        <button id="btnRegistrarIniVuelta" class="btn btn-success borderInput" onclick="RegistrarInicioVuelta();">Guradar</button>
+                    <div class="borderInput">
+                        <div class="divFlot">
+                            <button id="btnRegistrarIniVuelta" class="btn btn-success borderInput" onclick="RegistrarInicioVuelta();">Guradar</button>
+                        </div>
                     </div>
                 </div>
             </div>

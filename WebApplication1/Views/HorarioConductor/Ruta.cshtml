@@ -559,13 +559,11 @@
                         searchable: false,
                         render: function (data, type, full, meta) {
                             var html = '';
-
                             $("#idVueltaActual").val(full.ID_REGISTRO_VUELTAS);
                             html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarVuelta(' + full.ID_REGISTRO_VUELTAS + ');"><i class="far fa-trash-alt text-danger"></i></a><span>&nbsp;&nbsp;</span>';
 
-
                             if (full.NOMBRE_TERMINAL_FIN != "") {
-                                html = html + '<a role="button" class="btn-table-bg " onclick="ShowEditarVuelta(' + full.ID_REGISTRO_VUELTAS + ')"><i class="text-success fas fa-edit"></i></a>';
+                                html = html + '<a href="/Mantenedor/GetEditarVuelta?idVuelta=' + full.ID_REGISTRO_VUELTAS + '"><i class="far fa-edit text-success"></i>\</a>';
                             }
 
                             return html;
@@ -791,7 +789,7 @@
 
                         } else {
                             alertDanger("Se ha producido un error guardar los datos, intente nuevamente");
-                            
+
                         }
                     }
                 });
