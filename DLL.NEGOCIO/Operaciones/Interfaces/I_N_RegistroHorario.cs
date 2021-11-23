@@ -23,7 +23,7 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
         
         int SetEliminarVuelta(int idVuelta);
 
-        int SetIditaVuelta(DTO_RegistroVueltas list);
+        int SetEditaVuelta(DTO_RegistroVueltas list);
 
         int SetIngresaFinHorario(DTO_RegistroHorario list);
     }

@@ -207,14 +207,16 @@ namespace WebApplication1.Controllers
                 List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut("17459567-4", fechaIni, fechaFin);
                 List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
 
-                //SELECCIONE
-                DTO_HorarioConductorMostrar cargaInicial = new DTO_HorarioConductorMostrar();
-                cargaInicial.ID_HORARIO = 0;
-                cargaInicial.HORA_INICIO = "Seleccione";
-                list.Add(cargaInicial);
+                
 
                 if (dto_Horario.Count > 0)
                 {
+                    //SELECCIONE
+                    DTO_HorarioConductorMostrar cargaInicial = new DTO_HorarioConductorMostrar();
+                    cargaInicial.ID_HORARIO = 0;
+                    cargaInicial.HORA_INICIO = "Seleccione";
+                    list.Add(cargaInicial);
+
                     for (int i = 0; i < dto_Horario.Count; i++)
                     {
                         DTO_HorarioConductorMostrar carga = new DTO_HorarioConductorMostrar();
@@ -225,6 +227,14 @@ namespace WebApplication1.Controllers
                             list.Add(carga);
                         }
                     }
+                }
+                else
+                {
+                    //No existen Datos
+                    DTO_HorarioConductorMostrar cargaInicial = new DTO_HorarioConductorMostrar();
+                    cargaInicial.ID_HORARIO = 0;
+                    cargaInicial.HORA_INICIO = "No existen datos disponibles";
+                    list.Add(cargaInicial);
                 }
 
                 return Json(new
@@ -434,7 +444,7 @@ namespace WebApplication1.Controllers
                 return dt;
 
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
                 throw;

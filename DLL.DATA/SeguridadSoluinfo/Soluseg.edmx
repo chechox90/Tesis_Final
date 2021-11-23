@@ -287,6 +287,7 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             <PropertyRef Name="ID_REGISTRO_HORARIO" />
           </Key>
           <Property Name="ID_REGISTRO_HORARIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_HORARIO" Type="int" Nullable="false" />
           <Property Name="ID_USUARIO" Type="int" Nullable="false" />
           <Property Name="ID_TERMINAL_INICIO" Type="int" Nullable="false" />
           <Property Name="FECHA_HORA_INICIO" Type="datetime" Nullable="false" />
@@ -305,7 +306,7 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="ID_TERMINAL_INICIO" Type="int" Nullable="false" />
           <Property Name="ID_SENTIDO_INICIO" Type="int" Nullable="false" />
           <Property Name="FECHA_HORA_INICIO" Type="datetime" Nullable="false" />
-          <Property Name="ID_BUS_BUS" Type="int" />
+          <Property Name="ID_BUS_FIN" Type="int" />
           <Property Name="ID_SERVICIO_FIN" Type="int" />
           <Property Name="ID_SENTIDO_FIN" Type="int" />
           <Property Name="ID_TERMINAL_FIN" Type="int" />
@@ -611,6 +612,18 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Principal>
             <Dependent Role="PROYECTOS">
               <PropertyRef Name="ID_PLATAFORMA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REGISTRO_HORARIO_HORARIO_CONDUCTOR">
+          <End Role="HORARIO_CONDUCTOR" Type="Self.HORARIO_CONDUCTOR" Multiplicity="1" />
+          <End Role="REGISTRO_HORARIO" Type="Self.REGISTRO_HORARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HORARIO_CONDUCTOR">
+              <PropertyRef Name="ID_HORARIO" />
+            </Principal>
+            <Dependent Role="REGISTRO_HORARIO">
+              <PropertyRef Name="ID_HORARIO" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -934,6 +947,10 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <AssociationSet Name="FK_PROYECTOS_PLATAFORMAS" Association="Self.FK_PROYECTOS_PLATAFORMAS">
             <End Role="PLATAFORMAS" EntitySet="PLATAFORMAS" />
             <End Role="PROYECTOS" EntitySet="PROYECTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REGISTRO_HORARIO_HORARIO_CONDUCTOR" Association="Self.FK_REGISTRO_HORARIO_HORARIO_CONDUCTOR">
+            <End Role="HORARIO_CONDUCTOR" EntitySet="HORARIO_CONDUCTOR" />
+            <End Role="REGISTRO_HORARIO" EntitySet="REGISTRO_HORARIO" />
           </AssociationSet>
           <AssociationSet Name="FK_REGISTRO_HORARIO_USUARIOS_SISTEMA" Association="Self.FK_REGISTRO_HORARIO_USUARIOS_SISTEMA">
             <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
@@ -1293,32 +1310,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
             <End Role="SOLICITUD_CAMBIO_HORARIO" EntitySet="SOLICITUD_CAMBIO_HORARIO" />
           </AssociationSet>
-          <EntitySet Name="REGISTRO_HORARIO" EntityType="SoluinfoModel.REGISTRO_HORARIO" />
-          <AssociationSet Name="FK_REGISTRO_HORARIO_USUARIOS_SISTEMA" Association="SoluinfoModel.FK_REGISTRO_HORARIO_USUARIOS_SISTEMA">
-            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
-            <End Role="REGISTRO_HORARIO" EntitySet="REGISTRO_HORARIO" />
-          </AssociationSet>
-          <EntitySet Name="REGISTRO_VUELTAS" EntityType="SoluinfoModel.REGISTRO_VUELTAS" />
-          <AssociationSet Name="FK_REGISTRO_VUELTAS_BUS" Association="SoluinfoModel.FK_REGISTRO_VUELTAS_BUS">
-            <End Role="BUS" EntitySet="BUS" />
-            <End Role="REGISTRO_VUELTAS" EntitySet="REGISTRO_VUELTAS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_REGISTRO_VUELTAS_REGISTRO_HORARIO" Association="SoluinfoModel.FK_REGISTRO_VUELTAS_REGISTRO_HORARIO">
-            <End Role="REGISTRO_HORARIO" EntitySet="REGISTRO_HORARIO" />
-            <End Role="REGISTRO_VUELTAS" EntitySet="REGISTRO_VUELTAS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_REGISTRO_VUELTAS_SENTIDO" Association="SoluinfoModel.FK_REGISTRO_VUELTAS_SENTIDO">
-            <End Role="SENTIDO" EntitySet="SENTIDO" />
-            <End Role="REGISTRO_VUELTAS" EntitySet="REGISTRO_VUELTAS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_REGISTRO_VUELTAS_SERVICIO" Association="SoluinfoModel.FK_REGISTRO_VUELTAS_SERVICIO">
-            <End Role="SERVICIO" EntitySet="SERVICIO" />
-            <End Role="REGISTRO_VUELTAS" EntitySet="REGISTRO_VUELTAS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_REGISTRO_VUELTAS_TERMINAL" Association="SoluinfoModel.FK_REGISTRO_VUELTAS_TERMINAL">
-            <End Role="TERMINAL" EntitySet="TERMINAL" />
-            <End Role="REGISTRO_VUELTAS" EntitySet="REGISTRO_VUELTAS" />
-          </AssociationSet>
           <EntitySet Name="MENU" EntityType="SoluinfoModel.MENU" />
           <AssociationSet Name="FK_ACCIONES_MENU" Association="SoluinfoModel.FK_ACCIONES_MENU">
             <End Role="MENU" EntitySet="MENU" />
@@ -1339,6 +1330,36 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <AssociationSet Name="FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO" Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO">
             <End Role="TIPO_SOLICITUD_CAMBIO" EntitySet="TIPO_SOLICITUD_CAMBIO" />
             <End Role="SOLICITUD_CAMBIO_HORARIO" EntitySet="SOLICITUD_CAMBIO_HORARIO" />
+          </AssociationSet>
+          <EntitySet Name="REGISTRO_HORARIO" EntityType="SoluinfoModel.REGISTRO_HORARIO" />
+          <EntitySet Name="REGISTRO_VUELTAS" EntityType="SoluinfoModel.REGISTRO_VUELTAS" />
+          <AssociationSet Name="FK_REGISTRO_HORARIO_USUARIOS_SISTEMA" Association="SoluinfoModel.FK_REGISTRO_HORARIO_USUARIOS_SISTEMA">
+            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+            <End Role="REGISTRO_HORARIO" EntitySet="REGISTRO_HORARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REGISTRO_VUELTAS_BUS" Association="SoluinfoModel.FK_REGISTRO_VUELTAS_BUS">
+            <End Role="BUS" EntitySet="BUS" />
+            <End Role="REGISTRO_VUELTAS" EntitySet="REGISTRO_VUELTAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REGISTRO_HORARIO_HORARIO_CONDUCTOR" Association="SoluinfoModel.FK_REGISTRO_HORARIO_HORARIO_CONDUCTOR">
+            <End Role="HORARIO_CONDUCTOR" EntitySet="HORARIO_CONDUCTOR" />
+            <End Role="REGISTRO_HORARIO" EntitySet="REGISTRO_HORARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REGISTRO_VUELTAS_REGISTRO_HORARIO" Association="SoluinfoModel.FK_REGISTRO_VUELTAS_REGISTRO_HORARIO">
+            <End Role="REGISTRO_HORARIO" EntitySet="REGISTRO_HORARIO" />
+            <End Role="REGISTRO_VUELTAS" EntitySet="REGISTRO_VUELTAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REGISTRO_VUELTAS_SENTIDO" Association="SoluinfoModel.FK_REGISTRO_VUELTAS_SENTIDO">
+            <End Role="SENTIDO" EntitySet="SENTIDO" />
+            <End Role="REGISTRO_VUELTAS" EntitySet="REGISTRO_VUELTAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REGISTRO_VUELTAS_SERVICIO" Association="SoluinfoModel.FK_REGISTRO_VUELTAS_SERVICIO">
+            <End Role="SERVICIO" EntitySet="SERVICIO" />
+            <End Role="REGISTRO_VUELTAS" EntitySet="REGISTRO_VUELTAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REGISTRO_VUELTAS_TERMINAL" Association="SoluinfoModel.FK_REGISTRO_VUELTAS_TERMINAL">
+            <End Role="TERMINAL" EntitySet="TERMINAL" />
+            <End Role="REGISTRO_VUELTAS" EntitySet="REGISTRO_VUELTAS" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="NOVEDADES">
@@ -1516,6 +1537,7 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="ESTADO" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CARGA_HORARIO" Relationship="SoluinfoModel.FK_HORARIO_CONDUCTOR_CARGA_HORARIO" FromRole="HORARIO_CONDUCTOR" ToRole="CARGA_HORARIO" />
           <Property Name="NUMERO_JORNADA" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="REGISTRO_HORARIO" Relationship="SoluinfoModel.FK_REGISTRO_HORARIO_HORARIO_CONDUCTOR" FromRole="HORARIO_CONDUCTOR" ToRole="REGISTRO_HORARIO" />
         </EntityType>
         <Association Name="FK_HORARIO_CONDUCTOR_CARGA_HORARIO">
           <End Type="SoluinfoModel.CARGA_HORARIO" Role="CARGA_HORARIO" Multiplicity="1" />
@@ -1715,115 +1737,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="REGISTRO_HORARIO">
-          <Key>
-            <PropertyRef Name="ID_REGISTRO_HORARIO" />
-          </Key>
-          <Property Name="ID_REGISTRO_HORARIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
-          <Property Name="ID_TERMINAL_INICIO" Type="Int32" Nullable="false" />
-          <Property Name="FECHA_HORA_INICIO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ID_TERMINAL_FIN" Type="Int32" />
-          <Property Name="FECHA_HORA_FIN" Type="DateTime" Precision="3" />
-          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_REGISTRO_HORARIO_USUARIOS_SISTEMA" FromRole="REGISTRO_HORARIO" ToRole="USUARIOS_SISTEMA" />
-          <NavigationProperty Name="REGISTRO_VUELTAS" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_REGISTRO_HORARIO" FromRole="REGISTRO_HORARIO" ToRole="REGISTRO_VUELTAS" />
-        </EntityType>
-        <Association Name="FK_REGISTRO_HORARIO_USUARIOS_SISTEMA">
-          <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="1" />
-          <End Type="SoluinfoModel.REGISTRO_HORARIO" Role="REGISTRO_HORARIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="USUARIOS_SISTEMA">
-              <PropertyRef Name="ID_USUARIO" />
-            </Principal>
-            <Dependent Role="REGISTRO_HORARIO">
-              <PropertyRef Name="ID_USUARIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="REGISTRO_VUELTAS">
-          <Key>
-            <PropertyRef Name="ID_REGISTRO_VUELTAS" />
-          </Key>
-          <Property Name="ID_REGISTRO_VUELTAS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_REGISTRO_HORARIO" Type="Int32" Nullable="false" />
-          <Property Name="ID_BUS_INICIO" Type="Int32" Nullable="false" />
-          <Property Name="ID_SERVICIO_INICIO" Type="Int32" Nullable="false" />
-          <Property Name="ID_TERMINAL_INICIO" Type="Int32" Nullable="false" />
-          <Property Name="ID_SENTIDO_INICIO" Type="Int32" Nullable="false" />
-          <Property Name="FECHA_HORA_INICIO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ID_BUS_BUS" Type="Int32" />
-          <Property Name="ID_SERVICIO_FIN" Type="Int32" />
-          <Property Name="ID_SENTIDO_FIN" Type="Int32" />
-          <Property Name="ID_TERMINAL_FIN" Type="Int32" />
-          <Property Name="FECHA_HORA_FIN" Type="DateTime" Precision="3" />
-          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="BUS" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_BUS" FromRole="REGISTRO_VUELTAS" ToRole="BUS" />
-          <NavigationProperty Name="REGISTRO_HORARIO" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_REGISTRO_HORARIO" FromRole="REGISTRO_VUELTAS" ToRole="REGISTRO_HORARIO" />
-          <NavigationProperty Name="SENTIDO" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_SENTIDO" FromRole="REGISTRO_VUELTAS" ToRole="SENTIDO" />
-          <NavigationProperty Name="SERVICIO" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_SERVICIO" FromRole="REGISTRO_VUELTAS" ToRole="SERVICIO" />
-          <NavigationProperty Name="TERMINAL" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_TERMINAL" FromRole="REGISTRO_VUELTAS" ToRole="TERMINAL" />
-        </EntityType>
-        <Association Name="FK_REGISTRO_VUELTAS_BUS">
-          <End Type="SoluinfoModel.BUS" Role="BUS" Multiplicity="1" />
-          <End Type="SoluinfoModel.REGISTRO_VUELTAS" Role="REGISTRO_VUELTAS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BUS">
-              <PropertyRef Name="ID_BUS" />
-            </Principal>
-            <Dependent Role="REGISTRO_VUELTAS">
-              <PropertyRef Name="ID_BUS_INICIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_REGISTRO_VUELTAS_REGISTRO_HORARIO">
-          <End Type="SoluinfoModel.REGISTRO_HORARIO" Role="REGISTRO_HORARIO" Multiplicity="1" />
-          <End Type="SoluinfoModel.REGISTRO_VUELTAS" Role="REGISTRO_VUELTAS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="REGISTRO_HORARIO">
-              <PropertyRef Name="ID_REGISTRO_HORARIO" />
-            </Principal>
-            <Dependent Role="REGISTRO_VUELTAS">
-              <PropertyRef Name="ID_REGISTRO_HORARIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_REGISTRO_VUELTAS_SENTIDO">
-          <End Type="SoluinfoModel.SENTIDO" Role="SENTIDO" Multiplicity="1" />
-          <End Type="SoluinfoModel.REGISTRO_VUELTAS" Role="REGISTRO_VUELTAS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SENTIDO">
-              <PropertyRef Name="ID_SENTIDO" />
-            </Principal>
-            <Dependent Role="REGISTRO_VUELTAS">
-              <PropertyRef Name="ID_SENTIDO_INICIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_REGISTRO_VUELTAS_SERVICIO">
-          <End Type="SoluinfoModel.SERVICIO" Role="SERVICIO" Multiplicity="1" />
-          <End Type="SoluinfoModel.REGISTRO_VUELTAS" Role="REGISTRO_VUELTAS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SERVICIO">
-              <PropertyRef Name="ID_SERVICIO" />
-            </Principal>
-            <Dependent Role="REGISTRO_VUELTAS">
-              <PropertyRef Name="ID_SERVICIO_INICIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_REGISTRO_VUELTAS_TERMINAL">
-          <End Type="SoluinfoModel.TERMINAL" Role="TERMINAL" Multiplicity="1" />
-          <End Type="SoluinfoModel.REGISTRO_VUELTAS" Role="REGISTRO_VUELTAS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TERMINAL">
-              <PropertyRef Name="ID_TERMINAL" />
-            </Principal>
-            <Dependent Role="REGISTRO_VUELTAS">
-              <PropertyRef Name="ID_TERMINAL_INICIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="MENU">
           <Key>
             <PropertyRef Name="ID_MENU" />
@@ -1899,6 +1812,129 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Principal>
             <Dependent Role="SOLICITUD_CAMBIO_HORARIO">
               <PropertyRef Name="ID_TIPO_SOLICITUD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="REGISTRO_HORARIO">
+          <Key>
+            <PropertyRef Name="ID_REGISTRO_HORARIO" />
+          </Key>
+          <Property Name="ID_REGISTRO_HORARIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_HORARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_TERMINAL_INICIO" Type="Int32" Nullable="false" />
+          <Property Name="FECHA_HORA_INICIO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ID_TERMINAL_FIN" Type="Int32" />
+          <Property Name="FECHA_HORA_FIN" Type="DateTime" Precision="3" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_REGISTRO_HORARIO_USUARIOS_SISTEMA" FromRole="REGISTRO_HORARIO" ToRole="USUARIOS_SISTEMA" />
+          <NavigationProperty Name="HORARIO_CONDUCTOR" Relationship="SoluinfoModel.FK_REGISTRO_HORARIO_HORARIO_CONDUCTOR" FromRole="REGISTRO_HORARIO" ToRole="HORARIO_CONDUCTOR" />
+          <NavigationProperty Name="REGISTRO_VUELTAS" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_REGISTRO_HORARIO" FromRole="REGISTRO_HORARIO" ToRole="REGISTRO_VUELTAS" />
+        </EntityType>
+        <EntityType Name="REGISTRO_VUELTAS">
+          <Key>
+            <PropertyRef Name="ID_REGISTRO_VUELTAS" />
+          </Key>
+          <Property Name="ID_REGISTRO_VUELTAS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_REGISTRO_HORARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_BUS_INICIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_SERVICIO_INICIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_TERMINAL_INICIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_SENTIDO_INICIO" Type="Int32" Nullable="false" />
+          <Property Name="FECHA_HORA_INICIO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ID_BUS_FIN" Type="Int32" />
+          <Property Name="ID_SERVICIO_FIN" Type="Int32" />
+          <Property Name="ID_SENTIDO_FIN" Type="Int32" />
+          <Property Name="ID_TERMINAL_FIN" Type="Int32" />
+          <Property Name="FECHA_HORA_FIN" Type="DateTime" Precision="3" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BUS" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_BUS" FromRole="REGISTRO_VUELTAS" ToRole="BUS" />
+          <NavigationProperty Name="REGISTRO_HORARIO" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_REGISTRO_HORARIO" FromRole="REGISTRO_VUELTAS" ToRole="REGISTRO_HORARIO" />
+          <NavigationProperty Name="SENTIDO" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_SENTIDO" FromRole="REGISTRO_VUELTAS" ToRole="SENTIDO" />
+          <NavigationProperty Name="SERVICIO" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_SERVICIO" FromRole="REGISTRO_VUELTAS" ToRole="SERVICIO" />
+          <NavigationProperty Name="TERMINAL" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_TERMINAL" FromRole="REGISTRO_VUELTAS" ToRole="TERMINAL" />
+        </EntityType>
+        <Association Name="FK_REGISTRO_HORARIO_USUARIOS_SISTEMA">
+          <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="1" />
+          <End Type="SoluinfoModel.REGISTRO_HORARIO" Role="REGISTRO_HORARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_SISTEMA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="REGISTRO_HORARIO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REGISTRO_VUELTAS_BUS">
+          <End Type="SoluinfoModel.BUS" Role="BUS" Multiplicity="1" />
+          <End Type="SoluinfoModel.REGISTRO_VUELTAS" Role="REGISTRO_VUELTAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BUS">
+              <PropertyRef Name="ID_BUS" />
+            </Principal>
+            <Dependent Role="REGISTRO_VUELTAS">
+              <PropertyRef Name="ID_BUS_INICIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REGISTRO_HORARIO_HORARIO_CONDUCTOR">
+          <End Type="SoluinfoModel.HORARIO_CONDUCTOR" Role="HORARIO_CONDUCTOR" Multiplicity="1" />
+          <End Type="SoluinfoModel.REGISTRO_HORARIO" Role="REGISTRO_HORARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HORARIO_CONDUCTOR">
+              <PropertyRef Name="ID_HORARIO" />
+            </Principal>
+            <Dependent Role="REGISTRO_HORARIO">
+              <PropertyRef Name="ID_HORARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REGISTRO_VUELTAS_REGISTRO_HORARIO">
+          <End Type="SoluinfoModel.REGISTRO_HORARIO" Role="REGISTRO_HORARIO" Multiplicity="1" />
+          <End Type="SoluinfoModel.REGISTRO_VUELTAS" Role="REGISTRO_VUELTAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REGISTRO_HORARIO">
+              <PropertyRef Name="ID_REGISTRO_HORARIO" />
+            </Principal>
+            <Dependent Role="REGISTRO_VUELTAS">
+              <PropertyRef Name="ID_REGISTRO_HORARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REGISTRO_VUELTAS_SENTIDO">
+          <End Type="SoluinfoModel.SENTIDO" Role="SENTIDO" Multiplicity="1" />
+          <End Type="SoluinfoModel.REGISTRO_VUELTAS" Role="REGISTRO_VUELTAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SENTIDO">
+              <PropertyRef Name="ID_SENTIDO" />
+            </Principal>
+            <Dependent Role="REGISTRO_VUELTAS">
+              <PropertyRef Name="ID_SENTIDO_INICIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REGISTRO_VUELTAS_SERVICIO">
+          <End Type="SoluinfoModel.SERVICIO" Role="SERVICIO" Multiplicity="1" />
+          <End Type="SoluinfoModel.REGISTRO_VUELTAS" Role="REGISTRO_VUELTAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SERVICIO">
+              <PropertyRef Name="ID_SERVICIO" />
+            </Principal>
+            <Dependent Role="REGISTRO_VUELTAS">
+              <PropertyRef Name="ID_SERVICIO_INICIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REGISTRO_VUELTAS_TERMINAL">
+          <End Type="SoluinfoModel.TERMINAL" Role="TERMINAL" Multiplicity="1" />
+          <End Type="SoluinfoModel.REGISTRO_VUELTAS" Role="REGISTRO_VUELTAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TERMINAL">
+              <PropertyRef Name="ID_TERMINAL" />
+            </Principal>
+            <Dependent Role="REGISTRO_VUELTAS">
+              <PropertyRef Name="ID_TERMINAL_INICIO" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2246,38 +2282,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="REGISTRO_HORARIO">
-            <EntityTypeMapping TypeName="SoluinfoModel.REGISTRO_HORARIO">
-              <MappingFragment StoreEntitySet="REGISTRO_HORARIO">
-                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-                <ScalarProperty Name="FECHA_HORA_FIN" ColumnName="FECHA_HORA_FIN" />
-                <ScalarProperty Name="ID_TERMINAL_FIN" ColumnName="ID_TERMINAL_FIN" />
-                <ScalarProperty Name="FECHA_HORA_INICIO" ColumnName="FECHA_HORA_INICIO" />
-                <ScalarProperty Name="ID_TERMINAL_INICIO" ColumnName="ID_TERMINAL_INICIO" />
-                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
-                <ScalarProperty Name="ID_REGISTRO_HORARIO" ColumnName="ID_REGISTRO_HORARIO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="REGISTRO_VUELTAS">
-            <EntityTypeMapping TypeName="SoluinfoModel.REGISTRO_VUELTAS">
-              <MappingFragment StoreEntitySet="REGISTRO_VUELTAS">
-                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-                <ScalarProperty Name="FECHA_HORA_FIN" ColumnName="FECHA_HORA_FIN" />
-                <ScalarProperty Name="ID_TERMINAL_FIN" ColumnName="ID_TERMINAL_FIN" />
-                <ScalarProperty Name="ID_SENTIDO_FIN" ColumnName="ID_SENTIDO_FIN" />
-                <ScalarProperty Name="ID_SERVICIO_FIN" ColumnName="ID_SERVICIO_FIN" />
-                <ScalarProperty Name="ID_BUS_BUS" ColumnName="ID_BUS_BUS" />
-                <ScalarProperty Name="FECHA_HORA_INICIO" ColumnName="FECHA_HORA_INICIO" />
-                <ScalarProperty Name="ID_SENTIDO_INICIO" ColumnName="ID_SENTIDO_INICIO" />
-                <ScalarProperty Name="ID_TERMINAL_INICIO" ColumnName="ID_TERMINAL_INICIO" />
-                <ScalarProperty Name="ID_SERVICIO_INICIO" ColumnName="ID_SERVICIO_INICIO" />
-                <ScalarProperty Name="ID_BUS_INICIO" ColumnName="ID_BUS_INICIO" />
-                <ScalarProperty Name="ID_REGISTRO_HORARIO" ColumnName="ID_REGISTRO_HORARIO" />
-                <ScalarProperty Name="ID_REGISTRO_VUELTAS" ColumnName="ID_REGISTRO_VUELTAS" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MENU">
             <EntityTypeMapping TypeName="SoluinfoModel.MENU">
               <MappingFragment StoreEntitySet="MENU">
@@ -2290,6 +2294,39 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
                 <ScalarProperty Name="ORDEN" ColumnName="ORDEN" />
                 <ScalarProperty Name="ID_PADRE" ColumnName="ID_PADRE" />
                 <ScalarProperty Name="ID_MENU" ColumnName="ID_MENU" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REGISTRO_HORARIO">
+            <EntityTypeMapping TypeName="SoluinfoModel.REGISTRO_HORARIO">
+              <MappingFragment StoreEntitySet="REGISTRO_HORARIO">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="FECHA_HORA_FIN" ColumnName="FECHA_HORA_FIN" />
+                <ScalarProperty Name="ID_TERMINAL_FIN" ColumnName="ID_TERMINAL_FIN" />
+                <ScalarProperty Name="FECHA_HORA_INICIO" ColumnName="FECHA_HORA_INICIO" />
+                <ScalarProperty Name="ID_TERMINAL_INICIO" ColumnName="ID_TERMINAL_INICIO" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_HORARIO" ColumnName="ID_HORARIO" />
+                <ScalarProperty Name="ID_REGISTRO_HORARIO" ColumnName="ID_REGISTRO_HORARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REGISTRO_VUELTAS">
+            <EntityTypeMapping TypeName="SoluinfoModel.REGISTRO_VUELTAS">
+              <MappingFragment StoreEntitySet="REGISTRO_VUELTAS">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="FECHA_HORA_FIN" ColumnName="FECHA_HORA_FIN" />
+                <ScalarProperty Name="ID_TERMINAL_FIN" ColumnName="ID_TERMINAL_FIN" />
+                <ScalarProperty Name="ID_SENTIDO_FIN" ColumnName="ID_SENTIDO_FIN" />
+                <ScalarProperty Name="ID_SERVICIO_FIN" ColumnName="ID_SERVICIO_FIN" />
+                <ScalarProperty Name="ID_BUS_FIN" ColumnName="ID_BUS_FIN" />
+                <ScalarProperty Name="FECHA_HORA_INICIO" ColumnName="FECHA_HORA_INICIO" />
+                <ScalarProperty Name="ID_SENTIDO_INICIO" ColumnName="ID_SENTIDO_INICIO" />
+                <ScalarProperty Name="ID_TERMINAL_INICIO" ColumnName="ID_TERMINAL_INICIO" />
+                <ScalarProperty Name="ID_SERVICIO_INICIO" ColumnName="ID_SERVICIO_INICIO" />
+                <ScalarProperty Name="ID_BUS_INICIO" ColumnName="ID_BUS_INICIO" />
+                <ScalarProperty Name="ID_REGISTRO_HORARIO" ColumnName="ID_REGISTRO_HORARIO" />
+                <ScalarProperty Name="ID_REGISTRO_VUELTAS" ColumnName="ID_REGISTRO_VUELTAS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

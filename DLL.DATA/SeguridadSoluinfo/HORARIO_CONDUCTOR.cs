@@ -14,6 +14,12 @@ namespace DLL.DATA.SeguridadSoluinfo
     
     public partial class HORARIO_CONDUCTOR
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public HORARIO_CONDUCTOR()
+        {
+            this.REGISTRO_HORARIO = new HashSet<REGISTRO_HORARIO>();
+        }
+    
         public int ID_HORARIO { get; set; }
         public int ID_CARGA_HORARIO { get; set; }
         public int ID_USUARIO { get; set; }
@@ -25,5 +31,7 @@ namespace DLL.DATA.SeguridadSoluinfo
         public short NUMERO_JORNADA { get; set; }
     
         public virtual CARGA_HORARIO CARGA_HORARIO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<REGISTRO_HORARIO> REGISTRO_HORARIO { get; set; }
     }
 }

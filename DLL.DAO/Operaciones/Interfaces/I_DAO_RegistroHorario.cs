@@ -21,7 +21,7 @@ namespace DLL.DAO.Operaciones.Interfaces
 
         int SetIngresaFinHorario(DTO_RegistroHorario list);
 
-        int SetIditaVuelta(DTO_RegistroVueltas list);
+        int SetEditaVuelta(DTO_RegistroVueltas list);
 
     }
 }

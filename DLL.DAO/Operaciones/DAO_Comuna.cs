@@ -72,7 +72,7 @@ namespace DLL.DAO.Operaciones
 
                 return respuesta;
             }
-            catch (Exception EX)
+            catch (Exception)
             {
 
                 throw;

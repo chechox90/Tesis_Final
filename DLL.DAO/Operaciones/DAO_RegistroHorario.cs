@@ -25,23 +25,31 @@ namespace DLL.DAO.Operaciones
                 using (SolusegEntities context = new SolusegEntities())
                 {
                     List<DTO_RegistroVueltas> dtoRegistro = (from reg in context.REGISTRO_VUELTAS
-                                                             where reg.ID_REGISTRO_HORARIO == idRegistroHorario && reg.ESTADO == true
-                                                             select new DTO_RegistroVueltas
-                                                             {
-                                                                 ID_REGISTRO_VUELTAS = reg.ID_REGISTRO_VUELTAS,
-                                                                 ID_BUS_INICIO = reg.ID_BUS_INICIO,
-                                                                 FECHA_HORA_INICIO = reg.FECHA_HORA_INICIO,
-                                                                 ID_TERMINAL_INICIO = reg.ID_TERMINAL_INICIO,
-                                                                 ID_SENTIDO_INICIO = reg.ID_SENTIDO_INICIO,
-                                                                 ID_SERVICIO_FIN = reg.ID_SERVICIO_INICIO,
-                                                                 
-                                                                 ID_SENTIDO_FIN = reg.ID_SENTIDO_FIN,
-                                                                 ID_TERMINAL_FIN = reg.ID_TERMINAL_FIN,
-                                                                 FECHA_HORA_FIN = reg.FECHA_HORA_FIN,
-                                                                // ID_BUS_FIN = reg.ID_BUS_FIN,
-                                                                 ESTADO = reg.ESTADO,
-
-                                                             }).ToList();
+                                                       join ter in context.TERMINAL on reg.ID_TERMINAL_INICIO equals ter.ID_TERMINAL
+                                                       join ser in context.SERVICIO on reg.ID_SERVICIO_INICIO equals ser.ID_SERVICIO
+                                                       join sen in context.SENTIDO on reg.ID_SENTIDO_INICIO equals sen.ID_SENTIDO
+                                                       join b in context.BUS on reg.ID_BUS_INICIO equals b.ID_BUS
+                                                       where reg.ESTADO == true
+                                                       select new DTO_RegistroVueltas
+                                                       {
+                                                           ID_REGISTRO_VUELTAS = reg.ID_REGISTRO_VUELTAS,
+                                                           ID_REGISTRO_HORARIO = reg.ID_REGISTRO_HORARIO,
+                                                           //INICIO
+                                                           NOMBRE_TERMINAL_INICIO = ter.NOMBRE_TERMINAL,
+                                                           NUMERO_BUS_INICIO = b.ID_INTERNO_BUS,
+                                                           NOMBRE_SERVICIO_INICIO = ser.NOMBRE_SERVICIO,                                                           
+                                                           SEN_INI_CORTO = sen.NOMBRE_CORTO_SENTIDO,         
+                                                           FECHA_HORA_INICIO = reg.FECHA_HORA_INICIO,
+                                                           //FIN
+                                                           NOMBRE_TERMINAL_FIN = context.TERMINAL.Where(x => x.ID_TERMINAL == reg.ID_TERMINAL_FIN).Select(x => x.NOMBRE_TERMINAL).FirstOrDefault(),
+                                                           NUMERO_BUS_FIN = context.BUS.Where(b => b.ID_BUS == reg.ID_BUS_FIN).Select(b => b.ID_INTERNO_BUS).FirstOrDefault(),
+                                                           NOMBRE_SERVICIO_FIN = context.SERVICIO.Where(s => s.ID_SERVICIO == reg.ID_SERVICIO_FIN).Select(s => s.NOMBRE_SERVICIO).FirstOrDefault(),
+                                                           SEN_FIN_CORTO = context.SENTIDO.Where(se => se.ID_SENTIDO == reg.ID_SENTIDO_FIN).Select(se => se.NOMBRE_CORTO_SENTIDO).FirstOrDefault(),
+                                                           FECHA_HORA_FIN = reg.FECHA_HORA_FIN,
+                                                           
+                                                           ESTADO = reg.ESTADO
+                                                       }).Where(x => x.ID_REGISTRO_HORARIO == idRegistroHorario && x.ESTADO == true).ToList();
+                   
 
                     return dtoRegistro;
 
@@ -62,29 +70,28 @@ namespace DLL.DAO.Operaciones
                 using (SolusegEntities context = new SolusegEntities())
                 {
                     DTO_RegistroVueltas dtoRegistro = (from reg in context.REGISTRO_VUELTAS
-                                                       join ter in context.TERMINAL on reg.ID_TERMINAL_INICIO equals ter.ID_TERMINAL
-                                                       join ser in context.SERVICIO on reg.ID_SERVICIO_INICIO equals ser.ID_SERVICIO
-                                                       join sen in context.SENTIDO on reg.ID_SENTIDO_INICIO equals sen.ID_SENTIDO
-                                                       join b in context.BUS on reg.ID_BUS_INICIO equals b.ID_BUS
-                                                       where reg.ESTADO == true
-                                                       select new DTO_RegistroVueltas
-                                                       {
-                                                           ID_REGISTRO_VUELTAS = reg.ID_REGISTRO_VUELTAS,
-                                                           NOMBRE_SERVICIO_INICIO = ser.NOMBRE_SERVICIO,
-                                                           NUMERO_BUS_INICIO = b.ID_INTERNO_BUS,
-                                                           SEN_INI_CORTO = sen.NOMBRE_CORTO_SENTIDO,
-                                                           NOMBRE_TERMINAL_INICIO = ter.NOMBRE_TERMINAL,
-                                                           FECHA_HORA_INICIO = reg.FECHA_HORA_INICIO,
-                                                           NOMBRE_SERVICIO_FIN = context.SERVICIO.Where(s => s.ID_SERVICIO == reg.ID_SERVICIO_FIN).Select(s => s.NOMBRE_SERVICIO).FirstOrDefault(),
-                                                           NOMBRE_TERMINAL_FIN = context.TERMINAL.Where(x => x.ID_TERMINAL == reg.ID_TERMINAL_FIN).Select(x => x.NOMBRE_TERMINAL).FirstOrDefault(),
-                                                           NUMERO_BUS_FIN = context.BUS.Where(b => b.ID_BUS == reg.ID_BUS_BUS).Select(b => b.ID_INTERNO_BUS).FirstOrDefault(),
-                                                           SEN_FIN_CORTO = context.SENTIDO.Where(se => se.ID_SENTIDO == reg.ID_SENTIDO_FIN).Select(se => se.NOMBRE_CORTO_SENTIDO).FirstOrDefault(),
-                                                           FECHA_HORA_FIN = reg.FECHA_HORA_FIN,
-                                                           ESTADO = reg.ESTADO
-                                                       }).Where(x => x.ID_REGISTRO_VUELTAS == idVuelta && x.ESTADO == true).FirstOrDefault();
-
+                                                             where reg.ID_REGISTRO_VUELTAS == idVuelta && reg.ESTADO == true
+                                                             select new DTO_RegistroVueltas
+                                                             {
+                                                                 ID_REGISTRO_VUELTAS = reg.ID_REGISTRO_VUELTAS,
+                                                                 //INICIO
+                                                                 ID_TERMINAL_INICIO = reg.ID_TERMINAL_INICIO,
+                                                                 ID_BUS_INICIO = reg.ID_BUS_INICIO,
+                                                                 FECHA_HORA_INICIO = reg.FECHA_HORA_INICIO,                                                                 
+                                                                 ID_SENTIDO_INICIO = reg.ID_SENTIDO_INICIO,
+                                                                 ID_SERVICIO_INICIO = reg.ID_SENTIDO_INICIO,
+                                                                 //FIN
+                                                                 ID_TERMINAL_FIN = reg.ID_TERMINAL_FIN,
+                                                                 ID_BUS_FIN = (int)reg.ID_BUS_FIN,
+                                                                 FECHA_HORA_FIN = reg.FECHA_HORA_FIN,
+                                                                 ID_SENTIDO_FIN = reg.ID_SENTIDO_FIN,
+                                                                 ID_SERVICIO_FIN = reg.ID_SERVICIO_INICIO,
+                                                                                                                                  
+                                                                 
+                                                                 
+                                                                 ESTADO = reg.ESTADO,
+                                                             }).FirstOrDefault();
                     return dtoRegistro;
-
                 }
 
             }
@@ -104,6 +111,8 @@ namespace DLL.DAO.Operaciones
                 using (SolusegEntities context = new SolusegEntities())
                 {
                     DTO_RegistroHorario dtoRegistro = (from reg in context.REGISTRO_HORARIO
+                                                       join hr in context.HORARIO_CONDUCTOR on reg.ID_HORARIO equals hr.ID_HORARIO
+                                                       join ter in context.TERMINAL on hr.ID_TERMINAL_INICIO equals ter.ID_TERMINAL
                                                        where reg.ESTADO == true && reg.ID_USUARIO == idUsuario
                                                        && reg.FECHA_HORA_INICIO.Year == fechaHoy.Year
                                                        && reg.FECHA_HORA_INICIO.Month == fechaHoy.Month
@@ -111,6 +120,8 @@ namespace DLL.DAO.Operaciones
                                                        select new DTO_RegistroHorario
                                                        {
                                                            ID_REGISTRO_HORARIO = reg.ID_REGISTRO_HORARIO,
+                                                           NOMBRE_TERMINAL = ter.NOMBRE_TERMINAL,
+                                                           ID_HORARIO = reg.ID_HORARIO,
                                                            ID_USUARIO = reg.ID_USUARIO,
                                                            ID_TERMINAL_INICIO = reg.ID_TERMINAL_INICIO,
                                                            FECHA_HORA_INICIO = reg.FECHA_HORA_INICIO,
@@ -142,7 +153,8 @@ namespace DLL.DAO.Operaciones
                     {
                         REGISTRO_HORARIO newReg = new REGISTRO_HORARIO()
                         {
-                            ID_REGISTRO_HORARIO = list.ID_REGISTRO_HORARIO,
+                            ID_REGISTRO_HORARIO = 1,
+                            ID_HORARIO = list.ID_HORARIO,
                             ID_USUARIO = list.ID_USUARIO,
                             ID_TERMINAL_INICIO = list.ID_TERMINAL_INICIO,
                             FECHA_HORA_INICIO = list.FECHA_HORA_INICIO,
@@ -226,7 +238,7 @@ namespace DLL.DAO.Operaciones
                         reg.ID_SENTIDO_FIN = list.ID_SENTIDO_FIN;
                         reg.ID_TERMINAL_FIN = list.ID_TERMINAL_FIN;
                         reg.FECHA_HORA_FIN = list.FECHA_HORA_FIN;
-                        reg.ID_BUS_BUS = list.ID_BUS_FIN;
+                        reg.ID_BUS_FIN = list.ID_BUS_FIN;
 
                         respuesta = context.SaveChanges();
                         contextTransaction.Commit();
@@ -307,7 +319,7 @@ namespace DLL.DAO.Operaciones
             }
         }
 
-        public int SetIditaVuelta(DTO_RegistroVueltas list)
+        public int SetEditaVuelta(DTO_RegistroVueltas list)
         {
             try
             {
@@ -319,8 +331,8 @@ namespace DLL.DAO.Operaciones
                         REGISTRO_VUELTAS reg = new REGISTRO_VUELTAS();
                         reg = context.REGISTRO_VUELTAS.Where(x => x.ID_REGISTRO_VUELTAS == list.ID_REGISTRO_VUELTAS).FirstOrDefault();
 
-                        reg.ID_REGISTRO_VUELTAS = 1;
-                        reg.ID_REGISTRO_HORARIO = list.ID_REGISTRO_HORARIO;
+                        reg.ID_REGISTRO_VUELTAS = list.ID_REGISTRO_VUELTAS;
+                        reg.ID_REGISTRO_HORARIO = context.REGISTRO_VUELTAS.Where(x => x.ID_REGISTRO_VUELTAS == list.ID_REGISTRO_VUELTAS && x.ESTADO == true).Select(x => x.ID_REGISTRO_HORARIO).FirstOrDefault();
                         reg.ID_BUS_INICIO = list.ID_BUS_INICIO;
                         reg.ID_SERVICIO_INICIO = list.ID_SERVICIO_INICIO;
                         reg.ID_SENTIDO_INICIO = list.ID_SENTIDO_INICIO;
@@ -330,7 +342,7 @@ namespace DLL.DAO.Operaciones
                         reg.ID_SENTIDO_FIN = list.ID_SENTIDO_FIN;
                         reg.ID_TERMINAL_FIN = list.ID_TERMINAL_FIN;
                         reg.FECHA_HORA_FIN = list.FECHA_HORA_FIN;
-                        reg.ID_BUS_BUS = list.ID_BUS_FIN;
+                        reg.ID_BUS_FIN = list.ID_BUS_FIN;
                         reg.ESTADO = true;
 
                         respuesta = context.SaveChanges();

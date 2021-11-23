@@ -21,7 +21,7 @@ namespace DLL.DATA.SeguridadSoluinfo
         public int ID_TERMINAL_INICIO { get; set; }
         public int ID_SENTIDO_INICIO { get; set; }
         public System.DateTime FECHA_HORA_INICIO { get; set; }
-        public Nullable<int> ID_BUS_BUS { get; set; }
+        public Nullable<int> ID_BUS_FIN { get; set; }
         public Nullable<int> ID_SERVICIO_FIN { get; set; }
         public Nullable<int> ID_SENTIDO_FIN { get; set; }
         public Nullable<int> ID_TERMINAL_FIN { get; set; }

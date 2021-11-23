@@ -21,6 +21,7 @@ namespace DLL.DATA.SeguridadSoluinfo
         }
     
         public int ID_REGISTRO_HORARIO { get; set; }
+        public int ID_HORARIO { get; set; }
         public int ID_USUARIO { get; set; }
         public int ID_TERMINAL_INICIO { get; set; }
         public System.DateTime FECHA_HORA_INICIO { get; set; }
@@ -29,6 +30,7 @@ namespace DLL.DATA.SeguridadSoluinfo
         public bool ESTADO { get; set; }
     
         public virtual USUARIOS_SISTEMA USUARIOS_SISTEMA { get; set; }
+        public virtual HORARIO_CONDUCTOR HORARIO_CONDUCTOR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<REGISTRO_VUELTAS> REGISTRO_VUELTAS { get; set; }
     }

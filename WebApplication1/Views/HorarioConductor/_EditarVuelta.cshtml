@@ -36,9 +36,12 @@
                         </div>
                         <div class="form-row">
                             <div class="form-row form-group col-12">
+                                
+                                <input id="lblIdVueltaEdit" value="@Model.ID_REGISTRO_VUELTAS" style="display:none"/>
+
                                 <div class="col-md-6">
                                     <span>Sentido inicio</span>
-                                    <select class="form-control" value="@Model.ID_SENTIDO_INICIO" id="cmbSentidoInicio"></select>
+                                    <select class="form-control cmbSent" value="@Model.ID_SENTIDO_INICIO" id="cmbSentidoInicio"></select>
                                 </div>
                                 <div class="col-md-6">
                                     <span>Hora de Inicio</span>
@@ -48,25 +51,25 @@
                             <div class="form-row form-group col-12">
                                 <div class="col-md-6">
                                     <span>Terminal de inicio</span>
-                                    <select class="form-control" value="@Model.ID_TERMINAL_INICIO" id="cmbTerminalIniVuelta"></select>
+                                    <select class="form-control cmbTer" value="@Model.ID_TERMINAL_INICIO" id="cmbTerminalIniVuelta"></select>
 
                                 </div>
                                 <div class="col-md-6">
                                     <span>Servicio Inicio</span>
-                                    <select class="form-control" value="@Model.ID_SERVICIO" id="cmbServicioInicio"></select>
+                                    <select class="form-control cmbSer" value="@Model.ID_SERVICIO" id="cmbServicioInicio"></select>
                                 </div>
                             </div>
                             <div class="form-row form-group col-12">
                                 <div class="col-md-6">
                                     <span>Bus Inicio</span>
-                                    <select class="form-control" value="@Model.ID_BUS" id="cmbBusInicio"></select>
+                                    <select class="form-control cmbBus" value="@Model.ID_BUS_INICIO" id="cmbBusInicio"></select>
                                 </div>
                             </div>
 
                             <div class="form-row form-group col-12">
                                 <div class="col-md-6">
                                     <span>Sentido llegada</span>
-                                    <select class="form-control" value="@Model.ID_SENTIDO_INICIO" id="cmbSentidoFin"></select>
+                                    <select class="form-control cmbSent" value="@Model.ID_SENTIDO_INICIO" id="cmbSentidoFin"></select>
                                 </div>
                                 <div class="col-md-6">
                                     <span>Hora de llegada</span>
@@ -76,17 +79,17 @@
                             <div class="form-row form-group col-12">
                                 <div class="col-6">
                                     <span>Terminal llegada</span>
-                                    <select class="form-control" value="@Model.ID_TERMINAL_FIN" id="cmbTerminalFinVuelta"></select>
+                                    <select class="form-control cmbTer" value="@Model.ID_TERMINAL_FIN" id="cmbTerminalFinVuelta"></select>
                                 </div>
                                 <div class="col-md-6">
                                     <span>Servicio llegada</span>
-                                    <select class="form-control" value="@Model.ID_SERVICIO" id="cmbServicioFin"></select>
+                                    <select class="form-control cmbSer" value="@Model.ID_SERVICIO" id="cmbServicioFin"></select>
                                 </div>
                             </div>
                             <div class="form-row form-group col-12">
                                 <div class="col-md-6">
                                     <span>Bus Fin</span>
-                                    <select class="form-control" value="@Model.ID_BUS_FIN" id="cmbBusFin"></select>
+                                    <select class="form-control cmbBus" value="@Model.ID_BUS_FIN" id="cmbBusFin"></select>
                                 </div>
                             </div>
                         </div>
@@ -100,10 +103,29 @@
                     </div>
                     <div class="borderInput">
                         <div class="divFlot">
-                            <button id="btnRegistrarIniVuelta" class="btn btn-success borderInput" onclick="RegistrarInicioVuelta();">Guradar</button>
+                            <button id="btnRegistrarIniVuelta" class="btn btn-success borderInput" onclick="ShowConfitmarEditVuelta();">Guradar</button>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-title">
+                <div class="text-center">
+                    <h3>¡Confirmar acción!</h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                <label>¿Está seguro que desea editar la vuelta?</label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnGuardad" onclick="RegistrarIdicionVuelta();">Confirmar</button>
             </div>
         </div>
     </div>
@@ -115,18 +137,104 @@
         var tblRuta;
 
         $(document).ready(function () {
+            CargarCmb();
         });
 
+        function CargarCmb() {
+            $.ajax({
+                url: '../Mantenedor/GetCargarTerminalesCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionTer = $(document.createElement('option'));
+                        optionTer.val(data.data[i]["ID_TERMINAL"]);
+                        optionTer.text(data.data[i]["NOMBRE_TERMINAL"]);
+
+                        $(".cmbTer").append(optionTer);
+                    }
+                }
+            });
+
+            $.ajax({
+                url: '../Mantenedor/GetSentidoCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionSent = $(document.createElement('option'));
+                        optionSent.val(data.data[i]["ID_SENTIDO"]);
+                        optionSent.text(data.data[i]["NOMBRE_SENTIDO"]);
+
+                        $(".cmbSent").append(optionSent);
+                    }
+                }
+            });
+
+            $.ajax({
+                url: '../Mantenedor/GetServiciosActivosCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionSent = $(document.createElement('option'));
+                        optionSent.val(data.data[i]["ID_SERVICIO"]);
+                        optionSent.text(data.data[i]["NOMBRE_SERVICIO"]);
+
+                        $(".cmbSer").append(optionSent);
+                    }
+                }
+            });
+
+            $.ajax({
+                url: '../Mantenedor/GetBusesActivosCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionSent = $(document.createElement('option'));
+                        optionSent.val(data.data[i]["ID_BUS"]);
+                        optionSent.text(data.data[i]["NOMBRE_TERMINAL"]);
+
+                        $(".cmbBus").append(optionSent);
+                    }
+                }
+            });
+
+            $.ajax({
+                url: '../Reprogramacion/GetCargarTunosDisponiblesCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionSent = $(document.createElement('option'));
+                        optionSent.val(data.data[i]["ID_HORARIO"]);
+                        optionSent.text(data.data[i]["HORA_INICIO"]);
+
+                        $("#cmbTurnosDisponibles").append(optionSent);
+                    }
+                }
+            });
+        }
+
         function ShowConfitmarEditVuelta(idVuelta) {
-            console.log(idVuelta)
-            $("#idVueEliminar").text(idVuelta)
             $("#modalConfirmacion").modal("show");
         }
 
         function RegistrarIdicionVuelta() {
             var vuelta = [
                 {
-                    ID_REGISTRO_HORARIO: $("#idTurnoActual").val(),
+                    ID_REGISTRO_VUELTAS: $("#lblIdVueltaEdit").val(),
                     HORA_INICIO: $("#txtIniVuelta").val(),
                     ID_BUS_INICIO: $("#cmbBusInicio option:selected").val(),
                     ID_SERVICIO_INICIO: $("#cmbServicioInicio option:selected").val(),
@@ -150,24 +258,19 @@
                 },
                 success: function (data) {
                     if (data.Data.alert != '') {
-                        alertSuccess(data.Data.message)
-                        tblRuta.ajax.reload(null, false);
-
-                        $("#txtIniVuelta").val("");
-                        $("#lblAviso").css("display", "none");
-
-                        $("#cmbTerminalIniVuelta option").attr("selected", false);
-                        $("#cmbBusInicio option").attr("selected", false);
-                        $("#cmbServicioInicio option").attr("selected", false);
-                        $("#cmbSentidoInicio option").attr("selected", false);
-
-                        $("cmbTerminalIniVuelta option[value='" + 0 + "']").attr("selected", "selected");
-                        $("cmbBusInicio option[value='" + 0 + "']").attr("selected", "selected");
-                        $("cmbServicioInicio option[value='" + 0 + "']").attr("selected", "selected");
-                        $("cmbSentidoInicio option[value='" + 0 + "']").attr("selected", "selected");
+                        alertSuccess(data.Data.message);
+                        CerrarModal();
+                        setTimeout(function () {
+                            window.location.href = "/RedirectVistas/HomeRuta"
+                        }, 3000);
                     }
                 }
             });
         }
+
+        function CerrarModal() {
+            $("#modalConfirmacion").modal("hide");
+        }
+
     </script>
 }
