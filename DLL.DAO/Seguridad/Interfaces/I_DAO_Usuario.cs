@@ -11,6 +11,10 @@ namespace DLL.DAO.Seguridad.Interfaces
     {
         DTO_Usuario getUsuario(int idUsuario, string nombreSistema);
 
+        List<DTO_TipoContrato> GetTipoContratoCmb();
+
+        List<DTO_Perfil> GetPerfilCmb();
+
         bool CambioPassword(int idUsuario, string contraseniaNueva, string contraseniaNuevaNoEncriptada);
 
         DTO_Usuario Autenticacion(DTO_Usuario login, string nombreSistema);
@@ -19,9 +23,12 @@ namespace DLL.DAO.Seguridad.Interfaces
 
         List<DTO_Usuario> GetAllUsuariosActivos();
 
-        int SetEliminarUsuario(int idUser);
-
         DTO_UsuarioListar GetUsuarioActivo(int idUsuario);
+
+        int SetEliminarUsuario(int idUser);
+        
+        int SetIngresaNuevoUsuario(DTO_Usuario usuario);
+
 
     }
 }

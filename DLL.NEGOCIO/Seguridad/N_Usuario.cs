@@ -19,17 +19,22 @@ namespace DLL.NEGOCIO.Seguridad
             this.I_DAO_Usuario = I_DAO_Usuario;
         }
 
-        public bool CambioPassword(int rol, string contraseniaNueva, string contraseniaNuevaNoEncriptada)
-        {
-            return I_DAO_Usuario.CambioPassword(rol, contraseniaNueva, contraseniaNuevaNoEncriptada);
-        }
 
         public DTO_Usuario getUsuario(int rol, string nombreSistema)
         {
             return I_DAO_Usuario.getUsuario(rol, nombreSistema);
+        } 
+        
+        public List<DTO_Perfil> GetPerfilCmb()
+        {
+            return I_DAO_Usuario.GetPerfilCmb();
         }
 
-        //public DTO_Usuario Autenticacion(DTO_Usuario login)
+        public List<DTO_TipoContrato> GetTipoContratoCmb()
+        {
+            return I_DAO_Usuario.GetTipoContratoCmb();
+        }
+
         public DTO_Usuario Autenticacion(DTO_Usuario login, string nombreSistema)
         {
             return I_DAO_Usuario.Autenticacion(login, nombreSistema);
@@ -45,17 +50,26 @@ namespace DLL.NEGOCIO.Seguridad
             return I_DAO_Usuario.GetAllUsuariosActivos();
         }
 
-
+        public DTO_UsuarioListar GetUsuarioActivo(int idUsuario)
+        {
+            return I_DAO_Usuario.GetUsuarioActivo(idUsuario);
+        }
+        
+        public bool CambioPassword(int rol, string contraseniaNueva, string contraseniaNuevaNoEncriptada)
+        {
+            return I_DAO_Usuario.CambioPassword(rol, contraseniaNueva, contraseniaNuevaNoEncriptada);
+        }
 
         public int SetEliminarUsuario(int idUser)
         {
             return I_DAO_Usuario.SetEliminarUsuario(idUser);
         }
 
-        public DTO_UsuarioListar GetUsuarioActivo(int idUsuario)
+        public int SetIngresaNuevoUsuario(DTO_Usuario usuario)
         {
-            return I_DAO_Usuario.GetUsuarioActivo(idUsuario);
+            return I_DAO_Usuario.SetIngresaNuevoUsuario(usuario);
         }
+
     }
 
 }

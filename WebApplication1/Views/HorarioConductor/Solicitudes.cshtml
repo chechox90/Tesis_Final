@@ -156,8 +156,6 @@
             let motivoOpcional = "";
             motivoOpcional = $("#txtMotivoOpcional").text();
 
-            console.log(idHorarioCambiar,tipoSolicitud,motivoSolictud,motivoOpcional)
-
             $.ajax({
                 url: '../HorarioConductor/SetIngresarSolictud',
                 type: 'post',

@@ -96,6 +96,7 @@
     <Compile Include="Seguridad\DTO_PermisosEspeciales.cs" />
     <Compile Include="Seguridad\DTO_Proyecto.cs" />
     <Compile Include="Seguridad\DTO_ProyectoAgrupacion.cs" />
+    <Compile Include="Seguridad\DTO_TipoContrato.cs" />
     <Compile Include="Seguridad\DTO_Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mantenedor\DTO_Terminal.cs" />

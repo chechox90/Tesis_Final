@@ -3,6 +3,7 @@
 using DLL.DTO.Seguridad;
 using DLL.NEGOCIO.Seguridad.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -95,8 +96,9 @@ namespace WebApplication1.Controllers
                 Data = Json(new { message = message, url = url, typeAlert = typeAlert })
             };
         }
+               
 
-        [HttpPost]
+       [HttpPost]
         public ActionResult RestablecerPassword(RestablecerPasswordViewModel model)
         {
             string message = "";

@@ -80,6 +80,55 @@ namespace DLL.DAO.Seguridad
             }
         }
 
+        public List<DTO_TipoContrato> GetTipoContratoCmb()
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    List<DTO_TipoContrato> tipoContrato = context.TIPO_CONTRATO
+                        .Select(x => new DTO_TipoContrato
+                        {
+                            ID_TIPO_CONTRATO = x.ID_TIPO_CONTRATO,
+                            NOMBRE_TIPO_CONTRATO = x.NOMBRE_TIPO_CONTRATO,
+                            ESTADO = x.ESTADO,
+                            
+                        }).ToList();
+
+                    return tipoContrato;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
+        public List<DTO_Perfil> GetPerfilCmb()
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    List<DTO_Perfil> perfil = context.PERFILES
+                        .Select(x => new DTO_Perfil
+                        {
+                            IdPerfil = x.ID_PERFIL,
+                            Nombre = x.NOMBRE
+
+                        }).ToList();
+
+                    return perfil;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
         private DTO_ProyectoAgrupacion GetProyectoAgrupacion(string nombreAgrupacionProyecto)
         {
             try
@@ -464,34 +513,7 @@ namespace DLL.DAO.Seguridad
                 throw;
             }
         }
-
-        public int SetEliminarUsuario(int idUsuario)
-        {
-            try
-            {
-                int respuesta = 0;
-
-                using (SolusegEntities context = new SolusegEntities())
-                {
-                    using (var contextTransaction = context.Database.BeginTransaction())
-                    {
-                        USUARIOS_SISTEMA Old = context.USUARIOS_SISTEMA.Where(x => x.ESTADO == true && x.ID_USUARIO == idUsuario).FirstOrDefault();
-                        Old.ESTADO = false;
-                        respuesta = context.SaveChanges();
-                        contextTransaction.Commit();
-                    }
-                }
-
-                return respuesta;
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
+        
         public DTO_UsuarioListar GetUsuarioActivo(int idUsuario)
         {
             try
@@ -523,6 +545,77 @@ namespace DLL.DAO.Seguridad
             catch (Exception ex)
             {
                 log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
+        public int SetEliminarUsuario(int idUsuario)
+        {
+            try
+            {
+                int respuesta = 0;
+
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        USUARIOS_SISTEMA Old = context.USUARIOS_SISTEMA.Where(x => x.ESTADO == true && x.ID_USUARIO == idUsuario).FirstOrDefault();
+                        Old.ESTADO = false;
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public int SetIngresaNuevoUsuario(DTO_Usuario usuario)
+        {
+            try
+            {
+                int respuesta = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        USUARIOS_SISTEMA newUser = new USUARIOS_SISTEMA()
+                        {
+                            ID_PERFIL = usuario.ID_PERFIL,
+                            ID_EMPRESA = usuario.ID_EMPRESA,
+                            CLAVE = usuario.CLAVE,
+                            RUT = usuario.RUT,
+                            NOMBRE = usuario.NOMBRE,
+                            SEGUNDO_NOMBRE = usuario.SEGUNDO_NOMBRE,
+                            APELLIDO_PATERNO = usuario.APELLIDO_PATERNO,
+                            APELLIDO_MATERNO = usuario.APELLIDO_MATERNO,
+                            CODIGO_BARRA = usuario.CODIGO_BARRA,
+                            CORREO = usuario.CORREO,
+                            CORREO_ALTERNATIVO = usuario.CORREO_ALTERNATIVO,
+                            CAMBIO_PASSWORD = usuario.CAMBIO_PASSWORD,
+                            ADMINISTRADOR = usuario.ADMINISTRADOR,
+                            ESTADO = true
+
+                        };
+
+                        context.USUARIOS_SISTEMA.Add(newUser);
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

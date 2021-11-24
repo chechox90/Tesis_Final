@@ -12,7 +12,12 @@ namespace DLL.NEGOCIO.Seguridad.Interfaces
     {
         DTO_Usuario getUsuario(int rol, string nombreSistema);
 
-        bool CambioPassword(int rol, string contraseniaNueva, string contraseniaNuevaNoEncriptada);
+        List<DTO_TipoContrato> GetTipoContratoCmb();
+
+        List<DTO_Perfil> GetPerfilCmb();
+        
+        DTO_UsuarioListar GetUsuarioActivo(int idUsuario);
+
 
         DTO_Usuario Autenticacion(DTO_Usuario login, string nombreSistema);
 
@@ -20,8 +25,10 @@ namespace DLL.NEGOCIO.Seguridad.Interfaces
 
         List<DTO_Usuario> GetAllUsuariosActivos();
 
+        bool CambioPassword(int rol, string contraseniaNueva, string contraseniaNuevaNoEncriptada);
+
         int SetEliminarUsuario(int idUser);
 
-        DTO_UsuarioListar GetUsuarioActivo(int idUsuario);
+        int SetIngresaNuevoUsuario(DTO_Usuario dtoUsuario);
     }
 }
