@@ -36,6 +36,7 @@
                 <div class="col-sm-3 form-group">
                     <label for="Numero">Nombre</label>
                     <input id="txtNombre" type="text" name="Numero" value="@Model.NOMBRE" placeholder="Nombre" class="form-control" />
+                    <input id="idUsuario" value="@Model.ID_USUARIO" style="display:none"/>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
@@ -66,21 +67,27 @@
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
-                    <div class="form-group ">
-                        <label for="Direccion">Dirección</label>
-                        <input id="txtDireccion" type="text" name="Direccion" value="@Model.DIRECCION" autocomplete="off" placeholder="Dirección" class="form-control" />
+                    <div class="form-group">
+                        <label for="CodigoBarra">Codigo de Barra</label>
+                        <input id="txtCodigoBarra" type="text" name="CodigoBarra" value="@Model.CODIGO_BARRA" placeholder="Codigo de Barra" class="form-control" />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group">
-                        <label for="CodigoBarra">Codigo de Barra</label>
-                        <input id="txtCodigoBarra" type="text" name="CodigoBarra" value="@Model.CODIGO_BARRA" placeholder="Codigo de Barra" class="form-control" />
+                        <label for="Comuna">Comuna</label>
+                        <select id="cmbComuna" type="text" name="Comuna" class="form-control"></select>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-12">
             <div class="form-row">
+                <div class="col-sm-3 form-group">
+                    <div class="form-group">
+                        <label for="TipoContrato">Tipo Contrato</label>
+                        <select id="cmbTipoContrato" type="text" name="TipoContrato" class="form-control"></select>
+                    </div>
+                </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
                         <label for="correo">Correo</label>
@@ -89,8 +96,8 @@
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
-                        <label for="correoAlte">Correo Alternativo</label>
-                        <input id="txtDireccion" type="email" name="correoAlte" value="@Model.CORREO_ALTERNATIVO" placeholder="ejemplo@ejemplo.cl" class="form-control" />
+                        <label for="correoAlt">Correo Alternativo</label>
+                        <input id="txtCorreoAlt" type="email" name="correoAlt" value="@Model.CORREO_ALTERNATIVO" placeholder="ejemplo@ejemplo.cl" class="form-control" />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
@@ -128,8 +135,168 @@
     </div>
     <div class="col-md-12 ">
         <div class="form-group text-right">
-            <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-            <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoUsuario();"><i class="fas fa-users"></i> Guardar</button>
+            <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Volver</button>
+            <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="ShowEditarUsuario();"><i class="fas fa-edit"></i> Guardar</button>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-title">
+                <div class="text-center">
+                    <h3>¡Confirmar acción!</h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                <label>¿Está seguro que desea editar los datos del usuario? Esta acción no se podrá desacer.</label>
+            </div>
+            <label id="idTerEliminar" style="display:none"></label>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnConfirmar" onclick="GuardarEdicionUsuario();">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $(".ocultar").css("display", "none");
+            CargarCmb();
+        });
+
+        function CargarCmb() {
+            $.ajax({
+                url: '../Mantenedor/GetComunasCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionCom = $(document.createElement('option'));
+                        optionCom.val(data.data[i]["ID_COMUNA"]);
+                        optionCom.text(data.data[i]["NOMBRE_COMUNA"]);
+
+                        $("#cmbComuna").append(optionCom);
+                    }
+                }
+            });
+
+            $.ajax({
+                url: '../MantenedorUsuario/GetTipoContratoCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionCon = $(document.createElement('option'));
+                        optionCon.val(data.data[i]["ID_TIPO_CONTRATO"]);
+                        optionCon.text(data.data[i]["NOMBRE_TIPO_CONTRATO"]);
+
+                        $("#cmbTipoContrato").append(optionCon);
+                    }
+                }
+            });
+
+        }
+
+        function ShowEditarUsuario() {
+            $("#modalConfirmacion").modal("show");
+
+        }
+
+        function GuardarEdicionUsuario() {
+            let idComuna = $("#cmbComuna option:selected").val();
+            let idTipoContrato = $("#cmbTipoContrato option:selected").val();
+            let clave = $("#txtClave").val();
+            let repetirCalve = $("#txtRepClave").val();
+            let correo = $("#txtCorreo").val();
+            let correoAlternativo = $("#txtCorreoAlt").val();
+            let codigoBarra = $("#txtCodigoBarra").val();
+            let rut = $("#txtRut").val();
+            let nombre = $("#txtNombre").val();
+            let segundoNombre = $("#txtSegNombre").val();
+            let apllidoPaterno = $("#txtApePater").val();
+            let apellidoMaterno = $("#txtApeMate").val();
+            let cambioPassword = $("#txtFechaVencePass").val();
+            let idUsuario = $("#idUsuario").val();
+            let administrador = true; //$("#txtMotivoCambio").val();
+
+            var Usuario = [
+                {
+                    ID_USUARIO :idUsuario,
+                    ID_COMUNA: idComuna,
+                    ID_TIPO_CONTRATO: idTipoContrato,
+                    CLAVE: clave,
+                    REPETIR_CLAVE: repetirCalve,
+                    CORREO: correo,
+                    CORREO_ALTERNATIVO: correoAlternativo,
+                    CODIGO_BARRA: codigoBarra,
+                    RUT: rut,
+                    NOMBRE: nombre,
+                    SEGUNDO_NOMBRE: segundoNombre,
+                    APELLIDO_PATERNO: apllidoPaterno,
+                    APELLIDO_MATERNO: apellidoMaterno,
+                    CAMBIO_PASSWORD: cambioPassword,
+                    ADMINISTRADOR: administrador
+                }
+            ]
+
+            $.ajax({
+                url: '../MantenedorUsuario/SetEditaUsuario',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    Usuario: Usuario
+                },
+                success: function (data) {
+                    if (data.Data.alert != '') {
+                        alertSuccess(data.Data.message)
+
+                        Limpiar();
+                    }
+                }
+            });
+        }
+
+
+        function CerrarModal() {
+            $("#modalConfirmacion").modal("hide");
+        }
+
+        function Limpiar() {
+            $("#cmbComuna option").attr("selected", false);
+            $("#cmbComuna option[value='" + 0 + "']").attr("selected", "selected");
+
+            $("#cmbTipoContrato option").attr("selected", false);
+            $("#cmbTipoContrato option[value='" + 0 + "']").attr("selected", "selected");
+
+            $("#txtNombre").val("");
+            $("#txtSegNombre").val("");
+            $("#txtApePater").val("");
+            $("#txtApeMate").val("");
+            $("#txtRut").val("");
+            $("#txtDireccion").val("");
+            $("#txtCodigoBarra").val("");
+            $("#txtCorreo").val("");
+            $("#txtCorreoAlt").val("");
+            $("#txtDireccion").val("");
+            $("#txtClave").val("");
+            $("#txtRepClave").val("");
+            $("#txtFechaVencePass").val("");
+
+            setTimeout(function () {
+                window.location.href = "/RedirectVistas/HomeUsuario"
+            }, 3000);
+        }
+
+    </script>
+}

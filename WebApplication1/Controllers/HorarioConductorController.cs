@@ -44,6 +44,7 @@ namespace ConductorEnRed.Controllers
             return rut;
         }
 
+
         [HttpPost]
         public ActionResult GetHorarioIndividualTurnoUno(string fechaSemanaActual)
         {

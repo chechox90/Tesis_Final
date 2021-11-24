@@ -103,7 +103,7 @@
                     </div>
                     <div class="borderInput">
                         <div class="divFlot">
-                            <button id="btnRegistrarIniVuelta" class="btn btn-success borderInput" onclick="ShowConfitmarEditVuelta();">Guradar</button>
+                            <button id="btnRegistrarIniVuelta" class="btn btn-success borderInput" onclick="ShowConfitmarEditVuelta();"><i class="fa fa-edit"></i>Guradar</button>
                         </div>
                     </div>
                 </div>
@@ -259,7 +259,9 @@
                 success: function (data) {
                     if (data.Data.alert != '') {
                         alertSuccess(data.Data.message);
+
                         CerrarModal();
+
                         setTimeout(function () {
                             window.location.href = "/RedirectVistas/HomeRuta"
                         }, 3000);

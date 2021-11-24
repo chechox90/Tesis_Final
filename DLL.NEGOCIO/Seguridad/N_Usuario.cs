@@ -69,6 +69,10 @@ namespace DLL.NEGOCIO.Seguridad
         {
             return I_DAO_Usuario.SetIngresaNuevoUsuario(usuario);
         }
+        public int SetEditaUsuario(DTO_Usuario usuario)
+        {
+            return I_DAO_Usuario.SetEditaUsuario(usuario);
+        }
 
     }
 

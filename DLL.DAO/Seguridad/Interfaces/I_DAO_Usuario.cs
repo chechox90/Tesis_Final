@@ -29,6 +29,8 @@ namespace DLL.DAO.Seguridad.Interfaces
         
         int SetIngresaNuevoUsuario(DTO_Usuario usuario);
 
+        int SetEditaUsuario(DTO_Usuario usuario);
+
 
     }
 }

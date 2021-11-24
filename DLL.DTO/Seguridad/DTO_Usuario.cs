@@ -11,7 +11,8 @@ namespace DLL.DTO.Seguridad
         public DTO_Usuario() { }
 
         public int ID_USUARIO { get; set; }
-        public int ID_PERFIL { get; set; }
+        public int ID_COMUNA { get; set; }
+        public int ID_TIPO_CONTRATO { get; set; }
         public int ID_EMPRESA { get; set; }
         public string CLAVE { get; set; }
         public string RUT { get; set; }
@@ -19,6 +20,7 @@ namespace DLL.DTO.Seguridad
         public string SEGUNDO_NOMBRE { get; set; }
         public string APELLIDO_PATERNO { get; set; }
         public string APELLIDO_MATERNO { get; set; }
+        public string DIRECCION { get; set; }
         public string CODIGO_BARRA { get; set; }
         public string CORREO { get; set; }
         public string CORREO_ALTERNATIVO { get; set; }

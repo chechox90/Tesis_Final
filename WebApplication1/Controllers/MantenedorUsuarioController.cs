@@ -111,13 +111,13 @@ namespace ConductorEnRed.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetUsuarioActivo(int idUsuario)
+        public ActionResult GetEditarUsuarioActivo(int idUsuario)
         {
             DTO_UsuarioListar DtoUsuario = new DTO_UsuarioListar();
             DtoUsuario = _i_n_Usuario.GetUsuarioActivo(idUsuario);
 
             VM_Usuario user = new VM_Usuario();
-            user.ID_USUARIO = DtoUsuario.ID_USUARIO;
+            user.ID_USUARIO = idUsuario;
             user.RUT = DtoUsuario.RUT;
             user.NOMBRE = DtoUsuario.NOMBRE;
             user.SEGUNDO_NOMBRE = DtoUsuario.SEGUNDO_NOMBRE;
@@ -137,5 +137,193 @@ namespace ConductorEnRed.Controllers
            
         }
 
+        [HttpPost]
+        public ActionResult GetTipoContratoCmb()
+        {
+            try
+            {
+                List<DTO_TipoContrato> list = new List<DTO_TipoContrato>();
+                List<DTO_TipoContrato> tipo = new List<DTO_TipoContrato>();
+                tipo = _i_n_Usuario.GetTipoContratoCmb();
+
+                DTO_TipoContrato cargaTipo = new DTO_TipoContrato();
+                cargaTipo.ID_TIPO_CONTRATO = 0;
+                cargaTipo.NOMBRE_TIPO_CONTRATO = "Seleccione";
+
+                list.Add(cargaTipo);
+
+                foreach (var item in tipo)
+                {
+                    DTO_TipoContrato carga = new DTO_TipoContrato();
+                    carga.ID_TIPO_CONTRATO = item.ID_TIPO_CONTRATO;
+                    carga.NOMBRE_TIPO_CONTRATO = item.NOMBRE_TIPO_CONTRATO;
+
+                    list.Add(carga);
+                }
+
+
+                return Json(new
+                {
+                    data = list,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+                });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetPerfilCmb()
+        {
+            try
+            {
+                List<DTO_Perfil> list = new List<DTO_Perfil>();
+                List<DTO_Perfil> tipo = new List<DTO_Perfil>();
+                tipo = _i_n_Usuario.GetPerfilCmb();
+
+                DTO_Perfil cargaTipo = new DTO_Perfil();
+                cargaTipo.IdPerfil = 0;
+                cargaTipo.Nombre = "Seleccione";
+
+                list.Add(cargaTipo);
+
+                foreach (var item in tipo)
+                {
+                    DTO_Perfil carga = new DTO_Perfil();
+                    carga.IdPerfil = item.IdPerfil;
+                    carga.Nombre = item.Nombre;
+
+                    list.Add(carga);
+                }
+
+
+                return Json(new
+                {
+                    data = list,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+                });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetIngresaNuevoUsuario(List<DTO_Usuario> UsuarioNuevo)
+        {
+            try
+            {
+                string alert = "";
+                DTO_Usuario newReg = new DTO_Usuario()
+                {
+                    ID_EMPRESA = 1,
+                    ID_COMUNA = UsuarioNuevo[0].ID_COMUNA,
+                    ID_TIPO_CONTRATO = UsuarioNuevo[0].ID_TIPO_CONTRATO,
+                    CLAVE = UsuarioNuevo[0].CLAVE,
+                    RUT = UsuarioNuevo[0].RUT,
+                    NOMBRE = UsuarioNuevo[0].NOMBRE,
+                    SEGUNDO_NOMBRE = UsuarioNuevo[0].SEGUNDO_NOMBRE,
+                    APELLIDO_PATERNO = UsuarioNuevo[0].APELLIDO_PATERNO,
+                    APELLIDO_MATERNO = UsuarioNuevo[0].APELLIDO_MATERNO,
+                    CODIGO_BARRA = UsuarioNuevo[0].CODIGO_BARRA,
+                    CORREO = UsuarioNuevo[0].CORREO,
+                    CORREO_ALTERNATIVO = UsuarioNuevo[0].CORREO_ALTERNATIVO,
+                    CAMBIO_PASSWORD = UsuarioNuevo[0].CAMBIO_PASSWORD,
+                    ADMINISTRADOR = UsuarioNuevo[0].ADMINISTRADOR,
+                    ESTADO = true
+
+                };
+
+                int response = _i_n_Usuario.SetIngresaNuevoUsuario(newReg);
+
+                if (response == 1)
+                {
+
+                    alert = "success";
+                    var message = "El usuario ha sido registrado con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetEditaUsuario(List<DTO_Usuario> Usuario)
+        {
+            try
+            {
+                string alert = "";
+                DTO_Usuario newReg = new DTO_Usuario()
+                {
+                    ID_EMPRESA = 1,
+                    ID_USUARIO = Usuario[0].ID_USUARIO,
+                    ID_COMUNA = Usuario[0].ID_COMUNA,
+                    ID_TIPO_CONTRATO = Usuario[0].ID_TIPO_CONTRATO,
+                    CLAVE = Usuario[0].CLAVE,
+                    RUT = Usuario[0].RUT,
+                    NOMBRE = Usuario[0].NOMBRE,
+                    SEGUNDO_NOMBRE = Usuario[0].SEGUNDO_NOMBRE,
+                    APELLIDO_PATERNO = Usuario[0].APELLIDO_PATERNO,
+                    APELLIDO_MATERNO = Usuario[0].APELLIDO_MATERNO,
+                    CODIGO_BARRA = Usuario[0].CODIGO_BARRA,
+                    CORREO = Usuario[0].CORREO,
+                    CORREO_ALTERNATIVO = Usuario[0].CORREO_ALTERNATIVO,
+                    CAMBIO_PASSWORD = Usuario[0].CAMBIO_PASSWORD,
+                    ADMINISTRADOR = Usuario[0].ADMINISTRADOR,
+                    ESTADO = true
+
+                };
+
+                int response = _i_n_Usuario.SetEditaUsuario(newReg);
+
+                if (response == 1)
+                {
+
+                    alert = "success";
+                    var message = "El usuario ha sido editado con éxito";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+                else
+                {
+                    alert = "danger";
+                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alert = alert, message = message })
+                    };
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

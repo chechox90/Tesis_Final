@@ -587,8 +587,9 @@ namespace DLL.DAO.Seguridad
                     {
                         USUARIOS_SISTEMA newUser = new USUARIOS_SISTEMA()
                         {
-                            ID_PERFIL = usuario.ID_PERFIL,
                             ID_EMPRESA = usuario.ID_EMPRESA,
+                            ID_COMUNA = usuario.ID_COMUNA,
+                            ID_TIPO_CONTRATO = usuario.ID_TIPO_CONTRATO,
                             CLAVE = usuario.CLAVE,
                             RUT = usuario.RUT,
                             NOMBRE = usuario.NOMBRE,
@@ -613,7 +614,49 @@ namespace DLL.DAO.Seguridad
                 return respuesta;
 
             }
-            catch (Exception)
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public int SetEditaUsuario(DTO_Usuario usuario)
+        {
+            try
+            {
+                int respuesta = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        USUARIOS_SISTEMA user = new USUARIOS_SISTEMA();
+                        user = context.USUARIOS_SISTEMA.Where(x => x.ID_USUARIO == usuario.ID_USUARIO && x.ESTADO == true).FirstOrDefault();
+                        user.ID_EMPRESA = usuario.ID_EMPRESA;
+                        user.ID_COMUNA = usuario.ID_COMUNA;
+                        user.ID_TIPO_CONTRATO = usuario.ID_TIPO_CONTRATO;
+                        user.CLAVE = usuario.CLAVE;
+                        user.RUT = usuario.RUT;
+                        user.NOMBRE = usuario.NOMBRE;
+                        user.SEGUNDO_NOMBRE = usuario.SEGUNDO_NOMBRE;
+                        user.APELLIDO_PATERNO = usuario.APELLIDO_PATERNO;
+                        user.APELLIDO_MATERNO = usuario.APELLIDO_MATERNO;
+                        user.CODIGO_BARRA = usuario.CODIGO_BARRA;
+                        user.CORREO = usuario.CORREO;
+                        user.CORREO_ALTERNATIVO = usuario.CORREO_ALTERNATIVO;
+                        user.CAMBIO_PASSWORD = usuario.CAMBIO_PASSWORD;
+                        user.ADMINISTRADOR = usuario.ADMINISTRADOR;
+                        user.ESTADO = true;
+
+                        respuesta = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception ex)
             {
 
                 throw;

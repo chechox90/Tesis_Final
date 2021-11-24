@@ -30,5 +30,7 @@ namespace DLL.NEGOCIO.Seguridad.Interfaces
         int SetEliminarUsuario(int idUser);
 
         int SetIngresaNuevoUsuario(DTO_Usuario dtoUsuario);
+
+        int SetEditaUsuario(DTO_Usuario dtoUsuario);
     }
 }

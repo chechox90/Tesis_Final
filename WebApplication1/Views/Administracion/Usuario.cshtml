@@ -32,8 +32,8 @@
         <div class="col-12">
             <div class="form-row">
                 <div class="col-sm-3 form-group">
-                    <label for="Numero">Nombre</label>
-                    <input id="txtNombre" type="text" name="Numero" placeholder="Nombre" class="form-control" />
+                    <label for="nombre">Nombre</label>
+                    <input id="txtNombre" type="text" name="nombre" placeholder="Nombre" class="form-control" />
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
@@ -43,8 +43,8 @@
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
-                        <label for="Direcccion">Apellido Paterno</label>
-                        <input id="txtApePater" type="text" name="segNombre" placeholder="Apellido Paterno" class="form-control" />
+                        <label for="APELIDO1">Apellido Paterno</label>
+                        <input id="txtApePater" type="text" name="APELIDO1" placeholder="Apellido Paterno" class="form-control" />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
@@ -61,12 +61,6 @@
                     <div class="form-group ">
                         <label for="rut">R.U.N.</label>
                         <input id="txtRut" type="text" name="rut" placeholder="R.U.N." class="form-control" />
-                    </div>
-                </div>
-                <div class="col-sm-3 form-group">
-                    <div class="form-group ">
-                        <label for="Direccion">Dirección</label>
-                        <input id="txtDireccion" type="text" name="Direccion" autocomplete="off" placeholder="Dirección" class="form-control" />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
@@ -101,12 +95,6 @@
                     <div class="form-group ">
                         <label for="correoAlte">Correo Alternativo</label>
                         <input id="txtCorreoAlt" type="email" name="correoAlte" placeholder="ejemplo@ejemplo.cl" class="form-control" />
-                    </div>
-                </div>
-                <div class="col-sm-3 form-group">
-                    <div class="form-group ">
-                        <label for="perfil">Perfil</label>
-                        <select id="cmbPerfil" name="perfil" class="form-control" ></select>
                     </div>
                 </div>
             </div>
@@ -154,7 +142,7 @@
 
     <div class="col-md-12 ">
         <div class="form-group text-right">
-            <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
+            <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Volver</button>
             <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoUsuario();"><i class="fas fa-users"></i> Guardar</button>
         </div>
     </div>
@@ -171,7 +159,7 @@
 
         function CargarCmb() {
             $.ajax({
-                url: '../Mantenedor/GetPerfilCmb',
+                url: '../Mantenedor/GetComunasCmb',
                 type: 'post',
                 datatype: 'json',
                 async: false,
@@ -182,13 +170,13 @@
                         optionCom.val(data.data[i]["ID_COMUNA"]);
                         optionCom.text(data.data[i]["NOMBRE_COMUNA"]);
 
-                        $("#cmbComuna").append(optionTer);
+                        $("#cmbComuna").append(optionCom);
                     }
                 }
             });
 
             $.ajax({
-                url: '../Mantenedor/GetTipoContratoCmb',
+                url: '../MantenedorUsuario/GetTipoContratoCmb',
                 type: 'post',
                 datatype: 'json',
                 async: false,
@@ -204,29 +192,11 @@
                 }
             });
 
-            $.ajax({
-                url: '../Mantenedor/GetTipoContratoCmb',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: null,
-                success: function (data) {
-                    for (var i = 0; i < data.data.length; i++) {
-                        var optionPer = $(document.createElement('option'));
-                        optionPer.val(data.data[i]["ID_TIPO_CONTRATO"]);
-                        optionPer.text(data.data[i]["NOMBRE_TIPO_CONTRATO"]);
-
-                        $("#cmbPerfil").append(optionPerfil);
-                    }
-                }
-            });
-           
         }
 
         function GuardarNuevoUsuario() {
             let idComuna = $("#cmbComuna option:selected").val();
             let idTipoContrato = $("#cmbTipoContrato option:selected").val();
-            let idPerfil = $("#cmbPerfil option:selected").val();
             let clave = $("#txtClave").val();
             let repetirCalve = $("#txtRepClave").val();
             let correo = $("#txtCorreo").val();
@@ -243,25 +213,24 @@
             var UsuarioNuevo = [
                 {
                     ID_COMUNA: idComuna,
-                    ID_PERGIL: idPerfil,
-                    ID_TIPO_CONTRATO : idTipoContrato,
-                    CLAVE : clave,
-                    REPETIR_CLAVE : repetirCalve,
-                    CORREO : correo,
-                    CORREO_ALTERNATIVO : correoAlternativo,
-                    CODIGO_BARRA : codigoBarra,
-                    RUT : rut,
-                    NOMBRE : nombre,
-                    SEGUNDO_NOMBRE : segundoNombre,
-                    APELLIDO_PATERNO : apllidoPaterno,
-                    APELLIDO_MATERNO : apellidoMaterno,
-                    CAMBIO_PASSWORD : cambioPassword,
-                    ADMINISTRADOR : administrador
+                    ID_TIPO_CONTRATO: idTipoContrato,
+                    CLAVE: clave,
+                    REPETIR_CLAVE: repetirCalve,
+                    CORREO: correo,
+                    CORREO_ALTERNATIVO: correoAlternativo,
+                    CODIGO_BARRA: codigoBarra,
+                    RUT: rut,
+                    NOMBRE: nombre,
+                    SEGUNDO_NOMBRE: segundoNombre,
+                    APELLIDO_PATERNO: apllidoPaterno,
+                    APELLIDO_MATERNO: apellidoMaterno,
+                    CAMBIO_PASSWORD: cambioPassword,
+                    ADMINISTRADOR: administrador
                 }
             ]
 
             $.ajax({
-                url: '../HorarioConductor/SetIngresaNuevoUsuario',
+                url: '../MantenedorUsuario/SetIngresaNuevoUsuario',
                 type: 'post',
                 datatype: 'json',
                 async: false,
@@ -298,6 +267,10 @@
             $("#txtClave").val("");
             $("#txtRepClave").val("");
             $("#txtFechaVencePass").val("");
+
+            setTimeout(function () {
+                window.location.href = "/RedirectVistas/HomeUsuario"
+            }, 3000);
         }
 
     </script>
