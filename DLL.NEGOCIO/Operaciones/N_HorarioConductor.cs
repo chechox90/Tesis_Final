@@ -1,5 +1,6 @@
 ﻿using DLL.DAO.Operaciones.Interfaces;
 using DLL.DTO.CargaHorario;
+using DLL.DTO.Mantenedor;
 using DLL.NEGOCIO.Operaciones.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,6 @@ namespace DLL.NEGOCIO.Operaciones
             this.I_DAO_HorarioConductor = I_DAO_HorarioConductor;
         }
 
-        public string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, string nombreCarga, DateTime fechaCarga, string descripcion)
-        {
-            return I_DAO_HorarioConductor.SetGuardarHorarioConductor(list, nombreCarga, fechaCarga, descripcion);
-        }
-
         public List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut, DateTime fechaIni, DateTime fechaFin)
         {
             return I_DAO_HorarioConductor.GetHorarioConductorByRut(rut, fechaIni, fechaFin);
@@ -30,12 +26,17 @@ namespace DLL.NEGOCIO.Operaciones
 
         public List<DTO_HorarioConductorMostrar> GetHorarioConductorById(int idUsuario, DateTime fechaIni, DateTime fechaFin, int idTurno)
         {
-            return I_DAO_HorarioConductor.GetHorarioConductorById(idUsuario,fechaIni,fechaFin, idTurno);
+            return I_DAO_HorarioConductor.GetHorarioConductorById(idUsuario, fechaIni, fechaFin, idTurno);
         }
 
         public DTO_HorarioConductorMostrar GetHorarioConductorByIdHorario(int idHorario)
         {
             return I_DAO_HorarioConductor.GetHorarioConductorByIdHorario(idHorario);
+        }
+        
+        public List<DTO_TipoSolicitud> GetTipoSolicitudAll()
+        {
+            return I_DAO_HorarioConductor.GetTipoSolicitudAll();
         }
 
         public string SetEditarHorarioConductor(List<DTO_HorarioConductorMostrar> list)
@@ -43,6 +44,15 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_HorarioConductor.SetEditarHorarioConductor(list);
         }
 
+        public int SetIngresaSolicitud(DTO_SolicitudCambioHorario list)
+        {
+            return I_DAO_HorarioConductor.SetIngresaSolicitud(list);
+        }
+
+        public string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, string nombreCarga, DateTime fechaCarga, string descripcion)
+        {
+            return I_DAO_HorarioConductor.SetGuardarHorarioConductor(list, nombreCarga, fechaCarga, descripcion);
+        }
 
     }
 }

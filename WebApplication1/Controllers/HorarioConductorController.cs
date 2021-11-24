@@ -1,5 +1,6 @@
 ﻿using ConductorEnRed.ViewModels.Mantenedores;
 using DLL.DTO.CargaHorario;
+using DLL.DTO.Mantenedor;
 using DLL.DTO.Seguridad;
 using DLL.NEGOCIO.Operaciones.Interfaces;
 using DLL.NEGOCIO.Seguridad.Interfaces;
@@ -349,7 +350,7 @@ namespace ConductorEnRed.Controllers
             dto_horario = _i_n_HorarioConductor.GetHorarioConductorByIdHorario(idHorario);
 
             VM_HORARIO_SOLICITUD Horario = new VM_HORARIO_SOLICITUD();
-            Horario.ID_HORARIO = dto_horario.ID_HORARIO;
+            Horario.ID_HORARIO = idHorario;
             Horario.ID_USUARIO = dto_horario.ID_USUARIO;
             Horario.ID_CARGA_HORARIO = dto_horario.ID_CARGA_HORARIO;
             Horario.NOMBRE = dto_horario.NOMBRE;
@@ -361,11 +362,83 @@ namespace ConductorEnRed.Controllers
             Horario.ID_TERMINAL = dto_horario.ID_TERMINAL;
             Horario.NUMERO_JORNADA = dto_horario.NUMERO_JORNADA;
             Horario.FECHA_HORA_INICIO = dto_horario.FECHA_HORA_INICIO;
+            Horario.FECHA_INICIO = DateTime.Now.ToString().Split(' ')[0];
+            Horario.HORA_INICIO = DateTime.Now.ToString().Split(' ')[1];
             Horario.ESTADO = dto_horario.ESTADO;
 
             return View("~/Views/HorarioConductor/Solicitudes.cshtml", Horario);
 
         }
 
+        [HttpPost]
+        public ActionResult GetTipoSolicitudesCmb()
+        {
+            List<DTO_TipoSolicitud> listdto = _i_n_HorarioConductor.GetTipoSolicitudAll();
+            List<DTO_TipoSolicitud> list = new List<DTO_TipoSolicitud>();
+
+            DTO_TipoSolicitud tipoSolicitudselect = new DTO_TipoSolicitud();
+            tipoSolicitudselect.ID_TIPO_SOLICITUD = 0;
+            tipoSolicitudselect.NOMBRE_SOLICITUD = "Seleccione";
+            list.Add(tipoSolicitudselect);
+
+            foreach (var item in listdto)
+            {
+                DTO_TipoSolicitud tipoSolicitud = new DTO_TipoSolicitud();
+                tipoSolicitud.ID_TIPO_SOLICITUD = item.ID_TIPO_SOLICITUD;
+                tipoSolicitud.NOMBRE_SOLICITUD = item.NOMBRE_SOLICITUD;
+
+                list.Add(tipoSolicitud);
+            }
+
+
+            return Json(new
+            {
+                data = list,
+                ErrorMsg = "",
+                JsonRequestBehavior.AllowGet
+            });
+
+        }
+
+        [HttpPost]
+        public ActionResult SetIngresarSolictud(int idHorarioCambiar,int tipoSolicitud,string motivoSolictud, string motivoOpcional)
+        {
+            DTO_SolicitudCambioHorario solicitud = new DTO_SolicitudCambioHorario();
+            solicitud.ID_SOLICITUD_CAMBIO = 0;
+            solicitud.ID_HORARIO_CAMBIAR = idHorarioCambiar;
+            solicitud.ID_TIPO_SOLICITUD = tipoSolicitud;
+            solicitud.ID_ESTADO_SOLICITUD = 1;
+            solicitud.ID_USUARIO_SOLICITA = 1;
+            solicitud.ID_USUARIO_APRUEBA = null;
+            solicitud.FECHA_REGISTRO_SOLICITUD = DateTime.Now;
+            solicitud.FECHA_APROBACION = null;
+            solicitud.COMENTARIO_MOTIVO = motivoSolictud;
+            solicitud.COMENTARIO_ADICIONAL = motivoOpcional;
+            solicitud.ESTADO = true;
+
+            int respuesta =  _i_n_HorarioConductor.SetIngresaSolicitud(solicitud);
+            string alert = "";
+
+            if (respuesta == 1)
+            {
+                alert = "success";
+                var message = "La solicitud ha sido enviada con éxito. Redirigiendo a la página anterior...";
+                return new JsonResult()
+                {
+                    Data = Json(new { alert = alert, message = message })
+                };
+            }
+            else
+            {
+                alert = "danger";
+                var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                return new JsonResult()
+                {
+                    Data = Json(new { alert = alert, message = message })
+                };
+            }
+            
+
+        }
     }
 }

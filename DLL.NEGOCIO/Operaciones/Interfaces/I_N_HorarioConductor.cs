@@ -1,4 +1,5 @@
 ﻿using DLL.DTO.CargaHorario;
+using DLL.DTO.Mantenedor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,9 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
         DTO_HorarioConductorMostrar GetHorarioConductorByIdHorario(int idHorario);
 
         string SetEditarHorarioConductor(List<DTO_HorarioConductorMostrar> list);
+
+        int SetIngresaSolicitud(DTO_SolicitudCambioHorario list);
+
+        List<DTO_TipoSolicitud> GetTipoSolicitudAll();
     }
 }

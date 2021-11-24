@@ -1,6 +1,7 @@
 ﻿using DLL.DAO.Operaciones.Interfaces;
 using DLL.DATA.SeguridadSoluinfo;
 using DLL.DTO.CargaHorario;
+using DLL.DTO.Mantenedor;
 using log4net;
 using log4net.Config;
 using System;
@@ -28,7 +29,7 @@ namespace DLL.DAO.Operaciones
                 {
                     fechaFin = fechaFin.AddDays(1);
 
-                    List<DTO_HorarioConductorMostrar> dtoHorario = (from hrcon in context.HORARIO_CONDUCTOR 
+                    List<DTO_HorarioConductorMostrar> dtoHorario = (from hrcon in context.HORARIO_CONDUCTOR
                                                                     where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin)
                                                                     select new DTO_HorarioConductorMostrar
                                                                     {
@@ -43,7 +44,7 @@ namespace DLL.DAO.Operaciones
                     List<DTO_HorarioConductorMostrar> dtoHorario2 = new List<DTO_HorarioConductorMostrar>();
 
                     if (dtoHorario.Count > 0)
-                    {                       
+                    {
 
                         foreach (var item in dtoHorario)
                         {
@@ -95,7 +96,7 @@ namespace DLL.DAO.Operaciones
                                                                     }).Where(x => x.RUT == rut
                                                                     && x.ESTADO == true).ToList();
 
-                    
+
 
                     return dtoHorario;
                 }
@@ -186,6 +187,40 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public int GetID_CARGA_HORARIO_ByIdHorario(int id_horario)
+        {
+            using (SolusegEntities context = new SolusegEntities())
+            {
+
+                return (from hc in context.HORARIO_CONDUCTOR where hc.ID_HORARIO == id_horario select hc.ID_HORARIO).FirstOrDefault();
+            }
+        }
+
+        public List<DTO_TipoSolicitud> GetTipoSolicitudAll()
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    List<DTO_TipoSolicitud> solicitud = (from tsc in context.TIPO_SOLICITUD_CAMBIO
+                                                         select new DTO_TipoSolicitud
+                                                         {
+                                                             ID_TIPO_SOLICITUD = tsc.ID_TIPO_SOLICITUD,
+                                                             NOMBRE_SOLICITUD = tsc.NOMBRE_SOLICITUD,
+                                                             ESTADO = tsc.ESTADO
+                                                         }
+                                                         ).ToList();
+
+                    return solicitud;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
         public string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, string nombreCarga, DateTime fechaCarga, string descripcion)
         {
             try
@@ -254,15 +289,6 @@ namespace DLL.DAO.Operaciones
 
         }
 
-        public int GetID_CARGA_HORARIO_ByIdHorario(int id_horario)
-        {
-            using (SolusegEntities context = new SolusegEntities())
-            {
-
-                return (from hc in context.HORARIO_CONDUCTOR where hc.ID_HORARIO == id_horario select hc.ID_HORARIO).FirstOrDefault();
-            }
-        }
-
         public string SetEditarHorarioConductor(List<DTO_HorarioConductorMostrar> list)
         {
             try
@@ -313,5 +339,46 @@ namespace DLL.DAO.Operaciones
 
 
         }
+
+        public int SetIngresaSolicitud(DTO_SolicitudCambioHorario list)
+        {
+            try
+            {
+                int res = 0;
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        SOLICITUD_CAMBIO_HORARIO solicitud = new SOLICITUD_CAMBIO_HORARIO();
+                        solicitud.ID_SOLICITUD_CAMBIO = list.ID_SOLICITUD_CAMBIO;
+                        solicitud.ID_HORARIO = list.ID_HORARIO_CAMBIAR;
+                        solicitud.ID_TIPO_SOLICITUD = list.ID_TIPO_SOLICITUD;
+                        solicitud.ID_ESTADO_SOLICITUD = list.ID_ESTADO_SOLICITUD;
+                        solicitud.ID_USUARIO_SOLICITA = list.ID_USUARIO_SOLICITA;
+                        solicitud.ID_USUARIO_APRUEBA = list.ID_USUARIO_APRUEBA;
+                        solicitud.FECHA_REGISTRO_SOLICITUD = list.FECHA_REGISTRO_SOLICITUD;
+                        solicitud.FECHA_APROBACION = list.FECHA_APROBACION;
+                        solicitud.COMENTARIO_MOTIVO = list.COMENTARIO_MOTIVO;
+                        solicitud.COMENTARIO_ADICIONAL = list.COMENTARIO_ADICIONAL;
+                        solicitud.ESTADO = true;
+
+                        context.SOLICITUD_CAMBIO_HORARIO.Add(solicitud);
+                        res = context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+
+                    return res;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+
+
+        }
+
     }
 }

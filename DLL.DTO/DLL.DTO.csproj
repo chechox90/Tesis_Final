@@ -85,6 +85,8 @@
     <Compile Include="Mantenedor\DTO_RegistroVueltas.cs" />
     <Compile Include="Mantenedor\DTO_Sentido.cs" />
     <Compile Include="Mantenedor\DTO_Servicio.cs" />
+    <Compile Include="Mantenedor\DTO_SolicitudCambioHorario.cs" />
+    <Compile Include="Mantenedor\DTO_TipoSolicitud.cs" />
     <Compile Include="Seguridad\DTO_Accion.cs" />
     <Compile Include="CargaHorario\DTO_CargarHorarioConductor.cs" />
     <Compile Include="Seguridad\DTO_Menu.cs" />

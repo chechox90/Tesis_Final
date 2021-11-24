@@ -338,12 +338,15 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             <PropertyRef Name="ID_SOLICITUD_CAMBIO" />
           </Key>
           <Property Name="ID_SOLICITUD_CAMBIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_HORARIO" Type="int" Nullable="false" />
           <Property Name="ID_TIPO_SOLICITUD" Type="int" Nullable="false" />
           <Property Name="ID_ESTADO_SOLICITUD" Type="int" Nullable="false" />
           <Property Name="ID_USUARIO_SOLICITA" Type="int" Nullable="false" />
-          <Property Name="ID_USUARIO_APRUEBA" Type="int" Nullable="false" />
+          <Property Name="ID_USUARIO_APRUEBA" Type="int" />
           <Property Name="FECHA_REGISTRO_SOLICITUD" Type="datetime" Nullable="false" />
           <Property Name="FECHA_APROBACION" Type="datetime" />
+          <Property Name="COMENTARIO_MOTIVO" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="COMENTARIO_ADICIONAL" Type="varchar" MaxLength="1000" />
           <Property Name="ESTADO" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TERMINAL">
@@ -723,6 +726,18 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SOLICITUD_CAMBIO_HORARIO_HORARIO_CONDUCTOR">
+          <End Role="HORARIO_CONDUCTOR" Type="Self.HORARIO_CONDUCTOR" Multiplicity="1" />
+          <End Role="SOLICITUD_CAMBIO_HORARIO" Type="Self.SOLICITUD_CAMBIO_HORARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HORARIO_CONDUCTOR">
+              <PropertyRef Name="ID_HORARIO" />
+            </Principal>
+            <Dependent Role="SOLICITUD_CAMBIO_HORARIO">
+              <PropertyRef Name="ID_HORARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO">
           <End Role="TIPO_SOLICITUD_CAMBIO" Type="Self.TIPO_SOLICITUD_CAMBIO" Multiplicity="1" />
           <End Role="SOLICITUD_CAMBIO_HORARIO" Type="Self.SOLICITUD_CAMBIO_HORARIO" Multiplicity="*" />
@@ -732,18 +747,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Principal>
             <Dependent Role="SOLICITUD_CAMBIO_HORARIO">
               <PropertyRef Name="ID_TIPO_SOLICITUD" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SOLICITUD_CAMBIO_HORARIO_USUARIOS_SISTEMA">
-          <End Role="USUARIOS_SISTEMA" Type="Self.USUARIOS_SISTEMA" Multiplicity="1" />
-          <End Role="SOLICITUD_CAMBIO_HORARIO" Type="Self.SOLICITUD_CAMBIO_HORARIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="USUARIOS_SISTEMA">
-              <PropertyRef Name="ID_USUARIO" />
-            </Principal>
-            <Dependent Role="SOLICITUD_CAMBIO_HORARIO">
-              <PropertyRef Name="ID_USUARIO_SOLICITA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -984,12 +987,12 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             <End Role="ESTADO_SOLICITUD" EntitySet="ESTADO_SOLICITUD" />
             <End Role="SOLICITUD_CAMBIO_HORARIO" EntitySet="SOLICITUD_CAMBIO_HORARIO" />
           </AssociationSet>
-          <AssociationSet Name="FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO" Association="Self.FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO">
-            <End Role="TIPO_SOLICITUD_CAMBIO" EntitySet="TIPO_SOLICITUD_CAMBIO" />
+          <AssociationSet Name="FK_SOLICITUD_CAMBIO_HORARIO_HORARIO_CONDUCTOR" Association="Self.FK_SOLICITUD_CAMBIO_HORARIO_HORARIO_CONDUCTOR">
+            <End Role="HORARIO_CONDUCTOR" EntitySet="HORARIO_CONDUCTOR" />
             <End Role="SOLICITUD_CAMBIO_HORARIO" EntitySet="SOLICITUD_CAMBIO_HORARIO" />
           </AssociationSet>
-          <AssociationSet Name="FK_SOLICITUD_CAMBIO_HORARIO_USUARIOS_SISTEMA" Association="Self.FK_SOLICITUD_CAMBIO_HORARIO_USUARIOS_SISTEMA">
-            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
+          <AssociationSet Name="FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO" Association="Self.FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO">
+            <End Role="TIPO_SOLICITUD_CAMBIO" EntitySet="TIPO_SOLICITUD_CAMBIO" />
             <End Role="SOLICITUD_CAMBIO_HORARIO" EntitySet="SOLICITUD_CAMBIO_HORARIO" />
           </AssociationSet>
           <AssociationSet Name="FK_TERMINAL_EMPRESA1" Association="Self.FK_TERMINAL_EMPRESA1">
@@ -1293,9 +1296,7 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             <End Role="PERFILES" EntitySet="PERFILES" />
             <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
           </AssociationSet>
-          <EntitySet Name="ESTADO_SOLICITUD" EntityType="SoluinfoModel.ESTADO_SOLICITUD" />
           <EntitySet Name="SERVICIO" EntityType="SoluinfoModel.SERVICIO" />
-          <EntitySet Name="SOLICITUD_CAMBIO_HORARIO" EntityType="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO" />
           <EntitySet Name="TIPO_SOLICITUD_CAMBIO" EntityType="SoluinfoModel.TIPO_SOLICITUD_CAMBIO" />
           <AssociationSet Name="FK_SERVICIO_EMPRESA" Association="SoluinfoModel.FK_SERVICIO_EMPRESA">
             <End Role="EMPRESA" EntitySet="EMPRESA" />
@@ -1305,10 +1306,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <AssociationSet Name="FK_USUARIOS_SISTEMA_COMUNA" Association="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA">
             <End Role="COMUNA" EntitySet="COMUNA" />
             <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SOLICITUD_CAMBIO_HORARIO_USUARIOS_SISTEMA" Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_USUARIOS_SISTEMA">
-            <End Role="USUARIOS_SISTEMA" EntitySet="USUARIOS_SISTEMA" />
-            <End Role="SOLICITUD_CAMBIO_HORARIO" EntitySet="SOLICITUD_CAMBIO_HORARIO" />
           </AssociationSet>
           <EntitySet Name="MENU" EntityType="SoluinfoModel.MENU" />
           <AssociationSet Name="FK_ACCIONES_MENU" Association="SoluinfoModel.FK_ACCIONES_MENU">
@@ -1322,14 +1319,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <AssociationSet Name="FK_MENU_PROYECTOS" Association="SoluinfoModel.FK_MENU_PROYECTOS">
             <End Role="PROYECTOS" EntitySet="PROYECTOS" />
             <End Role="MENU" EntitySet="MENU" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD" Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD">
-            <End Role="ESTADO_SOLICITUD" EntitySet="ESTADO_SOLICITUD" />
-            <End Role="SOLICITUD_CAMBIO_HORARIO" EntitySet="SOLICITUD_CAMBIO_HORARIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO" Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO">
-            <End Role="TIPO_SOLICITUD_CAMBIO" EntitySet="TIPO_SOLICITUD_CAMBIO" />
-            <End Role="SOLICITUD_CAMBIO_HORARIO" EntitySet="SOLICITUD_CAMBIO_HORARIO" />
           </AssociationSet>
           <EntitySet Name="REGISTRO_HORARIO" EntityType="SoluinfoModel.REGISTRO_HORARIO" />
           <EntitySet Name="REGISTRO_VUELTAS" EntityType="SoluinfoModel.REGISTRO_VUELTAS" />
@@ -1360,6 +1349,20 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <AssociationSet Name="FK_REGISTRO_VUELTAS_TERMINAL" Association="SoluinfoModel.FK_REGISTRO_VUELTAS_TERMINAL">
             <End Role="TERMINAL" EntitySet="TERMINAL" />
             <End Role="REGISTRO_VUELTAS" EntitySet="REGISTRO_VUELTAS" />
+          </AssociationSet>
+          <EntitySet Name="ESTADO_SOLICITUD" EntityType="SoluinfoModel.ESTADO_SOLICITUD" />
+          <EntitySet Name="SOLICITUD_CAMBIO_HORARIO" EntityType="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO" />
+          <AssociationSet Name="FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD" Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD">
+            <End Role="ESTADO_SOLICITUD" EntitySet="ESTADO_SOLICITUD" />
+            <End Role="SOLICITUD_CAMBIO_HORARIO" EntitySet="SOLICITUD_CAMBIO_HORARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SOLICITUD_CAMBIO_HORARIO_HORARIO_CONDUCTOR" Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_HORARIO_CONDUCTOR">
+            <End Role="HORARIO_CONDUCTOR" EntitySet="HORARIO_CONDUCTOR" />
+            <End Role="SOLICITUD_CAMBIO_HORARIO" EntitySet="SOLICITUD_CAMBIO_HORARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO" Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO">
+            <End Role="TIPO_SOLICITUD_CAMBIO" EntitySet="TIPO_SOLICITUD_CAMBIO" />
+            <End Role="SOLICITUD_CAMBIO_HORARIO" EntitySet="SOLICITUD_CAMBIO_HORARIO" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="NOVEDADES">
@@ -1538,6 +1541,7 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <NavigationProperty Name="CARGA_HORARIO" Relationship="SoluinfoModel.FK_HORARIO_CONDUCTOR_CARGA_HORARIO" FromRole="HORARIO_CONDUCTOR" ToRole="CARGA_HORARIO" />
           <Property Name="NUMERO_JORNADA" Type="Int16" Nullable="false" />
           <NavigationProperty Name="REGISTRO_HORARIO" Relationship="SoluinfoModel.FK_REGISTRO_HORARIO_HORARIO_CONDUCTOR" FromRole="HORARIO_CONDUCTOR" ToRole="REGISTRO_HORARIO" />
+          <NavigationProperty Name="SOLICITUD_CAMBIO_HORARIO" Relationship="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_HORARIO_CONDUCTOR" FromRole="HORARIO_CONDUCTOR" ToRole="SOLICITUD_CAMBIO_HORARIO" />
         </EntityType>
         <Association Name="FK_HORARIO_CONDUCTOR_CARGA_HORARIO">
           <End Type="SoluinfoModel.CARGA_HORARIO" Role="CARGA_HORARIO" Multiplicity="1" />
@@ -1578,7 +1582,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <NavigationProperty Name="TIPO_CONTRATO" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_TIPO_CONTRATO" FromRole="USUARIOS_SISTEMA" ToRole="TIPO_CONTRATO" />
           <NavigationProperty Name="PERFILES" Relationship="SoluinfoModel.PERFIL_USUARIO_SISTEMA" FromRole="USUARIOS_SISTEMA" ToRole="PERFILES" />
           <NavigationProperty Name="COMUNA" Relationship="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA" FromRole="USUARIOS_SISTEMA" ToRole="COMUNA" />
-          <NavigationProperty Name="SOLICITUD_CAMBIO_HORARIO" Relationship="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_USUARIOS_SISTEMA" FromRole="USUARIOS_SISTEMA" ToRole="SOLICITUD_CAMBIO_HORARIO" />
           <NavigationProperty Name="REGISTRO_HORARIO" Relationship="SoluinfoModel.FK_REGISTRO_HORARIO_USUARIOS_SISTEMA" FromRole="USUARIOS_SISTEMA" ToRole="REGISTRO_HORARIO" />
         </EntityType>
         <EntityType Name="TIPO_CONTRATO">
@@ -1644,15 +1647,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <End Type="SoluinfoModel.PERFILES" Role="PERFILES" Multiplicity="*" />
           <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="*" />
         </Association>
-        <EntityType Name="ESTADO_SOLICITUD">
-          <Key>
-            <PropertyRef Name="ID_ESTADO_SOLICITUD" />
-          </Key>
-          <Property Name="ID_ESTADO_SOLICITUD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NOMBRE_ESTADO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ESTADO" Type="Boolean" />
-          <NavigationProperty Name="SOLICITUD_CAMBIO_HORARIO" Relationship="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD" FromRole="ESTADO_SOLICITUD" ToRole="SOLICITUD_CAMBIO_HORARIO" />
-        </EntityType>
         <EntityType Name="SERVICIO">
           <Key>
             <PropertyRef Name="ID_SERVICIO" />
@@ -1665,22 +1659,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
           <Property Name="ESTADO" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="EMPRESA" Relationship="SoluinfoModel.FK_SERVICIO_EMPRESA" FromRole="SERVICIO" ToRole="EMPRESA" />
           <NavigationProperty Name="REGISTRO_VUELTAS" Relationship="SoluinfoModel.FK_REGISTRO_VUELTAS_SERVICIO" FromRole="SERVICIO" ToRole="REGISTRO_VUELTAS" />
-        </EntityType>
-        <EntityType Name="SOLICITUD_CAMBIO_HORARIO">
-          <Key>
-            <PropertyRef Name="ID_SOLICITUD_CAMBIO" />
-          </Key>
-          <Property Name="ID_SOLICITUD_CAMBIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_TIPO_SOLICITUD" Type="Int32" Nullable="false" />
-          <Property Name="ID_ESTADO_SOLICITUD" Type="Int32" Nullable="false" />
-          <Property Name="ID_USUARIO_SOLICITA" Type="Int32" Nullable="false" />
-          <Property Name="ID_USUARIO_APRUEBA" Type="Int32" Nullable="false" />
-          <Property Name="FECHA_REGISTRO_SOLICITUD" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="FECHA_APROBACION" Type="DateTime" Precision="3" />
-          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="USUARIOS_SISTEMA" Relationship="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_USUARIOS_SISTEMA" FromRole="SOLICITUD_CAMBIO_HORARIO" ToRole="USUARIOS_SISTEMA" />
-          <NavigationProperty Name="ESTADO_SOLICITUD" Relationship="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD" FromRole="SOLICITUD_CAMBIO_HORARIO" ToRole="ESTADO_SOLICITUD" />
-          <NavigationProperty Name="TIPO_SOLICITUD_CAMBIO" Relationship="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO" FromRole="SOLICITUD_CAMBIO_HORARIO" ToRole="TIPO_SOLICITUD_CAMBIO" />
         </EntityType>
         <EntityType Name="TIPO_SOLICITUD_CAMBIO">
           <Key>
@@ -1722,18 +1700,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Principal>
             <Dependent Role="USUARIOS_SISTEMA">
               <PropertyRef Name="ID_COMUNA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SOLICITUD_CAMBIO_HORARIO_USUARIOS_SISTEMA">
-          <End Type="SoluinfoModel.USUARIOS_SISTEMA" Role="USUARIOS_SISTEMA" Multiplicity="1" />
-          <End Type="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO" Role="SOLICITUD_CAMBIO_HORARIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="USUARIOS_SISTEMA">
-              <PropertyRef Name="ID_USUARIO" />
-            </Principal>
-            <Dependent Role="SOLICITUD_CAMBIO_HORARIO">
-              <PropertyRef Name="ID_USUARIO_SOLICITA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1788,30 +1754,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Principal>
             <Dependent Role="MENU">
               <PropertyRef Name="ID_PROYECTO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD">
-          <End Type="SoluinfoModel.ESTADO_SOLICITUD" Role="ESTADO_SOLICITUD" Multiplicity="1" />
-          <End Type="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO" Role="SOLICITUD_CAMBIO_HORARIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ESTADO_SOLICITUD">
-              <PropertyRef Name="ID_ESTADO_SOLICITUD" />
-            </Principal>
-            <Dependent Role="SOLICITUD_CAMBIO_HORARIO">
-              <PropertyRef Name="ID_ESTADO_SOLICITUD" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO">
-          <End Type="SoluinfoModel.TIPO_SOLICITUD_CAMBIO" Role="TIPO_SOLICITUD_CAMBIO" Multiplicity="1" />
-          <End Type="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO" Role="SOLICITUD_CAMBIO_HORARIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TIPO_SOLICITUD_CAMBIO">
-              <PropertyRef Name="ID_TIPO_SOLICITUD" />
-            </Principal>
-            <Dependent Role="SOLICITUD_CAMBIO_HORARIO">
-              <PropertyRef Name="ID_TIPO_SOLICITUD" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1935,6 +1877,70 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
             </Principal>
             <Dependent Role="REGISTRO_VUELTAS">
               <PropertyRef Name="ID_TERMINAL_INICIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ESTADO_SOLICITUD">
+          <Key>
+            <PropertyRef Name="ID_ESTADO_SOLICITUD" />
+          </Key>
+          <Property Name="ID_ESTADO_SOLICITUD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_ESTADO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Boolean" />
+          <NavigationProperty Name="SOLICITUD_CAMBIO_HORARIO" Relationship="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD" FromRole="ESTADO_SOLICITUD" ToRole="SOLICITUD_CAMBIO_HORARIO" />
+        </EntityType>
+        <EntityType Name="SOLICITUD_CAMBIO_HORARIO">
+          <Key>
+            <PropertyRef Name="ID_SOLICITUD_CAMBIO" />
+          </Key>
+          <Property Name="ID_SOLICITUD_CAMBIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_HORARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_TIPO_SOLICITUD" Type="Int32" Nullable="false" />
+          <Property Name="ID_ESTADO_SOLICITUD" Type="Int32" Nullable="false" />
+          <Property Name="ID_USUARIO_SOLICITA" Type="Int32" Nullable="false" />
+          <Property Name="ID_USUARIO_APRUEBA" Type="Int32" />
+          <Property Name="FECHA_REGISTRO_SOLICITUD" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FECHA_APROBACION" Type="DateTime" Precision="3" />
+          <Property Name="COMENTARIO_MOTIVO" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="COMENTARIO_ADICIONAL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ESTADO_SOLICITUD" Relationship="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD" FromRole="SOLICITUD_CAMBIO_HORARIO" ToRole="ESTADO_SOLICITUD" />
+          <NavigationProperty Name="HORARIO_CONDUCTOR" Relationship="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_HORARIO_CONDUCTOR" FromRole="SOLICITUD_CAMBIO_HORARIO" ToRole="HORARIO_CONDUCTOR" />
+          <NavigationProperty Name="TIPO_SOLICITUD_CAMBIO" Relationship="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO" FromRole="SOLICITUD_CAMBIO_HORARIO" ToRole="TIPO_SOLICITUD_CAMBIO" />
+        </EntityType>
+        <Association Name="FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD">
+          <End Type="SoluinfoModel.ESTADO_SOLICITUD" Role="ESTADO_SOLICITUD" Multiplicity="1" />
+          <End Type="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO" Role="SOLICITUD_CAMBIO_HORARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO_SOLICITUD">
+              <PropertyRef Name="ID_ESTADO_SOLICITUD" />
+            </Principal>
+            <Dependent Role="SOLICITUD_CAMBIO_HORARIO">
+              <PropertyRef Name="ID_ESTADO_SOLICITUD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SOLICITUD_CAMBIO_HORARIO_HORARIO_CONDUCTOR">
+          <End Type="SoluinfoModel.HORARIO_CONDUCTOR" Role="HORARIO_CONDUCTOR" Multiplicity="1" />
+          <End Type="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO" Role="SOLICITUD_CAMBIO_HORARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HORARIO_CONDUCTOR">
+              <PropertyRef Name="ID_HORARIO" />
+            </Principal>
+            <Dependent Role="SOLICITUD_CAMBIO_HORARIO">
+              <PropertyRef Name="ID_HORARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO">
+          <End Type="SoluinfoModel.TIPO_SOLICITUD_CAMBIO" Role="TIPO_SOLICITUD_CAMBIO" Multiplicity="1" />
+          <End Type="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO" Role="SOLICITUD_CAMBIO_HORARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_SOLICITUD_CAMBIO">
+              <PropertyRef Name="ID_TIPO_SOLICITUD" />
+            </Principal>
+            <Dependent Role="SOLICITUD_CAMBIO_HORARIO">
+              <PropertyRef Name="ID_TIPO_SOLICITUD" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2228,15 +2234,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
               <ScalarProperty Name="ID_PERFIL" ColumnName="ID_PERFIL" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="ESTADO_SOLICITUD">
-            <EntityTypeMapping TypeName="SoluinfoModel.ESTADO_SOLICITUD">
-              <MappingFragment StoreEntitySet="ESTADO_SOLICITUD">
-                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-                <ScalarProperty Name="NOMBRE_ESTADO" ColumnName="NOMBRE_ESTADO" />
-                <ScalarProperty Name="ID_ESTADO_SOLICITUD" ColumnName="ID_ESTADO_SOLICITUD" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SERVICIO">
             <EntityTypeMapping TypeName="SoluinfoModel.SERVICIO">
               <MappingFragment StoreEntitySet="SERVICIO">
@@ -2246,20 +2243,6 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
                 <ScalarProperty Name="NOMBRE_SERVICIO" ColumnName="NOMBRE_SERVICIO" />
                 <ScalarProperty Name="ID_EMPRESA" ColumnName="ID_EMPRESA" />
                 <ScalarProperty Name="ID_SERVICIO" ColumnName="ID_SERVICIO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SOLICITUD_CAMBIO_HORARIO">
-            <EntityTypeMapping TypeName="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO">
-              <MappingFragment StoreEntitySet="SOLICITUD_CAMBIO_HORARIO">
-                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-                <ScalarProperty Name="FECHA_APROBACION" ColumnName="FECHA_APROBACION" />
-                <ScalarProperty Name="FECHA_REGISTRO_SOLICITUD" ColumnName="FECHA_REGISTRO_SOLICITUD" />
-                <ScalarProperty Name="ID_USUARIO_APRUEBA" ColumnName="ID_USUARIO_APRUEBA" />
-                <ScalarProperty Name="ID_USUARIO_SOLICITA" ColumnName="ID_USUARIO_SOLICITA" />
-                <ScalarProperty Name="ID_ESTADO_SOLICITUD" ColumnName="ID_ESTADO_SOLICITUD" />
-                <ScalarProperty Name="ID_TIPO_SOLICITUD" ColumnName="ID_TIPO_SOLICITUD" />
-                <ScalarProperty Name="ID_SOLICITUD_CAMBIO" ColumnName="ID_SOLICITUD_CAMBIO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2327,6 +2310,32 @@ advertencia 6002: La tabla o vista 'Soluinfo.autorizacion.PROYECTOS_AREAS' no ti
                 <ScalarProperty Name="ID_BUS_INICIO" ColumnName="ID_BUS_INICIO" />
                 <ScalarProperty Name="ID_REGISTRO_HORARIO" ColumnName="ID_REGISTRO_HORARIO" />
                 <ScalarProperty Name="ID_REGISTRO_VUELTAS" ColumnName="ID_REGISTRO_VUELTAS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESTADO_SOLICITUD">
+            <EntityTypeMapping TypeName="SoluinfoModel.ESTADO_SOLICITUD">
+              <MappingFragment StoreEntitySet="ESTADO_SOLICITUD">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="NOMBRE_ESTADO" ColumnName="NOMBRE_ESTADO" />
+                <ScalarProperty Name="ID_ESTADO_SOLICITUD" ColumnName="ID_ESTADO_SOLICITUD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SOLICITUD_CAMBIO_HORARIO">
+            <EntityTypeMapping TypeName="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO">
+              <MappingFragment StoreEntitySet="SOLICITUD_CAMBIO_HORARIO">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="COMENTARIO_ADICIONAL" ColumnName="COMENTARIO_ADICIONAL" />
+                <ScalarProperty Name="COMENTARIO_MOTIVO" ColumnName="COMENTARIO_MOTIVO" />
+                <ScalarProperty Name="FECHA_APROBACION" ColumnName="FECHA_APROBACION" />
+                <ScalarProperty Name="FECHA_REGISTRO_SOLICITUD" ColumnName="FECHA_REGISTRO_SOLICITUD" />
+                <ScalarProperty Name="ID_USUARIO_APRUEBA" ColumnName="ID_USUARIO_APRUEBA" />
+                <ScalarProperty Name="ID_USUARIO_SOLICITA" ColumnName="ID_USUARIO_SOLICITA" />
+                <ScalarProperty Name="ID_ESTADO_SOLICITUD" ColumnName="ID_ESTADO_SOLICITUD" />
+                <ScalarProperty Name="ID_TIPO_SOLICITUD" ColumnName="ID_TIPO_SOLICITUD" />
+                <ScalarProperty Name="ID_HORARIO" ColumnName="ID_HORARIO" />
+                <ScalarProperty Name="ID_SOLICITUD_CAMBIO" ColumnName="ID_SOLICITUD_CAMBIO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -15,16 +15,19 @@ namespace DLL.DATA.SeguridadSoluinfo
     public partial class SOLICITUD_CAMBIO_HORARIO
     {
         public int ID_SOLICITUD_CAMBIO { get; set; }
+        public int ID_HORARIO { get; set; }
         public int ID_TIPO_SOLICITUD { get; set; }
         public int ID_ESTADO_SOLICITUD { get; set; }
         public int ID_USUARIO_SOLICITA { get; set; }
-        public int ID_USUARIO_APRUEBA { get; set; }
+        public Nullable<int> ID_USUARIO_APRUEBA { get; set; }
         public System.DateTime FECHA_REGISTRO_SOLICITUD { get; set; }
         public Nullable<System.DateTime> FECHA_APROBACION { get; set; }
+        public string COMENTARIO_MOTIVO { get; set; }
+        public string COMENTARIO_ADICIONAL { get; set; }
         public bool ESTADO { get; set; }
     
-        public virtual USUARIOS_SISTEMA USUARIOS_SISTEMA { get; set; }
         public virtual ESTADO_SOLICITUD ESTADO_SOLICITUD { get; set; }
+        public virtual HORARIO_CONDUCTOR HORARIO_CONDUCTOR { get; set; }
         public virtual TIPO_SOLICITUD_CAMBIO TIPO_SOLICITUD_CAMBIO { get; set; }
     }
 }

@@ -23,54 +23,179 @@
                 <li class="breadcrumb-item active" aria-current="page"><a href="#">Solicitudes</a></li>
             </ol>
         </nav>
-    </div>   
+    </div>
 </div>
 
 
 <div class="flex-fill">
     <div class="card">
-        <div class="form-row col-12">
-            <div class="col-6">
-                <div class="col-12 text-left">
-                    <span>NOMBRES:</span>
+        <div class="modal-title text-center">
+            <h3 class="text-primary">Solicitud cambio de Horario</h3>
+        </div>
+        <br />
+        <div class="form-row form-group col-12">
+            <input value="@Model.ID_HORARIO" id="lblIdHorario" style="display:none" />
+            <span>Yo </span>
+            <input class="col-2 form-control" id="lblNom" value="@Model.NOMBRE @Model.SEGUNDO_NOMBRE @Model.APELLIDO_PATERNO @Model.APELLIDO_MATERNO" readonly />
+            
+            <span>R.U.N. </span>
+            <input class="form-control col-2" id="lblRut" value="@Model.RUT" readonly />
+            
+            <span>con fecha</span>
+            <input class="col-2 form-control" readonly id="lblFechaHoy" value="@Model.FECHA_INICIO" />
+            
+            <span>y hora</span>
+            <input class="form-control col-1" value="@Model.HORA_INICIO" id="idHoraActual" />,
+            
+            <span>por medio del presente solicito </span><select id="cmbTipoSolicitud" class="form-control col-4"></select>
+            
+            <span>Realizo esta solicitud debido a los <b>motivos</b> que considero de <b>fuerza mayor</b> y que paso a señalar a continuación:</span>
+        
+            <textarea class="form-control" row="10" style="height:100px" maxlength="500" id="txtMotivoCambio" placeholder="A continuación, describa los motivos de la solicitud..."></textarea>
+        
+        </div>
+        
+        <div class="col-md-12">
+            <textarea class="form-control" row="10" style="height:100px" maxlength="500" id="txtMotivoOpcional" placeholder="Si desea agregar algún antecedente, describalo aquí, por ejemplo: Si coordinó con otro conductor el intercambiar jornada"></textarea>
+        </div>
+        <br />
+        <div class="modal-body">
+            <span class="text-danger"><b>Nota importante:</b></span>
+            <p class="text-primary">
+                Para asegurar que esta solicitud sea de carácter reservado, el equipo de <b>Conductor en RED ha cifrado la solicitud</b> y solo puede ser leída
+                por el destinatario; nadie del equipo de Conductor en RED puede leer, modificar o reenviar esta solicitud. <b class="text-primary">¡Su privacidad es lo más importante!</b>
+                Notificaremos al destinatario que tiene una solicitud pendiente.
+            </p>
+        </div>
+        <div class="modal-body">
+            <label>Antecedentes del día solicitado que implica el cambio</label>
+
+            <div class="form-row form-group col-12">
+                <div class="form-row">
+                    <span>Terminal de Inicio</span>
+                    <input class="form-control" id="lblTerminalInicio" value="@Model.NOMBRE_TERMINAL" />
+                </div>
+                <div class="form-row">
+                    <span>Fecha y hora de Inicio</span>
+                    <input class="form-control" id="lblFechaYhora" value="@Model.FECHA_HORA_INICIO" />
                 </div>
             </div>
-            <div class="form-row col-6">
-                <input class="label" value="@Model.NOMBRE + @Model.SEGUNDO_NOMBRE" />
-            </div>
+           
         </div>
-
-        <div class="form-row col-12">
-            <div class="form-row col-6">
-                <span>APELLIDO PATERNO:</span>
-            </div>
-            <div class="form-row col-6">
-                <input class="label" value="@Model.APELLIDO_PATERNO" />
-            </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline-light" id="btnCancelar">Cancelar</button>
+            <button class="btn btn-success" onclick="ShowEnviarSolictud();">Enviar Solicitud</button>
         </div>
-        <div class="form-row col-12">
-            <div class="form-row col-6">
-                <span>APELLIDO MATERNO:</span>
-            </div>
-            <div class="form-row col-6">
-                <input class="label" value="@Model.APELLIDO_MATERNO" />
-            </div>
-        </div>
-        <div class="form-row col-12">
-            <div class="form-row col-6">
-                <span>NOMBRE TERMINAL INICIO ACTUAL</span>
-            </div>
-            <div class="form-row col-6">
-                <input value="@Model.NOMBRE_TERMINAL" />
-            </div>
-        </div>
-        <div class="form-row col-12">
-            <div class="form-row form-group col-6 text-left">                
-                <span>FECHA Y HORA DE INICIO ACTUAL</span>
-            </div>
-            <div class="form-row col-6">
-                <input value="@Model.FECHA_HORA_INICIO" />
-            </div>
-        </div>        
     </div>
 </div>
+
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-title">
+                <div class="text-center">
+                    <h3 class="text-primary"><i class="far fa fa-info"></i> Información</h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                <span>¿Está seguro de ingresar esta solicitud?</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnEliminar" onclick="GuardarSolicitud();">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts
+    {
+    <script>
+        var tblRuta;
+
+        $(document).ready(function () {
+            CargarCmb();
+
+        });
+
+        function CargarCmb() {
+            $.ajax({
+                url: '../HorarioConductor/GetTipoSolicitudesCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var option = $(document.createElement('option'));
+                        option.val(data.data[i]["ID_TIPO_SOLICITUD"]);
+                        option.text(data.data[i]["NOMBRE_SOLICITUD"]);
+
+                        $("#cmbTipoSolicitud").append(option);
+                    }
+                }
+            });
+        }
+
+        function CerrarModal() {
+            $("#modalConfirmacion").modal("hide");
+        }
+
+        function ShowEnviarSolictud() {
+            $("#modalConfirmacion").modal("show");
+        }
+
+        function GuardarSolicitud() {
+            let idHorarioCambiar = $("#lblIdHorario").val();
+            let tipoSolicitud = $("#cmbTipoSolicitud option:selected").val();
+            let motivoSolictud = $("#txtMotivoCambio").val();
+
+            let motivoOpcional = "";
+            motivoOpcional = $("#txtMotivoOpcional").text();
+
+            console.log(idHorarioCambiar,tipoSolicitud,motivoSolictud,motivoOpcional)
+
+            $.ajax({
+                url: '../HorarioConductor/SetIngresarSolictud',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "idHorarioCambiar": idHorarioCambiar,
+                    "tipoSolicitud": tipoSolicitud,
+                    "motivoSolictud":motivoSolictud,
+                    "motivoOpcional": motivoOpcional
+                },
+                success: function (data) {
+                    if (data.Data.alert != '') {
+                        alertSuccess(data.Data.message)
+
+                        CerrarModal();
+
+                        $("#txtMotivoCambio").val("");
+                        $("#txtMotivoOpcional").val("");
+                        $("#lblNom").val("");
+                        $("#lblRut").val("");
+                        $("#lblFechaHoy").val("");
+                        $("#idHoraActual").val("");
+                        $("#lblTerminalInicio").val("");
+                        $("#lblFechaYhora").val("");
+
+                        $("#cmbTipoSolicitud option").attr("selected", false);
+
+                        $("cmbTipoSolicitud option[value='" + 0 + "']").attr("selected", "selected");
+                        
+                        setTimeout(function () {
+                            window.location.href = "/RedirectVistas/HomeVerHorario"
+                        }, 3000);
+                    }
+                }
+            });
+
+        }
+
+    </script>
+}

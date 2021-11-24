@@ -44,20 +44,15 @@
         <AssociationConnector Association="SoluinfoModel.FK_USUARIOS_SISTEMA_EMPRESA" />
         <AssociationConnector Association="SoluinfoModel.FK_USUARIOS_SISTEMA_TIPO_CONTRATO" />
         <AssociationConnector Association="SoluinfoModel.PERFIL_USUARIO_SISTEMA" />
-        <EntityTypeShape EntityType="SoluinfoModel.ESTADO_SOLICITUD" Width="1.5" PointX="0.75" PointY="4.75" />
         <EntityTypeShape EntityType="SoluinfoModel.SERVICIO" Width="1.5" PointX="8.25" PointY="17.5" />
-        <EntityTypeShape EntityType="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO" Width="1.5" PointX="6.75" PointY="0.75" />
         <EntityTypeShape EntityType="SoluinfoModel.TIPO_SOLICITUD_CAMBIO" Width="1.5" PointX="0.75" PointY="10.75" />
         <AssociationConnector Association="SoluinfoModel.FK_SERVICIO_EMPRESA" />
         <EntityTypeShape EntityType="SoluinfoModel.COMUNA" Width="1.5" PointX="0.75" PointY="13.875" />
         <AssociationConnector Association="SoluinfoModel.FK_USUARIOS_SISTEMA_COMUNA" />
-        <AssociationConnector Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_USUARIOS_SISTEMA" />
         <EntityTypeShape EntityType="SoluinfoModel.MENU" Width="1.5" PointX="8.25" PointY="12.875" />
         <AssociationConnector Association="SoluinfoModel.FK_ACCIONES_MENU" />
         <AssociationConnector Association="SoluinfoModel.FK_MENU_MENU" />
         <AssociationConnector Association="SoluinfoModel.FK_MENU_PROYECTOS" />
-        <AssociationConnector Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD" />
-        <AssociationConnector Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO" />
         <EntityTypeShape EntityType="SoluinfoModel.REGISTRO_HORARIO" Width="1.5" PointX="18.5" PointY="14.875" />
         <EntityTypeShape EntityType="SoluinfoModel.REGISTRO_VUELTAS" Width="1.5" PointX="20.75" PointY="14.5" />
         <AssociationConnector Association="SoluinfoModel.FK_REGISTRO_HORARIO_USUARIOS_SISTEMA" />
@@ -67,6 +62,11 @@
         <AssociationConnector Association="SoluinfoModel.FK_REGISTRO_VUELTAS_SENTIDO" />
         <AssociationConnector Association="SoluinfoModel.FK_REGISTRO_VUELTAS_SERVICIO" />
         <AssociationConnector Association="SoluinfoModel.FK_REGISTRO_VUELTAS_TERMINAL" />
+        <EntityTypeShape EntityType="SoluinfoModel.ESTADO_SOLICITUD" Width="1.5" PointX="10.875" PointY="21.25" />
+        <EntityTypeShape EntityType="SoluinfoModel.SOLICITUD_CAMBIO_HORARIO" Width="1.5" PointX="18.5" PointY="19" />
+        <AssociationConnector Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_ESTADO_SOLICITUD" />
+        <AssociationConnector Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_HORARIO_CONDUCTOR" />
+        <AssociationConnector Association="SoluinfoModel.FK_SOLICITUD_CAMBIO_HORARIO_TIPO_SOLICITUD_CAMBIO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
