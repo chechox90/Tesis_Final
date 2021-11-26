@@ -13,6 +13,10 @@
     .divFlot {
         text-align: right
     }
+
+    input:invalid {
+        border: 1px solid red;
+    }
 </style>
 
 <div class="page-title">
@@ -32,25 +36,25 @@
         <div class="col-12">
             <div class="form-row">
                 <div class="col-sm-3 form-group">
-                    <label for="nombre">Nombre</label>
-                    <input id="txtNombre" type="text" name="nombre" placeholder="Nombre" class="form-control" />
+                    <label for="nombre">Nombre *</label>
+                    <input id="txtNombre" type="text" name="nombre" onkeyup="CamelCase(this);" placeholder="Nombre" class="form-control" required />
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
-                        <label for="Direcccion">Segundo Nombre</label>
-                        <input id="txtSegNombre" type="text" name="segNombre" placeholder="Segundo Nombre" class="form-control" />
+                        <label for="Direcccion">Segundo Nombre *</label>
+                        <input id="txtSegNombre" type="text" name="segNombre" onkeyup="CamelCase(this);" placeholder="Segundo Nombre" class="form-control" required />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
-                        <label for="APELIDO1">Apellido Paterno</label>
-                        <input id="txtApePater" type="text" name="APELIDO1" placeholder="Apellido Paterno" class="form-control" />
+                        <label for="APELIDO1">Apellido Paterno *</label>
+                        <input id="txtApePater" type="text" name="APELIDO1" onkeyup="CamelCase(this);" placeholder="Apellido Paterno" class="form-control" required />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
-                        <label for="ApeMate">Apellido Marterno</label>
-                        <input id="txtApeMate" type="text" name="ApeMate" placeholder="Apellido Materno" class="form-control" />
+                        <label for="ApeMate">Apellido Marterno *</label>
+                        <input id="txtApeMate" type="text" name="ApeMate" onkeyup="CamelCase(this);" placeholder="Apellido Materno" class="form-control" required />
                     </div>
                 </div>
             </div>
@@ -59,19 +63,19 @@
             <div class="form-row">
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
-                        <label for="rut">R.U.N.</label>
-                        <input id="txtRut" type="text" name="rut" placeholder="R.U.N." class="form-control" />
+                        <label for="rut">R.U.N. *</label>
+                        <input id="txtRut" type="text" name="rut" onblur="onBlurRut(this);" placeholder="R.U.N." class="form-control" />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group">
-                        <label for="CodigoBarra">Codigo de Barra</label>
+                        <label for="CodigoBarra">Codigo de Barra *</label>
                         <input id="txtCodigoBarra" type="text" name="CodigoBarra" placeholder="Codigo de Barra" class="form-control" />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group">
-                        <label for="Comuna">Comuna</label>
+                        <label for="Comuna">Comuna *</label>
                         <select id="cmbComuna" type="text" name="Comuna" class="form-control"></select>
                     </div>
                 </div>
@@ -81,20 +85,26 @@
             <div class="form-row">
                 <div class="col-sm-3 form-group">
                     <div class="form-group">
-                        <label for="TipoContrato">Tipo Contrato</label>
+                        <label for="TipoContrato">Tipo Contrato *</label>
                         <select id="cmbTipoContrato" type="text" name="TipoContrato" class="form-control"></select>
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
-                        <label for="correo">Correo</label>
-                        <input id="txtCorreo" type="email" name="correo" placeholder="ejemplo@ejemplo.cl" class="form-control" />
+                        <label for="correo">Correo *</label>
+                        <input id="txtCorreo" type="email" name="correo" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
-                        <label for="correoAlte">Correo Alternativo</label>
-                        <input id="txtCorreoAlt" type="email" name="correoAlte" placeholder="ejemplo@ejemplo.cl" class="form-control" />
+                        <label for="correoAlte">Correo Alternativo *</label>
+                        <input id="txtCorreoAlt" type="email" name="correoAlte" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-3 form-group">
+                    <div class="form-group">
+                        <label for="PERFIL">Perfil *</label>
+                        <select id="cmbPerfil" type="text" name="PERFIL" class="form-control"></select>
                     </div>
                 </div>
             </div>
@@ -103,21 +113,27 @@
             <div class="form-row">
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
-                        <label for="txtClave">Clave</label>
-                        <input id="txtClave" type="password" name="Clave" autocomplete="off" placeholder="Clave" class="form-control" />
+                        <label for="txtClave">Clave *</label>
+                            <input id="txtClave" type="password" name="Clave" autocomplete="off" placeholder="Clave" class="form-control" />
+                            <span class="input-group-addon" onclick="VerClave()">
+                                <icon id="icon" class="fa fa-eye-slash"></icon>
+                            </span>
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
-                        <label for="repClave">Repita Clave</label>
-                        <input id="txtRepClave" type="password" name="repClave" autocomplete="off" placeholder="Repita Clave" class="form-control" />
+                        <label for="repClave">Repita Clave *</label>
+                        <input id="txtRepClave" type="password" name="repClave" autocomplete="off" onblur="onBlurClave(this);" placeholder="Repita Clave" class="form-control" />
+                        <span class="input-group-addon" onclick="VerClaveRep()">
+                            <icon id="iconRep" class="fa fa-eye-slash"></icon>
+                        </span>
                     </div>
 
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group">
                         <div class="input-group">
-                            <label>Cambio Password</label>
+                            <label>Cambio Password *</label>
                         </div>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -137,6 +153,9 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <label class="text-danger">* Todos los compos son requeridos</label>
+            </div>
         </div>
     </div>
 
@@ -147,7 +166,6 @@
         </div>
     </div>
 </div>
-
 
 @section scripts
     {
@@ -188,6 +206,23 @@
                         optionCon.text(data.data[i]["NOMBRE_TIPO_CONTRATO"]);
 
                         $("#cmbTipoContrato").append(optionCon);
+                    }
+                }
+            });
+
+            $.ajax({
+                url: '../MantenedorUsuario/GetPerfilCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionCon = $(document.createElement('option'));
+                        optionCon.val(data.data[i]["IdPerfil"]);
+                        optionCon.text(data.data[i]["Nombre"]);
+
+                        $("#cmbPerfil").append(optionCon);
                     }
                 }
             });
@@ -273,5 +308,97 @@
             }, 3000);
         }
 
+
+        function CamelCase(texto) {
+            var mayuscula = "";
+            var minuscula = "";
+            var palabra = "";
+
+            palabra = texto.value;
+
+            if (!texto.value) return;
+
+            mayuscula = palabra.substring(0, 1).toUpperCase();
+
+            if (palabra.length > 0)
+                minuscula = palabra.substring(1).toLowerCase();
+
+
+            document.getElementById(texto.id).value = mayuscula.concat(minuscula);
+
+        }
+
+        function LowerCase(texto) {
+            var mayuscula = "";
+            var minuscula = "";
+            var palabra = "";
+
+            palabra = texto.value;
+            if (!texto.value) return;
+
+            if (palabra.length > 0)
+                minuscula = palabra.toLowerCase();
+
+            document.getElementById(texto.id).value = minuscula;
+
+        }
+
+        function onBlurRut(texto) {
+            var rut = texto.value;
+            if (rut != "") {
+                $.ajax({
+                    url: '../MantenedorUsuario/ValidarRutCompleto',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "rut": rut
+                    },
+                    success: function (data) {
+                        document.getElementById(texto.id).value = data.Data.data;
+                    }
+                });
+            }
+
+        }
+
+        function onBlurClave(texto) {
+            var claveRepetida = texto.value;
+            var clave = $("#txtClave").val();
+
+            if (clave != claveRepetida) {
+                alertDanger("Las claves ingresadas no coinciden")
+            }
+        }
+
+        function VerClave() {
+            var className = $("#icon").attr('class');
+
+            if (className == "fa fa-eye-slash") {
+                $("#txtClave").attr('type', 'text');
+                $("#icon").removeClass("fa fa-eye-slash");
+                $("#icon").addClass("fa fa-eye");
+            } else {
+                $("#txtClave").attr('type', 'password');
+                $("#icon").removeClass("fa fa-eye");
+                $("#icon").addClass("fa fa-eye-slash");
+            }
+
+        }
+
+        function VerClaveRep() {
+            var className = $("#iconRep").attr('class');
+
+            if (className == "fa fa-eye-slash") {
+                $("#txtRepClave").attr('type', 'text');
+                $("#iconRep").removeClass("fa fa-eye-slash");
+                $("#iconRep").addClass("fa fa-eye");
+            } else {
+                $("#txtRepClave").attr('type', 'password');
+                $("#iconRep").removeClass("fa fa-eye");
+                $("#iconRep").addClass("fa fa-eye-slash");
+            }
+
+        }
     </script>
 }

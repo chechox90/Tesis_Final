@@ -4,8 +4,10 @@ using DLL.NEGOCIO.Seguridad.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication1.Helpers;
 
 namespace ConductorEnRed.Controllers
 {
@@ -133,8 +135,8 @@ namespace ConductorEnRed.Controllers
             user.CODIGO_BARRA = DtoUsuario.CODIGO_BARRA;
             user.ESTADO = DtoUsuario.ESTADO;
 
-            return View("~/Views/Administracion/EditarUsuario.cshtml",user);
-           
+            return View("~/Views/Administracion/EditarUsuario.cshtml", user);
+
         }
 
         [HttpPost]
@@ -226,7 +228,7 @@ namespace ConductorEnRed.Controllers
                     ID_EMPRESA = 1,
                     ID_COMUNA = UsuarioNuevo[0].ID_COMUNA,
                     ID_TIPO_CONTRATO = UsuarioNuevo[0].ID_TIPO_CONTRATO,
-                    CLAVE = UsuarioNuevo[0].CLAVE,
+                    CLAVE = HashHelper.MD5(UsuarioNuevo[0].CLAVE),
                     RUT = UsuarioNuevo[0].RUT,
                     NOMBRE = UsuarioNuevo[0].NOMBRE,
                     SEGUNDO_NOMBRE = UsuarioNuevo[0].SEGUNDO_NOMBRE,
@@ -282,7 +284,7 @@ namespace ConductorEnRed.Controllers
                     ID_USUARIO = Usuario[0].ID_USUARIO,
                     ID_COMUNA = Usuario[0].ID_COMUNA,
                     ID_TIPO_CONTRATO = Usuario[0].ID_TIPO_CONTRATO,
-                    CLAVE = Usuario[0].CLAVE,
+                    CLAVE = HashHelper.MD5(Usuario[0].CLAVE),
                     RUT = Usuario[0].RUT,
                     NOMBRE = Usuario[0].NOMBRE,
                     SEGUNDO_NOMBRE = Usuario[0].SEGUNDO_NOMBRE,
@@ -325,5 +327,82 @@ namespace ConductorEnRed.Controllers
                 throw;
             }
         }
+
+        public ActionResult ValidarRutCompleto(string rut)
+        {
+
+            if (!rut.Contains('-'))
+                rut = rut.Substring(0, rut.Length - 1) + "-" + rut.Substring(rut.Length - 1, 1);
+
+            if (rut.Contains('.'))
+                rut = rut.Replace(".", "").Trim();
+
+            Regex expresion = new Regex("^([0-9]+-[0-9K])$");
+            string dv = rut.Substring(rut.Length - 1, 1);
+
+            if (!expresion.IsMatch(rut))
+            {
+                return new JsonResult()
+                {
+                    Data = Json(new { data = "", message = "" })
+                };
+            }
+            char[] charCorte = { '-' };
+            string[] rutTemp = rut.Split(charCorte);
+            if (dv != Digito(int.Parse(rutTemp[0])))
+            {
+                return new JsonResult()
+                {
+                    Data = Json(new { data = "", message = "" })
+                };
+            }
+
+            rut = IngresarPuntosEnRut(rut);
+
+            return new JsonResult()
+            {
+                Data = Json(new { data = rut, message = "" })
+            };
+        }
+
+        public static string Digito(int rut)
+        {
+            int suma = 0;
+            int multiplicador = 1;
+            while (rut != 0)
+            {
+                multiplicador++;
+                if (multiplicador == 8)
+                    multiplicador = 2;
+                suma += (rut % 10) * multiplicador;
+                rut = rut / 10;
+            }
+            suma = 11 - (suma % 11);
+            if (suma == 11)
+            {
+                return "0";
+            }
+            else if (suma == 10)
+            {
+                return "K";
+            }
+            else
+            {
+                return suma.ToString();
+            }
+        }
+
+        public static string IngresarPuntosEnRut(string rut)
+        {
+            rut = rut.Replace("-", "");
+            var primerGrupo = rut.Substring(rut.Length - 4);
+            var segundoGrupo = rut.Substring(rut.Length - 7).Substring(0, 3);
+            int resta = rut.Length - 7;
+            var tercerGrupo = rut.Substring(0, resta);
+            rut = tercerGrupo + "." + segundoGrupo + "." + primerGrupo.Substring(0, 3) + "-" + primerGrupo.Substring(3, 1);
+
+            return rut;
+        }
+
     }
 }

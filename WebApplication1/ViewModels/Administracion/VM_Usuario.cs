@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,9 +8,12 @@ namespace ConductorEnRed.ViewModels.Administracion
 {
     public class VM_Usuario
     {
+        
         public int ID_USUARIO { get; set; }
         public int ID_EMPRESA { get; set; }
         public string RUT { get; set; }
+
+        [Required(ErrorMessage = "Debe ingresar un nombre")]
         public string NOMBRE { get; set; }
         public string SEGUNDO_NOMBRE { get; set; }
         public string APELLIDO_PATERNO { get; set; }

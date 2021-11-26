@@ -32,7 +32,7 @@
 <div class="content-filters-b">
     <div class="card">
         <div class="form-row">
-            <a class="btn btn-success" type="button" id="btnNuevoTerminal" href="/RedirectVistas/HomeEditUsuario"><i class="far fa-user"></i> Nuevo Usuraio</a>
+            <a class="btn btn-success" type="button" id="btnNuevoUsuario" href="/RedirectVistas/HomeNuevoUsuario"><i class="far fa-user"></i> Nuevo Usuraio</a>
         </div>
     </div>
 </div>
@@ -82,13 +82,10 @@
                 lengthChange: true,
                 pageLength: 15,
                 lengthMenu: [[15, 25, 50, -1], [15, 25, 50, "Todos"]],
-                columnDefs: [
-                    { targets: [0, 3, 4], searchable: false, orderable: false }
-                ],
                 language: {
                     "url": "../Plugins/DataTables/js/Spanish.json"
                 },
-                order: [[4, "desc"]],
+                order: [[1, "asc"]],
                 initComplete: function () {
                     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
                 },
@@ -99,28 +96,28 @@
                     data: null
                 },
                 columns: [
-                    { data: "ID_USUARIO", visible: false },
-                    { data: "NOMBRE", title: "NOMBRE", name: "NOPMBRE" },
-                    { data: "SEGUNDO_NOMBRE", title: "NOMBRES", name: "NOMBRES" },
-                    { data: "APELLIDO_PATERNO", title: "APELLIDO PATERNO", name: "APELLIDO_PATERNO" },
-                    { data: "APELLIDO_MATERNO", title: "APELLIDO MATERNO", name: "APELLIDO_MATERNO" },
-                    { data: "CORREO", title: "CORREO", name: "CORREO" },
-                    { data: "CORREO_ALTERNATIVO", title: "CORREO ALTERNATIVO", name: "CORREO_ALTERNATIVO" },
-                    { data: "CODIGO_BARRA", title: "CODIGO BARRA", name: "CODIGO_BARRA" },
-                    { data: "RUT", title: "R.U.N.", name: "RUT" },
-                    { data: "DIRECCION", title: "DIRECCIÓN", name: "DIRECCION" },
-                    { data: "NOMBRE_CONTRATO", title: "NOMBRE CONTRATO", name: "NOMBRE_CONTRTO" },
-                    { data: "NOMBRE_PERFIL", title: "PERFIL", name: "PERFIL" },
+                    { data: "ID_USUARIO", visible: false, searchable: false },
+                    { data: "NOMBRE", title: "NOMBRE", name: "NOMBRE"},
+                    { data: "SEGUNDO_NOMBRE", title: "NOMBRES", name: "NOMBRES", orderable: false },
+                    { data: "APELLIDO_PATERNO", title: "APELLIDO PATERNO", name: "APELLIDO_PATERNO", orderable: false },
+                    { data: "APELLIDO_MATERNO", title: "APELLIDO MATERNO", name: "APELLIDO_MATERNO", orderable: false },
+                    { data: "CORREO", title: "CORREO", name: "CORREO", orderable: false },
+                    { data: "CORREO_ALTERNATIVO", title: "CORREO ALTERNATIVO", name: "CORREO_ALTERNATIVO", orderable: false },
+                    { data: "CODIGO_BARRA", title: "CODIGO BARRA", name: "CODIGO_BARRA", orderable: false },
+                    { data: "RUT", title: "R.U.N.", name: "RUT", orderable: false },
+                    { data: "DIRECCION", title: "DIRECCIÓN", name: "DIRECCION", orderable: false },
+                    { data: "NOMBRE_CONTRATO", title: "NOMBRE CONTRATO", name: "NOMBRE_CONTRTO", orderable: false },
+                    { data: "NOMBRE_PERFIL", title: "PERFIL", name: "PERFIL", orderable: false },
                     {
                         title: "GESTIÓN",
                         orderable: false,
-
-                        render: function (data, type, full, meta) {
+                        searchable: false,
+                            render: function (data, type, full, meta) {
                             var html = '';
 
                             html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarUsuario(' + full.ID_USUARIO + ',' + "'" + full.NOMBRE + "'" + ',' + "'" + full.APELLIDO_PATERNO + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
                                 '<span>&nbsp;&nbsp;</span>' +
-                                '<a href="/MantenedorUsuario/GetEditarUsuarioActivo?idUsuario=' + full.ID_USUARIO +'"><i class="far fa-edit text-success"></i>\</a>';
+                                '<a href="/MantenedorUsuario/GetEditarUsuarioActivo?idUsuario=' + full.ID_USUARIO + '"><i class="far fa-edit text-success"></i>\</a>';
 
                             return html;
                         }
@@ -172,6 +169,8 @@
             $("#modalConfirmacion").modal("hide");
 
         }
+
+        
 
     </script>
 }

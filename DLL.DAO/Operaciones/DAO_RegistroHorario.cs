@@ -63,6 +63,57 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public List<DTO_RegistroVueltas> GetRegistroVueltasByAll()
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    DateTime fechHoy = DateTime.Now;
+
+                    List<DTO_RegistroVueltas> dtoRegistro = (from reg in context.REGISTRO_VUELTAS
+                                                             join ter in context.TERMINAL on reg.ID_TERMINAL_INICIO equals ter.ID_TERMINAL
+                                                             join ser in context.SERVICIO on reg.ID_SERVICIO_INICIO equals ser.ID_SERVICIO
+                                                             join sen in context.SENTIDO on reg.ID_SENTIDO_INICIO equals sen.ID_SENTIDO
+                                                             join b in context.BUS on reg.ID_BUS_INICIO equals b.ID_BUS
+                                                             join regH in context.REGISTRO_HORARIO on reg.ID_REGISTRO_HORARIO equals regH.ID_REGISTRO_HORARIO
+                                                             where reg.ESTADO == true 
+                                                             && regH.FECHA_HORA_INICIO.Day == fechHoy.Day
+                                                             && regH.FECHA_HORA_INICIO.Month == fechHoy.Month
+                                                             && regH.FECHA_HORA_INICIO.Year == fechHoy.Year
+                                                             select new DTO_RegistroVueltas
+                                                             {
+                                                                 ID_REGISTRO_VUELTAS = reg.ID_REGISTRO_VUELTAS,
+                                                                 ID_REGISTRO_HORARIO = reg.ID_REGISTRO_HORARIO,
+                                                                 //INICIO
+                                                                 NOMBRE_TERMINAL_INICIO = ter.NOMBRE_TERMINAL,
+                                                                 NUMERO_BUS_INICIO = b.ID_INTERNO_BUS,
+                                                                 NOMBRE_SERVICIO_INICIO = ser.NOMBRE_SERVICIO,
+                                                                 SEN_INI_CORTO = sen.NOMBRE_CORTO_SENTIDO,
+                                                                 FECHA_HORA_INICIO = reg.FECHA_HORA_INICIO,
+                                                                 //FIN
+                                                                 NOMBRE_TERMINAL_FIN = context.TERMINAL.Where(x => x.ID_TERMINAL == reg.ID_TERMINAL_FIN).Select(x => x.NOMBRE_TERMINAL).FirstOrDefault(),
+                                                                 NUMERO_BUS_FIN = context.BUS.Where(b => b.ID_BUS == reg.ID_BUS_FIN).Select(b => b.ID_INTERNO_BUS).FirstOrDefault(),
+                                                                 NOMBRE_SERVICIO_FIN = context.SERVICIO.Where(s => s.ID_SERVICIO == reg.ID_SERVICIO_FIN).Select(s => s.NOMBRE_SERVICIO).FirstOrDefault(),
+                                                                 SEN_FIN_CORTO = context.SENTIDO.Where(se => se.ID_SENTIDO == reg.ID_SENTIDO_FIN).Select(se => se.NOMBRE_CORTO_SENTIDO).FirstOrDefault(),
+                                                                 FECHA_HORA_FIN = reg.FECHA_HORA_FIN,
+
+                                                                 ESTADO = reg.ESTADO
+                                                             }).Where(x => x.ESTADO == true).ToList();
+
+
+                    return dtoRegistro;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
         public DTO_RegistroVueltas GetRegistroVueltasByAllId(int idVuelta)
         {
             try

@@ -6,6 +6,8 @@ namespace DLL.DAO.Operaciones.Interfaces
     public interface I_DAO_RegistroHorario
     {
         List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idRegistroHorario);
+        
+        List<DTO_RegistroVueltas> GetRegistroVueltasByAll();
 
         DTO_RegistroVueltas GetRegistroVueltasByAllId(int idVuelta);
 

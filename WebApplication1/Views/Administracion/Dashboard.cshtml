@@ -11,7 +11,7 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body" height="100">
-                    <canvas id="AguaNoUsada"  ></canvas>
+                    <canvas id="AguaNoUsada"></canvas>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
 
 <br />
 <div class="col-md-12 card" id="divTablaHorarios">
-    <table id="tblTerminales" class="table table-striped table-hover">
+    <table id="tblVueltas" class="table table-striped table-hover">
     </table>
 </div>
 
@@ -36,10 +36,11 @@
 
     <script src="~/Plugins/package/dist/chart.js"></script>
     <script>
-        $(document).ready(function () {
+        var tblVueltas;
 
+        $(document).ready(function () {
             graficoIncio();
-            CargarTerminales();
+            CargarVueltas();
         });
 
         function graficoIncio() {
@@ -84,7 +85,7 @@
                             loop: true
                         }
                     },
-                   
+
                 }
             });
 
@@ -137,8 +138,8 @@
             });
         }
 
-        function CargarTerminales() {
-            tblTerminal = $("#tblTerminales").DataTable({
+        function CargarVueltas() {
+            tblVueltas = $("#tblVueltas").DataTable({
                 dom: "<'card-header flex-column flex-lg-row align-items-start align-items-lg-center'<'d-flex flex-column flex-lg-row justify-content-start align-items-lg-center'<'titleRev mr-2'><'comboFil mb-2 mb-lg-0'>><'d-flex justify-content-md-end'fl>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
                 scrollX: true,
                 processing: true,
@@ -157,31 +158,42 @@
                     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
                 },
                 ajax: {
-                    url: "../Mantenedor/GetTerminalesActivos",
+                    url: "../Mantenedor/GetRegistroVueltasFechaActual",
                     type: "POST",
                     dataType: "json",
                     data: null
                 },
                 columns: [
-                    { data: "ID_TERMINAL", visible: false, searchable: false },
-                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL", orderable: false },
-                    { data: "DIRECCION", title: "DIRECCIÓN", name: "DIRECCION", orderable: false },
-                    { data: "NUM_DIRECCION", title: "N° DIRECCION", name: "NUM_DIRECCION", orderable: false },
-                    { data: "NOMBRE_EMPRESA", title: "NOMBRE EMPRESA", name: "NOMBRE_EMPRESA", orderable: false },
+                    { data: "ID_REGISTRO_VUELTAS", visible: false, searchable: false },
+                    { data: "NOMBRE_TERMINAL_INICIO", title: "Terminal inicio", name: "NOMBRE_TERMINAL_INICIO", orderable: false },
+                    { data: "NUMERO_BUS_INICIO", title: "Bus inicio", name: "NUMERO_BUS_INICIO", orderable: false },
+                    { data: "NOMBRE_SERVICIO_INICIO", title: "Servicio inicio", name: "NOMBRE_SERVICIO_INICIO", orderable: false },
+                    { data: "SEN_INI_CORTO", title: "Sentido inicio", name: "SEN_INI_CORTO", orderable: false },
                     {
-                        title: "GESTIÓN",
-                        orderable: false,
-                        searchable: false,
-                        render: function (data, type, full, meta) {
-                            var html = '';
+                        data: null, title: "Fecha Inicio", name: "FECHA_HORA_INICIO", render:
+                            function (full) {
+                                if (moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY') != '31/12/0000') {
+                                    return moment(full.FECHA_HORA_FIN).format('DD/MM/YYYY');
+                                } else {
+                                    return "";
+                                }
 
-                            html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarTerminal(' + full.ID_TERMINAL + "," + "'" + full.NOMBRE_TERMINAL + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
-                                '<span>&nbsp;&nbsp;</span>' +
-                                '<a role="button" class="btn-table-bg " onclick="ShowEditarTerminal(' + full.ID_TERMINAL + ',' + "'" + full.NOMBRE_TERMINAL + "'" + ',' + "'" + full.DIRECCION + "'" + ',' + "'" + full.NUM_DIRECCION + "'" + ')">' +
-                                '<i class="far fa-edit text-success"></i></a>';
+                            }
+                    },
+                    { data: "NOMBRE_TERMINAL_FIN", title: "Terminal fin", name: "NOMBRE_TERMINAL_FIN", orderable: false },
+                    { data: "NOMBRE_SERVICIO_FIN", title: "Servicio fin", name: "NOMBRE_SERVICIO_FIN", orderable: false },
+                    { data: "SEN_FIN_CORTO", title: "Sentido fin", name: "SEN_FIN_CORTO", orderable: false },
+                    { data: "NUMERO_BUS_FIN", title: "Bus fin", name: "NOMBRE_EMPRESA", orderable: false },
+                    {
+                        data: null, title: "Fecha fin", name: "FECHA_HORA_FIN", render:
+                            function (full) {
+                                if (moment(full.FECHA_HORA_FIN).format('DD/MM/YYYY') != '31/12/0000') {
+                                    return moment(full.FECHA_HORA_FIN).format('DD/MM/YYYY');
+                                } else {
+                                    return "";
+                                }
 
-                            return html;
-                        }
+                            }
                     },
                 ]
             });

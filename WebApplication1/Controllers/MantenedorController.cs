@@ -1034,6 +1034,55 @@ namespace ConductorEnRed.Controllers
         }
 
         [HttpPost]
+        public ActionResult GetRegistroVueltasFechaActual()
+        {
+            try
+            {
+                List<DTO_RegistroVueltas> vueltas = new List<DTO_RegistroVueltas>();
+                List<DTO_RegistroVueltas> vueltasM = new List<DTO_RegistroVueltas>();
+                vueltas = _i_n_RegistroHorario.GetRegistroVueltasByAll();
+
+                int i = 1;
+                foreach (var item in vueltas)
+                {
+                    DTO_RegistroVueltas v = new DTO_RegistroVueltas();
+
+                    v.ID_REGISTRO_VUELTAS = item.ID_REGISTRO_VUELTAS;
+                    v.NUMERO_VUELTA = i;
+
+                    v.NOMBRE_TERMINAL_INICIO = item.NOMBRE_TERMINAL_INICIO;
+                    v.NUMERO_BUS_INICIO = item.NUMERO_BUS_INICIO;
+                    v.NOMBRE_SERVICIO_INICIO = item.NOMBRE_SERVICIO_INICIO;
+                    v.SEN_INI_CORTO = item.SEN_INI_CORTO;
+                    v.FECHA_HORA_INICIO = item.FECHA_HORA_INICIO;
+
+                    v.NOMBRE_TERMINAL_FIN = item.NOMBRE_TERMINAL_FIN;
+                    v.NOMBRE_SERVICIO_FIN = item.NOMBRE_SERVICIO_FIN;
+                    v.SEN_FIN_CORTO = item.SEN_FIN_CORTO;
+                    v.NUMERO_BUS_FIN = item.NUMERO_BUS_FIN;
+                    v.FECHA_HORA_FIN = item.FECHA_HORA_FIN;
+
+                    vueltasM.Add(v);
+
+                    i++;
+                }
+
+                return Json(new
+                {
+                    data = vueltasM,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+
+
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
         public ActionResult SetRegistroInicioHorario(int idHorarioCond, string HoraInicio, int Idterminal)
         {
             try
