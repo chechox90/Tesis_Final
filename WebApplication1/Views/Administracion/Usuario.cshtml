@@ -37,24 +37,24 @@
             <div class="form-row">
                 <div class="col-sm-3 form-group">
                     <label for="nombre">Nombre *</label>
-                    <input id="txtNombre" type="text" name="nombre" onkeyup="CamelCase(this);" placeholder="Nombre" class="form-control" required />
+                    <input id="txtNombre" type="text" name="nombre" onkeyup="CamelCase(this);" placeholder="Pedro" class="form-control" required />
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
                         <label for="segNombre">Segundo Nombre *</label>
-                        <input id="txtSegNombre" type="text" name="segNombre" onkeyup="CamelCase(this);" placeholder="Segundo Nombre" class="form-control" required />
+                        <input id="txtSegNombre" type="text" name="segNombre" onkeyup="CamelCase(this);" placeholder="Antonio" class="form-control" required />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
                         <label for="APELIDO1">Apellido Paterno *</label>
-                        <input id="txtApePater" type="text" name="APELIDO1" onkeyup="CamelCase(this);" placeholder="Apellido Paterno" class="form-control" required />
+                        <input id="txtApePater" type="text" name="APELIDO1" onkeyup="CamelCase(this);" placeholder="Chaparro" class="form-control" required />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
                         <label for="ApeMate">Apellido Marterno *</label>
-                        <input id="txtApeMate" type="text" name="ApeMate" onkeyup="CamelCase(this);" placeholder="Apellido Materno" class="form-control" required />
+                        <input id="txtApeMate" type="text" name="ApeMate" onkeyup="CamelCase(this);" placeholder="Chaparro" class="form-control" required />
                     </div>
                 </div>
             </div>
@@ -64,13 +64,13 @@
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
                         <label for="rut">R.U.N. *</label>
-                        <input id="txtRut" type="text" name="rut" onblur="onBlurRut(this);" placeholder="R.U.N." class="form-control" />
+                        <input id="txtRut" type="text" name="rut" onblur="onBlurRut(this);" placeholder="9999999-0" class="form-control" required/>
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group">
                         <label for="CodigoBarra">Codigo de Barra *</label>
-                        <input id="txtCodigoBarra" type="text" name="CodigoBarra" placeholder="Codigo de Barra" class="form-control" />
+                        <input id="txtCodigoBarra" type="text" name="CodigoBarra" placeholder="0100220225" class="form-control" required/>
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
@@ -86,19 +86,19 @@
                 <div class="col-sm-3 form-group">
                     <div class="form-group">
                         <label for="TipoContrato">Tipo Contrato *</label>
-                        <select id="cmbTipoContrato" type="text" name="TipoContrato" class="form-control"></select>
+                        <select id="cmbTipoContrato" type="text" name="TipoContrato" class="form-control" required></select>
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
                         <label for="correo">Correo *</label>
-                        <input id="txtCorreo" type="email" name="correo" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" />
+                        <input id="txtCorreo" type="email" name="correo" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" required/>
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
                         <label for="correoAlte">Correo Alternativo *</label>
-                        <input id="txtCorreoAlt" type="email" name="correoAlte" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" />
+                        <input id="txtCorreoAlt" type="email" name="correoAlte" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" required/>
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
@@ -114,7 +114,7 @@
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
                         <label for="txtClave">Clave *</label>
-                        <input id="txtClave" type="password" name="Clave" autocomplete="off" placeholder="Clave" class="form-control" />
+                        <input id="txtClave" type="password" name="Clave" autocomplete="off" placeholder="Clave" class="form-control" required/>
                         <span class="input-group-addon" onclick="VerClave()">
                             <icon id="icon" class="fa fa-eye-slash"></icon>
                         </span>
@@ -123,7 +123,7 @@
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
                         <label for="repClave">Repita Clave *</label>
-                        <input id="txtRepClave" type="password" name="repClave" autocomplete="off" onblur="onBlurClave(this);" placeholder="Repita Clave" class="form-control" />
+                        <input id="txtRepClave" type="password" name="repClave" autocomplete="off" onblur="onBlurClave(this);" placeholder="Repita Clave" class="form-control" required/>
                         <span class="input-group-addon" onclick="VerClaveRep()">
                             <icon id="iconRep" class="fa fa-eye-slash"></icon>
                         </span>
@@ -146,9 +146,9 @@
                 <div class="col-sm-3 form-group">
                     <div class="form-row">
                         <div class="custom-control custom-switch">
+                            <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="left" title="Seleccionar casilla para asignar permisos administrador"></i>
+                            <input id="chkAdmin" type="checkbox" />
                             <label for="correoAlte">Administrador</label>
-                            <span>SI</span><input type="checkbox" />
-                            <span>NO</span><input type="checkbox" />
                         </div>
                     </div>
                 </div>
@@ -162,7 +162,7 @@
     <div class="col-md-12 ">
         <div class="form-group text-right">
             <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Volver</button>
-            <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="ValidacionesGenerales();"><i class="fas fa-users"></i> Guardar</button>
+            <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoUsuario();"><i class="fas fa-users"></i> Guardar</button>
         </div>
     </div>
 </div>
@@ -232,6 +232,7 @@
         function GuardarNuevoUsuario() {
             let idComuna = $("#cmbComuna option:selected").val();
             let idTipoContrato = $("#cmbTipoContrato option:selected").val();
+            let perfil = $("#cmbPerfil option:selected").val();
             let clave = $("#txtClave").val();
             let repClave = $("#txtRepClave").val();
             let correo = $("#txtCorreo").val();
@@ -243,12 +244,12 @@
             let apllidoPaterno = $("#txtApePater").val();
             let apellidoMaterno = $("#txtApeMate").val();
             let cambioPassword = $("#txtFechaVencePass").val();
-            let administrador = true; //$("#txtMotivoCambio").val();
+            let administrador = $("#chkAdmin").is(":checked");
 
             var respuesta = ValidacionesGenerales(nombre, apllidoPaterno, apellidoMaterno, rut, idTipoContrato,
                 correo, correoAlternativo, perfil, idComuna, clave, repClave);
 
-            if (respues == "") {
+            if (respuesta == "") {
                 var UsuarioNuevo = [
                     {
                         ID_COMUNA: idComuna,
@@ -260,6 +261,7 @@
                         CODIGO_BARRA: codigoBarra,
                         RUT: rut,
                         NOMBRE: nombre,
+                        ID_PERFIL: perfil,
                         SEGUNDO_NOMBRE: segundoNombre,
                         APELLIDO_PATERNO: apllidoPaterno,
                         APELLIDO_MATERNO: apellidoMaterno,
@@ -352,6 +354,7 @@
 
         function onBlurRut(texto) {
             var rut = texto.value;
+
             if (rut != "") {
                 $.ajax({
                     url: '../MantenedorUsuario/ValidarRutCompleto',
@@ -362,11 +365,17 @@
                         "rut": rut
                     },
                     success: function (data) {
-                        document.getElementById(texto.id).value = data.Data.data;
+                        if (data.Data.message != "") {
+                            document.getElementById(texto.id).value = data.Data.data;
+                        } else {
+                            alertDanger(data.Data.data);
+                            document.getElementById(texto.id).focus();
+                        }
+                        
                     }
                 });
             }
-
+            
         }
 
         function onBlurClave(texto) {
@@ -411,57 +420,41 @@
         function ValidacionesGenerales(nombre, apllidoPaterno, apellidoMaterno, rut, idTipoContrato,
             correo, correoAlternativo, perfil, idComuna, clave, repClave) {
 
-            var mensaje = "";
+            if (nombre == undefined || nombre == "" || nombre.length < 3 || nombre == null)
+                return "Debe ingresar un nombre para continuar";
 
-            if (nombre == undefined || nombre == "" || nonbre.length < 3 || nombre == null) {
-                mensaje = "Ingrese un para nombre continuar";
-            }
+            if (apllidoPaterno == undefined || apllidoPaterno == "" || apllidoPaterno.length < 2 || apllidoPaterno == null)
+                return "Debe ingresar el primer apellido para continuar";
 
-            if (apllidoPaterno == apllidoPaterno || apllidoPaterno == "" || apllidoPaterno.length < 2 || apllidoPaterno == null) {
-                mensaje = "Ingrese un primer apellido para continuar";
-            }
+            if (apellidoMaterno == undefined || apellidoMaterno == "" || apellidoMaterno.length < 3 || apellidoMaterno == null)
+                return "Debe ingresar el segundo apellido para continuar";
 
-            if (apellidoMaterno == undefined || apellidoMaterno == "" || apellidoMaterno.length < 3 || apellidoMaterno == null) {
-                mensaje = "Ingrese un segundo apellido para continuar";
-            }
+            if (rut == undefined || rut == "" || rut.length < 3 || rut == null)
+                return "Debe ingrese un R.U.N. para continuar";
 
-            if (rut == undefined || rut == "" || rut.length < 3 || rut == null) {
-                mensaje = "Debe ingrese un RUN para continuar";
-            }
+            if (idComuna == 0)
+                return "Debe seleccionar una comuna para continuar";
 
-            if (idComuna == 0) {
-                mensaje = "Debe seleccionar una comuna para continuar";
-            }
-
-            if (idTipoContrato == 0) {
+            if (idTipoContrato == 0)
                 mensaje = "Ingrese un tipo de contrato para continuar";
-            }
 
-            if (perfil == 0) {
-                mensaje = "Ingrese un perfíl para continuar";
-            }
+            if (perfil == 0)
+                return "Ingrese un perfíl para continuar";
 
-            if (correo == undefined || correo == "" || correo.length < 3 || correo == null) {
-                mensaje = "Ingrese un correo para continuar";
-            }
+            if (correo == undefined || correo == "" || correo.length < 3 || correo == null)
+                return "Ingrese un correo para continuar";
 
-            if (correoAlternativo == undefined || correoAlternativo == "" || correoAlternativo.length < 3 || correoAlternativo == null) {
-                mensaje = "Ingrese un para correo alternativo continuar";
-            }
+            if (correoAlternativo == undefined || correoAlternativo == "" || correoAlternativo.length < 3 || correoAlternativo == null)
+                mensaje = "Ingrese un correo alternativo para continuar";
 
-            if (clave == undefined || clave == "" || clave.length < 3 || clave == null) {
-                mensaje = "Ingrese una clave para continuar";
-            }
+            if (clave == undefined || clave == "" || clave.length < 3 || clave == null)
+                return "Ingrese una clave para continuar";
 
-            if (repClave == undefined || repClave == "" || repClave.length < 3 || repClave == null) {
-                mensaje = "Debe repetit la clave para continuar";
-            }
+            if (repClave == undefined || repClave == "" || repClave.length < 3 || repClave == null)
+                return "Debe repetit la clave para continuar";
 
-            //if (cambioPassword == undefined) {
-            //    mensaje = "Ingrese un para continuar";
-            //}
-
-            return mensaje;
+            return "";
         }
+
     </script>
 }

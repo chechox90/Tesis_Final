@@ -69,7 +69,7 @@ namespace DLL.DAO.Seguridad
                             .ToList()
                         })
                         .Where(x => x.ID_USUARIO == rol && x.ESTADO == true).FirstOrDefault();
-                    
+
                     return usuario;
                 }
             }
@@ -92,7 +92,7 @@ namespace DLL.DAO.Seguridad
                             ID_TIPO_CONTRATO = x.ID_TIPO_CONTRATO,
                             NOMBRE_TIPO_CONTRATO = x.NOMBRE_TIPO_CONTRATO,
                             ESTADO = x.ESTADO,
-                            
+
                         }).ToList();
 
                     return tipoContrato;
@@ -176,18 +176,7 @@ namespace DLL.DAO.Seguridad
                 {
 
                     // Obtengo datos del usuario, perfiles y permisos
-                    int usuario = context.USUARIOS_SISTEMA
-                        .Select(x => new DTO_Usuario
-                        {
-                            ID_USUARIO = x.ID_USUARIO,
-                            RUT = x.RUT,
-                            NOMBRE = x.NOMBRE,
-                            APELLIDO_PATERNO = x.APELLIDO_PATERNO,
-                            APELLIDO_MATERNO = x.APELLIDO_MATERNO,
-                            CORREO = x.CORREO,
-                            ADMINISTRADOR = x.ADMINISTRADOR,
-                            ESTADO = x.ESTADO,
-                        }).Where(x => x.RUT == rut && x.ESTADO == true).FirstOrDefault().ID_USUARIO;
+                    int usuario = context.USUARIOS_SISTEMA.Where(x => x.RUT == rut && x.ESTADO == true).FirstOrDefault().ID_USUARIO;
 
 
                     return usuario;
@@ -513,7 +502,7 @@ namespace DLL.DAO.Seguridad
                 throw;
             }
         }
-        
+
         public DTO_UsuarioListar GetUsuarioActivo(int idUsuario)
         {
             try
@@ -581,6 +570,8 @@ namespace DLL.DAO.Seguridad
             try
             {
                 int respuesta = 0;
+                string respu_ = "0";
+                int id_perfil = usuario.ID_PERFIL;
                 using (SolusegEntities context = new SolusegEntities())
                 {
                     using (var contextTransaction = context.Database.BeginTransaction())
@@ -605,18 +596,24 @@ namespace DLL.DAO.Seguridad
 
                         };
 
-                        context.USUARIOS_SISTEMA.Add(newUser);
+                        context.USUARIOS_SISTEMA.Add(newUser);                        
                         respuesta = context.SaveChanges();
                         contextTransaction.Commit();
+
+                        int idUsuario = context.USUARIOS_SISTEMA.Select(x => x.ID_USUARIO).Max();
+                        respu_ = context.Database.ExecuteSqlCommand("autorizacion.usp_insert_perfil_usuario_sistema @p0, @p1", (short)usuario.ID_PERFIL, idUsuario).ToString();
                     }
+
                 }
+
+                respuesta = int.Parse(respu_);
 
                 return respuesta;
 
             }
             catch (Exception ex)
             {
-
+                
                 throw;
             }
         }

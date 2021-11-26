@@ -12,6 +12,7 @@ namespace DLL.DTO.Seguridad
 
         public int ID_USUARIO { get; set; }
         public int ID_COMUNA { get; set; }
+        public int ID_PERFIL { get; set; }
         public int ID_TIPO_CONTRATO { get; set; }
         public int ID_EMPRESA { get; set; }
         public string CLAVE { get; set; }

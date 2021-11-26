@@ -239,6 +239,7 @@ namespace ConductorEnRed.Controllers
                     CORREO_ALTERNATIVO = UsuarioNuevo[0].CORREO_ALTERNATIVO,
                     CAMBIO_PASSWORD = UsuarioNuevo[0].CAMBIO_PASSWORD,
                     ADMINISTRADOR = UsuarioNuevo[0].ADMINISTRADOR,
+                    ID_PERFIL = UsuarioNuevo[0].ID_PERFIL,
                     ESTADO = true
 
                 };
@@ -337,6 +338,9 @@ namespace ConductorEnRed.Controllers
             if (rut.Contains('.'))
                 rut = rut.Replace(".", "").Trim();
 
+            if (rut.Contains("k") || rut.Contains("K"))
+                rut = rut.Replace("k", "K");
+
             Regex expresion = new Regex("^([0-9]+-[0-9K])$");
             string dv = rut.Substring(rut.Length - 1, 1);
 
@@ -353,15 +357,23 @@ namespace ConductorEnRed.Controllers
             {
                 return new JsonResult()
                 {
-                    Data = Json(new { data = "", message = "" })
+                    Data = Json(new { data = "El R.U.N ingresado <b>no</b> es válido, intente nuevamente.", message = "" })
                 };
             }
 
+            int runBd = _i_n_Usuario.GetUsuarioByRut(rut);
+            if (runBd > 0)
+            {
+                return new JsonResult()
+                {
+                    Data = Json(new { data = "El R.U.N ingresado ya se encuentra en uso por otro <b>usuario</b>.", message = "" })
+                };
+            }
             rut = IngresarPuntosEnRut(rut);
 
             return new JsonResult()
             {
-                Data = Json(new { data = rut, message = "" })
+                Data = Json(new { data = rut, message = "correcto" })
             };
         }
 
