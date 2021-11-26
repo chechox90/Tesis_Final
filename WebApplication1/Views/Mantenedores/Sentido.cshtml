@@ -10,6 +10,10 @@
     .divFlot {
         text-align: right
     }
+
+    input:invalid {
+        border: 1px solid red;
+    }
 </style>
 
 <div class="page-title">
@@ -24,28 +28,33 @@
     </div>
 </div>
 
-<div class="flex-fill">
+<div class="content-filters-b">
+    <div class="card">
+        <div class="form-row">
+            <button class="btn btn-success" type="button" id="btnNuevoBus" onclick="VerNuevoSentido();"><i class="far fa-plus"></i> Nuevo Sentido</button>
+        </div>
+    </div>
+</div>
+
+<div class="flex-fill ">
     <div class="card">
         <div class="modal-title">
             <div class="form-row">
                 <div class="borderInput">
                     <h4 class="modal-title text-primary">Sentido</h4>
                 </div>
-                <button type="button" class="close col-mb-0" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
-                    <i class="far fa-times"></i>
-                </button>
             </div>
         </div>
         <div class="form-row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="borderInput" for="NombreSentido">Sentido</label>
+                    <label class="borderInput" for="NombreSentido">Sentido </label>
                     <select id="ddlSentido" onchange="SeleccionarSenCorto();" name="NombreSentido" class="form-control borderInput"></select>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="borderInput" for="SentidoCorto">Sentido Abreviado</label>
+                    <label class="borderInput" for="SentidoCorto">Sentido Abreviado </label>
                     <select id="ddlSentidoCorto" onchange="SeleccionarSen();" name="SentidoCorto" class="form-control borderInput"></select>
                 </div>
             </div>
@@ -65,40 +74,52 @@
 
 <br />
 
-<div class="col-md-12 card">
-    <div class="form-row">
-        <div class="col-md-4">
-            <div class="form-group borderInput" id="divSentidoNew">
-                <label for="NombreSentido">Nombre Sentido</label>
-                <input id="txtNomSentido" type="text" name="NombreSentido" maxlength="50" onkeypress="return Sololetras(event)" onkeyup="MostrarBotonGuardar();" placeholder="Nombre Sentido" class="form-control" />
+<div class="flex-fill ocultar">
+    <div class="card">
+        <div class="modal-title">
+            <div class="borderInput">
+                <h4 class="modal-title text-primary">Nuevo Sentido</h4>
             </div>
-            <div id="divSentidoEdit" style="display:none">
+            <i class="far fa-times"></i>
+            <button type="button" class="close col-mb-0" onclick="Limpiar();" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-4">
+                <div class="form-group borderInput" id="divSentidoNew">
+                    <label for="NombreSentido">Nombre Sentido *</label>
+                    <input id="txtNomSentido" onblur="CamelCase(this);" type="text" name="NombreSentido" maxlength="50" onkeypress="return Sololetras(event)" placeholder="Nombre Sentido" class="form-control" required />
+                </div>
+                <div id="divSentidoEdit" style="display:none">
+                    <div class="form-group borderInput">
+                        <label for="NombreSentidoEdit">Nombre Sentido</label>
+                        <input id="txtNomSentidoEdit" type="text" name="NombreSentidoEdit" onkeypress="return Sololetras(event)" maxlength="30" placeholder="Nombre Sentido" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
                 <div class="form-group borderInput">
-                    <label for="NombreSentidoEdit">Nombre Sentido</label>
-                    <input id="txtNomSentidoEdit" type="text" name="NombreSentidoEdit" onkeypress="return Sololetras(event)" maxlength="30" placeholder="Nombre Sentido" class="form-control" />
+                    <label for="NombreSentidoCorto">Nombre Sentido Abreviado *</label>
+                    <input id="txtNomSentidoCorto" type="text" name="NombreSentidoCorto" onkeypress="return Sololetras(event)" maxlength="5" placeholder="Nombre Sentido Abreviado" class="form-control" required />
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group borderInput">
-                <label for="NombreSentidoCorto">Nombre Sentido Abreviado</label>
-                <input id="txtNomSentidoCorto" type="text" name="NombreSentidoCorto" onkeypress="return Sololetras(event)" maxlength="6" placeholder="Nombre Sentido Abreviado" class="form-control" />
-            </div>
-        </div>
-    </div>
-    <div class="col-md-12">
-        <div class="form-row">
-            <div class="form-group col-md-4">
+        <div class="col-md-12">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <div>
+                        <label class="text-danger">* Todos los compos son requeridos</label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4" id="divBtnGuardar">
 
-            </div>
-            <div class="form-group col-md-4" id="divBtnGuardar">
-
-            </div>
-            <div class="form-group col-md-4">
-                <div class="text-right">
-                    <button type="button" class="btn btn-outline-light borderInput" onclick="Limpiar();">Cancelar</button>
-                    <button type="button" class="btn btn-success borderInput" id="btnEditarSentido" style="display:none" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i> Guardar</button>
-                    <button type="button" class="btn btn-success" id="btnGuardarSentido" style="display:none" onclick="GuardarNuevoSentido();"><i class="fas fa-random"></i> Guardar</button>
+                </div>
+                <div class="form-group col-md-4">
+                    <div class="text-right">
+                        <button type="button" class="btn btn-outline-light borderInput" onclick="Limpiar();">Cancelar</button>
+                        <button type="button" class="btn btn-success borderInput" id="btnEditarSentido" style="display:none" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i> Guardar</button>
+                        <button type="button" class="btn btn-success" id="btnGuardarSentido" onclick="GuardarNuevoSentido();"><i class="fas fa-random"></i> Guardar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -255,49 +276,44 @@
             verMotivo();
         }
 
-        function MostrarBotonGuardar() {
-            var comuna = $("#txtNomSentido").val();
-            if (comuna.length > 3) {
-                $("#btnGuardarSentido").css('display', '');
-                $("#btnEditarSentido").css("display", "none");
-            } else if (comuna == 0) {
-                $("#btnEditarSentido").css('display', '');
-                $("#btnGuardarSentido").css('display', "none");
-            }
-        }
-
         function GuardarNuevoSentido() {
-            let sentido = $("#txtNomSentido").val();
-            let sentidoCorto = $("#txtNomSentidoCorto").val();
+            let sentido = $("#txtNomSentido option:selected").val();
+            let sentidoCorto = $("#txtNomSentidoCorto option:selected").val();
 
-            $.ajax({
-                url: '../Mantenedor/SetNuevoSentido',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: {
-                    "sentido": sentido,
-                    "sentidoCorto": sentidoCorto,
+            var respuesta = ValidacionesGenerales(sentido, sentidoCorto)
+            if (respuesta == "") {
+                $.ajax({
+                    url: '../Mantenedor/SetNuevoSentido',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "sentido": sentido,
+                        "sentidoCorto": sentidoCorto,
 
-                },
-                success: function (data) {
-                    if (data.Data.alert == "success") {
-                        Limpiar();
-                        setTimeout(function () {
-                            alertSuccess(data.Data.message);
-                        }, 500);
+                    },
+                    success: function (data) {
+                        if (data.Data.alert == "success") {
+                            Limpiar();
+                            setTimeout(function () {
+                                alertSuccess(data.Data.message);
+                            }, 500);
 
-                        Limpiar();
-                    } else {
-                        alertDanger(data.Data.message);
+                            Limpiar();
+                        } else {
+                            alertDanger(data.Data.message);
+                        }
+
+                    },
+                    error: function () {
+                        CerrarModal();
+                        alertDanger("Ha ocurrido una incidencia, lo resolveremos a la brevedad");
                     }
+                });
+            } else {
+                alertDanger(respuesta);
+            }
 
-                },
-                error: function () {
-                    CerrarModal();
-                    alertDanger("Ha ocurrido una incidencia, lo resolveremos a la brevedad");
-                }
-            });
         }
 
         function GuardarEdicionSentido() {
@@ -364,6 +380,42 @@
             var k;
             document.all ? k = e.keyCode : k = e.which;
             return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+        }
+
+        function CamelCase(texto) {
+            var mayuscula = "";
+            var minuscula = "";
+            var palabra = "";
+
+            palabra = texto.value;
+
+            if (!texto.value) return;
+
+            mayuscula = palabra.substring(0, 1).toUpperCase();
+
+            if (palabra.length > 0)
+                minuscula = palabra.substring(1).toLowerCase();
+
+
+            document.getElementById(texto.id).value = mayuscula.concat(minuscula);
+
+        }
+
+        function ValidacionesGenerales(sentido, sentidoCorto) {
+
+            if (sentido == undefined || sentido.length < 1 || sentido == null)
+                return "Debe ingresar un nombre del sentido para continuar";
+
+            if (sentidoCorto == undefined || sentidoCorto == "" || sentidoCorto.length < 1 || sentidoCorto == null)
+                return "Debe ingresar un nombre para el sentido corto para continuar";
+
+            return "";
+        }
+
+        function VerNuevoSentido() {
+            Limpiar();
+            $("#btnGuardarEdicion").css("display", "none");
+            $(".ocultar").css("display", "");
         }
 
     </script>

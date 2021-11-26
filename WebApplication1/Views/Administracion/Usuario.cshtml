@@ -161,7 +161,7 @@
 
     <div class="col-md-12 ">
         <div class="form-group text-right">
-            <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Volver</button>
+            <button type="button" class="btn btn-outline-light" onclick="volver();">Volver</button>
             <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoUsuario();"><i class="fas fa-users"></i> Guardar</button>
         </div>
     </div>
@@ -316,6 +316,12 @@
             setTimeout(function () {
                 window.location.href = "/RedirectVistas/HomeUsuario"
             }, 3000);
+        }
+
+        function volver() {
+            setTimeout(function () {
+                window.location.href = "/RedirectVistas/HomeUsuario"
+            }, 10);
         }
 
         function CamelCase(texto) {

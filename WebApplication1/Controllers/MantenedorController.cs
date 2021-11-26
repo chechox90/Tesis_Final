@@ -436,6 +436,56 @@ namespace ConductorEnRed.Controllers
             }
         }
 
+        public ActionResult ValidarPPU(string ppu)
+        {
+            try
+            {
+                if (ppu != "")
+                {
+                    if (ppu.Length > 3)
+                    {
+                        var letras = ppu.Substring(0, 4);
+                        if (!ppu.Contains("-"))
+                            ppu = letras + "-";
+                    }
+
+
+                    if (ppu.Length > 5)
+                    {
+                        var obtener = ppu.Length - 5;
+
+                        var numeros = ppu.Substring(5, obtener);
+
+                        if (!numeros.All(char.IsDigit))
+                        {
+                            return new JsonResult()
+                            {
+                                Data = Json(new { data = "No es un formato válido para P.P.U.", message = "error" })
+                            };
+                        }
+                    }
+
+                    return new JsonResult()
+                    {
+                        Data = Json(new { data = ppu.ToUpper(), message = "" })
+                    };
+
+                }
+                else
+                {
+                    return new JsonResult()
+                    {
+                        Data = Json(new { data = ppu, message = "" })
+                    };
+                }
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         private static string ValidarBus(int idTerminal, string ppu)
         {

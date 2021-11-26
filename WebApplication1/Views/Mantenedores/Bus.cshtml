@@ -59,7 +59,7 @@
         <div class="col-md-2">
             <div class="form-group borderInput">
                 <label for="txtPPU">Placa Patente Única</label>
-                <input id="txtPPU" type="text" name="txtPPU" maxlength="7" onkeypress="return Sololetras(event)" placeholder="CCRR-21" class="form-control" />
+                <input id="txtPPU" type="text" name="txtPPU" maxlength="7" onkeypress="return Sololetras(event)" onkeyup="Format()" placeholder="CCRR-21" class="form-control" />
             </div>
         </div>
         <div class="col-md-3 borderInput">
@@ -189,6 +189,31 @@
             Limpiar();
             $("#btnGuardarEdicion").css("display", "none")
             $(".ocultar").css("display", "")
+        }
+
+        function Format() {
+            var txt = $("#txtPPU").val();
+
+            $.ajax({
+                url: '../Mantenedor/ValidarPPU',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "ppu": txt
+                },
+                success: function (data) {
+                    if (data.Data.message == '') {
+                        $("#txtPPU").val(data.Data.data);
+                    } else {
+                        alertDanger(data.Data.data)
+                        $("#txtPPU").val("");
+
+                        $("#txtPPU").focus;
+                    }
+                }
+            });
+
         }
 
         function GuardarNuevoBus() {

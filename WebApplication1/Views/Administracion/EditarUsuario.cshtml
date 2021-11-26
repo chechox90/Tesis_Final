@@ -131,11 +131,20 @@
 
                 </div>
             </div>
+            <div class="col-sm-3 form-group">
+                <div class="form-row">
+                    <div class="custom-control custom-switch">
+                        <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="left" title="Seleccionar casilla para asignar permisos administrador"></i>
+                        <input id="chkAdmin" type="checkbox" />
+                        <label for="correoAlte">Administrador</label>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-12 ">
         <div class="form-group text-right">
-            <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Volver</button>
+            <button type="button" class="btn btn-outline-light" onclick="volver();">Volver</button>
             <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="ShowEditarUsuario();"><i class="fas fa-edit"></i> Guardar</button>
         </div>
     </div>
@@ -215,8 +224,9 @@
         function GuardarEdicionUsuario() {
             let idComuna = $("#cmbComuna option:selected").val();
             let idTipoContrato = $("#cmbTipoContrato option:selected").val();
+            let perfil = $("#cmbPerfil option:selected").val();
             let clave = $("#txtClave").val();
-            let repetirCalve = $("#txtRepClave").val();
+            let repClave = $("#txtRepClave").val();
             let correo = $("#txtCorreo").val();
             let correoAlternativo = $("#txtCorreoAlt").val();
             let codigoBarra = $("#txtCodigoBarra").val();
@@ -227,7 +237,10 @@
             let apellidoMaterno = $("#txtApeMate").val();
             let cambioPassword = $("#txtFechaVencePass").val();
             let idUsuario = $("#idUsuario").val();
-            let administrador = true; //$("#txtMotivoCambio").val();
+            let administrador = $("#chkAdmin").is(":checked");
+
+            var respuesta = ValidacionesGenerales(nombre, apllidoPaterno, apellidoMaterno, rut, idTipoContrato,
+                correo, correoAlternativo, perfil, idComuna, clave, repClave);
 
             var Usuario = [
                 {
@@ -235,8 +248,9 @@
                     ID_COMUNA: idComuna,
                     ID_TIPO_CONTRATO: idTipoContrato,
                     CLAVE: clave,
-                    REPETIR_CLAVE: repetirCalve,
+                    REPETIR_CLAVE: repClave,
                     CORREO: correo,
+                    ID_PERFIL: perfil,
                     CORREO_ALTERNATIVO: correoAlternativo,
                     CODIGO_BARRA: codigoBarra,
                     RUT: rut,
@@ -267,7 +281,6 @@
             });
         }
 
-
         function CerrarModal() {
             $("#modalConfirmacion").modal("hide");
         }
@@ -296,6 +309,148 @@
             setTimeout(function () {
                 window.location.href = "/RedirectVistas/HomeUsuario"
             }, 3000);
+        }
+
+        function volver() {
+            setTimeout(function () {
+                window.location.href = "/RedirectVistas/HomeUsuario"
+            }, 10);
+        }
+
+        function CamelCase(texto) {
+            var mayuscula = "";
+            var minuscula = "";
+            var palabra = "";
+
+            palabra = texto.value;
+
+            if (!texto.value) return;
+
+            mayuscula = palabra.substring(0, 1).toUpperCase();
+
+            if (palabra.length > 0)
+                minuscula = palabra.substring(1).toLowerCase();
+
+            document.getElementById(texto.id).value = mayuscula.concat(minuscula);
+
+        }
+
+        function LowerCase(texto) {
+            var minuscula = "";
+            var palabra = "";
+
+            palabra = texto.value;
+            if (!texto.value) return;
+
+            if (palabra.length > 0)
+                minuscula = palabra.toLowerCase();
+
+            document.getElementById(texto.id).value = minuscula;
+
+        }
+
+        function onBlurRut(texto) {
+            var rut = texto.value;
+
+            if (rut != "") {
+                $.ajax({
+                    url: '../MantenedorUsuario/ValidarRutCompleto',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "rut": rut
+                    },
+                    success: function (data) {
+                        if (data.Data.message != "") {
+                            document.getElementById(texto.id).value = data.Data.data;
+                        } else {
+                            alertDanger(data.Data.data);
+                            document.getElementById(texto.id).focus();
+                        }
+
+                    }
+                });
+            }
+
+        }
+
+        function onBlurClave(texto) {
+            var claveRepetida = texto.value;
+            var clave = $("#txtClave").val();
+
+            if (clave != claveRepetida) {
+                alertDanger("Las claves ingresadas no coinciden")
+            }
+        }
+
+        function VerClave() {
+            var className = $("#icon").attr('class');
+
+            if (className == "fa fa-eye-slash") {
+                $("#txtClave").attr('type', 'text');
+                $("#icon").removeClass("fa fa-eye-slash");
+                $("#icon").addClass("fa fa-eye");
+            } else {
+                $("#txtClave").attr('type', 'password');
+                $("#icon").removeClass("fa fa-eye");
+                $("#icon").addClass("fa fa-eye-slash");
+            }
+
+        }
+
+        function VerClaveRep() {
+            var className = $("#iconRep").attr('class');
+
+            if (className == "fa fa-eye-slash") {
+                $("#txtRepClave").attr('type', 'text');
+                $("#iconRep").removeClass("fa fa-eye-slash");
+                $("#iconRep").addClass("fa fa-eye");
+            } else {
+                $("#txtRepClave").attr('type', 'password');
+                $("#iconRep").removeClass("fa fa-eye");
+                $("#iconRep").addClass("fa fa-eye-slash");
+            }
+
+        }
+
+        function ValidacionesGenerales(nombre, apllidoPaterno, apellidoMaterno, rut, idTipoContrato,
+            correo, correoAlternativo, perfil, idComuna, clave, repClave) {
+
+            if (nombre == undefined || nombre == "" || nombre.length < 3 || nombre == null)
+                return "Debe ingresar un nombre para continuar";
+
+            if (apllidoPaterno == undefined || apllidoPaterno == "" || apllidoPaterno.length < 2 || apllidoPaterno == null)
+                return "Debe ingresar el primer apellido para continuar";
+
+            if (apellidoMaterno == undefined || apellidoMaterno == "" || apellidoMaterno.length < 3 || apellidoMaterno == null)
+                return "Debe ingresar el segundo apellido para continuar";
+
+            if (rut == undefined || rut == "" || rut.length < 3 || rut == null)
+                return "Debe ingrese un R.U.N. para continuar";
+
+            if (idComuna == 0)
+                return "Debe seleccionar una comuna para continuar";
+
+            if (idTipoContrato == 0)
+                mensaje = "Ingrese un tipo de contrato para continuar";
+
+            if (perfil == 0)
+                return "Ingrese un perfíl para continuar";
+
+            if (correo == undefined || correo == "" || correo.length < 3 || correo == null)
+                return "Ingrese un correo para continuar";
+
+            if (correoAlternativo == undefined || correoAlternativo == "" || correoAlternativo.length < 3 || correoAlternativo == null)
+                mensaje = "Ingrese un correo alternativo para continuar";
+
+            if (clave == undefined || clave == "" || clave.length < 3 || clave == null)
+                return "Ingrese una clave para continuar";
+
+            if (repClave == undefined || repClave == "" || repClave.length < 3 || repClave == null)
+                return "Debe repetit la clave para continuar";
+
+            return "";
         }
 
     </script>
