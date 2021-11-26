@@ -324,6 +324,13 @@
     <Content Include="Plugins\Graficos\bootstrap\js\bootstrap.bundle.js" />
     <Content Include="Plugins\Graficos\jquery\jquery-3.3.1.min.js" />
     <Content Include="Plugins\Graficos\slimscroll\jquery.slimscroll.js" />
+    <Content Include="Plugins\HighCharts\accessibility.js" />
+    <Content Include="Plugins\HighCharts\export-data.js" />
+    <Content Include="Plugins\HighCharts\exporting.js" />
+    <Content Include="Plugins\HighCharts\highcharts-3d.js" />
+    <Content Include="Plugins\HighCharts\highcharts-more.js" />
+    <Content Include="Plugins\HighCharts\highcharts.js" />
+    <Content Include="Plugins\HighCharts\solid-gauge.js" />
     <Content Include="Plugins\jquery-timepicker\css\jquery.timepicker.css" />
     <Content Include="Plugins\jquery-timepicker\css\jquery.timepicker.min.css" />
     <Content Include="Plugins\jquery-timepicker\js\jquery.timepicker.js" />

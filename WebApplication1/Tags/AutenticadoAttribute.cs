@@ -29,28 +29,32 @@ namespace WebApplication1.Tags
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-
-            if (SessionHelper.ExistUserInSession())
-            {
-                string[] url = FrontUser.GetSessionUsuario().Proyecto.PaginaInicio.Split('/');
-                if (url.Length > 1)
-                {
-                    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
-                    {
-                        controller = url[0],
-                        action = url[1]
-                    }));
-                }
-                else
-                {
-                    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
-                    {
-                        controller = url[0],
-                        action = ""
-                    }));
-                }
+            
+            
+            // se comenta por presentacion mejora futura
+            
+            
+            //if (SessionHelper.ExistUserInSession())
+            //{
+            //    string[] url = FrontUser.GetSessionUsuario().Proyecto.PaginaInicio.Split('/');
+            //    if (url.Length > 1)
+            //    {
+            //        filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
+            //        {
+            //            controller = url[0],
+            //            action = url[1]
+            //        }));
+            //    }
+            //    else
+            //    {
+            //        filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
+            //        {
+            //            controller = url[0],
+            //            action = ""
+            //        }));
+            //    }
                 
-            }
+            //}
         }
     }
 }

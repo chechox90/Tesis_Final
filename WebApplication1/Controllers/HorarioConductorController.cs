@@ -32,9 +32,12 @@ namespace ConductorEnRed.Controllers
 
         }
 
+        
+
         [HttpPost]
         public ActionResult SetIngresarSolictud(int idHorarioCambiar,int tipoSolicitud,string motivoSolictud, string motivoOpcional)
-        {
+        {            
+            
             DTO_SolicitudCambioHorario solicitud = new DTO_SolicitudCambioHorario();
             solicitud.ID_SOLICITUD_CAMBIO = 0;
             solicitud.ID_HORARIO_CAMBIAR = idHorarioCambiar;
@@ -90,6 +93,8 @@ namespace ConductorEnRed.Controllers
         {
             try
             {
+                int idUsuario = usuario.ID_USUARIO;
+
                 string fechaSemana = "";
                 if (fechaSemanaActual == null)
                     fechaSemana = ObtenerFechaSemana();
@@ -99,7 +104,7 @@ namespace ConductorEnRed.Controllers
                 DateTime fechaIni = DateTime.Parse(fechaSemana.Split('-')[0].ToString());
                 DateTime fechaFin = DateTime.Parse(fechaSemana.Split('-')[1].ToString());
 
-                List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorById(1, fechaIni, fechaFin, 1);
+                List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorById(idUsuario, fechaIni, fechaFin, 1);
                 List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
 
                 if (dto_Horario.Count > 0)
@@ -140,6 +145,7 @@ namespace ConductorEnRed.Controllers
 
                             list.Add(carga);
                         }
+
                         ind++;
                     }
                 }
