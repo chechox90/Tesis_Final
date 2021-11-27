@@ -10,6 +10,10 @@
     .divFlot {
         text-align: right
     }
+
+    input:invalid {
+        border: 1px solid red;
+    }
 </style>
 
 <div class="page-title">
@@ -36,35 +40,35 @@
         </div>
     </div>
     <div class="form-row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="borderInput" for="NumeroServicio">Comunas</label>
-                <select id="ddlComunas" name="NumeroServicio" class="form-control borderInput"></select>
+        <div class="col-md-8">
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label class="borderInput" for="NumeroServicio">Comunas</label>
+                    <select id="ddlComunas" name="NumeroServicio" class="form-control borderInput" onchange="HabilitarEdit();"></select>
+                </div>
+                <div class="col-4">
+                    <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="left" title="Seleccione una comuna para eliminarla o editarla"></i>
+                </div>
             </div>
-
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4" style="display:none" id="divBtonesEdit">
             <div>
-                <button class="btn btn-primary borderInput" type="button" id="btnBuscarComuna" onclick="ShowEditarComuna();">Editar</button>
-                <button class="btn btn-danger borderInput" id="btnEliminarComuna" onclick="ShowModalEliminar();">Eliminar</button>
+                <button class="btn btn-primary borderInput" type="button" id="btnBuscarComuna" onclick="ShowEditarComuna();"><i class="fas fa-edit"></i> Editar</button>
+                <button class="btn btn-danger borderInput" id="btnEliminarComuna" onclick="ShowModalEliminar();"><i class="fas fa-trash"></i> Eliminar</button>
             </div>
         </div>
     </div>
-</div>
-<br />
-
-<div class="col-md-12 card" id="divTablaHorarios">
     <div class="form-row">
         <div id="divComunaNew" class="col-md-4">
             <div class="form-group borderInput">
                 <label for="NombreComuna">Nombre Comuna</label>
-                <input id="txtNomComuna" type="text" name="NombreComuna" onkeyup="MostrarBotonGuardar();" placeholder="Nombre Comuna" class="form-control" />
+                <input id="txtNomComuna" type="text" name="NombreComuna" onkeyup="CamelCase(this)" placeholder="Nombre Comuna" class="form-control" />
             </div>
         </div>
         <div id="divComunaEdit" class="col-md-4" style="display:none">
             <div class="form-group borderInput">
                 <label for="NombreComuna">Nombre Comuna</label>
-                <input id="txtNomComunaEdit" type="text" maxlength="30" name="NombreComuna" placeholder="Nombre Comuna" class="form-control" />
+                <input id="txtNomComunaEdit" type="text" maxlength="30" name="NombreComuna" onkeyup="CamelCase(this)" placeholder="Nombre Comuna" class="form-control" required/>
             </div>
         </div>
         <div class="col-md-8">
@@ -87,7 +91,7 @@
                 <div class="text-right">
                     <button type="button" class="btn btn-outline-light borderInput" onclick="Limpiar();">Cancelar</button>
                     <button type="button" class="btn btn-success borderInput" id="btnEditarComuna" style="display:none" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i> Guardar</button>
-                    <button type="button" class="btn btn-success" id="btnGuardarComuna" style="display:none" onclick="GuardarNuevaComuna();"><i class="fa fa-city"></i> Guardar</button>
+                    <button type="button" class="btn btn-success" id="btnGuardarComuna" onclick="GuardarNuevaComuna();"><i class="fa fa-edit"></i> Guardar</button>
                 </div>
             </div>
         </div>
@@ -106,12 +110,12 @@
                 <div>
                     <label>¿Está seguro que desea <span id="txtMostrar"></span> la comuna?</label>
                     <span id="lblNomComuna" class="text-primary"></span>
-                </div>                
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
                 <button type="button" class="btn btn-danger" id="btnEliminar" onclick="EliminarComuna();">Eliminar</button>
-                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionComuna();">Guardar</button>
+                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionComuna();">Confirmar</button>
             </div>
         </div>
     </div>
@@ -132,8 +136,7 @@
         }
 
         function Limpiar() {
-            $(".ocultar").css("display", "none");            
-            $("#btnGuardarComuna").css('display', "none");
+            $(".ocultar").css("display", "none");
             $("#btnAceptarEditar").css('display', 'none');
             $("#divComunaEdit").css('display', 'none');
             $("#divMotivoEliminar").css('display', 'none');
@@ -145,7 +148,7 @@
             $("#divComunaNew").css('display', '');
             $("#btnEliminar").css('display', '');
             $("#btnEliminarComuna").css('display', '');
-            
+
 
             $("#ddlComunas").empty();
             CargarComunas();
@@ -223,18 +226,6 @@
             $("#divComunaNew").css('display', 'none');
             $("#divComunaEdit").css('display', '');
             verMotivo();
-        }
-
-        function MostrarBotonGuardar() {
-
-            var comuna = $("#txtNomComuna").val();
-            if (comuna.length > 3) {
-                $("#btnGuardarComuna").css('display', '');
-                $("#btnEditarComuna").css("display", "none");
-            } else if (comuna == 0) {
-                $("#btnEditarComuna").css('display', '');
-                $("#btnGuardarComuna").css('display', "none");
-            }
         }
 
         function GuardarNuevaComuna() {
@@ -316,6 +307,35 @@
             var k;
             document.all ? k = e.keyCode : k = e.which;
             return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+        }
+
+        function CamelCase(texto) {
+            var mayuscula = "";
+            var minuscula = "";
+            var palabra = "";
+
+            palabra = texto.value;
+            console.log(palabra)
+            if (!texto.value) return;
+
+            mayuscula = palabra.substring(0, 1).toUpperCase();
+
+            if (palabra.length > 0)
+                minuscula = palabra.substring(1).toLowerCase();
+
+
+            document.getElementById(texto.id).value = mayuscula.concat(minuscula);
+
+        }
+
+        function HabilitarEdit() {
+            var opc = $("#ddlComunas option:selected").val();
+
+            if (opc > 0) {
+                $("#divBtonesEdit").css("display","");
+            } else {
+                $("#divBtonesEdit").css("display", "none");
+            }
         }
 
     </script>

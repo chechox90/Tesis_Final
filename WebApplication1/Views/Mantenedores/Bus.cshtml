@@ -65,7 +65,7 @@
         <div class="col-md-3 borderInput">
             <div class="form-group">
                 <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoBus();"><i class="far fa-plus"></i>  Guardar</button>
+                <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoBus();"><i class="far fa-edit"></i>  Guardar</button>
                 <button type="button" class="btn btn-success" id="btnGuardarEdicion" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i>  Guardar</button>
             </div>
         </div>
@@ -95,8 +95,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="EliminarBus();">Eliminar</button>
-                <button type="button" class="btn btn-success" id="btnConfirmar" onclick="GuardarEdicionBus();">Confirmar</button>
+                <button type="button" class="btn btn-danger" id="btnAceptar" onclick="EliminarBus();"><i class="fas fa-trash"></i> Eliminar</button>
+                <button type="button" class="btn btn-success" id="btnConfirmar" onclick="GuardarEdicionBus();"><i class="fas fa-check"></i> Confirmar</button>
             </div>
         </div>
     </div>

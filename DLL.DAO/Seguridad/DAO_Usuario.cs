@@ -176,8 +176,12 @@ namespace DLL.DAO.Seguridad
                 {
 
                     // Obtengo datos del usuario, perfiles y permisos
-                    int usuario = context.USUARIOS_SISTEMA.Where(x => x.RUT == rut && x.ESTADO == true).FirstOrDefault().ID_USUARIO;
-
+                    int usuario = 0;
+                    var usr = context.USUARIOS_SISTEMA.Where(x => x.RUT == rut && x.ESTADO == true).FirstOrDefault();
+                    if (usr != null)
+                    {
+                        usuario = usr.ID_USUARIO;
+                    }
 
                     return usuario;
                 }
@@ -596,7 +600,7 @@ namespace DLL.DAO.Seguridad
 
                         };
 
-                        context.USUARIOS_SISTEMA.Add(newUser);                        
+                        context.USUARIOS_SISTEMA.Add(newUser);
                         respuesta = context.SaveChanges();
                         contextTransaction.Commit();
 
@@ -613,7 +617,7 @@ namespace DLL.DAO.Seguridad
             }
             catch (Exception ex)
             {
-                
+
                 throw;
             }
         }

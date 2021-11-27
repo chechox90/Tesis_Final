@@ -61,10 +61,10 @@
             <div class="col-md-4">
                 <div class="col-12 form-group form-row">
                     <div class="col-6 text-center">
-                        <button class="btn btn-primary" Style="display:none" type="button" id="btnShowEdit" onclick="ShowEditarSentido();">Editar</button>
+                        <button class="btn btn-primary" Style="display:none" type="button" id="btnShowEdit" onclick="ShowEditarSentido();"><i class="fas fa-edit"></i> Editar</button>
                     </div>
                     <div class="col-6 text-center">
-                        <button class="btn btn-danger" Style="display:none" id="btnEliminarSentido" onclick="ShowModalEliminar();">Eliminar</button>
+                        <button class="btn btn-danger" Style="display:none" id="btnEliminarSentido" onclick="ShowModalEliminar();"><i class="fas fa-trash"></i> Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                     <div class="text-right">
                         <button type="button" class="btn btn-outline-light borderInput" onclick="Limpiar();">Cancelar</button>
                         <button type="button" class="btn btn-success borderInput" id="btnEditarSentido" style="display:none" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i> Guardar</button>
-                        <button type="button" class="btn btn-success" id="btnGuardarSentido" onclick="GuardarNuevoSentido();"><i class="fas fa-random"></i> Guardar</button>
+                        <button type="button" class="btn btn-success" id="btnGuardarSentido" onclick="GuardarNuevoSentido();"><i class="fas fa-edit"></i> Guardar</button>
                     </div>
                 </div>
             </div>
@@ -142,8 +142,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnEliminar" onclick="EliminarSentido();">Eliminar</button>
-                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionSentido();">Guardar</button>
+                <button type="button" class="btn btn-danger" id="btnEliminar" onclick="EliminarSentido();"><i class="fas fa-trash"></i> Eliminar</button>
+                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionSentido();"><i class="fas fa-check"></i> Confirmar</button>
             </div>
         </div>
     </div>
