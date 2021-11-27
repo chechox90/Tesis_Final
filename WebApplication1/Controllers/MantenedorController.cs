@@ -544,28 +544,41 @@ namespace ConductorEnRed.Controllers
             {
                 string alert = "";
 
-
-                int response = _i_n_Comuna.SetNuevaComuna(nomComuna);
-
-                if (response == 1)
+                if (nomComuna != "")
                 {
+                    int response = _i_n_Comuna.SetNuevaComuna(nomComuna);
 
-                    alert = "success";
-                    var message = "La comuna se ha sido guardada con éxito";
-                    return new JsonResult()
+                    if (response == 1)
                     {
-                        Data = Json(new { alert = alert, message = message })
-                    };
+
+                        alert = "success";
+                        var message = "La comuna se ha sido guardada con éxito";
+                        return new JsonResult()
+                        {
+                            Data = Json(new { alert = alert, message = message })
+                        };
+                    }
+                    else
+                    {
+                        alert = "danger";
+                        var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                        return new JsonResult()
+                        {
+                            Data = Json(new { alert = alert, message = message })
+                        };
+                    }
                 }
                 else
                 {
                     alert = "danger";
-                    var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                    var message = "Debe ingresar el nombre de la comuna.";
                     return new JsonResult()
                     {
                         Data = Json(new { alert = alert, message = message })
                     };
                 }
+
+                
 
             }
             catch (Exception)

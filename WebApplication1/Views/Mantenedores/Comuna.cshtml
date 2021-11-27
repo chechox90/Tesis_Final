@@ -53,7 +53,7 @@
         </div>
         <div class="col-md-4" style="display:none" id="divBtonesEdit">
             <div>
-                <button class="btn btn-primary borderInput" type="button" id="btnBuscarComuna" onclick="ShowEditarComuna();"><i class="fas fa-edit"></i> Editar</button>
+                <button class="btn btn-primary borderInput" type="button" id="btnEditComuna" onclick="ShowEditarComuna();"><i class="fas fa-edit"></i> Editar</button>
                 <button class="btn btn-danger borderInput" id="btnEliminarComuna" onclick="ShowModalEliminar();"><i class="fas fa-trash"></i> Eliminar</button>
             </div>
         </div>
@@ -68,7 +68,7 @@
         <div id="divComunaEdit" class="col-md-4" style="display:none">
             <div class="form-group borderInput">
                 <label for="NombreComuna">Nombre Comuna</label>
-                <input id="txtNomComunaEdit" type="text" maxlength="30" name="NombreComuna" onkeyup="CamelCase(this)" placeholder="Nombre Comuna" class="form-control" required/>
+                <input id="txtNomComunaEdit" type="text" maxlength="30" name="NombreComuna" onkeyup="CamelCase(this)" placeholder="Nombre Comuna" class="form-control" required />
             </div>
         </div>
         <div class="col-md-8">
@@ -108,14 +108,13 @@
             </div>
             <div class="modal-body">
                 <div>
-                    <label>¿Está seguro que desea <span id="txtMostrar"></span> la comuna?</label>
-                    <span id="lblNomComuna" class="text-primary"></span>
+                    <label>¿Está seguro que desea <span id="txtMostrar"></span> la comuna <span id="lblNomComuna" class="text-primary"></span>?</label>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancela" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnEliminar" onclick="EliminarComuna();">Eliminar</button>
-                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionComuna();">Confirmar</button>
+                <button type="button" class="btn btn-danger" id="btnEliminar" onclick="EliminarComuna();"><i class="fas fa-trash"></i> Eliminar</button>
+                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionComuna();"><i class="fas fa-edit"></i> Confirmar</button>
             </div>
         </div>
     </div>
@@ -138,17 +137,14 @@
         function Limpiar() {
             $(".ocultar").css("display", "none");
             $("#btnAceptarEditar").css('display', 'none');
-            $("#divComunaEdit").css('display', 'none');
             $("#divMotivoEliminar").css('display', 'none');
+            $("#btnEditarComuna").css('display', 'none');
+            $("#divBtonesEdit").css('display', 'none');
 
             $("#txtNomComuna").val("");
             $("#txtMotivo").val("");
 
-            $("#btnEditarComuna").css('display', '');
-            $("#divComunaNew").css('display', '');
-            $("#btnEliminar").css('display', '');
-            $("#btnEliminarComuna").css('display', '');
-
+            $("#btnGuardarComuna").css('display', '');
 
             $("#ddlComunas").empty();
             CargarComunas();
@@ -193,6 +189,18 @@
             $("#modalConfirmacion").modal("show");
         }
 
+        function ShowEditarComuna() {
+            var comuna = $("#ddlComunas option:selected").text();
+            $("#txtNomComunaEdit").val(comuna);
+            $("#btnEditarComuna").css('display', '');
+            $("#divComunaNew").css('display', 'none');
+
+            $("#btnGuardarComuna").css('display', 'none');
+            $("#btnEliminar").css('display', 'none');
+            $("#divComunaEdit").css('display', '');
+            verMotivo();
+        }
+
         function CerrarModal() {
             $("#modalConfirmacion").modal("hide");
         }
@@ -216,21 +224,8 @@
             });
         }
 
-        function ShowEditarComuna() {
-            var comuna = $("#ddlComunas option:selected").text();
-            $("#txtNomComunaEdit").val(comuna);
-            $("#btnEditarComuna").css('display', '');
-
-            $("#btnEliminarComuna").css('display', 'none');
-            $("#btnEliminar").css('display', 'none');
-            $("#divComunaNew").css('display', 'none');
-            $("#divComunaEdit").css('display', '');
-            verMotivo();
-        }
-
         function GuardarNuevaComuna() {
-            var comuna = $("#txtNomComuna").val();
-
+            let comuna = $("#txtNomComuna").val();
             $.ajax({
                 url: '../Mantenedor/SetNuevaComuna',
                 type: 'post',
@@ -257,6 +252,7 @@
                     alertDanger("Ha ocurrido una incidencia, lo resolveremos a la brevedad");
                 }
             });
+
         }
 
         function GuardarEdicionComuna() {
@@ -280,6 +276,7 @@
                         setTimeout(function () {
                             alertSuccess(data.Data.message);
                         }, 500);
+
                         CerrarModal();
                         Limpiar();
 
@@ -299,7 +296,8 @@
             $("#txtMostrar").text("editar");
 
             $("#btnEliminar").css('display', 'none');
-
+            $("#btnGuardarComuna").css('display', 'none');
+            $("#divComunaNew").css('display', 'none');
             $("#modalConfirmacion").modal("show");
         }
 
@@ -323,7 +321,6 @@
             if (palabra.length > 0)
                 minuscula = palabra.substring(1).toLowerCase();
 
-
             document.getElementById(texto.id).value = mayuscula.concat(minuscula);
 
         }
@@ -332,7 +329,7 @@
             var opc = $("#ddlComunas option:selected").val();
 
             if (opc > 0) {
-                $("#divBtonesEdit").css("display","");
+                $("#divBtonesEdit").css("display", "");
             } else {
                 $("#divBtonesEdit").css("display", "none");
             }
