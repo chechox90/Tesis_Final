@@ -494,6 +494,7 @@
     <Content Include="Views\Administracion\Dashboard.cshtml" />
     <Content Include="Views\HorarioConductor\Ruta.cshtml" />
     <Content Include="Views\HorarioConductor\_EditarVuelta.cshtml" />
+    <Content Include="TempArchivos\EXCEL_CONDUCTOR_EN_RED.xlsx" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
