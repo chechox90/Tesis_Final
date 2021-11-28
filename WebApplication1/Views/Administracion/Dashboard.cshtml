@@ -11,7 +11,7 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body" height="100">
-                    <div id="AguaNoUsada" class="h-100 d-flex"></div>
+                    <div id="VStrunos" class="h-100 d-flex"></div>
                 </div>
             </div>
         </div>
@@ -45,7 +45,24 @@
         });
 
         function graficoIncio() {
-            Highcharts.chart('AguaNoUsada', {
+            var cubiertos = 0;
+            var noCubiertos = 0;
+
+
+
+            $.ajax({
+                url: '../HorarioConductor/GetDatosDashboard',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    cubiertos = data.data[0];
+                    noCubiertos = data.data[1];
+                }
+            });
+
+            Highcharts.chart('VStrunos', {
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -53,7 +70,7 @@
                     type: 'pie'
                 },
                 title: {
-                    text: 'Resumen de horas laborales',
+                    text: 'Resumen Turnos Cubiertos V/S Turnos no Cubiertos ',
                     align: 'left',
                     style: {
                         fontSize: '1.25rem'
@@ -150,8 +167,8 @@
                 plotOptions: {
                     pie: {
                         colors: [
-                            "#006BE6",
-                            "#FFD000"
+                            "#09CC60",
+                            "#FFC300"
                         ],
                         allowPointSelect: true,
                         cursor: 'pointer',
@@ -169,17 +186,17 @@
                     },
                 },
                 series: [{
-                    name: 'Total',
+                    name: 'Turnos',
                     colorByPoint: true,
                     size: '80%',
                     innerSize: '45%',
                     showInLegend: true,
                     data: [{
-                        name: 'Horas trabajadas',
-                        y: parseInt(90)
+                        name: 'Turnos cubiertos',
+                        y: parseInt(cubiertos)
                     }, {
-                        name: 'Horas de descanso',
-                        y: parseInt(180)
+                        name: 'Turnos no cubiertos',
+                        y: parseInt(noCubiertos)
                     }],
                 }],
                 credits: {
@@ -188,44 +205,51 @@
             });
 
 
+            var horasTra = 0;
+            var horasLibres = 0;
+            $.ajax({
+                url: '../HorarioConductor/GetDatosDashboardHoras',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    horasTra = data.data[0];
+                    horasLibres = data.data[1];
+                }
+            });
 
             Highcharts.chart('PapelNoUsado', {
                 chart: {
-                    plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false,
                     type: 'column'
                 },
                 title: {
-                    text: 'Comparación de papel usado vs ahorrado',
-                    align: 'left',
-                    style: {
-                        fontSize: '1.25rem'
+                    text: 'Horas libres V/S Horas trabajadas',
+                },
+                accessibility: {
+                    announceNewData: {
+                        enabled: true
                     }
                 },
-                legend: {
-                    align: 'right',
-                    verticalAlign: 'top',
+                xAxis: {
+                    categories: [
+                        'Horas laborales',
+                        'Horas libres',
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
                     layout: 'vertical',
-                    labelFormat: '{name} <span style="color:#34394F;"> {y}</span>',
-                    itemMarginBottom: 15,
-                    itemStyle: {
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        color: "#6E7B8F"
-                    },
-                    itemHoverStyle: {
-                        color: "#34394F"
-                    },
-                    itemHiddenStyle: {
-                        color: "rgba(110, 123, 143, .4)"
-                    },
-                    y: 80,
-                    x: -40
+                    title: {
+                        text: 'Horas'
+                    }
                 },
                 tooltip: {
-                    headerFormat: '<span style="font-size:16px"></span><br>',
-                    pointFormat: '<span style="color:rgba(255,255,255,.75);">{point.name}: </span> <b> {point.y}</b>',
+                    headerFormat: '<span style="font-size:11px">{series.name}</span>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}: </span> <b> {point.y}</b>',
                     padding: 8,
                     borderRadius: 8,
                     borderColor: '#34394F',
@@ -235,6 +259,12 @@
                         color: '#FFF'
                     },
                     shadow: false
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
                 },
                 lang: {
                     printChart: '<i class="far fa-print mr-2"></i> Imprimir',
@@ -291,23 +321,14 @@
                         }
                     }]
                 },
-                plotOptions: {
-                    series: {
-                        grouping: false,
-                        borderWidth: 0
-                    }
-                },
                 series: [{
-                    color: 'rgb(158, 159, 163)',
-                    pointPlacement: -0.2,
-                    linkedTo: 'main',
-                    data: [{
-                        name: 'Hojas no usadas',
-                        y: parseInt(8000)
-                    }, {
-                        name: 'Hojas usadas',
-                        y: parseInt(10000)
-                    }],
+                    name: 'Horas Laborales',
+                    color: 'rgba(7,111,207,1)',
+                    data: [parseInt(horasTra)],
+                }, {
+                    name: 'Horas Libres',
+                    color: 'rgba(0,173,118,1)',
+                    data: [parseInt(horasLibres)]
                 }],
                 credits: {
                     enabled: false
@@ -317,20 +338,24 @@
 
         function CargarVueltas() {
             tblVueltas = $("#tblVueltas").DataTable({
-                dom: "<'card-header flex-column flex-lg-row align-items-start align-items-lg-center'<'d-flex flex-column flex-lg-row justify-content-start align-items-lg-center'<'titleRev mr-2'><'comboFil mb-2 mb-lg-0'>><'d-flex justify-content-md-end'fl>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
-                scrollX: true,
+                dom: "<'card-header'<'.titleSegui'><'d-flex justify-content-md-end'flB>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
                 processing: true,
                 destroy: true,
-                lengthChange: true,
+                scrollX: true,
+                scrollY: true,
+                scrollCollapse: true,
+                info: false,
+                paging: false,
+                lengthChange: false,
                 pageLength: 10,
                 lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
                 columnDefs: [
-                    { targets: [0, 3, 4], searchable: false, orderable: false }
+                    { targets: [0], searchable: false, orderable: false }
                 ],
                 language: {
                     "url": "../Plugins/DataTables/js/Spanish.json"
                 },
-                order: [[1, "asc"]],
+                order: [[5, "desc"]],
                 initComplete: function () {
                     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
                 },
@@ -362,7 +387,7 @@
                     { data: "SEN_FIN_CORTO", title: "Sentido fin", name: "SEN_FIN_CORTO", orderable: false },
                     { data: "NUMERO_BUS_FIN", title: "Bus fin", name: "NOMBRE_EMPRESA", orderable: false },
                     {
-                        data: null, title: "Fecha fin", name: "FECHA_HORA_FIN", render:
+                        data: null, title: "Fecha fin", name: "FECHA_HORA_FIN", orderable: false, render:
                             function (full) {
                                 if (moment(full.FECHA_HORA_FIN).format('DD/MM/YYYY') != '31/12/0000') {
                                     return moment(full.FECHA_HORA_FIN).format('DD/MM/YYYY');
@@ -372,7 +397,40 @@
 
                             }
                     },
-                ]
+                ],
+                buttons: [
+
+                    { extend: 'excel', className: 'btn btn-success', text: '<i class="fas fa-excel"></i>Descargar Excel', action: function () { getExcel() }, init: function (api, node, config) { $(node).removeClass('btn-secondary') } }
+                ],
+            });
+        }
+
+        function getExcel() {
+            $.ajax({
+                url: '../PlanillasControl/getExcelReporteSeguimientoPlanilla',
+                dataType: 'json',
+                data: {
+                    idFolio: $("#idFolio").val(),
+                },
+                beforeSend: function () {
+                    $(".loader-1").show();
+                    $(".loader-1 p").text("Generando Excel...");
+                },
+                complete: function () {
+                    $(".loader-1").hide();
+                },
+                success: function (data) {
+                    $("#btnGenerarExcel").button('reset');
+                    if (data.error) {
+                        alert(data.message);
+                    } else {
+                        window.location.href = "../PlanillasControl/downloadExcel?filepath=" + data.message;
+                    }
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alertDanger("Demasiados datos para generar excel");
+                }
             });
         }
 

@@ -32,12 +32,43 @@ namespace ConductorEnRed.Controllers
 
         }
 
-        
+        #region Inicio
 
         [HttpPost]
-        public ActionResult SetIngresarSolictud(int idHorarioCambiar,int tipoSolicitud,string motivoSolictud, string motivoOpcional)
-        {            
-            
+        public ActionResult GetDatosDashboard()
+        {
+            try
+            {
+                int turnos_cubiertos = _i_n_HorarioConductor.GetHorariosCubiertos();
+                int turnos_no_cubiertos = _i_n_HorarioConductor.GetHorariosNoCubiertos();
+
+                int[] lista = new int[2];
+                lista[0] = turnos_cubiertos;
+                lista[1] = turnos_no_cubiertos;
+
+                return Json(new
+                {
+                    data = lista,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+                });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        #endregion
+
+
+        [HttpPost]
+        public ActionResult SetIngresarSolictud(int idHorarioCambiar, int tipoSolicitud, string motivoSolictud, string motivoOpcional)
+        {
+
             DTO_SolicitudCambioHorario solicitud = new DTO_SolicitudCambioHorario();
             solicitud.ID_SOLICITUD_CAMBIO = 0;
             solicitud.ID_HORARIO_CAMBIAR = idHorarioCambiar;
@@ -51,7 +82,7 @@ namespace ConductorEnRed.Controllers
             solicitud.COMENTARIO_ADICIONAL = motivoOpcional;
             solicitud.ESTADO = true;
 
-            int respuesta =  _i_n_HorarioConductor.SetIngresaSolicitud(solicitud);
+            int respuesta = _i_n_HorarioConductor.SetIngresaSolicitud(solicitud);
             string alert = "";
 
             if (respuesta == 1)
@@ -72,10 +103,10 @@ namespace ConductorEnRed.Controllers
                     Data = Json(new { alert = alert, message = message })
                 };
             }
-            
+
 
         }
-        
+
         public static string IngresarPuntosEnRut(string RUN)
         {
             RUN = RUN.Replace("-", "");

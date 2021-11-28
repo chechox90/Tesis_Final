@@ -16,6 +16,43 @@ namespace DLL.DAO.Operaciones
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        public int GetHorariosCubiertos()
+        {
+            using (SolusegEntities context = new SolusegEntities())
+            {
+                DateTime date = DateTime.Now;
+                return (from hc in context.HORARIO_CONDUCTOR
+                        where hc.FECHA_INICIO.Month == date.Month
+                        && hc.FECHA_INICIO.Year == date.Year
+                        && hc.HORARIO_CUBIERTO == true
+                        select hc.HORARIO_CUBIERTO).Count();
+            }
+        }
+
+        public int GetHorariosNoCubiertos()
+        {
+            using (SolusegEntities context = new SolusegEntities())
+            {
+                DateTime date = DateTime.Now;
+                return (from hc in context.HORARIO_CONDUCTOR
+                        where hc.FECHA_INICIO.Month == date.Month
+                        && hc.FECHA_INICIO.Year == date.Year
+                        && hc.HORARIO_CUBIERTO == false
+                        select hc.HORARIO_CUBIERTO).Count();
+            }
+        }
+
+        public List<int> GetHorasTrabajadasLibres(DateTime DateIni, DateTime dateFin)
+        {
+            using (SolusegEntities context = new SolusegEntities())
+            {
+                List<int> respu_ = new List<int>();
+                respu_ = context.Database.SqlQuery<int>("autorizacion.usp_get_horas_trabajadas_vs_horas_libres @p0, @p1", DateIni,dateFin).ToList();
+
+                return respu_;
+            }
+        }
+
         public DAO_HorarioConductor()
         {
             XmlConfigurator.Configure();

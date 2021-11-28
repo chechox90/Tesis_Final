@@ -14,6 +14,22 @@ namespace DLL.NEGOCIO.Operaciones
     {
         private readonly I_DAO_HorarioConductor I_DAO_HorarioConductor;
 
+
+        public int GetHorariosCubiertos()
+        {
+            return I_DAO_HorarioConductor.GetHorariosCubiertos();
+        }
+
+        public int GetHorariosNoCubiertos()
+        {
+            return I_DAO_HorarioConductor.GetHorariosNoCubiertos();
+        }
+
+        public List<int> GetHorasTrabajadasLibres(DateTime DateIni, DateTime dateFin)
+        {
+            return I_DAO_HorarioConductor.GetHorasTrabajadasLibres(DateIni, dateFin);
+        }
+
         public N_HorarioConductor(I_DAO_HorarioConductor I_DAO_HorarioConductor)
         {
             this.I_DAO_HorarioConductor = I_DAO_HorarioConductor;
@@ -33,7 +49,7 @@ namespace DLL.NEGOCIO.Operaciones
         {
             return I_DAO_HorarioConductor.GetHorarioConductorByIdHorario(idHorario);
         }
-        
+
         public List<DTO_TipoSolicitud> GetTipoSolicitudAll()
         {
             return I_DAO_HorarioConductor.GetTipoSolicitudAll();

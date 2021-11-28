@@ -10,6 +10,12 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
 {
     public interface I_N_HorarioConductor
     {
+        int GetHorariosCubiertos();
+
+        int GetHorariosNoCubiertos();
+
+        List<int> GetHorasTrabajadasLibres(DateTime DateIni, DateTime dateFin);
+        
         string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, string nombreCarga, DateTime fechaCarga, string descripcion);
 
         List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut, DateTime fechaIni, DateTime fechaFin);

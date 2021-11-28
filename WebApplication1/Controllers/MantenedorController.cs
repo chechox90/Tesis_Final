@@ -40,6 +40,9 @@ namespace ConductorEnRed.Controllers
             this._i_n_RegistroHorario = _i_n_RegistroHorario;
         }
 
+        
+
+
         #region Terminales
         public ActionResult GetTerminalesActivos()
         {
