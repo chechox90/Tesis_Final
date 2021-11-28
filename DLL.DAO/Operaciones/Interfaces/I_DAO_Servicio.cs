@@ -11,6 +11,8 @@ namespace DLL.DAO.Operaciones.Interfaces
     {
         List<DTO_Servicio> GetServicioByAllActiveForTable();
 
+        int GetServicioByNombre(string nombre);
+
         int SetNuevoServicio(string nombreTer, string direccion, string numDire);
 
         int SetEliminarServicio(int idServicio);

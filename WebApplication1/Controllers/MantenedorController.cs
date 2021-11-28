@@ -146,6 +146,74 @@ namespace ConductorEnRed.Controllers
         }
 
         [HttpPost]
+        public ActionResult GetTerminalByNombre(string nombre)
+        {
+            try
+            {
+                int respuesta = _i_n_Terminal.GetTerminalByNombre(nombre,1);
+                if (respuesta > 0)
+                {
+                    return Json(new
+                    {
+                        data = "El terminal ingresado ya se encuentra registrado, intente con otro nombre",
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = "",
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
+                }
+               
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        
+        [HttpPost]
+        public ActionResult GetTerminalByNombreIdEmpresa(string nombre)
+        {
+            try
+            {
+                int respuesta = _i_n_Terminal.GetTerminalByNombreIdEmpresa(nombre,1);
+                if (respuesta > 0)
+                {
+                    return Json(new
+                    {
+                        data = "El terminal ingresado ya se encuentra registrado, intente con otro nombre",
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = "",
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
+                }
+               
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        [HttpPost]
         public ActionResult SetGuardarNuevoTerminal(string nombreTer, string direccion, int numDire)
         {
             try
@@ -258,6 +326,8 @@ namespace ConductorEnRed.Controllers
 
 
         #region Buses
+
+        [HttpPost]
         public ActionResult GetBusesActivos()
         {
             try
@@ -278,6 +348,39 @@ namespace ConductorEnRed.Controllers
                     {
                         Data = Json(new { alert = alert, message = message })
                     };
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetBusByNombre(string nombre)
+        {
+            try
+            {
+                int respuesta = _i_n_Bus.GetBusByNombre(nombre);
+
+                if (respuesta > 0)
+                {
+                    return Json(new
+                    {
+                        data = "La P.P.U. ingresada ya se encuentra registrado, intente con una nueva P.P.U.",
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = "",
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
                 }
             }
             catch (Exception)
@@ -403,6 +506,7 @@ namespace ConductorEnRed.Controllers
             }
         }
 
+        [HttpPost]
         public ActionResult SetEditarBus(DTO_Bus Bus)
         {
             try
@@ -436,6 +540,7 @@ namespace ConductorEnRed.Controllers
             }
         }
 
+        [HttpPost]
         public ActionResult ValidarPPU(string ppu)
         {
             try
@@ -505,6 +610,8 @@ namespace ConductorEnRed.Controllers
 
 
         #region Comunas
+
+        [HttpPost]
         public ActionResult GetComunasCmb()
         {
             try
@@ -528,6 +635,41 @@ namespace ConductorEnRed.Controllers
                 }
 
                 return Json(new { data = list.ToList(), });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetComunaByNombre(string nombre)
+        {
+            try
+            {                
+                int respuesta = _i_n_Comuna.GetComunaByNombre(nombre);
+
+
+                if (respuesta > 0)
+                {
+                    return Json(new
+                    {
+                        data = "La comuna ingresada ya se encuentra registrada, intente con otro nombre de comuna.",
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = "",
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
+                }
 
             }
             catch (Exception)
@@ -664,6 +806,7 @@ namespace ConductorEnRed.Controllers
 
         #region Servicios
 
+        [HttpPost]
         public ActionResult GetServiciosActivos()
         {
             try
@@ -697,6 +840,41 @@ namespace ConductorEnRed.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult GetServicioByNombre(string nombre)
+        {
+            try
+            {
+                int respuesta = _i_n_Servicio.GetServicioByNombre(nombre);
+
+                if (respuesta > 0)
+                {
+                    return Json(new
+                    {
+                        data = "El servicio ingresado ya se encuentra registrado, intente con otro nombre de servcio",
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = "",
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
         public ActionResult GetServiciosActivosCmb()
         {
             try
@@ -856,6 +1034,7 @@ namespace ConductorEnRed.Controllers
 
         #region Sentido
 
+        [HttpPost]
         public ActionResult GetSentidoCmb()
         {
             try
@@ -895,6 +1074,41 @@ namespace ConductorEnRed.Controllers
                 throw;
             }
         }
+
+        [HttpPost]
+        public ActionResult GetSentidoByNombre(string nombre)
+        {
+            try
+            {
+                int respuesta = _i_n_Sentido.GetSentidoByNombre(nombre,1);
+
+                if (respuesta > 0)
+                {
+                    return Json(new
+                    {
+                        data = "El servicio ingresado ya se encuentra registrado, intente con otro nombre de servicio",
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = "",
+                        ErrorMsg = "",
+                        JsonRequestBehavior.AllowGet
+                    });
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         [HttpPost]
         public ActionResult SetNuevoSentido(string sentido, string sentidoCorto)
         {

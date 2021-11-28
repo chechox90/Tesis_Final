@@ -22,6 +22,11 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_Comuna.GetComunaByAllActiveForTable();
         }
 
+        public int GetComunaByNombre(string nomComuna)
+        {
+            return I_DAO_Comuna.GetComunaByNombre(nomComuna);
+        }
+
         public int SetNuevaComuna(string nomComuna)
         {
             return I_DAO_Comuna.SetNuevaComuna(nomComuna);

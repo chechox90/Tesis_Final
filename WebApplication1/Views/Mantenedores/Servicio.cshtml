@@ -47,7 +47,7 @@
         <div class="col-md-3">
             <div class="form-group borderInput">
                 <label for="NumeroServicio">Nombre Servicio</label>
-                <input id="txtNombreServicio" type="text" maxlength="6" onkeypress="return Sololetras(event)" name="NumeroServicio" placeholder="Nombre Servicio" class="form-control" />
+                <input id="txtNombreServicio" type="text" maxlength="6" onkeypress="return Sololetras(event)" onkeyup="UpperCase(this);" onblur="ValidarServicioExiste();" name="NumeroServicio" placeholder="Nombre Servicio" class="form-control" />
             </div>
         </div>
         <div class="col-md-3" id="divTxtEdit">
@@ -208,35 +208,41 @@
             let horaIni = $("#txtHoraSerIni").val();
             let horaFin = $("#txtHoraSerFin").val();
 
-            $.ajax({
-                url: '../Mantenedor/SetGuardarNuevoServicio',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: {
-                    "nombreSer": nombreSer,
-                    "horaIni": horaIni,
-                    "horaFin": horaFin,
-                },
-                success: function (data) {
-                    if (data.Data.alert == "success") {
-                        Limpiar();
-                        setTimeout(function () {
-                            alertSuccess(data.Data.message);
-                        }, 500);
-                        CerrarModal();
-                        tblServicio.ajax.reload(null, false);
+            var respuesta = Validaciones(nombreSer, horaIni, horaFin);
+            if (respuesta == "") {
+                $.ajax({
+                    url: '../Mantenedor/SetGuardarNuevoServicio',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "nombreSer": nombreSer,
+                        "horaIni": horaIni,
+                        "horaFin": horaFin,
+                    },
+                    success: function (data) {
+                        if (data.Data.alert == "success") {
+                            Limpiar();
+                            setTimeout(function () {
+                                alertSuccess(data.Data.message);
+                            }, 500);
+                            CerrarModal();
+                            tblServicio.ajax.reload(null, false);
 
-                    } else {
-                        alertDanger(data.Data.message);
+                        } else {
+                            alertDanger(data.Data.message);
+                        }
+                    },
+                    error: function () {
+                        CerrarModal();
+                        alertDanger("Ha ocurrido una incidencia, lo resolveremos a la brevedad");
+                        tblServicio.ajax.reload(null, false);
                     }
-                },
-                error: function () {
-                    CerrarModal();
-                    alertDanger("Ha ocurrido una incidencia, lo resolveremos a la brevedad");
-                    tblServicio.ajax.reload(null, false);
-                }
-            });
+                });
+            } else {
+                alertDanger(respuesta);
+            }
+
         }
 
         function CerrarModal() {
@@ -287,47 +293,123 @@
                 HORARIO_FIN: $("#txtHoraSerFin").val(),
             };
 
-            $.ajax({
-                url: '../Mantenedor/SetEditarServicio',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: {
-                    "SERVICIO": SERVICIO
-                },
-                success: function (data) {
-                    if (data.Data.alert == "success") {
-                        setTimeout(function () {
-                            alertSuccess(data.Data.message);
-                        }, 500);
-                        CerrarModal();
-                        Limpiar();
-                        tblServicio.ajax.reload(null, false);
 
-                    } else {
-                        alertSuccess(data.Data.message);
+            if (respuesta == "") {
+                $.ajax({
+                    url: '../Mantenedor/SetEditarServicio',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "SERVICIO": SERVICIO
+                    },
+                    success: function (data) {
+                        if (data.Data.alert == "success") {
+                            setTimeout(function () {
+                                alertSuccess(data.Data.message);
+                            }, 500);
+                            CerrarModal();
+                            Limpiar();
+                            tblServicio.ajax.reload(null, false);
+
+                        } else {
+                            alertSuccess(data.Data.message);
+                            tblServicio.ajax.reload(null, false);
+                        }
+
+                    }, error: function () {
+                        CerrarModal();
+                        alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
                         tblServicio.ajax.reload(null, false);
                     }
+                });
 
-                }, error: function () {
-                    CerrarModal();
-                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
-                    tblServicio.ajax.reload(null, false);
-                }
-            });
+            } else {
+                alertDanger(respuesta);
+            }
+        }
+
+
+        function Validaciones(nombreServicio, horarioInicio, horarioFin) {
+            if (nombreServicio == undefined || nombreServicio == null || nombreServicio == "") {
+                $("#txtNombreServicio").focus();
+                return "Debe ingresar un nombre de servicio";
+            }
+
+            if (horarioInicio == "") {
+                $("#txtHoraSerIni").focus();
+                return "Debe ingresar una hora de inicio del servicio.";
+            }
+
+            if (horarioFin == "") {
+                $("#txtHoraSerFin").focus();
+                return "Debe ingresar una hora de fin del servicio"
+            }
+
+            return "";
         }
 
         function ConfirmarEdicion() {
-            $("#idSerEliminar").val();
-            $("#txtMostrar").text("editar");
+            var NOMBRE_SERVICIO = $("#txtNombreServicio").val();
+            var HORARIO_INI = $("#txtHoraSerIni").val();
+            var HORARIO_FIN = $("#txtHoraSerFin").val();
 
-            $("#modalConfirmacion").modal("show");
+            var respuesta = Validaciones(NOMBRE_SERVICIO, HORARIO_INI, HORARIO_FIN);
+
+            if (respuesta == "") {
+                $("#idSerEliminar").val();
+                $("#txtMostrar").text("editar");
+
+                $("#modalConfirmacion").modal("show");
+
+            } else {
+                alertDanger(respuesta);
+            }
         }
 
         function Sololetras(e) {
             var k;
             document.all ? k = e.keyCode : k = e.which;
             return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+        }
+
+        function ValidarServicioExiste() {
+            var nombre = $("#txtNombreServicio").val();
+
+            $.ajax({
+                url: '../Mantenedor/GetServicioByNombre',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "nombre": nombre
+                },
+                success: function (data) {
+                    if (data.data != "") {
+                        alertDanger(data.data);
+
+                        $("#txtNombreServicio").val("");
+                        $("#txtNombreServicio").focus();
+                    }
+
+                }, error: function () {
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                }
+            });
+        }
+
+        function UpperCase(texto) {
+            var mayuscula = "";
+            var palabra = "";
+
+            palabra = texto.value;
+            if (!texto.value) return;
+
+            if (palabra.length > 0)
+                mayuscula = palabra.toUpperCase();
+
+            document.getElementById(texto.id).value = mayuscula;
+
         }
 
     </script>

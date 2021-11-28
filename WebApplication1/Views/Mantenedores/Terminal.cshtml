@@ -30,7 +30,7 @@
 <div class="content-filters-b">
     <div class="card">
         <div class="form-row">
-            <button class="btn btn-success" type="button" id="btnNuevoTerminal" onclick="VerNuevoTerminal();"><i class="far fa-plus"></i> Nuevo Terminal</button>
+            <button class="btn btn-success" type="button" id="btnNuevoTerminal" onkeyup="CamelCase(this);" onclick="VerNuevoTerminal();"><i class="far fa-plus"></i> Nuevo Terminal</button>
         </div>
     </div>
 </div>
@@ -50,13 +50,13 @@
         <div class="col-md-3">
             <div class="form-group borderInput">
                 <label for="NomTerminal">Nombre del terminal</label>
-                <input id="txtNombreTer" type="text" name="NomTerminal" maxlength="50" onkeypress="return Sololetras(event)" placeholder="Nombre" class="form-control" />
+                <input id="txtNombreTer" type="text" name="NomTerminal" maxlength="50" onkeypress="return Sololetras(event);" onblur="ValidarTerminalExiste();" placeholder="Nombre" class="form-control" />
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group borderInput">
                 <label for="Direcccion">Dirección del terminal</label>
-                <input id="txtDireccion" type="text" name="Direcccion" maxlength="100" placeholder="Diercción" class="form-control" />
+                <input id="txtDireccion" type="text" name="Direcccion" onkeypress="return Sololetras(event);" maxlength="100" placeholder="Diercción" class="form-control" />
             </div>
         </div>
         <div class="col-md-2">
@@ -91,7 +91,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <label>¿Está seguro que desea <span id="txtMostrar"></span> el Terminal <sapan id="terEliminar" class="text-primary"></sapan>?</label> 
+                <label>¿Está seguro que desea <span id="txtMostrar"></span> el Terminal <sapan id="terEliminar" class="text-primary"></sapan>?</label>
             </div>
             <label id="idTerEliminar" style="display:none"></label>
             <div class="modal-footer">
@@ -139,8 +139,8 @@
                     data: null
                 },
                 columns: [
-                    { data: "ID_TERMINAL", visible: false,searchable:false },
-                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL",orderable:false },
+                    { data: "ID_TERMINAL", visible: false, searchable: false },
+                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL", orderable: false },
                     { data: "DIRECCION", title: "DIRECCIÓN", name: "DIRECCION", orderable: false },
                     { data: "NUM_DIRECCION", title: "N° DIRECCION", name: "NUM_DIRECCION", orderable: false },
                     { data: "NOMBRE_EMPRESA", title: "NOMBRE EMPRESA", name: "NOMBRE_EMPRESA", orderable: false },
@@ -168,35 +168,56 @@
             let direccion = $("#txtDireccion").val();
             let numDire = $("#txtNumDire").val();
 
-            $.ajax({
-                url: '../Mantenedor/SetGuardarNuevoTerminal',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: {
-                    "nombreTer": nombreTer,
-                    "direccion": direccion,
-                    "numDire": numDire,
-                },
-                success: function (data) {
-                    if (data.Data.alert == "success") {
-                        Limpiar();
-                        setTimeout(function () {
-                            alertSuccess(data.Data.message);
-                        }, 500);
-                        CerrarModal();
-                        tblTerminal.ajax.reload(null, false);
+            var respuesta = ValidacionesGenerales(nombreTer, direccion);
+            if (respuesta == "") {
+                $.ajax({
+                    url: '../Mantenedor/SetGuardarNuevoTerminal',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "nombreTer": nombreTer,
+                        "direccion": direccion,
+                        "numDire": numDire,
+                    },
+                    success: function (data) {
+                        if (data.Data.alert == "success") {
+                            Limpiar();
+                            setTimeout(function () {
+                                alertSuccess(data.Data.message);
+                            }, 500);
+                            CerrarModal();
+                            tblTerminal.ajax.reload(null, false);
 
-                    } else {
-                        alertDanger(data.Data.message);
+                        } else {
+                            alertDanger(data.Data.message);
+                        }
+                    },
+                    error: function () {
+                        CerrarModal();
+                        alertDanger("Ha ocurrido una incidencia, lo resolveremos a la brevedad");
+                        tblTerminal.ajax.reload(null, false);
                     }
-                },
-                error: function () {
-                    CerrarModal();
-                    alertDanger("Ha ocurrido una incidencia, lo resolveremos a la brevedad");
-                    tblTerminal.ajax.reload(null, false);
-                }
-            });
+                });
+            } else {
+                alertDanger(respuesta)
+            }
+
+        }
+
+        function ValidacionesGenerales(nombreTer, direccion) {
+            if (nombreTer == "") {
+                $("#txtNombreTer").focus();
+                return "Ingrese un nombre del terminal";
+
+            }
+
+            if (direccion == "") {
+                $("#txtDireccion").focus();
+                return "Ingrese la dirección de ubicación del terminal";
+            }
+
+            return "";
         }
 
         function EliminarTerminal() {
@@ -250,7 +271,7 @@
         function VerNuevoTerminal() {
             Limpiar();
             $("#btnGuardarNuevo").css('display', '');
-            $("#btnGuardarEdicion").css('display','none');
+            $("#btnGuardarEdicion").css('display', 'none');
             $(".ocultar").css("display", "")
         }
 
@@ -324,12 +345,72 @@
 
         function ConfirmarEdicion() {
             let nombreTerminal = $("#txtNombreTer").val();
+            $("#terEliminar").val(nombreTerminal);
+
             $("#txtMostrar").text("editar");
 
-            $("#btnEliminar").css('display', 'none');
-            $("#btnConfirmar").css('display', '');
+            let nombreTer = $("#txtNombreTer").val();
+            let direccion = $("#txtDireccion").val();
 
-            $("#modalConfirmacion").modal("show");
+            var respuesta = ValidacionesGenerales(nombreTer, direccion);
+
+            if (respuesta == "") {
+                $("#btnEliminar").css('display', 'none');
+                $("#btnConfirmar").css('display', '');
+
+                $("#modalConfirmacion").modal("show");
+
+            } else {
+                alertDanger(respuesta);
+            }
+
+        }
+
+        function Sololetras(e) {
+            var k;
+            document.all ? k = e.keyCode : k = e.which;
+            return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+        }
+
+        function CamelCase(texto) {
+            var mayuscula = "";
+            var minuscula = "";
+            var palabra = "";
+
+            palabra = texto.value;
+            if (!texto.value) return;
+
+            mayuscula = palabra.substring(0, 1).toUpperCase();
+
+            if (palabra.length > 0)
+                minuscula = palabra.substring(1).toLowerCase();
+
+            document.getElementById(texto.id).value = mayuscula.concat(minuscula);
+
+        }
+
+        function ValidarTerminalExiste() {
+            var nombre = $("#txtNombreTer").val();
+
+            $.ajax({
+                url: '../Mantenedor/GetTerminalByNombreIdEmpresa',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "nombre": nombre
+                },
+                success: function (data) {
+                    if (data.data != "") {
+                        alertDanger(data.data);
+                        $("#txtNombreTer").val("");
+                        $("#txtNombreTer").focus();
+                    }
+
+                }, error: function () {
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                }
+            });
         }
 
     </script>

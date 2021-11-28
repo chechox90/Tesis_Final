@@ -22,6 +22,11 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_Servicio.GetServicioByAllActiveForTable();
         }
 
+        public int GetServicioByNombre(string nombre)
+        {
+            return I_DAO_Servicio.GetServicioByNombre(nombre);
+        }
+
         public int SetNuevoServicio(string nombreTer, string direccion, string numDire)
         {
             return I_DAO_Servicio.SetNuevoServicio(nombreTer, direccion, numDire);

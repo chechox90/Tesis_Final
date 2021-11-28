@@ -10,6 +10,8 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
     public interface I_N_Terminal
     {
         int GetTerminalByNombre(string nombreTerminal, int idEmpresa);
+
+        int GetTerminalByNombreIdEmpresa(string nombreTerminal, int idEmpresa);
         
         List<DTO_Terminal> GetTerminalByAllActive();
         

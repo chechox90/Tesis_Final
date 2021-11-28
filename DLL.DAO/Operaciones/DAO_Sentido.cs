@@ -48,6 +48,36 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public int GetSentidoByNombre(string nombre, int idEmpresa)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    int respuesta = 0;
+                    var sentido = (from sen in context.SENTIDO
+                                   where sen.ESTADO == true && sen.NOMBRE_SENTIDO == nombre
+                                   select new DTO_Sentido
+                                   {
+                                       ID_SENTIDO = sen.ID_SENTIDO
+
+                                   }).FirstOrDefault();
+
+                    if (sentido != null)
+                        respuesta = sentido.ID_SENTIDO;
+
+                    return respuesta;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
         public int SetNuevoSentido(string sentido, string sentidoCorto)
         {
             try

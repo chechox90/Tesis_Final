@@ -22,6 +22,11 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_Sentido.GetSentidoByAll();
         }
 
+        public int GetSentidoByNombre(string servicio, int idEmpresa)
+        {
+            return I_DAO_Sentido.GetSentidoByNombre(servicio, idEmpresa);
+        }
+
         public int SetNuevoSentido(string servicio, string servicioCorto)
         {
             return I_DAO_Sentido.SetNuevoSentido(servicio, servicioCorto);

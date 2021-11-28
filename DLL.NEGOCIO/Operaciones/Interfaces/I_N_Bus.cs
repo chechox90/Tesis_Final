@@ -11,6 +11,8 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
     {
         List<DTO_Bus> GetBusByAllActiveForTable();
 
+        int GetBusByNombre(string nombre);
+
         int SetNuevoBus(int idTerminal, string ppu, int numeroBus);
 
         int SetEliminarBus(int idBus);

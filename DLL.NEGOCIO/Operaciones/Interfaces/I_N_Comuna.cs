@@ -11,6 +11,8 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
     {
         List<DTO_Comuna> GetComunaByAllActiveForTable();
 
+        int GetComunaByNombre(string nomComuna);
+
         int SetNuevaComuna(string nomComuna);
 
         int SetEliminarComuna(int idComuna);

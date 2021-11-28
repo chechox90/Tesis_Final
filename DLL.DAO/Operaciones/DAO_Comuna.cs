@@ -47,6 +47,36 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public int GetComunaByNombre(string nombre)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    int respuesta = 0;
+                    var comuna = (from co in context.COMUNA
+                                  where co.NOMBRE_COMUNA == nombre && co.ESTADO == true
+                                  select new DTO_Comuna
+                                  {
+                                      ID_COMUNA = co.ID_COMUNA,
+
+                                  }).FirstOrDefault();
+
+                    if (comuna != null)
+                        respuesta = comuna.ID_COMUNA;
+
+                    return respuesta;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
         public int SetNuevaComuna(string nomComuna)
         {
             try
@@ -115,7 +145,7 @@ namespace DLL.DAO.Operaciones
                     using (var contextTransaction = context.Database.BeginTransaction())
                     {
                         COMUNA Old = context.COMUNA.Where(x => x.ESTADO == true && x.ID_COMUNA == COMUNA.ID_COMUNA).FirstOrDefault();
-                        
+
                         Old.ID_COMUNA = COMUNA.ID_COMUNA;
                         Old.NOMBRE_COMUNA = COMUNA.NOMBRE_COMUNA;
                         Old.ESTADO = true;

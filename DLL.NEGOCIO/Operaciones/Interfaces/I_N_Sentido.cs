@@ -11,6 +11,8 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
     {
         List<DTO_Sentido> GetSentidoByAll();
 
+        int GetSentidoByNombre(string servico, int IdEmpresa);
+
         int SetNuevoSentido(string servico, string sentidoCorto);
 
         int SetEliminarSentido(int idSntido);

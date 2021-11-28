@@ -10,6 +10,9 @@
     .divFlot {
         text-align: right
     }
+    input:invalid {
+        border: 1px solid red;
+    }
 </style>
 
 <div class="page-title">
@@ -52,16 +55,16 @@
         </div>
         <div class="col-md-2">
             <div class="form-group borderInput">
-                <label for="txtNumeroInterno">Número Interno</label>
-                <input id="txtNumInterno" type="number" name="txtNumeroInterno" maxlength="6" placeholder="Número Interno" class="form-control" />
+                <label for="txtPPU">Placa Patente Única</label>
+                <input id="txtPPU" type="text" name="txtPPU" maxlength="7" onkeypress="return Sololetras(event)" onkeyup="Format()" onblur="ValidarPPUExiste()" placeholder="CCRR-21" class="form-control" required />
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group borderInput">
-                <label for="txtPPU">Placa Patente Única</label>
-                <input id="txtPPU" type="text" name="txtPPU" maxlength="7" onkeypress="return Sololetras(event)" onkeyup="Format()" placeholder="CCRR-21" class="form-control" />
+                <label for="txtNumeroInterno">Número Interno</label>
+                <input id="txtNumInterno" type="number" name="txtNumeroInterno" maxlength="6" placeholder="Número Interno" class="form-control" />
             </div>
-        </div>
+        </div>        
         <div class="col-md-3 borderInput">
             <div class="form-group">
                 <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
@@ -309,68 +312,121 @@
         }
 
         function ShowEditarBus(idBus, idInternoBus, idTerminal, PPU) {
-            $("#txtPPU").val(PPU);
-            $("#txtNumInterno").val(idInternoBus);
-            $("#idBusEliminar").val(idBus);
-            $("#btnAceptar").css('display', 'none');
-            $("#btnGuardarNuevo").css('display', 'none');
-            $("#btnGuardarEdicion").css('display', '');
+            
+                $("#txtPPU").val(PPU);
+                $("#txtNumInterno").val(idInternoBus);
+                $("#idBusEliminar").val(idBus);
+                $("#btnAceptar").css('display', 'none');
+                $("#btnGuardarNuevo").css('display', 'none');
+                $("#btnGuardarEdicion").css('display', '');
 
-            $("#ddlTerminalPrincipal option[value='" + idTerminal + "']").attr("selected", "selected");
-            $(".ocultar").css("display", "");
+                $("#ddlTerminalPrincipal option[value='" + idTerminal + "']").attr("selected", "selected");
+                $(".ocultar").css("display", "");
+            
         }
 
         function GuardarEdicionBus() {
             var BUS =
             {
                 ID_BUS: $("#idBusEliminar").val(),
-                ID_TERMINAL: $("#ddlTerminalPrincipal").val(),
+                ID_TERMINAL: $("#ddlTerminalPrincipal option:selected").val(),
                 ID_INTERNO_BUS: $("#txtNumInterno").val(),
                 PPU: $("#txtPPU").val(),
             };
 
-            $.ajax({
-                url: '../Mantenedor/SetEditarBus',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: {
-                    "BUS": BUS
-                },
-                success: function (data) {
-                    if (data.Data.alert == "success") {
-                        setTimeout(function () {
+            if (respuesta == "") {
+                $.ajax({
+                    url: '../Mantenedor/SetEditarBus',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "BUS": BUS
+                    },
+                    success: function (data) {
+                        if (data.Data.alert == "success") {
+                            setTimeout(function () {
+                                alertSuccess(data.Data.message);
+                            }, 500);
+                            CerrarModal();
+                            Limpiar();
+                            tblBuses.ajax.reload(null, false);
+
+                        } else {
                             alertSuccess(data.Data.message);
-                        }, 500);
+                        }
+
+                    }, error: function () {
                         CerrarModal();
-                        Limpiar();
+                        alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
                         tblBuses.ajax.reload(null, false);
-
-                    } else {
-                        alertSuccess(data.Data.message);
                     }
-
-                }, error: function () {
-                    CerrarModal();
-                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
-                    tblBuses.ajax.reload(null, false);
-                }
-            });
+                });
+            } else {
+                alertDanger(respuesta);
+            }
+            
         }
 
         function ConfirmarEdicion() {
             let PPU = $("#txtPPU").val()
-            $("#ppuEliminar").text(PPU);
+            var idTerminal = $("#ddlTerminalPrincipal option:selected").val();
+            var respuesta = ValidacionesGenerales(idTerminal, PPU);
+            
+            if (respuesta == "") {
+                $("#ppuEliminar").text(PPU);
 
-            $("#txtMostrar").text("editar")
+                $("#txtMostrar").text("editar")
 
-            $("#modalConfirmacion").modal("show");
+                $("#modalConfirmacion").modal("show");
+            } else {
+                alertDanger(respuesta);
+            }
         }
 
         function Sololetras(e) {
             var k;
             document.all ? k = e.keyCode : k = e.which;
             return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+        }
+
+        function ValidarPPUExiste() {
+            var nombre = $("#txtPPU").val();
+
+            $.ajax({
+                url: '../Mantenedor/GetBusByNombre',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "nombre": nombre
+                },
+                success: function (data) {
+                    if (data.data != "") {
+                        alertDanger(data.data);
+                        $("#txtPPU").val("");
+                        $("#txtPPU").focus();
+                    }
+
+                }, error: function () {
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                }
+            });
+        }
+
+        function ValidacionesGenerales(Idterminal, ppu) {
+            console.log(Idterminal,ppu)
+            if (Idterminal == 0) {
+                $("#ddlTerminalPrincipal").focus()
+                return "Seleccione un terminal de la lista para asignar al terminal";
+            }
+
+            if (ppu == "") {
+                $("#txtPPU").focus();
+                return "Ingrese la P.P.U. del bus"
+            }
+
+            return "";
         }
 
     </script>

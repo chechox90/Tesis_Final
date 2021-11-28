@@ -47,6 +47,37 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public int GetTerminalByNombreIdEmpresa(string nombreTerminal, int idEmpresa)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    int respuesta = 0;
+                    var terminal = (from ter in context.TERMINAL
+                                        where ter.ID_EMPRESA == idEmpresa && ter.NOMBRE_TERMINAL == nombreTerminal && ter.ESTADO == true
+                                        select new DTO_Terminal
+                                        {
+                                            ID_TERMINAL = ter.ID_TERMINAL,
+                                            ID_EMPRESA = ter.ID_EMPRESA,
+                                            NOMBRE_TERMINAL = ter.NOMBRE_TERMINAL
+                                        }).FirstOrDefault();
+                    if (terminal != null)
+                        respuesta = terminal.ID_TERMINAL;
+
+                    return respuesta;
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
         public List<DTO_Terminal> GetTerminalByAllActive()
         {
             try

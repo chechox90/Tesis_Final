@@ -51,6 +51,36 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public int GetBusByNombre(string nombre)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    int respuesta = 0;
+                    var bus_ = (from bus in context.BUS
+                                where bus.PPU == nombre && bus.ESTADO == true
+                                select new DTO_Bus
+                                {
+                                    ID_BUS = bus.ID_BUS
+
+                                }).FirstOrDefault();
+
+                    if (bus_ != null)
+                        respuesta = bus_.ID_BUS;
+
+                    return respuesta;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
         public int SetNuevoBus(int idTerminal, string ppu, int numeroBus)
         {
             try

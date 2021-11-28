@@ -52,6 +52,33 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public int GetServicioByNombre(string nombre)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    int respuesta = 0;
+                    var servicio = (from ser in context.SERVICIO
+                                    where ser.ESTADO == true && ser.NOMBRE_SERVICIO == nombre
+                                    select new DTO_Servicio
+                                    {
+                                        ID_SERVICIO = ser.ID_SERVICIO,
+                                    }).FirstOrDefault();
+                    if (servicio != null)
+                        respuesta = servicio.ID_SERVICIO;
+
+                    return respuesta;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public int SetNuevoServicio(string nombreTer, string horario_ini, string horario_fin)
         {
             try
@@ -65,8 +92,8 @@ namespace DLL.DAO.Operaciones
                         {
                             ID_EMPRESA = 1,
                             NOMBRE_SERVICIO = nombreTer,
-                            HORARIO_INI= TimeSpan.Parse(horario_ini),
-                            HORARIO_FIN= TimeSpan.Parse(horario_fin),
+                            HORARIO_INI = TimeSpan.Parse(horario_ini),
+                            HORARIO_FIN = TimeSpan.Parse(horario_fin),
                             ESTADO = true
 
                         };
@@ -128,7 +155,7 @@ namespace DLL.DAO.Operaciones
 
                         Old.ID_SERVICIO = Old.ID_SERVICIO;
                         Old.ID_EMPRESA = Old.ID_EMPRESA;
-                        Old.NOMBRE_SERVICIO =SERVICIO.NOMBRE_SERVICIO;
+                        Old.NOMBRE_SERVICIO = SERVICIO.NOMBRE_SERVICIO;
                         Old.HORARIO_INI = SERVICIO.HORARIO_INI;
                         Old.HORARIO_FIN = SERVICIO.HORARIO_FIN;
                         Old.ESTADO = true;

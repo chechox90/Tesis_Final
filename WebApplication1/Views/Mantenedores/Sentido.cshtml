@@ -93,7 +93,7 @@
                 <div id="divSentidoEdit" style="display:none">
                     <div class="form-group borderInput">
                         <label for="NombreSentidoEdit">Nombre Sentido</label>
-                        <input id="txtNomSentidoEdit" type="text" name="NombreSentidoEdit" onkeypress="return Sololetras(event)" maxlength="30" placeholder="Nombre Sentido" class="form-control" />
+                        <input id="txtNomSentidoEdit" type="text" onblur="CamelCase(this);" name="NombreSentidoEdit" onkeypress="return Sololetras(event)" maxlength="30" placeholder="Nombre Sentido" class="form-control" />
                     </div>
                 </div>
             </div>
@@ -353,11 +353,19 @@
         }
 
         function ConfirmarEdicion() {
-            $("#txtMostrar").text("editar");
+            var respuesta = ValidacionesGenerales();
 
-            $("#btnEliminar").css('display', 'none');
+            if (respuesta == "") {
+                $("#txtMostrar").text("editar");
 
-            $("#modalConfirmacion").modal("show");
+                $("#btnEliminar").css('display', 'none');
+                $("#btnAceptarEditar").css('display', '');
+
+                $("#modalConfirmacion").modal("show");
+
+            } else {
+                alertDanger(respuesta)
+            }
         }
 
         function SeleccionarSenCorto() {
@@ -399,6 +407,28 @@
 
             document.getElementById(texto.id).value = mayuscula.concat(minuscula);
 
+            var nombre = $("#txtNomSentido").val();
+
+            $.ajax({
+                url: '../Mantenedor/GetSentidoByNombre',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "nombre": nombre
+                },
+                success: function (data) {
+                    if (data.data != "") {
+                        alertDanger(data.data);
+                        $("#txtNomSentido").val("");
+                        $("#txtNomSentido").focus();
+                    }
+
+                }, error: function () {
+                    alertDanger("Ha ocurrido una incidencia, inténtelo nuevamente");
+                }
+            });
+
         }
 
         function ValidacionesGenerales(sentido, sentidoCorto) {
@@ -415,6 +445,7 @@
         function VerNuevoSentido() {
             Limpiar();
             $("#btnGuardarEdicion").css("display", "none");
+            $("#btnGuardarSentido").css("display", "");
             $(".ocultar").css("display", "");
         }
 
