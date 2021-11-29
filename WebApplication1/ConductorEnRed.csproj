@@ -210,7 +210,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\img-user.png" />
+    <Content Include="Images\LogoInicioConductorEnRed.svg" />
     <Content Include="Images\Logo_CdeR.svg" />
+    <Content Include="Images\png.png" />
     <Content Include="Plugins\Bootstrap\css\bootstrap-select.min.css" />
     <Content Include="Plugins\Bootstrap\css\bootstrap.min.css" />
     <Content Include="Plugins\Bootstrap\js\bootstrap-select.min.js" />

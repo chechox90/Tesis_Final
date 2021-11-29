@@ -40,6 +40,11 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_HorarioConductor.GetHorarioConductorByRut(rut, fechaIni, fechaFin);
         }
 
+        public List<DTO_HorarioConductorMostrar> GetHorarioConductorByRutAll(string rut, DateTime fechaIni, DateTime fechaFin)
+        {
+            return I_DAO_HorarioConductor.GetHorarioConductorByRutAll(rut, fechaIni, fechaFin);
+        }
+
         public List<DTO_HorarioConductorMostrar> GetHorarioConductorById(int idUsuario, DateTime fechaIni, DateTime fechaFin, int idTurno)
         {
             return I_DAO_HorarioConductor.GetHorarioConductorById(idUsuario, fechaIni, fechaFin, idTurno);
@@ -65,9 +70,9 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_HorarioConductor.SetIngresaSolicitud(list);
         }
 
-        public string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, string nombreCarga, DateTime fechaCarga, string descripcion)
+        public string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, int idUsuario, string nombreCarga, DateTime fechaCarga, string descripcion)
         {
-            return I_DAO_HorarioConductor.SetGuardarHorarioConductor(list, nombreCarga, fechaCarga, descripcion);
+            return I_DAO_HorarioConductor.SetGuardarHorarioConductor(list, idUsuario,nombreCarga, fechaCarga, descripcion);
         }
 
     }

@@ -50,7 +50,7 @@ namespace WebApplication1.Controllers
                     DateTime fechaIni = DateTime.Parse(fechasConsultas.Split('-')[0].Trim() + " 00:00");
                     DateTime fechaFin = DateTime.Parse(fechasConsultas.Split('-')[1].Trim() + " 23:59");
 
-                    List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut(RutConductor, fechaIni, fechaFin);
+                    List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRutAll(RutConductor, fechaIni, fechaFin);
                     List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
 
                     if (dto_Horario.Count > 0)
@@ -553,19 +553,17 @@ namespace WebApplication1.Controllers
                         else
                             carga.BUS_INICIO = 0;
 
-                        if (resultadoTabla.Rows[i][5].ToString().ToUpper().Equals("UNO"))
+                        if (resultadoTabla.Rows[i][5].ToString().ToUpper().Equals("UNO") || resultadoTabla.Rows[i][5].ToString().ToLower().Equals("uno"))
                             carga.NUMERO_JORNADA = 1;
                         else
-                            carga.NUMERO_JORNADA = 1;
+                            carga.NUMERO_JORNADA = 2;
 
                         carga.FECHA_HORA_INICIO = DateTime.Parse(resultadoTabla.Rows[i][6].ToString() + " " + resultadoTabla.Rows[i][7].ToString());
 
                         list.Add(carga);
                     }
 
-                    list = list.OrderBy(x => x.FECHA_HORA_INICIO).ToList();
-
-                    string resultado = _i_n_HorarioConductor.SetGuardarHorarioConductor(list, NombreArchivo, DateTime.Parse(FechaCarga), comentario);
+                    string resultado = _i_n_HorarioConductor.SetGuardarHorarioConductor(list,usuario.ID_USUARIO, NombreArchivo, DateTime.Parse(FechaCarga), comentario);
 
 
                     if (resultado != "")

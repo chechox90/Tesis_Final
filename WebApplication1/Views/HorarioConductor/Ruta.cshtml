@@ -65,7 +65,7 @@
                         <div class="modal-footer">
                             <label id="lblAviso1" style="display:none" class="text-danger bloqueo">Existe una vuelta sin finalizar, NO puede finalizar la jornada</label>
                             <button id="btnRegistrarInicio" class="btn btn-success bloqueo borderInput" onclick="RegistrarInicioHorario();">Guardar</button>
-                            <button id="btnShowFin" class="btn btn-primary bloqueo borderInput" onclick="ShowFinHorario();">Termino de jornada</button>
+                            <button id="btnShowFin" class="btn btn-success bloqueo borderInput" onclick="ShowFinHorario();">Termino de jornada</button>
                         </div>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                             </div>
                             <div class="borderInput">
                                 <div class="divFlot">
-                                    <button id="btnRegistrarFinVuelta" class="btn btn-primary borderInput bloqueo" style="display:none" onclick="ShowCerrarVuelta();">Finalizar Vuelta</button>
+                                    <button id="btnRegistrarFinVuelta" class="btn btn-success borderInput bloqueo" style="display:none" onclick="ShowCerrarVuelta();">Finalizar Vuelta</button>
                                 </div>
                             </div>
                         </div>
@@ -164,7 +164,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="RegistrarFinJornada();">Guardar</button>
+                <button type="button" class="btn btn-success" id="btnFinJornada" onclick="RegistrarFinJornada();">Guardar</button>
             </div>
         </div>
     </div>
@@ -207,7 +207,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="RegistrarFinVuelta();">Guardar</button>
+                <button type="button" class="btn btn-success" id="btnFinVuelta" onclick="RegistrarFinVuelta();">Guardar</button>
             </div>
         </div>
     </div>
@@ -253,7 +253,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionInicioVuelta();"><i class="fas fa-edit"></i> Guardar</button>
+                <button type="button" class="btn btn-success" id="btnGuaradarEdicionVuelta" onclick="GuardarEdicionInicioVuelta();"><i class="fas fa-edit"></i> Guardar</button>
             </div>
         </div>
     </div>
@@ -296,7 +296,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnAceptarEditar" onclick="GuardarEdicionFinVuelta();"><i class="fas fa-edit"></i> Guardar</button>
+                <button type="button" class="btn btn-success" id="btnAceptarEditarVuelta" onclick="GuardarEdicionFinVuelta();"><i class="fas fa-edit"></i> Guardar</button>
             </div>
         </div>
     </div>
@@ -334,7 +334,7 @@
                 <span class="text-primary">Se ha realizado la búsquda pero aún no hay turnos disponibles, para ingresar vueltas.</span>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btnEliminar" onclick="CerrarModal();"><i class="fas fa-check"></i> Aceptar</button>
+                <button type="button" class="btn btn-success" id="btnEliminar" onclick="CerrarModal();"><i class="fas fa-check"></i> Aceptar</button>
             </div>
         </div>
     </div>
@@ -573,6 +573,8 @@
                                 if (full.FECHA_HORA_FIN != null) {
                                     $("#lblAviso1").css("display", "none");
                                     $("#lblAviso2").css("display", "none");
+                                    $("#btnShowFin").css("display", "");
+                                    $("#btnRegistrarFinVuelta").css("display", "");
                                     $("#btnRegistrarFinVuelta").css("display", "none");
                                     $(".lockedFinalizar").prop("disabled");
                                     $("#btnShowFin").css("display", "");
@@ -583,6 +585,7 @@
                                     return moment(full.FECHA_HORA_FIN).format('DD/MM/YYYY HH:MM');
                                 } else {
                                     $("#btnRegistrarIniVuelta").css("display", "none");
+                                    $("#btnShowFin").css("display", "none");
                                     $("#btnSalir").css("display", "none");
 
                                     $("#btnRegistrarFinVuelta").css("display", "");

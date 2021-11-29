@@ -130,8 +130,9 @@
 
             <div class="form-group text-right mb-0">
                 <a href="~/TempArchivos/EXCEL_CONDUCTOR_EN_RED.xlsx" class="btn btn-success" title="Descargar archivo" download="Carga_Programacion_Semanal"><i class="fas fa-file-excel"></i> Descargar plantilla carga</a>
-                <button class="btn btn-primary" title="Cargar Horario" onclick="CargarArchivo();"><i class="fas fa-check"></i> Cargar</button>
+                <button class="btn btn-success" title="Cargar Horario" onclick="CargarArchivo();"><i class="fas fa-check"></i> Cargar</button>
             </div>
+
         </div>
 
     </div>
@@ -140,13 +141,9 @@
 <div class="col-md-12 card" style="display:none" id="divTablaHorarios">
     <table id="tblHorarioCargar" class="table table-striped table-hover">
     </table>
-    <div class="form-row mb-0">
-        <div>
-            <buton class="btn btn-outline-light border-label">Cancelar</buton>
-        </div>
-        <div>
-            <button class="btn btn-success borde-label" onclick="CargarHorarioConductor();"><i class="fas fa-save"></i> Cargar Horario</button>
-        </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-light">Cancelar</button>
+        <button type="button" class="btn btn-success" onclick="CargarHorarioConductor();"><i class="fas fa-save"></i> Cargar Horario</button>
     </div>
 </div>
 
@@ -407,35 +404,35 @@
 
         }
 
-                                                //function getExcel() {
-                                                //    $.ajax({
-                                                //        url: '../PlanillasControl/getExcelReporteSeguimientoPlanilla',
-                                                //        dataType: 'json',
-                                                //        data: {
-                                                //            idFolio: $("#idFolio").val(),
-                                                //        },
-                                                //        beforeSend: function () {
-                                                //            $(".loader-1").show();
-                                                //            $(".loader-1 p").text("Generando Excel...");
-                                                //        },
-                                                //        complete: function () {
-                                                //            $(".loader-1").hide();
-                                                //        },
-                                                //        success: function (data) {
-                                                //            $("#btnGenerarExcel").button('reset');
-                                                //            if (data.error) {
-                                                //                alert(data.message);
-                                                //            } else {
-                                                //                window.location.href = "../PlanillasControl/downloadExcel?filepath=" + data.message;
-                                                //            }
+                                                                            //function getExcel() {
+                                                                            //    $.ajax({
+                                                                            //        url: '../PlanillasControl/getExcelReporteSeguimientoPlanilla',
+                                                                            //        dataType: 'json',
+                                                                            //        data: {
+                                                                            //            idFolio: $("#idFolio").val(),
+                                                                            //        },
+                                                                            //        beforeSend: function () {
+                                                                            //            $(".loader-1").show();
+                                                                            //            $(".loader-1 p").text("Generando Excel...");
+                                                                            //        },
+                                                                            //        complete: function () {
+                                                                            //            $(".loader-1").hide();
+                                                                            //        },
+                                                                            //        success: function (data) {
+                                                                            //            $("#btnGenerarExcel").button('reset');
+                                                                            //            if (data.error) {
+                                                                            //                alert(data.message);
+                                                                            //            } else {
+                                                                            //                window.location.href = "../PlanillasControl/downloadExcel?filepath=" + data.message;
+                                                                            //            }
 
-                                                //        },
-                                                //        error: function (xhr, ajaxOptions, thrownError) {
-                                                //            alertDanger("Demasiados datos para generar excel");
-                                                //        }
-                                                //    });
+                                                                            //        },
+                                                                            //        error: function (xhr, ajaxOptions, thrownError) {
+                                                                            //            alertDanger("Demasiados datos para generar excel");
+                                                                            //        }
+                                                                            //    });
 
-                                                //}
+                                                                            //}
 
     </script>
 }

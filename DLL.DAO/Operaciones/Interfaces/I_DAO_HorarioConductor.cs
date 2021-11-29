@@ -18,6 +18,8 @@ namespace DLL.DAO.Operaciones.Interfaces
         List<int> GetHorasTrabajadasLibres(DateTime DateIni, DateTime dateFin);
 
         List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut, DateTime fechaIni, DateTime fechaFin);
+
+        List<DTO_HorarioConductorMostrar> GetHorarioConductorByRutAll(string rut, DateTime fechaIni, DateTime fechaFin);
        
         List<DTO_HorarioConductorMostrar> GetHorarioConductorById(int idUsuario, DateTime fechaIni, DateTime fechaFin, int idTurno );
         
@@ -29,7 +31,7 @@ namespace DLL.DAO.Operaciones.Interfaces
 
         int SetIngresaSolicitud(DTO_SolicitudCambioHorario list);
         
-        string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, string nombreCarga, DateTime fechaCarga, string descripcion);
+        string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, int idUusuario, string nombreCarga, DateTime fechaCarga, string descripcion);
 
     }
 }
