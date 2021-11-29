@@ -67,15 +67,23 @@ namespace DLL.DAO.Operaciones
                     fechaFin = fechaFin.AddDays(1);
 
                     List<DTO_HorarioConductorMostrar> dtoHorario = (from hrcon in context.HORARIO_CONDUCTOR
-                                                                    where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin)
+                                                                    join usr in context.USUARIOS_SISTEMA on hrcon.ID_USUARIO equals usr.ID_USUARIO
+                                                                    where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin && usr.ESTADO == true)
+                                                                    join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO
                                                                     select new DTO_HorarioConductorMostrar
                                                                     {
                                                                         ID_HORARIO = hrcon.ID_HORARIO,
-                                                                        HORARIO_CUBIERTO = hrcon.HORARIO_CUBIERTO,
+                                                                        RUT = usr.RUT,
+                                                                        NOMBRE = usr.NOMBRE,
+                                                                        SEGUNDO_NOMBRE = usr.SEGUNDO_NOMBRE,
+                                                                        APELLIDO_PATERNO = usr.APELLIDO_PATERNO,
+                                                                        APELLIDO_MATERNO = usr.APELLIDO_MATERNO,
+                                                                        ESTADO = usr.ESTADO,
                                                                         ID_TERMINAL = hrcon.ID_TERMINAL_INICIO,
                                                                         NUMERO_JORNADA = hrcon.NUMERO_JORNADA,
                                                                         FECHA_HORA_INICIO = hrcon.FECHA_INICIO,
-                                                                        ESTADO = hrcon.ESTADO
+                                                                        TIPO_CONTRATO = tic.NOMBRE_TIPO_CONTRATO,
+                                                                        HORARIO_CUBIERTO = hrcon.HORARIO_CUBIERTO
                                                                     }).Where(x => x.ESTADO == true && x.HORARIO_CUBIERTO == true).ToList();
 
                     List<DTO_HorarioConductorMostrar> dtoHorario2 = new List<DTO_HorarioConductorMostrar>();

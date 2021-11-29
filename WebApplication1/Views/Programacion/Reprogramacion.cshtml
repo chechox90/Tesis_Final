@@ -10,6 +10,16 @@
     .divFlot {
         text-align: right
     }
+
+    .disabledDiv {
+        pointer-events: none;
+        opacity: 0.8;
+    }
+
+    .contiener-row {
+        display:flex;
+        align-items:center;
+    }
 </style>
 
 <div class="page-title">
@@ -104,9 +114,8 @@
                 <div class="form-row">
                     <div class="col-md-6">
                         <div class="borderInput">
-
                             <div class="form-row">
-                                <div class="form-row form-group col-12">
+                                <div class="form-row form-group col-12" id="divLunes1">
                                     <div class="col-md-3">
                                         <label id="idHorarioLunesT1" class="idHorario"></label>
                                         <label id="idLunesT1"></label>
@@ -118,7 +127,14 @@
                                         <select id="ddlTerminalLu1" class="form-control enabled ddlTer"></select>
                                     </div>
                                     <div class="col-md-3">
-                                        <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
+                                        <div class="form-row contiener-row">
+                                            <div class="col-10">
+                                                <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="checkbox" id="chkLun1" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -136,6 +152,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioMa1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkMar1" />
                                     </div>
                                 </div>
                             </div>
@@ -153,6 +170,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioMi1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkMie1" />
                                     </div>
                                 </div>
                             </div>
@@ -170,6 +188,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioJu1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkJue1" />
                                     </div>
                                 </div>
                             </div>
@@ -187,6 +206,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioVi1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkVie1" />
                                     </div>
                                 </div>
                             </div>
@@ -204,6 +224,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioSa1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkSab1" />
                                     </div>
                                 </div>
                             </div>
@@ -221,6 +242,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioDo1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkDom1" />
                                     </div>
                                 </div>
                             </div>
@@ -245,6 +267,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkLun2" />
                                     </div>
                                 </div>
                             </div>
@@ -263,6 +286,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkMar2" />
                                     </div>
                                 </div>
                             </div>
@@ -280,6 +304,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkMie2" />
                                     </div>
                                 </div>
                             </div>
@@ -297,6 +322,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkJue2" />
                                     </div>
                                 </div>
                             </div>
@@ -308,12 +334,14 @@
                                     </div>
                                     <div class="col-md-2">
                                         <input class="form-control format-time bg-white enabled txtHor" type="time" placeholder="HH:mm" maxlength="5" id="txtHoraViernes2" />
+                                        <input type="checkbox" />
                                     </div>
                                     <div class="col-md-4">
                                         <select id="ddlTerminalVi2" class="form-control enabled ddlTer"></select>
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkVie2" />
                                     </div>
                                 </div>
                             </div>
@@ -331,6 +359,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkSab2" />
                                     </div>
                                 </div>
                             </div>
@@ -348,6 +377,7 @@
                                     </div>
                                     <div class="col-md-3 form-row">
                                         <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
+                                        <input type="checkbox" id="chkDom2" />
                                     </div>
                                 </div>
                             </div>
@@ -395,10 +425,10 @@
 
         });
 
-        function Sololetras(e) {            
-                var k;
-                document.all ? k = e.keyCode : k = e.which;
-                return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+        function Sololetras(e) {
+            var k;
+            document.all ? k = e.keyCode : k = e.which;
+            return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
         }
 
         function CargarTerminalesCmb() {
@@ -680,6 +710,67 @@
             $("#ddlTerminalVi2 option[value='" + data.data[11]["ID_TERMINAL"] + "']").prop("selected", true);
             $("#ddlTerminalSa2 option[value='" + data.data[12]["ID_TERMINAL"] + "']").prop("selected", true);
             $("#ddlTerminalDo2 option[value='" + data.data[13]["ID_TERMINAL"] + "']").prop("selected", true);
+
+
+            //CHECK
+            if (data.data[0]["HORARIO_CUBIERTO"]) {
+                $("#chkLun1").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+            if (data.data[1]["HORARIO_CUBIERTO"]) {
+                $("#chkMar1").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+            if (data.data[2]["HORARIO_CUBIERTO"]) {
+                $("#chkMie1").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+            if (data.data[3]["HORARIO_CUBIERTO"]) {
+                $("#chkJue1").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+            if (data.data[4]["HORARIO_CUBIERTO"]) {
+                $("#chkVie1").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+            if (data.data[5]["HORARIO_CUBIERTO"]) {
+                $("#chkSab1").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+            if (data.data[6]["HORARIO_CUBIERTO"]) {
+                $("#chkDom1").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+
+            if (data.data[7]["HORARIO_CUBIERTO"]) {
+                $("#chkLun2").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+            if (data.data[8]["HORARIO_CUBIERTO"]) {
+                $("#chkMar2").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+            if (data.data[9]["HORARIO_CUBIERTO"]) {
+                $("#chkMie2").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+            if (data.data[10]["HORARIO_CUBIERTO"]) {
+                $("#chkMie2").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+            if (data.data[11]["HORARIO_CUBIERTO"]) {
+                $("#chkJue2").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+            if (data.data[12]["HORARIO_CUBIERTO"]) {
+                $("#chkVie2").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+            if (data.data[13]["HORARIO_CUBIERTO"]) {
+                $("#chkSab2").prop('checked', 'checked');
+                $("#divLunes1").addClass("disabledDiv");
+            }
+
         }
 
         function Limpiar() {

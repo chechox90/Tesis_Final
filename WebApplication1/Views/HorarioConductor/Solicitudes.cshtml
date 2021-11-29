@@ -11,6 +11,8 @@
     .divFlot {
         text-align: right
     }
+
+    
 </style>
 
 <div class="page-title">
@@ -33,51 +35,54 @@
             <h3 class="text-primary">Solicitud cambio de Horario</h3>
         </div>
         <br />
-        <div class="form-row form-group col-12">
-            <input value="@Model.ID_HORARIO" id="lblIdHorario" style="display:none" />
-            <span>Yo </span>
-            <input class="col-2 form-control" id="lblNom" value="@Model.NOMBRE @Model.SEGUNDO_NOMBRE @Model.APELLIDO_PATERNO @Model.APELLIDO_MATERNO" readonly />
-            
-            <span>R.U.N. </span>
-            <input class="form-control col-2" id="lblRut" value="@Model.RUT" readonly />
-            
-            <span>con fecha</span>
-            <input class="col-2 form-control" readonly id="lblFechaHoy" value="@Model.FECHA_INICIO" />
-            
-            <span>y hora</span>
-            <input class="form-control col-1" value="@Model.HORA_INICIO" id="idHoraActual" />,
-            
-            <span>por medio del presente solicito </span><select id="cmbTipoSolicitud" class="form-control col-4"></select>
-            
-            <span>Realizo esta solicitud debido a los <b>motivos</b> que considero de <b>fuerza mayor</b> y que paso a señalar a continuación:</span>
-        
-            <textarea class="form-control" row="10" style="height:100px" maxlength="500" id="txtMotivoCambio" placeholder="A continuación, describa los motivos de la solicitud..."></textarea>
-        
+        <div class="modal-body">
+            <div class="row align-items-center">
+                <input value="@Model.ID_HORARIO" id="lblIdHorario" style="display:none" />
+                <span>Yo </span>
+                <span id="lblNom">&nbsp @Model.NOMBRE @Model.SEGUNDO_NOMBRE @Model.APELLIDO_PATERNO @Model.APELLIDO_MATERNO &nbsp</span>
+
+                <span>R.U.N. </span>
+                <span id="lblRut">&nbsp @Model.RUT &nbsp</span>
+
+                <span>con fecha</span>
+                <span id="lblFechaHoy">&nbsp @Model.FECHA_INICIO &nbsp</span>
+
+                <span>y hora</span>
+                <span id="idHoraActual">&nbsp @Model.HORA_INICIO</span>,&nbsp
+
+                <span> por medio del presente solicito </span>&nbsp
+
+                <select id="cmbTipoSolicitud" class="form-control col-4"></select>
+
+                <span>Realizo esta solicitud debido a los <b>motivos</b> que considero de <b>fuerza mayor</b> y que paso a señalar a continuación:</span>
+
+                <textarea class="form-control" row="10" style="height:100px" maxlength="500" id="txtMotivoCambio" placeholder="A continuación, describa los motivos de la solicitud..."></textarea>
+
+            </div>
         </div>
-        
         <div class="col-md-12">
             <textarea class="form-control" row="10" style="height:100px" maxlength="500" id="txtMotivoOpcional" placeholder="Si desea agregar algún antecedente, describalo aquí, por ejemplo: Si coordinó con otro conductor el intercambiar jornada"></textarea>
         </div>
         <br />
-        <div class="modal-body">
+        <div class="modal-body" style="font-size:15px">
             <span class="text-danger"><b>Nota importante:</b></span>
-            <p class="text-primary">
+            <p class="text-primary" style="font-size:12px">
                 Para asegurar que esta solicitud sea de carácter reservado, el equipo de <b>Conductor en RED ha cifrado la solicitud</b> y solo puede ser leída
                 por el destinatario; nadie del equipo de Conductor en RED puede leer, modificar o reenviar esta solicitud. <b class="text-primary">¡Su privacidad es lo más importante!</b>
                 Notificaremos al destinatario que tiene una solicitud pendiente.
             </p>
         </div>
         <div class="modal-body">
-            <label>Antecedentes del día solicitado que implica el cambio</label>
+            <span>Antecedentes del día solicitado que implica el cambio</span>
 
             <div class="form-row form-group col-12">
-                <div class="form-row">
-                    <span>Terminal de Inicio</span>
-                    <input class="form-control" id="lblTerminalInicio" value="@Model.NOMBRE_TERMINAL" />
+                <div class="form-row borderInput">
+                    <label>Terminal de Inicio</label>
+                    <input class="form-control" style="opacity:1" id="lblTerminalInicio" readonly value="@Model.NOMBRE_TERMINAL" />
                 </div>
-                <div class="form-row">
-                    <span>Fecha y hora de Inicio</span>
-                    <input class="form-control" id="lblFechaYhora" value="@Model.FECHA_HORA_INICIO" />
+                <div class="form-row borderInput">
+                    <label>Fecha y hora de Inicio</label>
+                    <input class="form-control" style="opacity:1" id="lblFechaYhora" readonly value="@Model.FECHA_HORA_INICIO" />
                 </div>
             </div>
            

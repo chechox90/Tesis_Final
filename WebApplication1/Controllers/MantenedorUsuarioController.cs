@@ -8,12 +8,15 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Helpers;
+using WebApplication1.Models.Commons;
 
 namespace ConductorEnRed.Controllers
 {
     public class MantenedorUsuarioController : Controller
     {
         private readonly I_N_Usuario _i_n_Usuario;
+
+        DTO_Usuario usuario = FrontUser.Get();
 
         public MantenedorUsuarioController(I_N_Usuario i_n_usuario)
         {

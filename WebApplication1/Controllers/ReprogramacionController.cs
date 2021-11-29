@@ -9,9 +9,11 @@ using System.Web;
 using System.Web.Mvc;
 using ConductorEnRed.Models;
 using DLL.DTO.CargaHorario;
+using DLL.DTO.Seguridad;
 using DLL.DTO.Terminales;
 using DLL.NEGOCIO.Operaciones.Interfaces;
 using DLL.NEGOCIO.Seguridad.Interfaces;
+using WebApplication1.Models.Commons;
 
 namespace WebApplication1.Controllers
 {
@@ -34,13 +36,13 @@ namespace WebApplication1.Controllers
 
         }
 
-
+        DTO_Usuario usuario = FrontUser.Get();
 
         [HttpPost]
         public ActionResult GetConductorHorario(string RutConductor, string fechasConsultas)
         {
             try
-            {
+            {                
                 RutConductor = AgregarGuionRut(RutConductor);
 
                 if (ValidarRutCompleto(RutConductor))
@@ -69,6 +71,7 @@ namespace WebApplication1.Controllers
                                 carga.ID_TERMINAL = dto_Horario[ind].ID_TERMINAL;
                                 carga.NOMBRE_COMPLETO = dto_Horario[ind].NOMBRE + " " + dto_Horario[0].SEGUNDO_NOMBRE + " " + dto_Horario[0].APELLIDO_PATERNO + " " + dto_Horario[0].APELLIDO_MATERNO;
                                 carga.TIPO_CONTRATO = dto_Horario[ind].TIPO_CONTRATO;
+                                carga.HORARIO_CUBIERTO = dto_Horario[ind].HORARIO_CUBIERTO;
                                 list.Add(carga);
                             }
                             else
@@ -199,12 +202,13 @@ namespace WebApplication1.Controllers
         {
             try
             {
+                string Rutusuario = usuario.RUT;
                 DateTime fechaHoy = DateTime.Now;
 
                 DateTime fechaIni = DateTime.Parse(fechaHoy.ToString().Split(' ')[0].Trim() + " 00:00");
                 DateTime fechaFin = DateTime.Parse(fechaHoy.ToString().Split(' ')[0].Trim() + " 23:59");
 
-                List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut("17459567-4", fechaIni, fechaFin);
+                List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut(Rutusuario, fechaIni, fechaFin);
                 List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
 
                 

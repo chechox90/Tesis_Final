@@ -64,13 +64,13 @@
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
                         <label for="rut">R.U.N. *</label>
-                        <input id="txtRut" type="text" name="rut" onblur="onBlurRut(this);" placeholder="9999999-0" class="form-control" required/>
+                        <input id="txtRut" type="text" name="rut" onblur="onBlurRut(this);" placeholder="9999999-0" class="form-control" required />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group">
                         <label for="CodigoBarra">Codigo de Barra *</label>
-                        <input id="txtCodigoBarra" type="text" name="CodigoBarra" placeholder="0100220225" class="form-control" required/>
+                        <input id="txtCodigoBarra" type="text" name="CodigoBarra" placeholder="0100220225" class="form-control" required />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
@@ -92,13 +92,13 @@
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
                         <label for="correo">Correo *</label>
-                        <input id="txtCorreo" type="email" name="correo" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" required/>
+                        <input id="txtCorreo" type="email" name="correo" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" required />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
                     <div class="form-group ">
                         <label for="correoAlte">Correo Alternativo *</label>
-                        <input id="txtCorreoAlt" type="email" name="correoAlte" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" required/>
+                        <input id="txtCorreoAlt" type="email" name="correoAlte" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" required />
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
@@ -111,43 +111,49 @@
         </div>
         <div class="col-12">
             <div class="form-row">
-                <div class="col-sm-3 form-group">
-                    <div class="form-group ">
+                <div class="col-md-3 form-group">
+                    <div class="form-group">
                         <label for="txtClave">Clave *</label>
-                        <input id="txtClave" type="password" name="Clave" autocomplete="off" placeholder="Clave" class="form-control" required/>
-                        <span class="input-group-addon" onclick="VerClave()">
-                            <icon id="icon" class="fa fa-eye-slash"></icon>
-                        </span>
+                        <div style="display:flex; text-align:center">
+                            <input id="txtClave" type="password" name="Clave" autocomplete="off" placeholder="Clave" class="form-control" required />
+                            <span onclick="VerClave()" class="input-group-text pr-01">
+                                <icon id="icon" class="fa fa-eye-slash"></icon>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-3 form-group">
-                    <div class="form-group ">
+                    <div class="form-group">
                         <label for="repClave">Repita Clave *</label>
-                        <input id="txtRepClave" type="password" name="repClave" autocomplete="off" onblur="onBlurClave(this);" placeholder="Repita Clave" class="form-control" required/>
-                        <span class="input-group-addon" onclick="VerClaveRep()">
-                            <icon id="iconRep" class="fa fa-eye-slash"></icon>
-                        </span>
+                        <div style="display:flex; align-items:center">
+                            <input id="txtRepClave" type="password" name="repClave" autocomplete="off" onblur="onBlurClave(this);" placeholder="Repita Clave" class="form-control" required />
+                            <span onclick="VerClaveRep()" class="input-group-text pr-01">
+                                <icon id="iconRep" class="fa fa-eye-slash"></icon>
+                            </span>
+                        </div>
                     </div>
 
                 </div>
-                <div class="col-sm-3 form-group">
+                <div class="col-md-3 form-group">
                     <div class="form-group">
                         <div class="input-group">
                             <label>Cambio Password *</label>
                         </div>
                         <div class="input-group">
+                            <input type="text" class="form-control dateinput opacity-1" id="txtFechaVencePass" name="FechaVencePass" autocomplete="off" required readonly />
                             <div class="input-group-prepend">
                                 <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
                             </div>
-                            <input type="text" class="form-control dateinput opacity-1" id="txtFechaVencePass" name="FechaVencePass" autocomplete="off" required readonly />
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-3 form-group">
-                    <div class="form-row">
-                        <div class="custom-control custom-switch">
-                            <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="left" title="Seleccionar casilla para asignar permisos administrador"></i>
+                <div class="col-md-3">
+                    <div class="form-row" style="display:flex; align-items:center">
+                        <div class="col-3">
+                            <i class="far fa-info-circle text-primary mr-2" data-toggle="tooltip" data-placement="left" title="Seleccionar casilla para asignar permisos administrador"></i>
                             <input id="chkAdmin" type="checkbox" />
+                        </div>
+                        <div class="col-9">
                             <label for="correoAlte">Administrador</label>
                         </div>
                     </div>
@@ -377,11 +383,11 @@
                             alertDanger(data.Data.data);
                             document.getElementById(texto.id).focus();
                         }
-                        
+
                     }
                 });
             }
-            
+
         }
 
         function onBlurClave(texto) {
