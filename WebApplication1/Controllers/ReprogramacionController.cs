@@ -42,7 +42,7 @@ namespace WebApplication1.Controllers
         public ActionResult GetConductorHorario(string RutConductor, string fechasConsultas)
         {
             try
-            {                
+            {
                 RutConductor = AgregarGuionRut(RutConductor);
 
                 if (ValidarRutCompleto(RutConductor))
@@ -211,7 +211,7 @@ namespace WebApplication1.Controllers
                 List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut(Rutusuario, fechaIni, fechaFin);
                 List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
 
-                
+
 
                 if (dto_Horario.Count > 0)
                 {
@@ -291,13 +291,23 @@ namespace WebApplication1.Controllers
                             mensajeError = "Se ha detecato que la fila " + (i + 1) + " no contiene un formato valido de R.U.N.";
                             break;
                         }
-                        else if (!Digito(sinGuion).ToUpper().Equals(guion.ToUpper()))
+
+                        if (!Digito(sinGuion).ToUpper().Equals(guion.ToUpper()))
                         {
                             mensajeError = "Por favor revise la fila " + (i + 1) + " el dígito verificador no es correcto";
                             break;
                         }
                         else
                         {
+                            int idUsuario = _i_n_usuario.GetUsuarioByRut(rutString);
+                            var HorarioActual = _i_n_HorarioConductor.GetHorarioConductorByIdUser(idUsuario, DateTime.Parse(resultadoTabla.Rows[i][6].ToString() + " " + resultadoTabla.Rows[i][7].ToString()));
+                            if (HorarioActual != null)
+                            {
+                                mensajeError = "Por favor revise el R.U.N. " + rutString + " El R.U.N. tiene horario cargado, si necesita saber cuál " +
+                                    "es la programación cargada, revise el reporte Listado de programación cargada";
+                                break;
+                            }
+
                             carga.RUT = IngresarPuntosEnRut(rutString);
 
                         }
@@ -448,7 +458,7 @@ namespace WebApplication1.Controllers
                 return dt;
 
             }
-            catch (Exception )
+            catch (Exception)
             {
 
                 throw;
@@ -560,10 +570,11 @@ namespace WebApplication1.Controllers
 
                         carga.FECHA_HORA_INICIO = DateTime.Parse(resultadoTabla.Rows[i][6].ToString() + " " + resultadoTabla.Rows[i][7].ToString());
 
+
                         list.Add(carga);
                     }
 
-                    string resultado = _i_n_HorarioConductor.SetGuardarHorarioConductor(list,usuario.ID_USUARIO, NombreArchivo, DateTime.Parse(FechaCarga), comentario);
+                    string resultado = _i_n_HorarioConductor.SetGuardarHorarioConductor(list, usuario.ID_USUARIO, NombreArchivo, DateTime.Parse(FechaCarga), comentario);
 
 
                     if (resultado != "")

@@ -91,6 +91,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -168,6 +169,7 @@
     <Compile Include="Controllers\MantenedorUsuarioController.cs" />
     <Compile Include="Controllers\RedirectVistasController.cs" />
     <Compile Include="Controllers\ReprogramacionController.cs" />
+    <Compile Include="ExportarExcelColor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -177,6 +179,7 @@
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Models\CargaArchivoModel.cs" />
     <Compile Include="Models\CargaHorarioModel.cs" />
+    <Compile Include="ExportarExcel.cs" />
     <Compile Include="Models\Commons\FrontUser.cs" />
     <Compile Include="Models\Commons\RolesPermisos.cs" />
     <Compile Include="Models\RegistroVueltasModel.cs" />
@@ -497,6 +500,7 @@
     <Content Include="Views\HorarioConductor\Ruta.cshtml" />
     <Content Include="Views\HorarioConductor\_EditarVuelta.cshtml" />
     <Content Include="TempArchivos\EXCEL_CONDUCTOR_EN_RED.xlsx" />
+    <Content Include="Views\Mantenedores\downloadExcel.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

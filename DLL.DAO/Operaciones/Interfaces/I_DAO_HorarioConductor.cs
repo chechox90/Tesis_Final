@@ -19,10 +19,14 @@ namespace DLL.DAO.Operaciones.Interfaces
 
         List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut, DateTime fechaIni, DateTime fechaFin);
 
+        List<DTO_HorarioConductorMostrar> GetHorarioConductorByIdUser(int idUsuario, DateTime fechaIni, DateTime fechaFin);
+
         List<DTO_HorarioConductorMostrar> GetHorarioConductorByRutAll(string rut, DateTime fechaIni, DateTime fechaFin);
        
         List<DTO_HorarioConductorMostrar> GetHorarioConductorById(int idUsuario, DateTime fechaIni, DateTime fechaFin, int idTurno );
-        
+
+        DTO_HorarioConductorMostrar GetHorarioConductorByIdUser(int idUsuario, DateTime fechaHora);
+
         DTO_HorarioConductorMostrar GetHorarioConductorByIdHorario(int idHorario);
 
         List<DTO_TipoSolicitud> GetTipoSolicitudAll();

@@ -1242,7 +1242,7 @@ select.form-control {
 
 .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
     border-color: rgba(0, 107, 230, .1);
-    background-color: rgba(0, 107, 230, .5);
+    background-color: rgba(81, 152,86, 1);
 }
 
 /* Input Radio Buttons */
@@ -1275,7 +1275,7 @@ select.form-control {
     }
 
 .custom-control-input:checked ~ .custom-control-label {
-    color: #34394F;
+    color: #519856;
 }
 
     .custom-control-input:checked ~ .custom-control-label::before {
@@ -3097,12 +3097,12 @@ input[type="file"]::-webkit-file-upload-button {
     font-weight: 500;
     text-align: left;
     position: relative;
-    color: #6E7B8F;
+    color: #004211;
 }
 
     .sidebar .nav-link:hover:not([data-toggle="collapse"]),
     .sidebar .nav-link:focus:not([data-toggle="collapse"]) {
-        color: #519856;
+        color: #039F50;
     }
 
     .sidebar .nav-link .icon-link {

@@ -6,10 +6,14 @@ using DLL.NEGOCIO.Operaciones.Interfaces;
 using DLL.NEGOCIO.Seguridad.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication1.Helpers;
 using WebApplication1.Models.Commons;
 
 namespace ConductorEnRed.Controllers
@@ -60,6 +64,91 @@ namespace ConductorEnRed.Controllers
                 throw;
             }
 
+        }
+
+        [HttpPost]
+        public ActionResult GetDatosTablaDashboard()
+        {
+            int idUsuario = usuario.ID_USUARIO;
+
+            IEnumerable<DTO_HorarioConductorMostrar> list = _i_n_HorarioConductor.GetHorarioConductorByIdUser(idUsuario,DateTime.Now.AddDays(-5),DateTime.Now);
+            DataTable boundTable = CreateDataTable(list);
+
+            boundTable.TableName = "Listado Vueltas"; //nombre no puede ser muy largo
+
+            //crea ruta para archivos excel si no existe
+            CreateFolderHelper.CreateFolders("Content/reports/Reportes");
+
+            string nombreArchivo = "Reporte_ServiciosRealizados_" + DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss") + ".xlsx";
+            string filepath = System.Web.HttpContext.Current.Server.MapPath(@"~\Content\reports\Reportes\" + nombreArchivo + "");
+
+            bool generate = ExportarExcelColor.CreateExcelDocument(boundTable, filepath);
+            FileInfo file = new FileInfo(filepath);
+
+
+            var json = new
+            {
+                error = true,
+                message = "Ocurrió un problema al generar el Excel"
+            };
+
+            if (generate)
+            {
+                json = new
+                {
+                    error = false,
+                    message = filepath
+                };
+            }
+
+            var jsonResult = Json(json, "text/html", System.Text.Encoding.UTF8,
+                                JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+
+        public static DataTable CreateDataTable<T>(IEnumerable<T> list)
+        {
+            Type type = typeof(T);
+            var properties = type.GetProperties();
+
+            DataTable dataTable = new DataTable();
+            foreach (PropertyInfo info in properties)
+            {
+                dataTable.Columns.Add(new DataColumn(info.Name.Replace("_", " "), Nullable.GetUnderlyingType(info.PropertyType) ?? info.PropertyType));
+            }
+
+            foreach (T entity in list)
+            {
+                object[] values = new object[properties.Length];
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    values[i] = properties[i].GetValue(entity);
+                }
+
+                dataTable.Rows.Add(values);
+            }
+
+            return dataTable;
+        }
+
+        public ActionResult downloadExcel(string filepath)
+        {
+            FileInfo file = new FileInfo(filepath);
+
+            Response.ClearContent();
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+            Response.AddHeader("Content-Length", file.Length.ToString());
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.TransmitFile(file.FullName);
+            Response.End();
+
+            if (System.IO.File.Exists(filepath))
+            {
+                System.IO.File.Delete(filepath);
+            }
+
+            return View("~/Views/Administracion/Dashboard.cshtml");
         }
 
         #endregion

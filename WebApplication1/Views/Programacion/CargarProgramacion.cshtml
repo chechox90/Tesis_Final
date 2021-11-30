@@ -109,7 +109,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
                         </div>
-                        <input type="text" class="form-control dateinput opacity-1" id="FechaCargaArchivo" name="FechaCargaArchivo" autocomplete="off" required readonly />
+                        <input type="text" class="form-control bg-white" id="FechaCargaArchivo" name="FechaCargaArchivo" placeholder="Fecha Carga" autocomplete="off" readonly />
                     </div>
                 </div>
                 <div class="form-row form-group col-md-4">
@@ -129,7 +129,7 @@
 
 
             <div class="form-group text-right mb-0">
-                <a href="~/TempArchivos/EXCEL_CONDUCTOR_EN_RED.xlsx" class="btn btn-success" title="Descargar archivo" download="Carga_Programacion_Semanal"><i class="fas fa-file-excel"></i> Descargar plantilla carga</a>
+                <a href="~/TempArchivos/EXCEL_CONDUCTOR_EN_RED.xlsx" id="btnDescargarPlantilla" class="btn btn-success" title="Descargar archivo" download="Carga_Programacion_Semanal"><i class="fas fa-file-excel"></i> Descargar plantilla carga</a>
                 <button class="btn btn-success" title="Cargar Horario" onclick="CargarArchivo();"><i class="fas fa-check"></i> Cargar</button>
             </div>
 
@@ -165,11 +165,34 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalCargaRealiazada" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-title">
+                <div class="text-center">
+                    <h3 style="color:darkorange">¡Atención!</h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <span id="txtMostrar" class="text-success"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
+                <a id="btnReenviar" href="~/Controllers/RedirectVistasController"><i class="fas fa-trash"></i> Ir a reporte</a>
+                <button type="button" class="btn btn-success" id="btnAceptarEditar"><i class="fas fa-check"></i> Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section scripts
     {
     <script>
         $(document).ready(function () {
+            DatePicker();
         });
         var tablaArchivo = null;
 
@@ -189,6 +212,20 @@
 
             }
 
+        }
+
+        function DatePicker() {
+            $("#FechaCargaArchivo").datepicker({
+                dateFormat: 'dd/mm/yy',
+                minDate: "30/11/2021",
+                maxDate: "31/12/" + ((new Date).getFullYear() + 1),
+                prevText: '',
+                nextText: '',
+                firstDay: 1,
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;']
+            });
         }
 
         function Sololetras(e) {
@@ -303,7 +340,12 @@
                     data: fileData,
                     success: function (data) {
                         if (data.ErrorMsg != '') {
-                            alertDanger1(data.ErrorMsg);
+                            if (data.ErrorMsg.length > 160) {
+                                $("#modalCargaRealiazada").modal("show");
+                                $("#txtMostrar").text(data.ErrorMsg)
+                            } else {
+                                alertDanger1(data.ErrorMsg);
+                            }                            
                             $(".files input").css("color", "");
                             $(".files").removeClass('added').removeAttr('data-content', '').css("border-color", "");
                             $("#cargaImagen").show().addClass('added').attr('data-content', 'Ajuntar nuevo archivo...').css("border-color", "#00CA18");
@@ -316,7 +358,7 @@
                             $("#cargaImagen").show().addClass('added').attr('data-content', 'Ajuntar nuevo archivo...').css("border-color", "#00CA18");
                             $("#txtNombreCarga").val('');
                             $("#txtComenatrio").val('');
-                            //$("#FILE-ARCHIVO").val("");
+                            $("#btnDescargarPlantilla").css("display","none");
 
                             $('#tblHorarioCargar').DataTable({
                                 dom: "<'card-header flex-column flex-lg-row'<'.d-inline-flex flex-column flex-lg-row'><'d-flex justify-content-md-end'l><'d-flex align-items-start justify-content-md-start'f>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
@@ -404,35 +446,9 @@
 
         }
 
-                                                                            //function getExcel() {
-                                                                            //    $.ajax({
-                                                                            //        url: '../PlanillasControl/getExcelReporteSeguimientoPlanilla',
-                                                                            //        dataType: 'json',
-                                                                            //        data: {
-                                                                            //            idFolio: $("#idFolio").val(),
-                                                                            //        },
-                                                                            //        beforeSend: function () {
-                                                                            //            $(".loader-1").show();
-                                                                            //            $(".loader-1 p").text("Generando Excel...");
-                                                                            //        },
-                                                                            //        complete: function () {
-                                                                            //            $(".loader-1").hide();
-                                                                            //        },
-                                                                            //        success: function (data) {
-                                                                            //            $("#btnGenerarExcel").button('reset');
-                                                                            //            if (data.error) {
-                                                                            //                alert(data.message);
-                                                                            //            } else {
-                                                                            //                window.location.href = "../PlanillasControl/downloadExcel?filepath=" + data.message;
-                                                                            //            }
-
-                                                                            //        },
-                                                                            //        error: function (xhr, ajaxOptions, thrownError) {
-                                                                            //            alertDanger("Demasiados datos para generar excel");
-                                                                            //        }
-                                                                            //    });
-
-                                                                            //}
+        function CerrarModal() {
+            $("#modalCargaRealiazada").modal("hide");
+        }
 
     </script>
 }
