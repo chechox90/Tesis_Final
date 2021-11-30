@@ -327,7 +327,7 @@
         <div class="modal-content shadow">
             <div class="modal-title">
                 <div class="text-center">
-                    <h3 class="text-info"><i class="far fa fa-info"></i> Información</h3>
+                    <h3 class="text-success">Información</h3>
                 </div>
             </div>
             <div class="modal-body">
@@ -447,7 +447,7 @@
                         $("#modalInformacion").modal("show");
                         $(".bloqueo").prop("disabled", true);
                     }
-                    
+
                 }
             });
         }
@@ -530,7 +530,7 @@
                     { data: "NOMBRE_TERMINAL_INICIO", title: "Terminal inicio", orderable: false },
                     { data: "NOMBRE_SERVICIO_INICIO", title: "Servicio inicio", name: "SERVICIO_INICIO", searchable: false },
                     { data: "NUMERO_BUS_INICIO", title: "Bus inicio", name: "BUS", searchable: false },
-                    { data: "SEN_INI_CORTO", title: "Sentido Inicio", name: "SERVICIO_INICIO", searchable: false },                    
+                    { data: "SEN_INI_CORTO", title: "Sentido Inicio", name: "SERVICIO_INICIO", searchable: false },
                     {
                         data: null
                         , title: "Fecha Inicio"
@@ -624,6 +624,22 @@
             let terminalInicio = $("#cmbTerminalInicio").val();
             let HoraInicio = $("#txtHoraInicio").val();
             let idHorarioCond = $("#cmbTurnosDisponibles option:selected").val();
+
+            if (terminalInicio == 0) {
+                alert("Seleccione un terminal de inicio para continuar.");
+                return;
+            }
+
+            if (HoraInicio == "") {
+                alert("Ingresa una hora de inicio de horario para continuar.");
+                return;
+            }
+
+            if (idHorarioCond == 0) {
+                alert("Seleccione un hora disponible para continuar.");
+                return;
+            }
+
             $.ajax({
                 url: '../Mantenedor/SetRegistroInicioHorario',
                 type: 'post',
@@ -660,6 +676,31 @@
                     ID_TERMINAL_INICIO: $("#cmbTerminalIniVuelta option:selected").val(),
                 },
             ]
+
+            if (HORA_INICIO == "") {
+                alert("Ingrese una hora de salida para continuar.");
+                return;
+            }
+
+            if (ID_BUS_INICIO == 0) {
+                alert("Seleccione un bus de salida para continuar.");
+                return;
+            }
+
+            if (ID_SERVICIO_INICIO == 0) {
+                alert("Seleccione un servicio de salida para continuar.");
+                return;
+            }
+
+            if (ID_SENTIDO_INICIO == 0) {
+                alert("Seleccione un sentido de la salida para continuar.");
+                return;
+            }
+
+            if (ID_TERMINAL_INICIO == 0) {
+                alert("Seleccione un terminal de inicio para continuar.");
+                return;
+            }
 
             $.ajax({
                 url: '../Mantenedor/SetRegistroInicioVuelta',
