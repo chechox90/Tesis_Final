@@ -14,11 +14,11 @@
 
 <div class="page-title">
     <div class="content-title">
-        <h3>Mi Bitácora</h3>
+        <h3>Ingresar ruta</h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#">Registrar horario</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Registrar ruta</a></li>
             </ol>
         </nav>
     </div>
@@ -38,13 +38,9 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-row form-group col-12">
-                                    <div class="col-md-6">
+                                    <div class="col-md-10">
                                         <span>Horas de inicio Disponibles</span>
                                         <select class="form-control bloqueo Ini" id="cmbTurnosDisponibles" onchange="AsignarTerminalLabel()"></select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <span>Terminal Inicio</span>
-                                        <label class="form-control bloqueo Ini" id="lblTerminalJornadainicio"></label>
                                     </div>
                                 </div>
                                 <div class="form-row form-group col-12">
@@ -625,20 +621,22 @@
             let HoraInicio = $("#txtHoraInicio").val();
             let idHorarioCond = $("#cmbTurnosDisponibles option:selected").val();
 
+            if (idHorarioCond == 0) {
+                alertDanger("Seleccione una hora disponible para continuar.");
+                return;
+            }
+
             if (terminalInicio == 0) {
-                alert("Seleccione un terminal de inicio para continuar.");
+                alertDanger("Seleccione un terminal de inicio para continuar.");
                 return;
             }
 
             if (HoraInicio == "") {
-                alert("Ingresa una hora de inicio de horario para continuar.");
+                alertDanger("Ingresa una hora de inicio de horario para continuar.");
                 return;
             }
 
-            if (idHorarioCond == 0) {
-                alert("Seleccione un hora disponible para continuar.");
-                return;
-            }
+            
 
             $.ajax({
                 url: '../Mantenedor/SetRegistroInicioHorario',

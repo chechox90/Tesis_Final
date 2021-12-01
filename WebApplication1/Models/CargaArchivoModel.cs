@@ -8,6 +8,7 @@ namespace ConductorEnRed.Models
     public class CargaArchivoModel
     {
         public string RUT { get; set; }
+        public int NUMERO_JORNADA { get; set; }
         public string NOMBRE { get; set; }
         public string APELLIDO { get; set; }
         public string NOMBRE_TERMINAL { get; set; }

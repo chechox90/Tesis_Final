@@ -175,10 +175,14 @@
                 scrollX: true,
                 processing: true,
                 destroy: true,
+                lengthChange: false,
+                searching: false,
+                paging: false,
+                info: false,
                 language: {
                     "url": "../Plugins/DataTables/js/Spanish.json"
                 },
-                order: [[0, "desc"]],
+                order: [[0, "asc"]],
                 initComplete: function (full, data) {
                     if (data.data.length == 0) {
                         $("#divTablaDos").css('display', 'none');
@@ -192,24 +196,18 @@
                     url: "../HorarioConductor/GetHorarioIndividualTurnoDos",
                     type: "POST",
                     dataType: "json",
-                    data: null
+                    data: {
+                        "fechaSemanaActual": $("#btnSemanaActual").text()
+                    }
                 },
                 columns: [
+                    { data: "NUM_ROW", visible: false },
                     { data: "ID_HORARIO", visible: false },
                     { data: "ID_CARGA_HORARIO", visible: false },
                     { data: "NUMERO_JORNADA", visible: false },
+                    { data: "NOMBRE_DIA", title: "NOMBRE DÍA", name: "NOMBRE_DIA" },
                     {
-                        data: null, title: "N°", name: "ROW_NUMBER", render:
-                            function (full) {
-                                if (full.ROW_NUMBER != 0) {
-                                    return full.ROW_NUMBER;
-                                } else {
-                                    return "";
-                                }
-                            }
-                    },
-                    {
-                        data: null, title: "FECHA INICIO", name: "FECHA_HORA_INICIO", render:
+                        data: null, title: "FECHA INICIO", name: "FECHA_HORA_INICIO", orderable: false, render:
                             function (full) {
                                 if (moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY') != '31/12/0000') {
                                     return moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY');
@@ -219,8 +217,8 @@
 
                             }
                     },
-                    { data: "NOMBRE_TERMINAL", title: "TERMINAL INICIO", name: "NOMBRE_TERMINAL" },
-                    { data: "HORA_INICIO", title: "HORA", name: "HORA" },
+                    { data: "NOMBRE_TERMINAL", title: "TERMINAL INICIO", name: "NOMBRE_TERMINAL", orderable: false },
+                    { data: "HORA_INICIO", title: "HORA", name: "HORA", orderable: false },
                     {
                         title: "GESTIÓN",
                         orderable: false,

@@ -10,6 +10,14 @@
     .divFlot {
         text-align: right
     }
+
+    .container-title {
+        display: flex;
+    }
+
+    .btn-x {
+        margin-left: auto
+    }
 </style>
 
 <div class="page-title">
@@ -33,41 +41,42 @@
 </div>
 
 <div class="card ocultar">
-    <div class="modal-title">
-        <div class="form-row">
+    <div class="modal-body">
+        <div class="form-row container-title">
             <div class="borderInput">
                 <h4 class="modal-title text-primary">Nuevo Servicio</h4>
             </div>
-            <button type="button" class="close col-mb-0" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close col-mb-0 btn-x" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
                 <i class="far fa-times"></i>
             </button>
         </div>
     </div>
-    <div class="form-row">
-        <div class="col-md-3">
-            <div class="form-group borderInput">
-                <label for="NumeroServicio">Nombre Servicio</label>
-                <input id="txtNombreServicio" type="text" maxlength="6" onkeypress="return Sololetras(event)" onkeyup="UpperCase(this);" onblur="ValidarServicioExiste();" name="NumeroServicio" placeholder="Nombre Servicio" class="form-control" />
+    <div class="modal-body">
+        <div class="form-row contiener-row">
+            <div class="col-md-4">
+                <div class="form-group borderInput">
+                    <label for="NumeroServicio">Nombre Servicio</label>
+                    <input id="txtNombreServicio" type="text" maxlength="6" onkeypress="return Sololetras(event)" onkeyup="UpperCase(this);" onblur="ValidarServicioExiste();" name="NumeroServicio" placeholder="Nombre Servicio" class="form-control" />
+                </div>
             </div>
+            <div class="col-md-3" id="divTxtEdit">
+                <div class="form-group borderInput">
+                    <label for="HoraInicio">Hora inicio del servicio</label>
+                    <input id="txtHoraSerIni" type="time" maxlength="5" name="HoraInicio" placeholder="HH:mm" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group borderInput">
+                    <label for="HoraFin">Hora fin del servicio</label>
+                    <input id="txtHoraSerFin" type="time" maxlength="5" name="HoraFin" placeholder="HH:mm" class="form-control" />
+                </div>
+            </div>
+
         </div>
-        <div class="col-md-3" id="divTxtEdit">
-            <div class="form-group borderInput">
-                <label for="HoraInicio">Hora inicio del servicio</label>
-                <input id="txtHoraSerIni" type="time" maxlength="5" name="HoraInicio" placeholder="HH:mm" class="form-control" />
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group borderInput">
-                <label for="HoraFin">Hora fin del servicio</label>
-                <input id="txtHoraSerFin" type="time" maxlength="5" name="HoraFin" placeholder="HH:mm" class="form-control" />
-            </div>
-        </div>
-        <div class="col-md-3 borderInput">
-            <div class="form-group">
-                <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoServicio();"><i class="far fa-edit"></i>  Guardar</button>
-                <button type="button" class="btn btn-success" id="btnGuardarEdicion" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i>  Guardar</button>
-            </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
+            <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoServicio();"><i class="far fa-edit"></i>  Guardar</button>
+            <button type="button" class="btn btn-success" id="btnGuardarEdicion" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i>  Guardar</button>
         </div>
     </div>
 </div>
@@ -137,11 +146,11 @@
                 columns: [
                     { data: "ID_SERVICIO", visible: false, searchable: false },
                     { data: "ID_EMPRESA", visible: false, searchable: false },
-                    { data: "NOMBRE_SERVICIO", title: "NOMBRE SERVICIO", name: "NOMBRE_SERVICIO", orderable: false },
-                    { data: "HORARIO_INICIO", title: "HORARIO INICIO", name: "HORARIO_INICIO", orderable: false },
-                    { data: "HORARIO_FIN_", title: "HORARIO FIN SERVICO", name: "HORARIO_FIN", orderable: false },
+                    { data: "NOMBRE_SERVICIO", title: "Nombre Servicio", name: "NOMBRE_SERVICIO", orderable: false },
+                    { data: "HORARIO_INICIO", title: "Horario de inicio", name: "HORARIO_INICIO", orderable: false },
+                    { data: "HORARIO_FIN_", title: "Horario de fin", name: "HORARIO_FIN", orderable: false },
                     {
-                        title: "GESTIÓN",
+                        title: "Gestión",
                         orderable: false,
                         searchable: false,
                         render: function (data, type, full, meta) {

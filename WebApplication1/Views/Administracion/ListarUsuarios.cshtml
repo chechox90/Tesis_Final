@@ -97,22 +97,31 @@
                 },
                 columns: [
                     { data: "ID_USUARIO", visible: false, searchable: false },
-                    { data: "NOMBRE", title: "NOMBRE", name: "NOMBRE"},
-                    { data: "SEGUNDO_NOMBRE", title: "NOMBRES", name: "NOMBRES", orderable: false },
-                    { data: "APELLIDO_PATERNO", title: "APELLIDO PATERNO", name: "APELLIDO_PATERNO", orderable: false },
-                    { data: "APELLIDO_MATERNO", title: "APELLIDO MATERNO", name: "APELLIDO_MATERNO", orderable: false },
-                    { data: "CORREO", title: "CORREO", name: "CORREO", orderable: false },
-                    { data: "CORREO_ALTERNATIVO", title: "CORREO ALTERNATIVO", name: "CORREO_ALTERNATIVO", orderable: false },
-                    { data: "CODIGO_BARRA", title: "CODIGO BARRA", name: "CODIGO_BARRA", orderable: false },
-                    { data: "RUT", title: "R.U.N.", name: "RUT", orderable: false },
-                    { data: "DIRECCION", title: "DIRECCIÓN", name: "DIRECCION", orderable: false },
-                    { data: "NOMBRE_CONTRATO", title: "NOMBRE CONTRATO", name: "NOMBRE_CONTRTO", orderable: false },
-                    { data: "NOMBRE_PERFIL", title: "PERFIL", name: "PERFIL", orderable: false },
+                    { data: "NOMBRE", title: "Nombre", name: "NOMBRE" },
+                    { data: "SEGUNDO_NOMBRE", title: "Segundo nombre", name: "NOMBRES", orderable: false },
+                    { data: "APELLIDO_PATERNO", title: "Apellido paterno", name: "APELLIDO_PATERNO", orderable: false },
+                    { data: "APELLIDO_MATERNO", title: "Apellido materno", name: "APELLIDO_MATERNO", orderable: false },
                     {
-                        title: "GESTIÓN",
+                        data: null, title: "Correo", name: "CORREO", orderable: false,
+                        render: function (data, type, full, meta) {
+                            if (full.CORREO != "") {
+                                return full.CORREO.toLowerCase();
+                            }
+                            else {
+                                return "";
+                            }
+                        }
+                    },
+                    { data: "CODIGO_BARRA", title: "Código Barra", name: "CODIGO_BARRA", orderable: false },
+                    { data: "RUT", title: "R.U.N.", name: "RU", orderable: false },
+                    { data: "DIRECCION", title: "Dirección", name: "DIRECCION", orderable: false },
+                    { data: "NOMBRE_CONTRATO", title: "Nombre contrato", name: "NOMBRE_CONTRTO", orderable: false },
+                    { data: "NOMBRE_PERFIL", title: "Perfil", name: "PERFIL", orderable: false },
+                    {
+                        title: "Gestión",
                         orderable: false,
                         searchable: false,
-                            render: function (data, type, full, meta) {
+                        render: function (data, type, full, meta) {
                             var html = '';
 
                             html = '<a role="button" class="btn-table-bg " onclick="ShowEliminarUsuario(' + full.ID_USUARIO + ',' + "'" + full.NOMBRE + "'" + ',' + "'" + full.APELLIDO_PATERNO + "'" + ');"><i class="far fa-trash-alt text-danger"></i></a>' +
@@ -169,7 +178,7 @@
             $("#modalConfirmacion").modal("hide");
 
         }
-        
+
     </script>
 }
 

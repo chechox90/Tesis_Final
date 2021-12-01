@@ -2235,6 +2235,7 @@ table.dataTable {
 .dt-buttons {
     margin-bottom: 0 !important;
     display: inline-flex;
+    margin-right: 0.5rem;
 }
 
     .dt-buttons .btn i {

@@ -109,7 +109,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
                         </div>
-                        <input type="text" class="form-control bg-white" id="FechaCargaArchivo" name="FechaCargaArchivo" placeholder="Fecha Carga" autocomplete="off" readonly />
+                        <input type="text" class="form-control bg-white" id="FechaCargaArchivo" name="FechaCargaArchivo" value="@DateTime.Now.ToString("dd/MM/yyyy")" autocomplete="off" readonly />
                     </div>
                 </div>
                 <div class="form-row form-group col-md-4">
@@ -180,7 +180,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
-                <a id="btnReenviar" href="~/Controllers/RedirectVistasController"><i class="fas fa-trash"></i> Ir a reporte</a>
+                <a id="btnReenviar" href="~/Controllers/RedirectVistasController" class="btn btn-success"><i class="fas fa-arrow-alt-circle-right"></i> Ir a reporte</a>
                 <button type="button" class="btn btn-success" id="btnAceptarEditar"><i class="fas fa-check"></i> Aceptar</button>
             </div>
         </div>

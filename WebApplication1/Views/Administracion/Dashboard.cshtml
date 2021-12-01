@@ -17,39 +17,49 @@
 
 <div class="card">
     <div class="card-body" style="display:flex; align-items:flex-start">
-        <div class="col-9">
+        <div class="col-8">
             <div>
                 <span></span>
             </div>
         </div>
-        <div class="col-3" style="text-align:right">
-            <label>Fecha Inicio</label>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
+        <div class="col-3" style="text-align:right;">
+            <div>
+                <label>Fecha Inicio</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
+                    </div>
+                    <input type="text" class="form-control dateinput opacity-1" id="txtFechaInicio" name="daterange" autocomplete="off" required="" readonly="" />
+
                 </div>
-                <input type="text" class="form-control dateinput opacity-1" id="txtFechaInicio" name="daterange" autocomplete="off" required readonly />
             </div>
 
+        </div>
+        <div class="col-1">
+            <div style="margin:30px">
+                <button class="btn btn-success" id="btnBuscar" onclick="RecargarDahboard();">Buscar</button>
+            </div>
         </div>
     </div>
 </div>
 
 <br />
 
-<div class="col-12">
-    <div class="form-row">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body" height="100">
-                    <div id="VStrunos" class="h-100 d-flex"></div>
+<div>
+    <div class="col-12">
+        <div class="form-row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body" height="100">
+                        <div id="VStrunos" class="h-100 d-flex"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <div id="PapelNoUsado" class="h-100 d-flex"></div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="PapelNoUsado" class="h-100 d-flex"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,7 +107,7 @@
 
     <script src="~/Plugins/package/dist/chart.js"></script>
 
-    <script>
+    <script type="text/javascript">
         var tblVueltas;
 
         $(document).ready(function () {
@@ -162,14 +172,15 @@
             var cubiertos = 0;
             var noCubiertos = 0;
 
-
-
             $.ajax({
                 url: '../HorarioConductor/GetDatosDashboard',
                 type: 'post',
                 datatype: 'json',
                 async: false,
-                data: null,
+                data: {
+                    "fIni": "",
+                    "fFin": ""
+                },
                 success: function (data) {
                     cubiertos = data.data[0];
                     noCubiertos = data.data[1];
@@ -306,10 +317,10 @@
                     innerSize: '45%',
                     showInLegend: true,
                     data: [{
-                        name: 'Turnos cubiertos',
+                        name: 'Cubiertos',
                         y: parseInt(cubiertos)
                     }, {
-                        name: 'Turnos no cubiertos',
+                        name: 'No cubiertos',
                         y: parseInt(noCubiertos)
                     }],
                 }],
@@ -436,11 +447,11 @@
                     }]
                 },
                 series: [{
-                    name: 'Horas Laborales',
+                    name: 'Horas laborales',
                     color: 'rgba(7,111,207,1)',
                     data: [parseInt(90)],
                 }, {
-                    name: 'Horas Libres',
+                    name: 'Horas libres',
                     color: 'rgba(0,173,118,1)',
                     data: [parseInt(270)]
                 }],
@@ -452,15 +463,12 @@
 
         function CargarVueltas() {
             tblVueltas = $("#tblVueltas").DataTable({
-                dom: "<'card-header'<'.titleSegui'><'d-flex justify-content-md-end'flB>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
+                dom: "<'card-header'<'.titleSegui'><'d-flex justify-content-md-end'B f l>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
                 processing: true,
                 destroy: true,
                 scrollX: true,
                 scrollY: true,
                 scrollCollapse: true,
-                info: false,
-                paging: false,
-                lengthChange: false,
                 pageLength: 10,
                 lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
                 columnDefs: [
@@ -469,7 +477,7 @@
                 language: {
                     "url": "../Plugins/DataTables/js/Spanish.json"
                 },
-                order: [[5, "desc"]],
+                order: [[0, "asc"]],
                 initComplete: function () {
                     $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
                 },
@@ -481,12 +489,12 @@
                 },
                 columns: [
                     { data: "ID_REGISTRO_VUELTAS", visible: false, searchable: false },
-                    { data: "NOMBRE_TERMINAL_INICIO", title: "Terminal inicio", name: "NOMBRE_TERMINAL_INICIO", orderable: false },
+                    { data: "NOMBRE_TERMINAL_INICIO", title: "Terminal inicio", name: "NOMBRE_TERMINAL_INICIO", orderable: true },
                     { data: "NUMERO_BUS_INICIO", title: "Bus inicio", name: "NUMERO_BUS_INICIO", orderable: false },
                     { data: "NOMBRE_SERVICIO_INICIO", title: "Servicio inicio", name: "NOMBRE_SERVICIO_INICIO", orderable: false },
                     { data: "SEN_INI_CORTO", title: "Sentido inicio", name: "SEN_INI_CORTO", orderable: false },
                     {
-                        data: null, title: "Fecha Inicio", name: "FECHA_HORA_INICIO", render:
+                        data: null, title: "Fecha Inicio", name: "FECHA_HORA_INICIO", orderable: false, render:
                             function (full) {
                                 if (moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY') != '31/12/0000') {
                                     return moment(full.FECHA_HORA_FIN).format('DD/MM/YYYY');
@@ -517,6 +525,12 @@
                     { extend: 'excel', className: 'btn btn-success', text: '<i class="fas fa-excel"></i>Descargar Excel', action: function () { getExcel() }, init: function (api, node, config) { $(node).removeClass('btn-secondary') } }
                 ],
             });
+        }
+
+        function RecargarDahboard() {
+            var texto = $("#txtFechaInicio").value;
+
+            console.log(texto)
         }
 
         function getExcel() {

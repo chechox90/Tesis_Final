@@ -39,12 +39,39 @@ namespace ConductorEnRed.Controllers
         #region Inicio
 
         [HttpPost]
-        public ActionResult GetDatosDashboard()
+        public ActionResult GetDatosDashboard(string fIni, string fFin)
         {
             try
             {
-                int turnos_cubiertos = _i_n_HorarioConductor.GetHorariosCubiertos();
-                int turnos_no_cubiertos = _i_n_HorarioConductor.GetHorariosNoCubiertos();
+                DateTime fechaLunes;
+                DateTime fechaDomingo;
+                if (fIni == "")
+                {
+
+
+                    DateTime fechaHoy = DateTime.Now;
+                    int dia = Convert.ToInt32(fechaHoy.DayOfWeek);
+                    dia = dia - 1;
+
+                    if (dia == -1)
+                    {
+                        dia = Convert.ToInt32(fechaHoy.AddDays(-1).DayOfWeek);
+                    }
+
+                    fechaLunes = Convert.ToDateTime(fechaHoy.AddDays((dia) * (-1)));
+                    fechaDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(6);
+                }
+                else
+                {
+                    fechaLunes = Convert.ToDateTime(fIni);
+                    fechaDomingo = Convert.ToDateTime(fFin);
+                }
+
+                fechaLunes = new DateTime(fechaLunes.Year, fechaLunes.Month, fechaLunes.Day, 00, 00, 00);
+                fechaDomingo = new DateTime(fechaDomingo.Year, fechaDomingo.Month, fechaDomingo.Day, 23, 59, 59);
+
+                int turnos_cubiertos = _i_n_HorarioConductor.GetHorariosCubiertos(fechaLunes, fechaDomingo);
+                int turnos_no_cubiertos = _i_n_HorarioConductor.GetHorariosNoCubiertos(fechaLunes, fechaDomingo);
 
                 int[] lista = new int[2];
                 lista[0] = turnos_cubiertos;
@@ -71,7 +98,7 @@ namespace ConductorEnRed.Controllers
         {
             int idUsuario = usuario.ID_USUARIO;
 
-            IEnumerable<DTO_HorarioConductorMostrar> list = _i_n_HorarioConductor.GetHorarioConductorByIdUser(idUsuario,DateTime.Now.AddDays(-5),DateTime.Now);
+            IEnumerable<DTO_HorarioConductorMostrar> list = _i_n_HorarioConductor.GetHorarioConductorByIdUser(idUsuario, DateTime.Now.AddDays(-5), DateTime.Now);
             DataTable boundTable = CreateDataTable(list);
 
             boundTable.TableName = "Listado Vueltas"; //nombre no puede ser muy largo
@@ -237,7 +264,6 @@ namespace ConductorEnRed.Controllers
                         DTO_HorarioConductorMostrar carga = new DTO_HorarioConductorMostrar();
                         if (i <= dto_Horario.Count)
                         {
-                            fechaAnterior = dto_Horario[ind].FECHA_HORA_INICIO;
                             carga.NUM_ROW = i;
                             carga.ID_HORARIO = dto_Horario[ind].ID_HORARIO;
                             carga.ID_CARGA_HORARIO = dto_Horario[ind].ID_CARGA_HORARIO;
@@ -294,12 +320,16 @@ namespace ConductorEnRed.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetHorarioIndividualTurnoDos()
+        public ActionResult GetHorarioIndividualTurnoDos(string fechaSemanaActual)
         {
             try
             {
 
-                string fechaSemana = ObtenerFechaSemana();
+                string fechaSemana = "";
+                if (fechaSemanaActual == null)
+                    fechaSemana = ObtenerFechaSemana();
+                else
+                    fechaSemana = fechaSemanaActual;
 
                 DateTime fechaIni = DateTime.Parse(fechaSemana.Split('-')[0].ToString());
                 DateTime fechaFin = DateTime.Parse(fechaSemana.Split('-')[1].ToString());
@@ -310,14 +340,17 @@ namespace ConductorEnRed.Controllers
                 if (dto_Horario.Count > 0)
                 {
                     int ind = 0;
-                    for (int i = 1; i < 15; i++)
+                    DateTime fechaAnterior = DateTime.Now;
+                    for (int i = 1; i < 8; i++)
                     {
                         DTO_HorarioConductorMostrar carga = new DTO_HorarioConductorMostrar();
                         if (i <= dto_Horario.Count)
                         {
+                            fechaAnterior = dto_Horario[ind].FECHA_HORA_INICIO;
+                            carga.NUM_ROW = i;
                             carga.ID_HORARIO = dto_Horario[ind].ID_HORARIO;
                             carga.ID_CARGA_HORARIO = dto_Horario[ind].ID_CARGA_HORARIO;
-                            carga.NOMBRE_DIA = dto_Horario[ind].FECHA_HORA_INICIO.DayOfWeek.ToString("dddd");
+                            carga.NOMBRE_DIA = dto_Horario[ind].FECHA_HORA_INICIO.ToString("dddd");
                             carga.FECHA_HORA_INICIO = dto_Horario[ind].FECHA_HORA_INICIO;
                             carga.NOMBRE_TERMINAL = dto_Horario[ind].NOMBRE_TERMINAL;
                             carga.HORA_INICIO = dto_Horario[ind].FECHA_HORA_INICIO.ToString("dd/MM/yyyy HH:mm").Split(' ')[1];
@@ -328,11 +361,14 @@ namespace ConductorEnRed.Controllers
                         else
                         {
                             carga.ID_HORARIO = 0;
+                            carga.NUM_ROW = i;
                             carga.ID_CARGA_HORARIO = 0;
-                            carga.NOMBRE_DIA = dto_Horario[ind].FECHA_HORA_INICIO.DayOfWeek.ToString("dddd");
+                            carga.NOMBRE_DIA = fechaAnterior.AddDays(1).ToString("dddd");
                             carga.FECHA_INICIO = DateTime.Now.ToString("dd/MM/yyyy HH:mm").Split(' ')[0];
                             carga.NOMBRE_TERMINAL = "";
                             carga.HORA_INICIO = "";
+
+                            fechaAnterior = fechaAnterior.AddDays(1);
                             carga.RUT = "";
                             carga.NOMBRE_COMPLETO = "";
 

@@ -14,6 +14,14 @@
     input:invalid {
         border: 1px solid red;
     }
+
+    .container-title {
+        display: flex;
+    }
+
+    .btn-x {
+        margin-left: auto
+    }
 </style>
 
 <div class="page-title">
@@ -31,75 +39,66 @@
 
 <div class="card">
     <div class="modal-body">
-        <div class="modal-title">
-            <div class="form-row">
-                <div class="borderInput">
-                    <h4 class="modal-title text-primary">Comunas</h4>
-                </div>
-                <button type="button" class="close col-mb-0" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
-                    <i class="far fa-times"></i>
-                </button>
+        <div class="form-row container-title">
+            <div class="borderInput">
+                <h4 class="modal-title text-primary">Comunas</h4>
             </div>
         </div>
+    </div>
+    <div class="modal-body">
         <div class="form-row">
-            <div class="col-md-8">
-                <div class="form-row">
-                    <div class="form-group col-6">
+            <div class="col-md-6">
+                <div class="form-row" style="display:flex">
+                    <div class="col-2">
                         <label class="borderInput" for="NumeroServicio">Comunas</label>
+                    </div>
+                    <div class="col-6">
                         <select id="ddlComunas" name="NumeroServicio" class="form-control borderInput" onchange="HabilitarEdit();"></select>
                     </div>
-                    <div class="col-4">
+                    <div class="col-1">
                         <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="left" title="Seleccione una comuna para eliminarla o editarla"></i>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4" style="display:none" id="divBtonesEdit">
-                <div>
-                    <button class="btn btn-primary borderInput" type="button" id="btnEditComuna" onclick="ShowEditarComuna();"><i class="fas fa-edit"></i> Editar</button>
-                    <button class="btn btn-danger borderInput" id="btnEliminarComuna" onclick="ShowModalEliminar();"><i class="fas fa-trash"></i> Eliminar</button>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div id="divComunaNew" class="col-md-4">
-                <div class="form-group borderInput">
-                    <label for="NombreComuna">Nombre Comuna *</label>
-                    <input id="txtNomComuna" type="text" name="NombreComuna" onkeyup="CamelCase(this)" placeholder="Nombre Comuna" onblur="ValidarComunaExiste();" class="form-control" required />
-                </div>
-            </div>
-            <div id="divComunaEdit" class="col-md-4" style="display:none">
-                <div class="form-group borderInput">
-                    <label for="NombreComuna">Nombre Comuna</label>
-                    <input id="txtNomComunaEdit" type="text" maxlength="30" name="NombreComuna" onkeyup="CamelCase(this)" onblur="ValidarComunaExiste();" placeholder="Nombre Comuna" class="form-control" required />
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="form-group borderInput ocultar">
-                    <label for="Motivo">Motivo de  Edición</label>
-                    <input id="txtMotivo" type="text" name="Motivo" maxlength="100" placeholder="Ingrese motivo" class="form-control" />
-                </div>
-            </div>
-            <div>
-                <label class="text-danger">* Todos los compos son requeridos</label>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-row">
-                <div class="form-group col-md-4">
-
-                </div>
-                <div class="form-group col-md-4" id="divBtnGuradar">
-
-                </div>
-                <div class="form-group col-md-4">
-                    <div class="text-right">
-                        <button type="button" class="btn btn-outline-light borderInput" onclick="Limpiar();">Cancelar</button>
-                        <button type="button" class="btn btn-success borderInput" id="btnEditarComuna" style="display:none" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i> Guardar</button>
-                        <button type="button" class="btn btn-success" id="btnGuardarComuna" onclick="GuardarNuevaComuna();"><i class="fa fa-edit"></i> Guardar</button>
+                <div class="modal-footer" style="display:none" id="divBtonesEdit">
+                    <div>
+                        <button class="btn btn-success borderInput" type="button" id="btnEditComuna" onclick="ShowEditarComuna();"><i class="fas fa-edit"></i> Editar</button>
+                        <button class="btn btn-danger borderInput" id="btnEliminarComuna" onclick="ShowModalEliminar();"><i class="fas fa-trash"></i> Eliminar</button>
                     </div>
                 </div>
             </div>
+
+            <div class="col-6">
+                <div class="form-row">
+                    <div id="divComunaNew" class="col-md-12">
+                        <div class="form-group borderInput">
+                            <label for="NombreComuna">Nombre Comuna *</label>
+                            <input id="txtNomComuna" type="text" name="NombreComuna" onkeyup="CamelCase(this)" placeholder="Nombre Comuna" onblur="ValidarComunaExiste();" class="form-control" required />
+                            <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="left" title="Comience a escribir para agregar una nueva comuna"></i>
+                        </div>
+                    </div>
+                    <div id="divComunaEdit" class="col-md-4" style="display:none">
+                        <div class="form-group borderInput">
+                            <label for="NombreComuna">Nombre Comuna</label>
+                            <input id="txtNomComunaEdit" type="text" maxlength="30" name="NombreComuna" onkeyup="CamelCase(this)" onblur="ValidarComunaExiste();" placeholder="Nombre Comuna" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group borderInput ocultar">
+                            <label for="Motivo">Motivo de  Edición</label>
+                            <input id="txtMotivo" type="text" name="Motivo" maxlength="100" placeholder="Ingrese motivo" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="text-danger">* Todos los compos son requeridos</label>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-light borderInput" onclick="Limpiar();">Cancelar</button>
+        <button type="button" class="btn btn-success borderInput" id="btnEditarComuna" style="display:none" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i> Guardar</button>
+        <button type="button" class="btn btn-success" id="btnGuardarComuna" onclick="GuardarNuevaComuna();"><i class="fa fa-edit"></i> Guardar</button>
     </div>
 </div>
 
@@ -133,7 +132,7 @@
         $(document).ready(function () {
             $(".ocultar").css("display", "none");
             CargarComunas();
-                        
+
         });
 
         function verMotivo() {

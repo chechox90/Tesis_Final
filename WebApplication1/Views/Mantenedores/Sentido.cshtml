@@ -14,6 +14,14 @@
     input:invalid {
         border: 1px solid red;
     }
+
+    .container-title {
+        display: flex;
+    }
+
+    .btn-x {
+        margin-left: auto
+    }
 </style>
 
 <div class="page-title">
@@ -36,16 +44,64 @@
     </div>
 </div>
 
-<div class="flex-fill ">
-    <div class="card">
-        <div class="modal-title">
-            <div class="form-row">
-                <div class="borderInput">
-                    <h4 class="modal-title text-primary">Sentido</h4>
+<div class="card ocultar">
+    <div class="modal-body">
+        <div class="form-row container-title">
+            <div class="borderInput">
+                <h4 class="modal-title text-primary">Nuevo Sentido</h4>
+            </div>
+            <button type="button" class="close col-mb-0 btn-x" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
+                <i class="far fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="form-row contiener-row">
+            <div class="col-md-4" id="divSentidoNew">
+                <div>
+                    <label for="NombreSentido">Nombre Sentido *</label>
+                    <input id="txtNomSentido" onblur="CamelCase(this);" type="text" name="NombreSentido" maxlength="50" onkeypress="return Sololetras(event)" placeholder="Nombre Sentido" class="form-control" required />
+                </div>
+            </div>
+            <div class="col-md-4" id="divSentidoEdit" style="display:none">
+                <div class="form-group">
+                    <label for="NombreSentidoEdit">Nombre Sentido</label>
+                    <input id="txtNomSentidoEdit" type="text" onblur="CamelCase(this);" name="NombreSentidoEdit" onkeypress="return Sololetras(event)" maxlength="30" placeholder="Nombre Sentido" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="NombreSentidoCorto">Nombre Sentido Abreviado *</label>
+                    <input id="txtNomSentidoCorto" type="text" name="NombreSentidoCorto" onkeypress="return Sololetras(event)" maxlength="5" placeholder="Nombre Sentido Abreviado" class="form-control" required />
                 </div>
             </div>
         </div>
-        <div class="form-row">
+        <div class="form-row contiener-row">
+            <div class="col-md-4" id="divSentidoNew">
+                <label class="text-danger">* Todos los compos son requeridos</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-light borderInput" onclick="Limpiar();">Cancelar</button>
+            <button type="button" class="btn btn-success borderInput" id="btnEditarSentido" style="display:none" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i> Guardar</button>
+            <button type="button" class="btn btn-success" id="btnGuardarSentido" onclick="GuardarNuevoSentido();"><i class="fas fa-edit"></i> Guardar</button>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="card">
+    <div class="modal-body">
+        <div class="form-row contiener-row">
+            <div class="borderInput">
+                <h4 class="modal-title text-primary">Sentido</h4>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="clearfix"></div>
+        <div class="form-row contiener-row">
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="borderInput" for="NombreSentido">Sentido </label>
@@ -58,73 +114,15 @@
                     <select id="ddlSentidoCorto" onchange="SeleccionarSen();" name="SentidoCorto" class="form-control borderInput"></select>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="col-12 form-group form-row">
-                    <div class="col-6 text-center">
-                        <button class="btn btn-primary" Style="display:none" type="button" id="btnShowEdit" onclick="ShowEditarSentido();"><i class="fas fa-edit"></i> Editar</button>
-                    </div>
-                    <div class="col-6 text-center">
-                        <button class="btn btn-danger" Style="display:none" id="btnEliminarSentido" onclick="ShowModalEliminar();"><i class="fas fa-trash"></i> Eliminar</button>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" Style="display:none" type="button" id="btnShowEdit" onclick="ShowEditarSentido();"><i class="fas fa-edit"></i> Editar</button>
+            <button class="btn btn-danger" Style="display:none" id="btnEliminarSentido" onclick="ShowModalEliminar();"><i class="fas fa-trash"></i> Eliminar</button>
         </div>
     </div>
 </div>
 
 <br />
-
-<div class="flex-fill ocultar">
-    <div class="card">
-        <div class="modal-title">
-            <div class="borderInput">
-                <h4 class="modal-title text-primary">Nuevo Sentido</h4>
-            </div>
-            <i class="far fa-times"></i>
-            <button type="button" class="close col-mb-0" onclick="Limpiar();" data-dismiss="modal" aria-label="Close"></button>
-        </div>
-
-        <div class="form-row">
-            <div class="col-md-4">
-                <div class="form-group borderInput" id="divSentidoNew">
-                    <label for="NombreSentido">Nombre Sentido *</label>
-                    <input id="txtNomSentido" onblur="CamelCase(this);" type="text" name="NombreSentido" maxlength="50" onkeypress="return Sololetras(event)" placeholder="Nombre Sentido" class="form-control" required />
-                </div>
-                <div id="divSentidoEdit" style="display:none">
-                    <div class="form-group borderInput">
-                        <label for="NombreSentidoEdit">Nombre Sentido</label>
-                        <input id="txtNomSentidoEdit" type="text" onblur="CamelCase(this);" name="NombreSentidoEdit" onkeypress="return Sololetras(event)" maxlength="30" placeholder="Nombre Sentido" class="form-control" />
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group borderInput">
-                    <label for="NombreSentidoCorto">Nombre Sentido Abreviado *</label>
-                    <input id="txtNomSentidoCorto" type="text" name="NombreSentidoCorto" onkeypress="return Sololetras(event)" maxlength="5" placeholder="Nombre Sentido Abreviado" class="form-control" required />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <div>
-                        <label class="text-danger">* Todos los compos son requeridos</label>
-                    </div>
-                </div>
-                <div class="form-group col-md-4" id="divBtnGuardar">
-
-                </div>
-                <div class="form-group col-md-4">
-                    <div class="text-right">
-                        <button type="button" class="btn btn-outline-light borderInput" onclick="Limpiar();">Cancelar</button>
-                        <button type="button" class="btn btn-success borderInput" id="btnEditarSentido" style="display:none" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i> Guardar</button>
-                        <button type="button" class="btn btn-success" id="btnGuardarSentido" onclick="GuardarNuevoSentido();"><i class="fas fa-edit"></i> Guardar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="modalConfirmacion" tabindex="-1" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">

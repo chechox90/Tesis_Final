@@ -13,6 +13,14 @@
     .divFlot {
         text-align: right
     }
+
+    .container-title {
+        display: flex;
+    }
+
+    .btn-x {
+        margin-left: auto
+    }
 </style>
 
 <div class="page-title">
@@ -30,48 +38,48 @@
 <div class="content-filters-b">
     <div class="card">
         <div class="form-row">
-            <button class="btn btn-success" type="button" id="btnNuevoTerminal" onkeyup="CamelCase(this);" onclick="VerNuevoTerminal();"><i class="far fa-plus"></i> Nuevo Terminal</button>
+            <button class="btn btn-success" type="button" id="btnNuevoTerminal" onclick="VerNuevoTerminal();"><i class="far fa-plus"></i> Nuevo Terminal</button>
         </div>
     </div>
 </div>
 
 <div class="card ocultar">
-    <div class="modal-title">
-        <div class="form-row">
+    <div class="modal-body">
+        <div class="form-row container-title">
             <div class="borderInput">
                 <h4 class="modal-title text-primary">Nuevo Terminal</h4>
             </div>
-            <button type="button" class="close col-mb-0" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close col-mb-0 btn-x" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
                 <i class="far fa-times"></i>
             </button>
         </div>
     </div>
-    <div class="form-row">
-        <div class="col-md-3">
-            <div class="form-group borderInput">
-                <label for="NomTerminal">Nombre del terminal</label>
-                <input id="txtNombreTer" type="text" name="NomTerminal" maxlength="50" onkeypress="return Sololetras(event);" onblur="ValidarTerminalExiste();" placeholder="Nombre" class="form-control" />
+    <div class="modal-body">
+        <div class="form-row contiener-row">
+            <div class="col-md-4">
+                <div class="form-group borderInput">
+                    <label for="NomTerminal">Nombre del terminal</label>
+                    <input id="txtNombreTer" type="text" name="NomTerminal" maxlength="50" onkeypress="return Sololetras(event);" onblur="ValidarTerminalExiste();" placeholder="Nombre" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group borderInput">
+                    <label for="Direcccion">Dirección del terminal</label>
+                    <input id="txtDireccion" type="text" name="Direcccion" onkeypress="return Sololetras(event);" maxlength="100" placeholder="Diercción" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group borderInput">
+                    <label for="NumeroDirecccion">Número de dierección</label>
+                    <input id="txtNumDire" type="number" name="NumeroDireccion" maxlength="6" placeholder="Número Dirección" class="form-control" />
+                </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group borderInput">
-                <label for="Direcccion">Dirección del terminal</label>
-                <input id="txtDireccion" type="text" name="Direcccion" onkeypress="return Sololetras(event);" maxlength="100" placeholder="Diercción" class="form-control" />
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group borderInput">
-                <label for="NumeroDirecccion">Número de dierección</label>
-                <input id="txtNumDire" type="number" name="NumeroDireccion" maxlength="6" placeholder="Número Dirección" class="form-control" />
-            </div>
-        </div>
-        <div class="col-md-3 borderInput">
-            <div class="form-group">
-                <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoTerminal();"><i class="far fa-edit"></i> Guardar</button>
-                <button type="button" class="btn btn-success" id="btnGuardarEdicion" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i>  Guardar</button>
-            </div>
-        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Cancelar</button>
+        <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoTerminal();"><i class="far fa-edit"></i> Guardar</button>
+        <button type="button" class="btn btn-success" id="btnGuardarEdicion" onclick="ConfirmarEdicion();"><i class="fas fa-edit"></i>  Guardar</button>
     </div>
 </div>
 
@@ -140,12 +148,12 @@
                 },
                 columns: [
                     { data: "ID_TERMINAL", visible: false, searchable: false },
-                    { data: "NOMBRE_TERMINAL", title: "NOMBRE TERMINAL", name: "NOMBRE_TERMINAL", orderable: false },
-                    { data: "DIRECCION", title: "DIRECCIÓN", name: "DIRECCION", orderable: false },
-                    { data: "NUM_DIRECCION", title: "N° DIRECCION", name: "NUM_DIRECCION", orderable: false },
-                    { data: "NOMBRE_EMPRESA", title: "NOMBRE EMPRESA", name: "NOMBRE_EMPRESA", orderable: false },
+                    { data: "NOMBRE_TERMINAL", title: "Nombre terminal", name: "NOMBRE_TERMINAL", orderable: false },
+                    { data: "DIRECCION", title: "Dirección", name: "DIRECCION", orderable: false },
+                    { data: "NUM_DIRECCION", title: "N° dirección", name: "NUM_DIRECCION", orderable: false },
+                    { data: "NOMBRE_EMPRESA", title: "Nombre empresa", name: "NOMBRE_EMPRESA", orderable: false },
                     {
-                        title: "GESTIÓN",
+                        title: "Gestión",
                         orderable: false,
                         searchable: false,
                         render: function (data, type, full, meta) {

@@ -10,9 +10,9 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
 {
     public interface I_N_HorarioConductor
     {
-        int GetHorariosCubiertos();
+        int GetHorariosCubiertos(DateTime DateIni, DateTime dateFin);
 
-        int GetHorariosNoCubiertos();
+        int GetHorariosNoCubiertos(DateTime DateIni, DateTime dateFin);
 
         List<int> GetHorasTrabajadasLibres(DateTime DateIni, DateTime dateFin);
         
@@ -21,6 +21,8 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
         List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut, DateTime fechaIni, DateTime fechaFin);
 
         List<DTO_HorarioConductorMostrar> GetHorarioConductorByIdUser(int idUsuario, DateTime fechaIni, DateTime fechaFin);
+
+        List<DTO_HorarioConductorMostrar> GetHorarioConductorByIdUserNumJor(int idUsuario, DateTime fechaIni, int numeroJornada);
 
         DTO_HorarioConductorMostrar GetHorarioConductorByIdUser(int idUsuario, DateTime fechaHora);
 

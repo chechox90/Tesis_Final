@@ -205,13 +205,11 @@ namespace WebApplication1.Controllers
                 string Rutusuario = usuario.RUT;
                 DateTime fechaHoy = DateTime.Now;
 
-                DateTime fechaIni = DateTime.Parse(fechaHoy.ToString().Split(' ')[0].Trim() + " 00:00");
-                DateTime fechaFin = DateTime.Parse(fechaHoy.ToString().Split(' ')[0].Trim() + " 23:59");
+                DateTime fechaIni = new DateTime(fechaHoy.Year, fechaHoy.Month, 01, 00, 00, 00);
+                DateTime fechaFin = new DateTime(fechaHoy.Year, fechaHoy.Month, fechaHoy.AddMonths(1).AddDays(-1).Day, 23, 59, 59);
 
                 List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut(Rutusuario, fechaIni, fechaFin);
                 List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
-
-
 
                 if (dto_Horario.Count > 0)
                 {
@@ -227,7 +225,7 @@ namespace WebApplication1.Controllers
                         if (i <= dto_Horario.Count)
                         {
                             carga.ID_HORARIO = dto_Horario[i].ID_HORARIO;
-                            carga.HORA_INICIO = dto_Horario[i].FECHA_HORA_INICIO.ToString("dd/MM/yyyy HH:mm").Split(' ')[1].Trim();
+                            carga.HORA_INICIO = "Terminal de inicio: [" + dto_Horario[i].NOMBRE_TERMINAL + "]  " + " Hora de inicio: [" + dto_Horario[i].FECHA_HORA_INICIO.ToString("dd/MM/yyyy HH:mm").Split(' ')[1].Trim() + "]";
                             list.Add(carga);
                         }
                     }
@@ -276,7 +274,7 @@ namespace WebApplication1.Controllers
                     string filepath = "/ExcelFolder/" + filename;
                     file.SaveAs(Path.Combine(Server.MapPath("/excelfolder"), filename));
 
-                    DataTable resultadoTabla = InsertExceldata(filepath, filename);
+                     DataTable resultadoTabla = InsertExceldata(filepath, filename);
                     List<CargaArchivoModel> list = new List<CargaArchivoModel>();
                     for (int i = 1; i < resultadoTabla.Rows.Count; i++)
                     {
@@ -292,6 +290,11 @@ namespace WebApplication1.Controllers
                             break;
                         }
 
+                        if (resultadoTabla.Rows[i][5].ToString().Trim().ToUpper().Equals("UNO") || resultadoTabla.Rows[i][5].ToString().Trim().ToLower().Equals("uno"))
+                            carga.NUMERO_JORNADA = 1;
+                        else
+                            carga.NUMERO_JORNADA = 2;
+
                         if (!Digito(sinGuion).ToUpper().Equals(guion.ToUpper()))
                         {
                             mensajeError = "Por favor revise la fila " + (i + 1) + " el dígito verificador no es correcto";
@@ -300,8 +303,8 @@ namespace WebApplication1.Controllers
                         else
                         {
                             int idUsuario = _i_n_usuario.GetUsuarioByRut(rutString);
-                            var HorarioActual = _i_n_HorarioConductor.GetHorarioConductorByIdUser(idUsuario, DateTime.Parse(resultadoTabla.Rows[i][6].ToString() + " " + resultadoTabla.Rows[i][7].ToString()));
-                            if (HorarioActual != null)
+                            var HorarioActual = _i_n_HorarioConductor.GetHorarioConductorByIdUserNumJor(idUsuario, DateTime.Parse(resultadoTabla.Rows[i][6].ToString() + " " + resultadoTabla.Rows[i][7].ToString()), carga.NUMERO_JORNADA);
+                            if (HorarioActual.Count > 0)
                             {
                                 mensajeError = "Por favor revise el R.U.N. " + rutString + " El R.U.N. tiene horario cargado, si necesita saber cuál " +
                                     "es la programación cargada, revise el reporte Listado de programación cargada";
@@ -563,7 +566,7 @@ namespace WebApplication1.Controllers
                         else
                             carga.BUS_INICIO = 0;
 
-                        if (resultadoTabla.Rows[i][5].ToString().ToUpper().Equals("UNO") || resultadoTabla.Rows[i][5].ToString().ToLower().Equals("uno"))
+                        if (resultadoTabla.Rows[i][5].ToString().Trim().ToUpper().Equals("UNO") || resultadoTabla.Rows[i][5].ToString().Trim().ToLower().Equals("uno"))
                             carga.NUMERO_JORNADA = 1;
                         else
                             carga.NUMERO_JORNADA = 2;
