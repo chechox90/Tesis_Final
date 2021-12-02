@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication1.Models.Commons;
 
 namespace ConductorEnRed.Controllers
 {
@@ -40,8 +41,8 @@ namespace ConductorEnRed.Controllers
             this._i_n_RegistroHorario = _i_n_RegistroHorario;
         }
 
-        
 
+        DTO_Usuario usuario = FrontUser.Get();
 
         #region Terminales
         public ActionResult GetTerminalesActivos()
@@ -153,7 +154,7 @@ namespace ConductorEnRed.Controllers
         {
             try
             {
-                int respuesta = _i_n_Terminal.GetTerminalByNombre(nombre,1);
+                int respuesta = _i_n_Terminal.GetTerminalByNombre(nombre, 1);
                 if (respuesta > 0)
                 {
                     return Json(new
@@ -172,7 +173,7 @@ namespace ConductorEnRed.Controllers
                         JsonRequestBehavior.AllowGet
                     });
                 }
-               
+
             }
             catch (Exception)
             {
@@ -181,13 +182,13 @@ namespace ConductorEnRed.Controllers
             }
 
         }
-        
+
         [HttpPost]
         public ActionResult GetTerminalByNombreIdEmpresa(string nombre)
         {
             try
             {
-                int respuesta = _i_n_Terminal.GetTerminalByNombreIdEmpresa(nombre,1);
+                int respuesta = _i_n_Terminal.GetTerminalByNombreIdEmpresa(nombre, 1);
                 if (respuesta > 0)
                 {
                     return Json(new
@@ -206,7 +207,7 @@ namespace ConductorEnRed.Controllers
                         JsonRequestBehavior.AllowGet
                     });
                 }
-               
+
             }
             catch (Exception)
             {
@@ -651,7 +652,7 @@ namespace ConductorEnRed.Controllers
         public ActionResult GetComunaByNombre(string nombre)
         {
             try
-            {                
+            {
                 int respuesta = _i_n_Comuna.GetComunaByNombre(nombre);
 
 
@@ -723,7 +724,7 @@ namespace ConductorEnRed.Controllers
                     };
                 }
 
-                
+
 
             }
             catch (Exception)
@@ -1083,7 +1084,7 @@ namespace ConductorEnRed.Controllers
         {
             try
             {
-                int respuesta = _i_n_Sentido.GetSentidoByNombre(nombre,1);
+                int respuesta = _i_n_Sentido.GetSentidoByNombre(nombre, 1);
 
                 if (respuesta > 0)
                 {
@@ -1320,7 +1321,66 @@ namespace ConductorEnRed.Controllers
             {
                 List<DTO_RegistroVueltas> vueltas = new List<DTO_RegistroVueltas>();
                 List<DTO_RegistroVueltas> vueltasM = new List<DTO_RegistroVueltas>();
-                vueltas = _i_n_RegistroHorario.GetRegistroVueltasByAll();
+                int idUsuario = usuario.ID_USUARIO;
+                DateTime desde = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 00, 00, 00);
+                DateTime hasta = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddMonths(1).AddDays(-1).Day, 23, 59, 59);
+
+                vueltas = _i_n_RegistroHorario.GetRegistroVueltasByAll(idUsuario,desde, hasta);
+
+                int i = 1;
+                foreach (var item in vueltas)
+                {
+                    DTO_RegistroVueltas v = new DTO_RegistroVueltas();
+
+                    v.ID_REGISTRO_VUELTAS = item.ID_REGISTRO_VUELTAS;
+                    v.NUMERO_VUELTA = i;
+
+                    v.NOMBRE_TERMINAL_INICIO = item.NOMBRE_TERMINAL_INICIO;
+                    v.NUMERO_BUS_INICIO = item.NUMERO_BUS_INICIO;
+                    v.NOMBRE_SERVICIO_INICIO = item.NOMBRE_SERVICIO_INICIO;
+                    v.SEN_INI_CORTO = item.SEN_INI_CORTO;
+                    v.FECHA_HORA_INICIO = item.FECHA_HORA_INICIO;
+
+                    v.NOMBRE_TERMINAL_FIN = item.NOMBRE_TERMINAL_FIN;
+                    v.NOMBRE_SERVICIO_FIN = item.NOMBRE_SERVICIO_FIN;
+                    v.SEN_FIN_CORTO = item.SEN_FIN_CORTO;
+                    v.NUMERO_BUS_FIN = item.NUMERO_BUS_FIN;
+                    v.FECHA_HORA_FIN = item.FECHA_HORA_FIN;
+
+                    vueltasM.Add(v);
+
+                    i++;
+                }
+
+                return Json(new
+                {
+                    data = vueltasM,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+
+
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult GetRegistroVueltasFechaFiltro(string Desde, string Hasta)
+        {
+            try
+            {
+                List<DTO_RegistroVueltas> vueltas = new List<DTO_RegistroVueltas>();
+                List<DTO_RegistroVueltas> vueltasM = new List<DTO_RegistroVueltas>();
+                int idUsuario = usuario.ID_USUARIO;
+                DateTime desde = Convert.ToDateTime(Desde);
+                DateTime hasta = Convert.ToDateTime(Hasta);
+                hasta = new DateTime(hasta.Year, hasta.Month, hasta.Day, 23,59,59);
+
+                vueltas = _i_n_RegistroHorario.GetRegistroVueltasByAll(idUsuario,desde, hasta);
 
                 int i = 1;
                 foreach (var item in vueltas)

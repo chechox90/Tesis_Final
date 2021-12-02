@@ -30,14 +30,13 @@
                         <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
                     </div>
                     <input type="text" class="form-control dateinput opacity-1" id="txtFechaInicio" name="daterange" autocomplete="off" required="" readonly="" />
-
                 </div>
             </div>
 
         </div>
         <div class="col-1">
             <div style="margin:30px">
-                <button class="btn btn-success" id="btnBuscar" onclick="RecargarDahboard();">Buscar</button>
+                <button class="btn btn-success" id="btnBuscar" onclick="BusquedaFiltroDahboard();">Buscar</button>
             </div>
         </div>
     </div>
@@ -114,6 +113,8 @@
             $(function () {
                 $('input[name="daterange"]').daterangepicker({
                     opens: "left",
+                    startDate: moment().startOf('hour'),
+                    endDate: moment().startOf('hour').add(30, 'day'),
                     minDate: "26/10/2020",
                     maxDate: "31/12/" + ((new Date).getFullYear() + 1),
                     dateLimit: {
@@ -164,11 +165,7 @@
                     },
                 });
             });
-            graficoIncio();
-            CargarVueltas();
-        });
 
-        function graficoIncio() {
             var cubiertos = 0;
             var noCubiertos = 0;
 
@@ -184,9 +181,16 @@
                 success: function (data) {
                     cubiertos = data.data[0];
                     noCubiertos = data.data[1];
-                }
-            });
 
+                    graficoTurnosCubiertos(cubiertos, noCubiertos);
+                }
+            });            
+
+            CargarVueltas();
+        });
+
+        function graficoTurnosCubiertos(cubiertos, noCubiertos) {
+            
             Highcharts.chart('VStrunos', {
                 chart: {
                     plotBackgroundColor: null,
@@ -527,10 +531,98 @@
             });
         }
 
-        function RecargarDahboard() {
-            var texto = $("#txtFechaInicio").value;
+        function BusquedaFiltroDahboard() {
+            var fechaPorRango = $("#txtFechaInicio").val();
+            var fIni = (fechaPorRango.split("-")[0]);
+            var fFIn = (fechaPorRango.split("-")[1]);
 
-            console.log(texto)
+            $("#tblVueltas").DataTable();
+
+            tblVueltas = $("#tblVueltas").DataTable({
+                dom: "<'card-header'<'.titleSegui'><'d-flex justify-content-md-end'B f l>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
+                processing: true,
+                destroy: true,
+                scrollX: true,
+                scrollY: true,
+                scrollCollapse: true,
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+                columnDefs: [
+                    { targets: [0], searchable: false, orderable: false }
+                ],
+                language: {
+                    "url": "../Plugins/DataTables/js/Spanish.json"
+                },
+                order: [[0, "asc"]],
+                initComplete: function () {
+                    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+                },
+                ajax: {
+                    url: "../Mantenedor/GetRegistroVueltasFechaFiltro",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        Desde: fIni,
+                        Hasta: fFIn
+                    }
+                },
+                columns: [
+                    { data: "ID_REGISTRO_VUELTAS", visible: false, searchable: false },
+                    { data: "NOMBRE_TERMINAL_INICIO", title: "Terminal inicio", name: "NOMBRE_TERMINAL_INICIO", orderable: true },
+                    { data: "NUMERO_BUS_INICIO", title: "Bus inicio", name: "NUMERO_BUS_INICIO", orderable: false },
+                    { data: "NOMBRE_SERVICIO_INICIO", title: "Servicio inicio", name: "NOMBRE_SERVICIO_INICIO", orderable: false },
+                    { data: "SEN_INI_CORTO", title: "Sentido inicio", name: "SEN_INI_CORTO", orderable: false },
+                    {
+                        data: null, title: "Fecha Inicio", name: "FECHA_HORA_INICIO", orderable: false, render:
+                            function (full) {
+                                if (moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY') != '31/12/0000') {
+                                    return moment(full.FECHA_HORA_FIN).format('DD/MM/YYYY');
+                                } else {
+                                    return "";
+                                }
+
+                            }
+                    },
+                    { data: "NOMBRE_TERMINAL_FIN", title: "Terminal fin", name: "NOMBRE_TERMINAL_FIN", orderable: false },
+                    { data: "NOMBRE_SERVICIO_FIN", title: "Servicio fin", name: "NOMBRE_SERVICIO_FIN", orderable: false },
+                    { data: "SEN_FIN_CORTO", title: "Sentido fin", name: "SEN_FIN_CORTO", orderable: false },
+                    { data: "NUMERO_BUS_FIN", title: "Bus fin", name: "NOMBRE_EMPRESA", orderable: false },
+                    {
+                        data: null, title: "Fecha fin", name: "FECHA_HORA_FIN", orderable: false, render:
+                            function (full) {
+                                if (moment(full.FECHA_HORA_FIN).format('DD/MM/YYYY') != '31/12/0000') {
+                                    return moment(full.FECHA_HORA_FIN).format('DD/MM/YYYY');
+                                } else {
+                                    return "";
+                                }
+
+                            }
+                    },
+                ],
+                buttons: [
+
+                    { extend: 'excel', className: 'btn btn-success', text: '<i class="fas fa-excel"></i>Descargar Excel', action: function () { getExcel() }, init: function (api, node, config) { $(node).removeClass('btn-secondary') } }
+                ],
+            });
+
+
+            $.ajax({
+                url: '../HorarioConductor/GetDatosDashboard',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "fIni": fIni,
+                    "fFin": fFIn
+                },
+                success: function (data) {
+                    cubiertos = data.data[0];
+                    noCubiertos = data.data[1];
+
+                    graficoTurnosCubiertos(cubiertos, noCubiertos);
+                }
+            });
+
         }
 
         function getExcel() {

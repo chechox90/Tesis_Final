@@ -24,9 +24,9 @@ namespace DLL.NEGOCIO.Operaciones
             return I_Dao_RegistroHorario.GetRegistroVueltasByAll(idRegistroHorario);
         }
 
-        public List<DTO_RegistroVueltas> GetRegistroVueltasByAll()
+        public List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idUsuario, DateTime desde, DateTime hasta)
         {
-            return I_Dao_RegistroHorario.GetRegistroVueltasByAll();
+            return I_Dao_RegistroHorario.GetRegistroVueltasByAll(idUsuario,desde,hasta);
         }
 
         public DTO_RegistroHorario GetRegistroHorarioByAll(int idUsuario)

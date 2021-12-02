@@ -63,7 +63,7 @@ namespace DLL.DAO.Operaciones
             }
         }
 
-        public List<DTO_RegistroVueltas> GetRegistroVueltasByAll()
+        public List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idUsuario,DateTime desde, DateTime hasta)
         {
             try
             {
@@ -77,10 +77,8 @@ namespace DLL.DAO.Operaciones
                                                              join sen in context.SENTIDO on reg.ID_SENTIDO_INICIO equals sen.ID_SENTIDO
                                                              join b in context.BUS on reg.ID_BUS_INICIO equals b.ID_BUS
                                                              join regH in context.REGISTRO_HORARIO on reg.ID_REGISTRO_HORARIO equals regH.ID_REGISTRO_HORARIO
-                                                             where reg.ESTADO == true 
-                                                             && regH.FECHA_HORA_INICIO.Day == fechHoy.Day
-                                                             && regH.FECHA_HORA_INICIO.Month == fechHoy.Month
-                                                             && regH.FECHA_HORA_INICIO.Year == fechHoy.Year
+                                                             where reg.ESTADO == true && regH.ID_USUARIO == idUsuario
+                                                             && regH.FECHA_HORA_INICIO >= desde && regH.FECHA_HORA_INICIO <= hasta 
                                                              select new DTO_RegistroVueltas
                                                              {
                                                                  ID_REGISTRO_VUELTAS = reg.ID_REGISTRO_VUELTAS,

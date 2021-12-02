@@ -60,15 +60,20 @@ namespace ConductorEnRed.Controllers
 
                     fechaLunes = Convert.ToDateTime(fechaHoy.AddDays((dia) * (-1)));
                     fechaDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(6);
+
+                    fechaLunes = new DateTime(fechaLunes.Year, fechaLunes.Month, fechaLunes.Day, 00, 00, 00);
+                    fechaDomingo = new DateTime(fechaDomingo.Year, fechaDomingo.Month, fechaDomingo.Day, 23, 59, 59);
+
                 }
                 else
                 {
                     fechaLunes = Convert.ToDateTime(fIni);
                     fechaDomingo = Convert.ToDateTime(fFin);
-                }
 
-                fechaLunes = new DateTime(fechaLunes.Year, fechaLunes.Month, fechaLunes.Day, 00, 00, 00);
-                fechaDomingo = new DateTime(fechaDomingo.Year, fechaDomingo.Month, fechaDomingo.Day, 23, 59, 59);
+                    fechaLunes = new DateTime(fechaLunes.Year, fechaLunes.Month, fechaLunes.Day, 00, 00, 00);
+                    fechaDomingo = new DateTime(fechaDomingo.Year, fechaDomingo.Month, fechaDomingo.AddMonths(1).AddDays(-1).Day, 23, 59, 59);
+
+                }
 
                 int turnos_cubiertos = _i_n_HorarioConductor.GetHorariosCubiertos(fechaLunes, fechaDomingo);
                 int turnos_no_cubiertos = _i_n_HorarioConductor.GetHorariosNoCubiertos(fechaLunes, fechaDomingo);

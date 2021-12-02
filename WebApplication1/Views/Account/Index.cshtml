@@ -49,7 +49,7 @@
                     <h2 class="text-center pr-0 mb-1">Iniciar Sesión</h2>
                     <div class="form-row mb-3">
                         <div class="col">
-                            @Html.TextBoxFor(m => m.Rut, new { @class = "form-control form-control-lg", maxlength = "12", placeholder = "\uf007   R.U.N." })
+                            @Html.TextBoxFor(m => m.Rut, new { @class = "form-control form-control-lg", maxlength = "10", placeholder = "\uf007   R.U.N." })
                             @Html.ValidationMessageFor(m => m.Rut, "", new { @class = "text-danger" })
                         </div>
                     </div>

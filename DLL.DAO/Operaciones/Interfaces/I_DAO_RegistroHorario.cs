@@ -1,4 +1,5 @@
 ﻿using DLL.DTO.Mantenedor;
+using System;
 using System.Collections.Generic;
 
 namespace DLL.DAO.Operaciones.Interfaces
@@ -7,7 +8,7 @@ namespace DLL.DAO.Operaciones.Interfaces
     {
         List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idRegistroHorario);
         
-        List<DTO_RegistroVueltas> GetRegistroVueltasByAll();
+        List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idUsuario,DateTime desde,DateTime hasta);
 
         DTO_RegistroVueltas GetRegistroVueltasByAllId(int idVuelta);
 
