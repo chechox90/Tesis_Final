@@ -82,5 +82,10 @@ namespace ConductorEnRed.Controllers
         {
             return View("~/Views/Administracion/Dashboard.cshtml");
         }
+
+        public ActionResult HomeReporteHorarioCargado()
+        {
+            return View("~/Views/Reportes/Reporte_Horario_Cargado.cshtml");
+        }
     }
 }

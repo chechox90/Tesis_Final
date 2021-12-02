@@ -1,0 +1,319 @@
+﻿
+@{
+    ViewBag.Title = "Reporte_Horario_Cargado";
+}
+
+<style>
+    .borderInput {
+        margin: 5px;
+    }
+
+    .divFlot {
+        text-align: right
+    }
+
+    input:invalid {
+        border: 1px solid red;
+    }
+
+    .contiener-row {
+        display: flex;
+        align-items: center;
+    }
+
+    .container-title {
+        display: flex;
+    }
+
+    .btn-x {
+        margin-left: auto
+    }
+</style>
+
+<div class="page-title">
+    <div class="content-title">
+        <h3>Horario cargado</h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Reporte horario cargado</a></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="modal-body">
+        <div class="form-row container-title">
+            <div class="borderInput">
+                <h4 class="modal-title text-primary">Horarios cargados</h4>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="form-row contiener-row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="Terminal">Terminal</label>
+                    <select id="ddlTerminal" name="Terminal" class="form-control"></select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div>
+                        <label>Fecha Inicio</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                            <input type="text" class="form-control dateinput opacity-1" id="txtFechaInicio" name="daterange" autocomplete="off" required="" readonly="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="txtNumeroInterno">R.U.N. Conductor</label>
+                    <input id="txtRunUsuario" type="text" name="txtRunUsuario" maxlength="10" placeholder="99888777-k" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Limpiar</button>
+        <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="Buscar();"><i class="fas fa-search"></i>  Buscar</button>
+    </div>
+</div>
+
+<br />
+
+<div class="loader-1" style="display:none;">
+    <svg id="ev6nwws6zqlq1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 800" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+        <defs>
+            <filter id="ev6nwws6zqlq4-filter" x="-400%" width="600%" y="-400%" height="600%"><feGaussianBlur id="ev6nwws6zqlq4-filter-blur-0" stdDeviation="0,0" result="result" /></filter>
+        </defs>
+        <g id="ev6nwws6zqlq2_ts" transform="translate(396.498412,396.498412) scale(0.031752,0.031752)"><rect id="ev6nwws6zqlq2" width="699.074774" height="699.074774" rx="200" ry="200" transform="translate(-346,-346)" opacity="0" fill="rgb(0,107,230)" stroke="none" stroke-width="1" /></g>
+        <g id="ev6nwws6zqlq3_ts" transform="translate(400,400) scale(1,1)">
+            <path id="ev6nwws6zqlq3"
+                  d="M540.331316,53.954284C649.528891,53.954284,738.045557,142.470949,738.045557,251.668525L738.045557,540.331316C738.045557,649.528891,649.528891,738.045557,540.331316,738.045557L251.668525,738.045557C142.470949,738.045557,53.954284,649.528891,53.954284,540.331316L53.954284,251.668525C53.954284,142.470949,142.470949,53.954284,251.668525,53.954284L540.331316,53.954284M540.331316,49.999999L251.668525,49.999999C198.168229,49.952730,146.845582,71.184709,109.015146,109.015146C71.184709,146.845582,49.952730,198.168229,49.999999,251.668525L49.999999,540.331316C49.952730,593.831611,71.184709,645.154259,109.015146,682.984695C146.845582,720.815131,198.168229,742.047110,251.668525,741.999842L540.331316,741.999842C593.831611,742.047110,645.154259,720.815131,682.984695,682.984695C720.815131,645.154259,742.047110,593.831611,741.999842,540.331316L741.999842,251.668525C742.047110,198.168229,720.815131,146.845582,682.984695,109.015146C645.154259,71.184709,593.831611,49.952730,540.331316,49.999999Z"
+                  transform="translate(-395.999920,-395.999920)"
+                  opacity="0"
+                  fill="rgb(0,107,230)"
+                  stroke="none"
+                  stroke-width="1" />
+        </g>
+        <g id="ev6nwws6zqlq4_to" transform="translate(400,420.001885)">
+            <path id="ev6nwws6zqlq4"
+                  d="M424.479583,395.706179C421.066372,394.946738,417.561608,396.531727,415.877767,399.596250C414.193926,402.660774,414.735344,406.468956,417.206582,408.942751L511.401979,503.147000L524.342377,516.087301C526.874783,518.626803,530.802004,519.137338,533.899540,517.329723L636.361883,457.789044C639.162638,456.167461,640.684267,452.995892,640.196445,449.796567C639.708624,446.597243,637.310935,444.023268,634.154178,443.310051L619.331019,439.945955C615.217928,439.015678,612.572996,435.004017,613.338677,430.857161C616.022553,416.678993,617.369650,402.280201,617.362243,387.850250C617.335846,261.538377,514.930739,159.156864,388.617918,159.158628C262.305097,159.160392,159.902849,261.544766,159.879981,387.856640C159.857113,514.168513,262.222281,616.589959,388.535093,616.637459C402.422854,616.643587,416.282821,615.396103,429.946280,612.910194C434.094975,612.122819,438.127489,614.743723,439.092485,618.854705L442.685978,634.662134C443.396528,637.820210,445.969331,640.220478,449.169079,640.710468C452.368826,641.200459,455.542020,639.680100,457.165080,636.879379L516.696647,534.456031C518.511252,531.359933,518.000120,527.428176,515.454216,524.898940L502.265331,511.729268L408.318420,417.802174C405.838602,415.327348,402.022034,414.788326,398.953822,416.479594C395.885609,418.170861,394.303641,421.685677,395.072193,425.103792L422.434350,545.523143C422.934906,547.640028,422.535323,549.869700,421.330788,551.681018C420.126253,553.492335,418.224602,554.723140,416.078837,555.080234C348.358089,566.216907,280.608942,535.395654,244.508649,477.027469C242.990437,474.596422,242.911048,471.532978,244.301306,469.026559C245.691565,466.520140,248.332473,464.965566,251.198663,464.966420L341.122008,464.966420C344.945298,464.963300,348.214001,462.214547,348.872868,458.448484L356.518598,414.868147C356.922754,412.577531,356.292332,410.225499,354.796733,408.444072C353.301135,406.662645,351.093753,405.634531,348.767739,405.635997L227.095499,405.635997C222.892971,405.640718,219.429099,402.341015,219.229954,398.143237C219.229954,397.187528,219.143939,396.231819,219.124825,395.276110C219.073226,393.156350,219.880708,391.105748,221.363773,389.590297C222.846839,388.074845,224.879532,387.223252,226.999927,387.229039L355.448196,387.229039C359.271485,387.225919,362.540188,384.477166,363.199055,380.711103L370.844785,337.130766C371.249292,334.841055,370.618703,332.489784,369.122730,330.709756C367.626758,328.929728,365.419106,327.903833,363.093926,327.908173L241.956887,327.908173C239.269704,327.908705,236.767733,326.539006,235.320295,324.274982C233.872858,322.010959,233.679773,319.165162,234.808129,316.726376Q235.448459,315.321484,236.127018,313.945263C237.450175,311.235595,240.202947,309.517908,243.218432,309.520329L369.793497,309.520329C373.616786,309.517210,376.885489,306.768457,377.544356,303.002393L385.190086,259.422057C385.594593,257.132346,384.964004,254.781074,383.468032,253.001046C381.972059,251.221018,379.764407,250.195123,377.439227,250.199464L318.490647,250.199464C310.099458,250.199464,307.557253,238.855196,315.116968,235.204387C338.013877,224.160225,363.113795,218.442374,388.535093,218.479477C481.946803,218.479477,557.954919,294.477468,557.954919,387.898035C557.955764,397.653139,557.111578,407.389981,555.431828,416.999379C555.054266,419.119386,553.825035,420.992312,552.030264,422.182197C550.235493,423.372082,548.031752,423.775122,545.932008,423.297502Z"
+                  transform="translate(-400.083296,-399.981902)"
+                  opacity="0"
+                  filter="url(#ev6nwws6zqlq4-filter)"
+                  fill="rgb(255,255,255)"
+                  stroke="none"
+                  stroke-width="1" />
+        </g>
+    </svg>
+    <p>Cargando...</p>
+</div>
+
+
+
+<div class="col-md-12 card" id="divTablaHorarios">
+    <table id="tblHorariosCargados" class="table table-striped table-hover">
+    </table>
+</div>
+
+
+
+@section scripts
+    {
+    <script>
+        let tblHorariosCargados;
+        $(document).ready(function () {
+            $(function () {
+                $('input[name="daterange"]').daterangepicker({
+                    opens: "left",
+                    startDate: moment().startOf('hour'),
+                    endDate: moment().startOf('hour').add(30, 'day'),
+                    minDate: "26/10/2020",
+                    maxDate: "31/12/" + ((new Date).getFullYear() + 1),
+                    dateLimit: {
+                        'days': 30
+                    },
+                    locale: {
+                        format: 'DD/MM/YYYY',
+                        customRangeLabel: "Rango personalizado",
+                        applyLabel: "Aplicar",
+                        cancelLabel: "Cancelar",
+                        fromLabel: "Desde",
+                        toLabel: "To",
+                        weekLabel: "W",
+                        daysOfWeek: [
+                            'Do',
+                            'Lu',
+                            'Ma',
+                            'Mi',
+                            'Ju',
+                            'Vi',
+                            'Sa'
+                        ],
+                        monthNames: [
+                            'Enero',
+                            'Febrero',
+                            'Marzo',
+                            'Abril',
+                            'Mayo',
+                            'Junio',
+                            'Julio',
+                            'Agosto',
+                            'Septiembre',
+                            'Octubre',
+                            'Noviembre',
+                            'Diciembre'
+                        ],
+                        firstDay: 1
+                    },
+                    showDropdowns: true,
+                    alwaysShowCalendars: true,
+                    ranges: {
+                        'Hoy': [moment(), moment()],
+                        'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
+                        'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+                        'Mes Actual': [moment().startOf('month'), moment().endOf('month')],
+                        'Mes Pasado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                });
+            });
+
+            CargarHorario();
+
+            CargarCombos();
+        });
+
+        function CargarCombos() {
+            $.ajax({
+                url: '../Mantenedor/GetCargarTerminalesCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {},
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionTer = $(document.createElement('option'));
+                        optionTer.val(data.data[i]["ID_TERMINAL"]);
+                        optionTer.text(data.data[i]["NOMBRE_TERMINAL"]);
+
+                        $("#ddlTerminal").append(optionTer);
+                    }
+                }
+            });
+        }
+
+        function CargarHorario() {
+            tblHorariosCargados = $("#tblHorariosCargados").DataTable({
+                dom: "<'card-header'<'.titleSegui'><'d-flex justify-content-md-end'B f l>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
+                scrollX: true,
+                processing: true,
+                destroy: true,
+                lengthChange: true,
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+                language: {
+                    "url": "../Plugins/DataTables/js/Spanish.json"
+                },
+                order: [[1, "asc"]],
+                initComplete: function () {
+                    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+                },
+                ajax: {
+                    url: "../Mantenedor/GetBusesActivos",
+                    type: "POST",
+                    dataType: "json",
+                    data: null
+                },
+                columns: [
+                    { data: "ID_HORARIO", visible: false, searchable: false },
+                    { data: "ID_CARGA_HORARIO", visble: false, searchable: false },
+                    { data: "NOMBRE_USUARIO", title: "Nombre Usuario", name: "NOMBRE_USUARIO", orderable: false },
+                    { data: "NOMBRE_TERMINAL", title: "Nombre Terminal", name: "NOMBRE_TERMINAL", orderable: false },
+                    {
+                        data: null, title: "Número jornada", name: "NOMBRE_TERMINAL", orderable: false,
+                        render: function (data, type, full, meta) {
+                            if (full.NUMERO_JORNADA == 1) {
+                                return "Uno";
+                            } else {
+                                return "Dos";
+                            }
+
+                        }
+                    },
+                    {
+                        data: null, title: "Fecha Inicio", name: "FECHA_INICIO", orderable: false,
+                        render: function (data, type, full, meta) {
+                            if (moment(full.FECHA_INICIO).format('DD/MM/YYYY') != '31/12/0000') {
+                                return moment(full.FECHA_INICIO).format('DD/MM/YYYY HH:MM');
+                            } else {
+                                return "";
+                            }
+
+                        }
+                    },
+                    {
+                        data: null, title: "Horario Cubierto", name: "HORARIO_CUBIERTO", orderable: false,
+                        render: function (data, type, full, meta) {
+                            if (full.HORARIO_CUBIERTO) {
+                                return "Cubierto";
+                            } else {
+                                return "No Cubierto";
+                            }
+
+                        }
+                    }
+                ],
+                buttons: [
+
+                    { extend: 'excel', className: 'btn btn-success', text: '<i class="fas fa-excel"></i>Descargar Excel', action: function () { getExcel() }, init: function (api, node, config) { $(node).removeClass('btn-secondary') } }
+                ],
+            });
+        }
+
+        function getExcel() {
+            $.ajax({
+                url: '../HorarioConductor/GetDatosTablaDashboard',
+                type: 'post',
+                dataType: 'json',
+                data: null,
+                beforeSend: function () {
+                    $(".loader-1").show();
+                    $(".loader-1 p").text("Generando Excel...");
+                },
+                complete: function () {
+                    $(".loader-1").hide();
+                },
+                success: function (data) {
+                    $("#btnGenerarExcel").button('reset');
+                    if (data.error) {
+                        alert(data.message);
+                    } else {
+                        window.location.href = "../HorarioConductor/downloadExcel?filepath=" + data.message;
+                    }
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alertDanger("Demasiados datos para generar excel");
+                }
+            });
+        }
+
+        function Limpiar() {
+            $("#ddlTerminal option").attr("selected", false);
+            $("#ddlTerminal option[value='" + 0 + "']").attr("selected", "selected");
+
+            $("#txtRunUsuario").val("");
+            //$("#txtSegNombre").val("");
+
+        }
+
+    </script>
+}

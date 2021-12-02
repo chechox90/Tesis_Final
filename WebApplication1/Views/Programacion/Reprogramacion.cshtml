@@ -70,7 +70,7 @@
                     <input type="text" id="txtRutConductor" maxlength="12" placeholder="Ingrese un R.U.N." onclick="Limpiar();" class="form-control borderInput" />
                 </div>
                 <div class="borderInput">
-                    <button id="btnBuscar" class="btn btn-success borderInput" onclick="BuscarConductorHorarioClick();">Buscar</button>
+                    <button id="btnBuscar" class="btn btn-success borderInput" onclick="BuscarConductorHorarioClick();"><i class="fas fa-search"></i> Buscar</button>
                 </div>
 
             </div>
@@ -101,13 +101,13 @@
                 <div class="borderInput">
                     <div class="form-row col-12">
                         <div class="form-group col-md-4 ocultar">
-                            <button class="btn btn-outline-light" id="btnSemanaAnterior" onclick="SiguienteSemana(this);">Semana anterior</button>
+                            <button class="btn btn-outline-light" id="btnSemanaAnterior" onclick="SiguienteSemana(this);"><i class="fas fa-arrow-left"></i></button>
                         </div>
                         <div class="form-group ocultar text-center col-md-4">
-                            <button class="btn btn-outline-light" type="button" id="btnSemanaActual" onclick="SiguienteSemana(this)">Volver a semana actual</button>
+                            <button class="btn btn-outline-light" type="button" id="btnSemanaActual" onclick="SiguienteSemana(this)"></button>
                         </div>
                         <div class="form-group col-md-4 text-right ocultar">
-                            <button class="btn btn-outline-light " type="button" id="btnSemanaSiguiente" onclick="SiguienteSemana(this)">Próximos 7 dias</button>
+                            <button class="btn btn-outline-light " type="button" id="btnSemanaSiguiente" onclick="SiguienteSemana(this)"><i class="fas fa-arrow-right"></i></button>
                         </div>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkLun1" />
+                                                <input type="checkbox" class="chk" id="chkLun1" />
                                             </div>
                                         </div>
                                     </div>
@@ -156,7 +156,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioMa1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkMar1" />
+                                                <input type="checkbox" class="chk" id="chkMar1" />
                                             </div>
                                         </div>
                                     </div>
@@ -180,7 +180,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioMi1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkMie1" />
+                                                <input type="checkbox" class="chk" id="chkMie1" />
                                             </div>
                                         </div>
                                     </div>
@@ -204,7 +204,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioJu1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkJue1" />
+                                                <input type="checkbox" class="chk" id="chkJue1" />
                                             </div>
                                         </div>
                                     </div>
@@ -228,7 +228,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioVi1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkVie1" />
+                                                <input type="checkbox" class="chk" id="chkVie1" />
                                             </div>
                                         </div>
                                     </div>
@@ -252,7 +252,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioSa1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkSab1" />
+                                                <input type="checkbox" class="chk" id="chkSab1" />
                                             </div>
                                         </div>
                                     </div>
@@ -276,7 +276,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioDo1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkDom1" />
+                                                <input type="checkbox" class="chk" id="chkDom1" />
                                             </div>
                                         </div>
                                     </div>
@@ -307,7 +307,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkLun2" />
+                                                <input type="checkbox" class="chk" id="chkLun2" />
                                             </div>
                                         </div>
                                     </div>
@@ -332,7 +332,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkMar2" />
+                                                <input type="checkbox" class="chk" id="chkMar2" />
                                             </div>
                                         </div>
                                     </div>
@@ -356,7 +356,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkMie2" />
+                                                <input type="checkbox" class="chk" id="chkMie2" />
                                             </div>
                                         </div>
                                     </div>
@@ -380,7 +380,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkJue2" />
+                                                <input type="checkbox" class="chk" id="chkJue2" />
                                             </div>
                                         </div>
                                     </div>
@@ -404,7 +404,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkVie2" />
+                                                <input type="checkbox" class="chk" id="chkVie2" />
                                             </div>
                                         </div>
                                     </div>
@@ -428,7 +428,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkSab2" />
+                                                <input type="checkbox" class="chk" id="chkSab2" />
                                             </div>
                                         </div>
                                     </div>
@@ -452,7 +452,7 @@
                                                 <input class="form-control enabled txtCom" type="text" onkeypress="return Sololetras(event)" id="txtComentarioLu1" placeholder="Motivo" />
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" id="chkDom2" />
+                                                <input type="checkbox" class="chk" id="chkDom2" />
                                             </div>
                                         </div>
                                     </div>
@@ -462,7 +462,7 @@
                     </div>
                 </div>
                 <div class="text-left borderInput">
-                    <input disabled="disabled" type="checkbox" checked="checked" class="text-success"/> <label class="text-danger"><i class="fas fa-info-circle"></i> Indica que el conductor se ha presentado a trabajar en la fecha y hora indicada</label>
+                    <input disabled="disabled" type="checkbox" checked="checked" class="text-success" /> <label class="text-danger"><i class="fas fa-info-circle"></i> Indica que el conductor se ha presentado a trabajar en la fecha y hora indicada</label>
                 </div>
                 <div class="modal-footer ocultar">
                     <div class="borderInput">
@@ -472,7 +472,7 @@
                     </div>
                     <div class="borderInput ">
                         <div class="divFlot">
-                            <button class="btn btn-success" type="button" onclick="GuaradarCambioHorario();"><i class="fas fa-edit"></i> Guardar cambios</button>
+                            <button class="btn btn-success" type="button" onclick="GuaradarCambioHorario();"><i class="fas fa-edit"></i> Guardar</button>
                         </div>
                     </div>
                 </div>
@@ -859,6 +859,7 @@
 
             $(".txtHor").val("");
             $(".txtCom").val("");
+            $(".chk").prop("checked", false);
 
             $(".ddlTer option").attr("selected", false);
 
@@ -959,25 +960,28 @@
                 }
 
             ]
+            console.log($("#lblRutConductor").val())
+            if ($("#lblRutConductor").val() != "") {
+                $.ajax({
+                    url: '../Reprogramacion/SetGuaradarCambioHorario',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        ObjetoHorario: DTO_HorarioReprogramado
+                    },
+                    success: function (data) {
+                        if (data.ErrorTitle != '') {
+                            alertDanger1(data.ErrorMsg);
+                        } else {
+                            alertSuccess(data.ErrorMsg);
 
-
-            $.ajax({
-                url: '../Reprogramacion/SetGuaradarCambioHorario',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: {
-                    ObjetoHorario: DTO_HorarioReprogramado
-                },
-                success: function (data) {
-                    if (data.ErrorTitle != '') {
-                        alertDanger1(data.ErrorMsg);
-                    } else {
-                        alertSuccess(data.ErrorMsg);
-
+                        }
                     }
-                }
-            });
+                });
+            } else {
+               alertDanger("No ha realizado una busqueda, realice una búsqueda para continuar.")
+            }
 
             BuscarConductorHorarioClick();
         }

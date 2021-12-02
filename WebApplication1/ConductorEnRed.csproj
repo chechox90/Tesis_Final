@@ -501,6 +501,7 @@
     <Content Include="Views\HorarioConductor\_EditarVuelta.cshtml" />
     <Content Include="TempArchivos\EXCEL_CONDUCTOR_EN_RED.xlsx" />
     <Content Include="Views\Mantenedores\downloadExcel.cshtml" />
+    <Content Include="Views\Reportes\Reporte_Horario_Cargado.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
