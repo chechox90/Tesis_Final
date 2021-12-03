@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CargaHorario\DTO_HorarioConductorMostrar.cs" />
+    <Compile Include="CargaHorario\DTO_HorarioReporte.cs" />
     <Compile Include="CargaHorario\DTO_HorarioReprogramado.cs" />
     <Compile Include="Extensiones.cs" />
     <Compile Include="General\PagerDataTable.cs" />

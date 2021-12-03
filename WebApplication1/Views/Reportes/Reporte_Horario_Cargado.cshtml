@@ -36,7 +36,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#">Reporte horario cargado</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Reportes</a></li>
             </ol>
         </nav>
     </div>
@@ -46,7 +46,7 @@
     <div class="modal-body">
         <div class="form-row container-title">
             <div class="borderInput">
-                <h4 class="modal-title text-primary">Horarios cargados</h4>
+                <h4 class="modal-title text-success">Horarios cargados</h4>
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
                             </div>
-                            <input type="text" class="form-control dateinput opacity-1" id="txtFechaInicio" name="daterange" autocomplete="off" required="" readonly="" />
+                            <input type="text" class="form-control dateinput opacity-1" id="txtFechaInicio" name="daterange" autocomplete="off" readonly="" />
                         </div>
                     </div>
                 </div>
@@ -118,7 +118,7 @@
 
 
 
-<div class="col-md-12 card" id="divTablaHorarios">
+<div class="col-md-12 card" style="display:none" id="divTablaHorarios">
     <table id="tblHorariosCargados" class="table table-striped table-hover">
     </table>
 </div>
@@ -186,8 +186,6 @@
                 });
             });
 
-            CargarHorario();
-
             CargarCombos();
         });
 
@@ -210,100 +208,170 @@
             });
         }
 
-        function CargarHorario() {
-            tblHorariosCargados = $("#tblHorariosCargados").DataTable({
-                dom: "<'card-header'<'.titleSegui'><'d-flex justify-content-md-end'B f l>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
-                scrollX: true,
-                processing: true,
-                destroy: true,
-                lengthChange: true,
-                pageLength: 10,
-                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
-                language: {
-                    "url": "../Plugins/DataTables/js/Spanish.json"
-                },
-                order: [[1, "asc"]],
-                initComplete: function () {
-                    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-                },
-                ajax: {
-                    url: "../Mantenedor/GetBusesActivos",
-                    type: "POST",
-                    dataType: "json",
-                    data: null
-                },
-                columns: [
-                    { data: "ID_HORARIO", visible: false, searchable: false },
-                    { data: "ID_CARGA_HORARIO", visble: false, searchable: false },
-                    { data: "NOMBRE_USUARIO", title: "Nombre Usuario", name: "NOMBRE_USUARIO", orderable: false },
-                    { data: "NOMBRE_TERMINAL", title: "Nombre Terminal", name: "NOMBRE_TERMINAL", orderable: false },
-                    {
-                        data: null, title: "Número jornada", name: "NOMBRE_TERMINAL", orderable: false,
-                        render: function (data, type, full, meta) {
-                            if (full.NUMERO_JORNADA == 1) {
-                                return "Uno";
-                            } else {
-                                return "Dos";
-                            }
+        function Buscar() {
+            var fechaPorRango = $("#txtFechaInicio").val();
+            var fIni = (fechaPorRango.split("-")[0]);
+            var fFIn = (fechaPorRango.split("-")[1]);
+            var idTerminal = $("#ddlTerminal option:selected").val();
 
+            let run = $("#txtRunUsuario").val();
+
+            var filtro = Validar(fechaPorRango, idTerminal, run);
+
+            if (filtro == 1) {
+                $("#divTablaHorarios").css("display", "");
+
+                tblHorariosCargados = $("#tblHorariosCargados").DataTable({
+                    dom: "<'card-header'<'.titleSegui'><'d-flex justify-content-md-end'B f l>>" + "<'card-body p-0'tr>" + "<'card-footer'ip>",
+                    scrollX: true,
+                    processing: true,
+                    destroy: true,
+                    lengthChange: true,
+                    pageLength: 10,
+                    lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+                    language: {
+                        "url": "../Plugins/DataTables/js/Spanish.json"
+                    },
+                    order: [[1, "asc"]],
+                    initComplete: function () {
+                        if (data.data.length == 0) {
+                            alertSuccess("Se ha realizado la búsqueda pero no se encontraron resultados.");
+                        }
+                        $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+                    },
+                    ajax: {
+                        url: "../HorarioConductor/GetRegistroVueltasFechaFiltroBusqueda",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            "Desde": fIni,
+                            "Hasta": fFIn,
+                            "idterminal": idTerminal,
+                            "run": run
                         }
                     },
-                    {
-                        data: null, title: "Fecha Inicio", name: "FECHA_INICIO", orderable: false,
-                        render: function (data, type, full, meta) {
-                            if (moment(full.FECHA_INICIO).format('DD/MM/YYYY') != '31/12/0000') {
-                                return moment(full.FECHA_INICIO).format('DD/MM/YYYY HH:MM');
-                            } else {
-                                return "";
+                    columns: [
+                        { data: "ID_HORARIO", visible: false, searchable: false },
+                        { data: "NOMBRE_COMPLETO", title: "Nombre Usuario", name: "NOMBRE_USUARIO", orderable: false },
+                        { data: "RUT", title: "R.U.N.", name: "RUN", orderable: false },
+                        {
+                            data: null, title: "Fecha Carga", name: "FECHA_CARGA", orderable: false,
+                            render: function (data, type, full, meta) {
+                                if (moment(full.FECHA_CARGA).format('DD/MM/YYYY') != '31/12/0000') {
+                                    return moment(full.FECHA_CARGA).format('DD/MM/YYYY HH:MM');
+                                } else {
+                                    return "";
+                                }
+
                             }
+                        },
+                        { data: "NOMBRE_TERMINAL", title: "Nombre Terminal", name: "NOMBRE_TERMINAL", orderable: false },
+                        {
+                            data: null, title: "Número jornada", name: "NUMERO_JORNADA", orderable: false,
+                            render: function (data, type, full, meta) {
+                                if (full.NUMERO_JORNADA == 1) {
+                                    return "Uno";
+                                } else {
+                                    return "Dos";
+                                }
 
-                        }
-                    },
-                    {
-                        data: null, title: "Horario Cubierto", name: "HORARIO_CUBIERTO", orderable: false,
-                        render: function (data, type, full, meta) {
-                            if (full.HORARIO_CUBIERTO) {
-                                return "Cubierto";
-                            } else {
-                                return "No Cubierto";
                             }
+                        },
+                        {
+                            data: null, title: "Fecha Inicio", name: "FECHA_INICIO", orderable: false,
+                            render: function (data, type, full, meta) {
+                                if (moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY') != '31/12/0000') {
+                                    return moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY HH:MM');
+                                } else {
+                                    return "";
+                                }
 
+                            }
+                        },
+                        {
+                            data: null, title: "Horario Cubierto", name: "HORARIO_CUBIERTO", orderable: false,
+                            render: function (data, type, full, meta) {
+                                if (full.HORARIO_CUBIERTO) {
+                                    return "Cubierto";
+                                } else {
+                                    return "No Cubierto";
+                                }
+
+                            }
                         }
-                    }
-                ],
-                buttons: [
+                    ],
+                    buttons: [
 
-                    { extend: 'excel', className: 'btn btn-success', text: '<i class="fas fa-excel"></i>Descargar Excel', action: function () { getExcel() }, init: function (api, node, config) { $(node).removeClass('btn-secondary') } }
-                ],
-            });
+                        { extend: 'excel', className: 'btn btn-success', text: '<i class="fas fa-excel"></i>Descargar Excel', action: function () { getExcel() }, init: function (api, node, config) { $(node).removeClass('btn-secondary') } }
+                    ],
+                });
+
+            } else {
+                alertDanger("Por favor, seleccione un filtro para realizar una búsqueda.");
+            }
+        }
+
+        function Validar(fechaPorRango, idTerminal, run) {
+            if (run.toString() != "") {
+                return 1;
+            }
+
+            if (fechaPorRango != "") {
+                return 1;
+            }
+
+            if (idTerminal > 0) {
+                return 1
+            }
+
+            return 0;
         }
 
         function getExcel() {
-            $.ajax({
-                url: '../HorarioConductor/GetDatosTablaDashboard',
-                type: 'post',
-                dataType: 'json',
-                data: null,
-                beforeSend: function () {
-                    $(".loader-1").show();
-                    $(".loader-1 p").text("Generando Excel...");
-                },
-                complete: function () {
-                    $(".loader-1").hide();
-                },
-                success: function (data) {
-                    $("#btnGenerarExcel").button('reset');
-                    if (data.error) {
-                        alert(data.message);
-                    } else {
-                        window.location.href = "../HorarioConductor/downloadExcel?filepath=" + data.message;
-                    }
+            var fechaPorRango = $("#txtFechaInicio").val();
+            var fIni = (fechaPorRango.split("-")[0]);
+            var fFIn = (fechaPorRango.split("-")[1]);
+            var idTerminal = $("#ddlTerminal option:selected").val();
 
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alertDanger("Demasiados datos para generar excel");
-                }
-            });
+            let run = $("#txtRunUsuario").val();
+
+            var filtro = Validar(fechaPorRango, idTerminal, run);
+
+            if (filtro == 1) {
+                $("#divTablaHorarios").css("display", "");
+                $.ajax({
+                    url: '../HorarioConductor/GetDatosTablaReporteHorarios',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        "Desde": fIni,
+                        "Hasta": fFIn,
+                        "idterminal": idTerminal,
+                        "run": run
+                    },
+                    beforeSend: function () {
+                        $(".loader-1").show();
+                        $(".loader-1 p").text("Generando Excel...");
+                    },
+                    complete: function () {
+                        $(".loader-1").hide();
+                    },
+                    success: function (data) {
+                        $("#btnGenerarExcel").button('reset');
+                        if (data.error) {
+                            alert(data.message);
+                        } else {
+                            window.location.href = "../HorarioConductor/downloadExcelReporteHorario?filepath=" + data.message;
+                        }
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alertDanger("Demasiados datos para generar excel");
+                    }
+                });
+            } else {
+                alertDanger("Por favor, seleccione un filtro para realizar una búsqueda.");
+            }
         }
 
         function Limpiar() {

@@ -26,48 +26,50 @@
 <body>
     <div class="login-container">
         <header>
-            <img src="~/Images/Logo_CdeR.svg" class="img-fluid" alt="Logo">
+            @* <img src="~/Images/Logo_CdeR.svg" class="img-fluid" alt="Logo">*@
         </header>
         <div class="login-content">
+
             <div class="card">
                 <div class="card-body">
                     @using (Ajax.BeginForm("Autenticar", "Account", new AjaxOptions
-                {
-                    OnBegin = "showLoaderButtonSubmitLogin",
-                    OnSuccess = "hideLoaderButtonSubmitLogin",
-                    OnComplete = "respuestaLogin"
-                }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="login-modulo">
-                        <span class="fa-stack fa-2x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-key fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </div>
-                    <h2 class="text-center pr-0 mb-1">Iniciar Sesión</h2>
-                    <div class="form-row mb-3">
-                        <div class="col">
-                            @Html.TextBoxFor(m => m.Rut, new { @class = "form-control form-control-lg", maxlength = "10", placeholder = "\uf007   R.U.N." })
-                            @Html.ValidationMessageFor(m => m.Rut, "", new { @class = "text-danger" })
+                    {
+                        OnBegin = "showLoaderButtonSubmitLogin",
+                        OnSuccess = "hideLoaderButtonSubmitLogin",
+                        OnComplete = "respuestaLogin"
+                    }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="login-modulo">
+                            <span class="fa-stack fa-2x">
+                                <img src="~/Images/Logo_CdeR.svg" class="img-fluid" alt="Logo">
+                            </span>
                         </div>
-                    </div>
-                    <div class="form-row mb-3">
-                        <div class="col">
-                            @Html.PasswordFor(m => m.Clave, new { @class = "form-control form-control-lg", type = "password", maxlength = "50", placeholder = "\uf13e   Contraseña" })
-                            @Html.ValidationMessageFor(m => m.Clave, "", new { @class = "text-danger" })
-                            <div id="response"></div>
-                            <div id="capsLock"></div>
+                        <div>
+                            <h2 style="padding:1rem" class="text-center pr-0 mb-1 text-success">Iniciar Sesión</h2>
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-success btn-login btn-lg btn-block mb-4">Ingresar</button>
-                    <div class="form-row">
-                        <div class="col text-center">
-                            <a href="mailto:ejemplo@gmail.cl?subject=Mail Restablecer Clave de Acceso" class="btn btn-link p-0">¿Olvidaste tu contraseña?</a>
+                        <div class="form-row mb-3">
+                            <div class="col">
+                                @Html.TextBoxFor(m => m.Rut, new { @class = "form-control form-control-lg", maxlength = "10", placeholder = "\uf007   R.U.N." })
+                                @Html.ValidationMessageFor(m => m.Rut, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
-                }
+                        <div class="form-row mb-3">
+                            <div class="col">
+                                @Html.PasswordFor(m => m.Clave, new { @class = "form-control form-control-lg", type = "password", maxlength = "50", placeholder = "\uf13e   Contraseña"  })
+                                @Html.ValidationMessageFor(m => m.Clave, "", new { @class = "text-danger" })
+                                <div id="response"></div>
+                                <div id="capsLock"></div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-login btn-lg btn-block mb-4">Ingresar</button>
+                        <div class="form-row">
+                            <div class="col text-center">
+                                <a href="mailto:ejemplo@gmail.cl?subject=Mail Restablecer Clave de Acceso" class="btn btn-link p-0">¿Olvidaste tu contraseña?</a>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

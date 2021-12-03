@@ -237,7 +237,7 @@ ul {
 }
 
 .text-primary {
-    color: #519856 !important;
+    color: #0446FC !important;
 }
 
 .text-secondary {
@@ -2842,7 +2842,7 @@ input[type="file"]::-webkit-file-upload-button {
 
         .login-container .login-content .card {
             width: 100%;
-            max-width: 85%;
+            max-width: 100%;
             padding: 1.5rem 2rem;
             border-radius: 1rem;
             box-shadow: 0px 30px 69px rgba(0, 0, 0, .1);
@@ -2853,14 +2853,14 @@ input[type="file"]::-webkit-file-upload-button {
         }
 
         .login-container .login-content form .login-modulo {
-            width: 100px;
-            height: 100px;
+            width: 300px;
+            height: 120px;
             margin: 0 auto 2rem;
             padding: 1rem;
-            border-radius: 2.1rem;
+            /*border-radius: 2.1rem;*/
             display: flex;
             align-items: center;
-            box-shadow: 0px 20px 50px rgba(0, 0, 0, .1);
+            box-shadow: 0px 10px 40px rgba(0, 0, 0, .1);
         }
 
             .login-container .login-content form .login-modulo .fa-stack {
@@ -3364,6 +3364,15 @@ input[type="file"]::-webkit-file-upload-button {
 
 .modal-body {
     padding: 1.5rem 2rem;
+}
+
+hr {
+    width: 150px;
+    color: gray;
+    background-color: gray;
+    margin-bottom: 25px;
+    color: #E1E1E1;
+    background-color: #E1E1E1;
 }
 
 .modal-footer {

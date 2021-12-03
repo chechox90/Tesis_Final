@@ -142,7 +142,7 @@ namespace WebApplication1.Controllers
                 else
                 {
                     message = @"<span class='text-danger field-validation-error' data-valmsg-replace='true'>
-                                Este rol no tiene clave genérica
+                                Este R.U.N. no tiene clave genérica
                               </span>";
                 }
 
@@ -172,8 +172,7 @@ namespace WebApplication1.Controllers
                 model.Rut = AgregarGuionRut(model.Rut);
                 usuario.RUT = model.Rut;
                 usuario.CLAVE = password;
-
-                //usuario = _i_n_usuario.Autenticacion(usuario, ConfigurationManager.AppSettings["AgrupacionProyectos"], ConfigurationManager.AppSettings["NombreProyecto"]);
+                                
                 usuario = _i_n_usuario.Autenticacion(usuario, ConfigurationManager.AppSettings["NombreProyecto"]);
 
                 if (usuario != null && usuario.Perfiles.Count != 0)
@@ -211,7 +210,7 @@ namespace WebApplication1.Controllers
                     }
                     else if (message == "" && usuario == null)
                         message = @"<span class='text-danger field-validation-error' data-valmsg-replace='true'>
-                                El rol o contraseña ingresada no es correcta, intente nuevamente.
+                                El R.U.N o contraseña ingresada no es correcta, intente nuevamente.
                               </span>";
                     else
                     {

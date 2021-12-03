@@ -11,10 +11,6 @@
         text-align: right
     }
 
-    input:invalid {
-        border: 1px solid red;
-    }
-
     .contiener-row {
         display: flex;
         align-items: center;
@@ -35,7 +31,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#">Listado de Buses</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Mantenedor</a></li>
             </ol>
         </nav>
     </div>
@@ -53,15 +49,16 @@
     <div class="modal-body">
         <div class="form-row container-title">
             <div class="borderInput">
-                <h4 class="modal-title text-primary">Nuevo Bus</h4>
+                <h4 class="modal-title text-success">Nuevo Bus</h4>
             </div>
             <button type="button" class="close col-mb-0 btn-x" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
                 <i class="far fa-times"></i>
             </button>
         </div>
     </div>
-    <div class="modal-body">
+    <div class="modal-body">        
         <div class="form-row contiener-row">
+            <hr style="width:100px; color:gray; background-color:gray;" class="col-12" />
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="TerminalPrincipal">Terminal Principal</label>
@@ -71,7 +68,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="txtPPU">Placa Patente Única</label>
-                    <input id="txtPPU" type="text" name="txtPPU" maxlength="7" onkeypress="return Sololetras(event)" onkeyup="Format()" onblur="ValidarPPUExiste()" placeholder="CCRR-21" class="form-control" required />
+                    <input id="txtPPU" type="text" name="txtPPU" maxlength="7" onkeypress="return Sololetras(event)" onkeyup="Format()" onblur="ValidarPPUExiste()" placeholder="CCRR-21" class="form-control" />
                 </div>
             </div>
             <div class="col-md-4">

@@ -111,7 +111,7 @@ namespace DLL.DAO.Operaciones
                 throw;
             }
         }
-
+        
         public DTO_RegistroVueltas GetRegistroVueltasByAllId(int idVuelta)
         {
             try

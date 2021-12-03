@@ -24,11 +24,11 @@
 
 <div class="page-title">
     <div class="content-title">
-        <h3>Modificación Horario</h3>
+        <h3>Reprogramar Horario</h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#">Modificación Horario</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Horario Conductor</a></li>
             </ol>
         </nav>
     </div>
@@ -41,11 +41,11 @@
                 <div style="display:none" class="col-12 col-md-12 ocultar">
                     <div class="borderInput">
                         <span>Nombre completo: </span>
-                        <span class="text-primary" id="lblNombreConductor"></span>
+                        <span class="text-success" id="lblNombreConductor"></span>
                     </div>
                     <div class="borderInput">
                         <span>R.U.N: </span>
-                        <span class="text-primary" id="lblRutConductor"></span>
+                        <span class="text-success" id="lblRutConductor"></span>
                     </div>
                 </div>
             </div>
@@ -55,11 +55,11 @@
                 <div style="display:none" class="col-12 col-md-12 ocultar">
                     <div class="borderInput">
                         <span>Tipo de Contrato: </span>
-                        <span class="text-primary" id="lblContratoConductor"></span>
+                        <span class="text-success" id="lblContratoConductor"></span>
                     </div>
                     <div class="borderInput">
                         <span>Total horas extras: </span>
-                        <span class="text-primary" id="lblTotalHorasExtras"></span>
+                        <span class="text-success" id="lblTotalHorasExtras"></span>
                     </div>
                 </div>
             </div>
@@ -67,7 +67,7 @@
         <div class="col-md-4">
             <div class="form-row">
                 <div class="borderInput">
-                    <input type="text" id="txtRutConductor" maxlength="12" placeholder="Ingrese un R.U.N." onclick="Limpiar();" class="form-control borderInput" />
+                    <input type="text" id="txtRutConductor" maxlength="10" placeholder="Ingrese un R.U.N." onclick="Limpiar();" class="form-control borderInput" />
                 </div>
                 <div class="borderInput">
                     <button id="btnBuscar" class="btn btn-success borderInput" onclick="BuscarConductorHorarioClick();"><i class="fas fa-search"></i> Buscar</button>
@@ -88,10 +88,10 @@
                 <div class="borderInput">
                     <div class="form-row form-group">
                         <div class="col-md-6">
-                            <h4 class="text-primary text-center">Jornada 1</h4>
+                            <h4 class="text-success text-center">Jornada 1</h4>
                         </div>
                         <div class="col-md-6">
-                            <h4 class="text-primary text-center">Jornada 2</h4>
+                            <h4 class="text-success text-center">Jornada 2</h4>
                         </div>
                     </div>
                 </div>

@@ -11,10 +11,6 @@
         text-align: right
     }
 
-    input:invalid {
-        border: 1px solid red;
-    }
-
     .container-title {
         display: flex;
     }
@@ -30,7 +26,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#">Listado de Sentido</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Mantenedor</a></li>
             </ol>
         </nav>
     </div>
@@ -48,7 +44,7 @@
     <div class="modal-body">
         <div class="form-row container-title">
             <div class="borderInput">
-                <h4 class="modal-title text-primary">Nuevo Sentido</h4>
+                <h4 class="modal-title text-success">Nuevo Sentido</h4>
             </div>
             <button type="button" class="close col-mb-0 btn-x" onclick="Limpiar();" data-dismiss="modal" aria-label="Close">
                 <i class="far fa-times"></i>
@@ -57,10 +53,11 @@
     </div>
     <div class="modal-body">
         <div class="form-row contiener-row">
+            <hr class="col-12" />
             <div class="col-md-4" id="divSentidoNew">
                 <div>
                     <label for="NombreSentido">Nombre Sentido *</label>
-                    <input id="txtNomSentido" onblur="CamelCase(this);" type="text" name="NombreSentido" maxlength="50" onkeypress="return Sololetras(event)" placeholder="Nombre Sentido" class="form-control" required />
+                    <input id="txtNomSentido" onblur="CamelCase(this);" type="text" name="NombreSentido" maxlength="50" onkeypress="return Sololetras(event)" placeholder="Nombre Sentido" class="form-control" />
                 </div>
             </div>
             <div class="col-md-4" id="divSentidoEdit" style="display:none">
@@ -72,7 +69,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="NombreSentidoCorto">Nombre Sentido Abreviado *</label>
-                    <input id="txtNomSentidoCorto" type="text" name="NombreSentidoCorto" onkeypress="return Sololetras(event)" maxlength="5" placeholder="Nombre Sentido Abreviado" class="form-control" required />
+                    <input id="txtNomSentidoCorto" type="text" name="NombreSentidoCorto" onkeypress="return Sololetras(event)" maxlength="5" placeholder="Nombre Sentido Abreviado" class="form-control" />
                 </div>
             </div>
         </div>
@@ -95,13 +92,13 @@
     <div class="modal-body">
         <div class="form-row contiener-row">
             <div class="borderInput">
-                <h4 class="modal-title text-primary">Sentido</h4>
+                <h4 class="modal-title text-success">Sentido</h4>
             </div>
         </div>
     </div>
     <div class="modal-body">
-        <div class="clearfix"></div>
         <div class="form-row contiener-row">
+            <hr class="col-12" />
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="borderInput" for="NombreSentido">Sentido </label>

@@ -11,13 +11,15 @@
         text-align: right
     }
 
-    input:invalid {
-        border: 1px solid red;
-    }
-
     .container-title {
         display: flex;
     }
+
+    .contiener-row {
+        display: flex;
+        align-items: center;
+    }
+
 
     .btn-x {
         margin-left: auto
@@ -30,7 +32,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#">Listado de Comunas</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Mantenedor</a></li>
             </ol>
         </nav>
     </div>
@@ -41,57 +43,51 @@
     <div class="modal-body">
         <div class="form-row container-title">
             <div class="borderInput">
-                <h4 class="modal-title text-primary">Comunas</h4>
+                <h4 class="modal-title text-success">Comunas</h4>
             </div>
         </div>
     </div>
     <div class="modal-body">
-        <div class="form-row">
+        <div class="form-row contiener-row">
+            <hr class="col-12" />
             <div class="col-md-6">
                 <div class="form-row" style="display:flex">
-                    <div class="col-2">
-                        <label class="borderInput" for="NumeroServicio">Comunas</label>
-                    </div>
-                    <div class="col-6">
-                        <select id="ddlComunas" name="NumeroServicio" class="form-control borderInput" onchange="HabilitarEdit();"></select>
-                    </div>
-                    <div class="col-1">
-                        <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="left" title="Seleccione una comuna para eliminarla o editarla"></i>
+                    <div class="col-10">
+                        <label for="NumeroServicio">Comunas</label>
+                        <select id="ddlComunas" name="NumeroServicio" class="form-control" onchange="HabilitarEdit();"></select>
+                        <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="right" title="Seleccione una comuna para eliminarla o editarla"></i>
                     </div>
                 </div>
                 <div class="modal-footer" style="display:none" id="divBtonesEdit">
                     <div>
-                        <button class="btn btn-success borderInput" type="button" id="btnEditComuna" onclick="ShowEditarComuna();"><i class="fas fa-edit"></i> Editar</button>
-                        <button class="btn btn-danger borderInput" id="btnEliminarComuna" onclick="ShowModalEliminar();"><i class="fas fa-trash"></i> Eliminar</button>
+                        <button class="btn btn-success" type="button" id="btnEditComuna" onclick="ShowEditarComuna();"><i class="fas fa-edit"></i> Editar</button>
+                        <button class="btn btn-danger" id="btnEliminarComuna" onclick="ShowModalEliminar();"><i class="fas fa-trash"></i> Eliminar</button>
                     </div>
                 </div>
             </div>
 
             <div class="col-6">
-                <div class="form-row">
-                    <div id="divComunaNew" class="col-md-12">
-                        <div class="form-group borderInput">
-                            <label for="NombreComuna">Nombre Comuna *</label>
-                            <input id="txtNomComuna" type="text" name="NombreComuna" onkeyup="CamelCase(this)" placeholder="Nombre Comuna" onblur="ValidarComunaExiste();" class="form-control" required />
-                            <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="left" title="Comience a escribir para agregar una nueva comuna"></i>
-                        </div>
-                    </div>
-                    <div id="divComunaEdit" class="col-md-4" style="display:none">
-                        <div class="form-group borderInput">
-                            <label for="NombreComuna">Nombre Comuna</label>
-                            <input id="txtNomComunaEdit" type="text" maxlength="30" name="NombreComuna" onkeyup="CamelCase(this)" onblur="ValidarComunaExiste();" placeholder="Nombre Comuna" class="form-control" required />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group borderInput ocultar">
-                            <label for="Motivo">Motivo de  Edición</label>
-                            <input id="txtMotivo" type="text" name="Motivo" maxlength="100" placeholder="Ingrese motivo" class="form-control" />
-                        </div>
+                <div id="divComunaNew" class="form-row" style="display:flex">
+                    <div class="col-10">
+                        <label for="NombreComuna">Nombre Comuna *</label>
+                        <input id="txtNomComuna" type="text" name="NombreComuna" onkeyup="CamelCase(this)" placeholder="Nombre Comuna" onblur="ValidarComunaExiste();" class="form-control" />
+                        <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="left" title="Comience a escribir para agregar una nueva comuna"></i>
                     </div>
                 </div>
-                <div class="form-row">
-                    <label class="text-danger">* Todos los compos son requeridos</label>
+                <div id="divComunaEdit" class="col-md-10" style="display:none">
+                    <label for="NombreComuna">Nombre Comuna</label>
+                    <input id="txtNomComunaEdit" type="text" maxlength="30" name="NombreComuna" onkeyup="CamelCase(this)" onblur="ValidarComunaExiste();" placeholder="Nombre Comuna" class="form-control" />
                 </div>
+                <div class="col-md-10">
+                    <div class="form-group ocultar">
+                        <label for="Motivo">Motivo de  Edición</label>
+                        <input id="txtMotivo" type="text" name="Motivo" maxlength="100" placeholder="Ingrese motivo" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="text-danger">* Todos los compos son requeridos</label>
             </div>
         </div>
     </div>

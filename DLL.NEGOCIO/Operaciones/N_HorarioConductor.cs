@@ -17,12 +17,12 @@ namespace DLL.NEGOCIO.Operaciones
 
         public int GetHorariosCubiertos(DateTime DateIni, DateTime dateFin)
         {
-            return I_DAO_HorarioConductor.GetHorariosCubiertos(DateIni,dateFin);
+            return I_DAO_HorarioConductor.GetHorariosCubiertos(DateIni, dateFin);
         }
 
         public int GetHorariosNoCubiertos(DateTime DateIni, DateTime dateFin)
         {
-            return I_DAO_HorarioConductor.GetHorariosNoCubiertos(DateIni,dateFin);
+            return I_DAO_HorarioConductor.GetHorariosNoCubiertos(DateIni, dateFin);
         }
 
         public List<int> GetHorasTrabajadasLibres(DateTime DateIni, DateTime dateFin)
@@ -45,14 +45,14 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_HorarioConductor.GetHorarioConductorByIdUser(idUsuario, fechaIni, fechaFin);
         }
 
-        public List<DTO_HorarioConductorMostrar> GetHorarioConductorByIdUserNumJor(int idUsuario, DateTime fechaIni,int numeroJornada)
+        public List<DTO_HorarioConductorMostrar> GetHorarioConductorByIdUserNumJor(int idUsuario, DateTime fechaIni, int numeroJornada)
         {
             return I_DAO_HorarioConductor.GetHorarioConductorByIdUserNumJor(idUsuario, fechaIni, numeroJornada);
         }
 
-        public DTO_HorarioConductorMostrar GetHorarioConductorByIdUser(int idUsuario,DateTime fechaHora)
+        public DTO_HorarioConductorMostrar GetHorarioConductorByIdUser(int idUsuario, DateTime fechaHora)
         {
-            return I_DAO_HorarioConductor.GetHorarioConductorByIdUser(idUsuario,fechaHora);
+            return I_DAO_HorarioConductor.GetHorarioConductorByIdUser(idUsuario, fechaHora);
         }
 
         public List<DTO_HorarioConductorMostrar> GetHorarioConductorByRutAll(string rut, DateTime fechaIni, DateTime fechaFin)
@@ -87,7 +87,12 @@ namespace DLL.NEGOCIO.Operaciones
 
         public string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, int idUsuario, string nombreCarga, DateTime fechaCarga, string descripcion)
         {
-            return I_DAO_HorarioConductor.SetGuardarHorarioConductor(list, idUsuario,nombreCarga, fechaCarga, descripcion);
+            return I_DAO_HorarioConductor.SetGuardarHorarioConductor(list, idUsuario, nombreCarga, fechaCarga, descripcion);
+        }
+
+        public List<DTO_HorarioConductorMostrar> GetRegistroVueltasByAll(DateTime desde, DateTime hasta, int idterminal, string run)
+        {
+            return I_DAO_HorarioConductor.GetRegistroVueltasByAll(desde, hasta, idterminal, run);
         }
 
     }

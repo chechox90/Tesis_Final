@@ -29,7 +29,7 @@ namespace DLL.DAO.Operaciones
                            && hc.FECHA_INICIO <= dateFin
                            && hc.HORARIO_CUBIERTO == true
                            && hc.ESTADO == true
-                          select hc.HORARIO_CUBIERTO).Count();
+                        select hc.HORARIO_CUBIERTO).Count();
             }
         }
 
@@ -74,8 +74,8 @@ namespace DLL.DAO.Operaciones
                     List<DTO_HorarioConductorMostrar> dtoHorario = (from hrcon in context.HORARIO_CONDUCTOR
                                                                     join usr in context.USUARIOS_SISTEMA on hrcon.ID_USUARIO equals usr.ID_USUARIO
                                                                     join ter in context.TERMINAL on hrcon.ID_TERMINAL_INICIO equals ter.ID_TERMINAL
-                                                                    where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin && usr.ESTADO == true)
-                                                                    join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO
+                                                                    join car in context.CARGA_HORARIO on hrcon.ID_CARGA_HORARIO equals car.ID_CARGA_HORARIO
+                                                                    where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin && usr.ESTADO == true)                                                                    
                                                                     select new DTO_HorarioConductorMostrar
                                                                     {
                                                                         ID_HORARIO = hrcon.ID_HORARIO,
@@ -89,7 +89,7 @@ namespace DLL.DAO.Operaciones
                                                                         NOMBRE_TERMINAL = ter.NOMBRE_TERMINAL,
                                                                         NUMERO_JORNADA = hrcon.NUMERO_JORNADA,
                                                                         FECHA_HORA_INICIO = hrcon.FECHA_INICIO,
-                                                                        TIPO_CONTRATO = tic.NOMBRE_TIPO_CONTRATO,
+                                                                        FECHA_CARGA = car.FECHA_CARGA,
                                                                         HORARIO_CUBIERTO = hrcon.HORARIO_CUBIERTO
                                                                     }).Where(x => x.ESTADO == true && x.HORARIO_CUBIERTO == true).ToList();
 
@@ -129,7 +129,7 @@ namespace DLL.DAO.Operaciones
                                                                     join usr in context.USUARIOS_SISTEMA on hrcon.ID_USUARIO equals usr.ID_USUARIO
                                                                     where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin && usr.ESTADO == true)
                                                                     join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO
-                                                                    where hrcon.ID_USUARIO == idUsuario && hrcon.ESTADO == true 
+                                                                    where hrcon.ID_USUARIO == idUsuario && hrcon.ESTADO == true
                                                                     select new DTO_HorarioConductorMostrar
                                                                     {
                                                                         ID_HORARIO = hrcon.ID_HORARIO,
@@ -631,6 +631,56 @@ namespace DLL.DAO.Operaciones
             }
 
 
+        }
+
+        public List<DTO_HorarioConductorMostrar> GetRegistroVueltasByAll(DateTime desde, DateTime hasta, int idterminal, string run)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    DateTime fechHoy = DateTime.Now;
+                    int idUsuario = 0;
+                    
+                    if (run != "")
+                        idUsuario = context.USUARIOS_SISTEMA.Where(x => x.RUT == run).FirstOrDefault().ID_USUARIO;
+
+                    List<DTO_HorarioConductorMostrar> dtoRegistro = (from hrc in context.HORARIO_CONDUCTOR
+                                                                     join ter in context.TERMINAL on hrc.ID_TERMINAL_INICIO equals ter.ID_TERMINAL
+                                                                     join usr in context.USUARIOS_SISTEMA on hrc.ID_USUARIO equals usr.ID_USUARIO
+                                                                     join car in context.CARGA_HORARIO on hrc.ID_CARGA_HORARIO equals car.ID_CARGA_HORARIO
+                                                                     where hrc.ESTADO == true
+                                                                        && ((hrc.ID_USUARIO > 0 && hrc.ID_USUARIO == idUsuario) || idUsuario == 0)
+                                                                            && ((hrc.ID_TERMINAL_INICIO > 0 && hrc.ID_TERMINAL_INICIO == idterminal) || idterminal == 0)
+                                                                                &&
+                                                                                (hrc.FECHA_INICIO >= desde && hrc.FECHA_INICIO <= hasta)
+                                                                     select new DTO_HorarioConductorMostrar
+                                                                     {
+                                                                         ID_HORARIO = hrc.ID_HORARIO,
+                                                                         RUT = usr.RUT,
+                                                                         NOMBRE = usr.NOMBRE,
+                                                                         SEGUNDO_NOMBRE = usr.SEGUNDO_NOMBRE,
+                                                                         APELLIDO_PATERNO = usr.APELLIDO_PATERNO,
+                                                                         APELLIDO_MATERNO = usr.APELLIDO_MATERNO,
+                                                                         ESTADO = usr.ESTADO,
+                                                                         NOMBRE_TERMINAL = ter.NOMBRE_TERMINAL,
+                                                                         NUMERO_JORNADA = hrc.NUMERO_JORNADA,
+                                                                         FECHA_HORA_INICIO = hrc.FECHA_INICIO,
+                                                                         FECHA_CARGA = car.FECHA_CARGA,
+                                                                         HORARIO_CUBIERTO = hrc.HORARIO_CUBIERTO
+                                                                     }).Where(x => x.ESTADO == true).ToList();
+
+
+                    return dtoRegistro;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
         }
 
     }

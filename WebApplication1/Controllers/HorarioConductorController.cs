@@ -36,7 +36,6 @@ namespace ConductorEnRed.Controllers
 
         }
 
-        #region Inicio
 
         [HttpPost]
         public ActionResult GetDatosDashboard(string fIni, string fFin)
@@ -111,7 +110,7 @@ namespace ConductorEnRed.Controllers
             //crea ruta para archivos excel si no existe
             CreateFolderHelper.CreateFolders("Content/reports/Reportes");
 
-            string nombreArchivo = "Reporte_ServiciosRealizados_" + DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss") + ".xlsx";
+            string nombreArchivo = "Reporte_Servicios_Realizados_" + DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss") + ".xlsx";
             string filepath = System.Web.HttpContext.Current.Server.MapPath(@"~\Content\reports\Reportes\" + nombreArchivo + "");
 
             bool generate = ExportarExcelColor.CreateExcelDocument(boundTable, filepath);
@@ -183,8 +182,167 @@ namespace ConductorEnRed.Controllers
             return View("~/Views/Administracion/Dashboard.cshtml");
         }
 
-        #endregion
+        [HttpPost]
+        public ActionResult GetTipoSolicitudesCmb()
+        {
+            List<DTO_TipoSolicitud> listdto = _i_n_HorarioConductor.GetTipoSolicitudAll();
+            List<DTO_TipoSolicitud> list = new List<DTO_TipoSolicitud>();
 
+            DTO_TipoSolicitud tipoSolicitudselect = new DTO_TipoSolicitud();
+            tipoSolicitudselect.ID_TIPO_SOLICITUD = 0;
+            tipoSolicitudselect.NOMBRE_SOLICITUD = "Seleccione";
+            list.Add(tipoSolicitudselect);
+
+            foreach (var item in listdto)
+            {
+                DTO_TipoSolicitud tipoSolicitud = new DTO_TipoSolicitud();
+                tipoSolicitud.ID_TIPO_SOLICITUD = item.ID_TIPO_SOLICITUD;
+                tipoSolicitud.NOMBRE_SOLICITUD = item.NOMBRE_SOLICITUD;
+
+                list.Add(tipoSolicitud);
+            }
+
+
+            return Json(new
+            {
+                data = list,
+                ErrorMsg = "",
+                JsonRequestBehavior.AllowGet
+            });
+
+        }
+
+        [HttpPost]
+        public ActionResult GetRegistroVueltasFechaFiltroBusqueda(string Desde, string Hasta, int idterminal, string run)
+        {
+            try
+            {
+                List<DTO_HorarioConductorMostrar> vueltas = new List<DTO_HorarioConductorMostrar>();
+                List<DTO_HorarioConductorMostrar> Horario = new List<DTO_HorarioConductorMostrar>();
+
+                DateTime desde = Convert.ToDateTime(Desde);
+                DateTime hasta = Convert.ToDateTime(Hasta);
+                hasta = new DateTime(hasta.Year, hasta.Month, hasta.Day, 23, 59, 59);
+
+                vueltas = _i_n_HorarioConductor.GetRegistroVueltasByAll(desde, hasta, idterminal, run);
+
+                int i = 1;
+                foreach (var item in vueltas)
+                {
+                    DTO_HorarioConductorMostrar v = new DTO_HorarioConductorMostrar();
+
+                    v.ID_HORARIO = item.ID_HORARIO;
+                    v.NOMBRE_COMPLETO = item.NOMBRE + " " + item.APELLIDO_PATERNO + " " + item.APELLIDO_MATERNO;
+                    v.RUT = IngresarPuntosEnRut(item.RUT);
+                    v.FECHA_CARGA = item.FECHA_CARGA;
+                    v.NOMBRE_TERMINAL = item.NOMBRE_TERMINAL;
+                    v.NUMERO_JORNADA = item.NUMERO_JORNADA;
+                    v.FECHA_HORA_INICIO = item.FECHA_HORA_INICIO;
+                    v.HORARIO_CUBIERTO = item.HORARIO_CUBIERTO;
+
+                    Horario.Add(v);
+
+                    i++;
+                }
+
+                return Json(new
+                {
+                    data = Horario,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+
+
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ActionResult downloadExcelReporteHorario(string filepath)
+        {
+            FileInfo file = new FileInfo(filepath);
+
+            Response.ClearContent();
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+            Response.AddHeader("Content-Length", file.Length.ToString());
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.TransmitFile(file.FullName);
+            Response.End();
+
+            if (System.IO.File.Exists(filepath))
+            {
+                System.IO.File.Delete(filepath);
+            }
+
+            return View("~/Views/Reportes/Reporte_Horario_Cargado.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult GetDatosTablaReporteHorarios(string Desde, string Hasta, int idterminal, string run)
+        {
+            List<DTO_HorarioConductorMostrar> vueltas = new List<DTO_HorarioConductorMostrar>();
+            List<DTO_HorarioReporte> Horario = new List<DTO_HorarioReporte>();
+
+            DateTime desde = Convert.ToDateTime(Desde);
+            DateTime hasta = Convert.ToDateTime(Hasta);
+            hasta = new DateTime(hasta.Year, hasta.Month, hasta.Day, 23, 59, 59);
+
+            vueltas = _i_n_HorarioConductor.GetRegistroVueltasByAll(desde, hasta, idterminal, run);
+
+            int i = 1;
+            foreach (var item in vueltas)
+            {
+                DTO_HorarioReporte v = new DTO_HorarioReporte();
+
+                v.NOMBRE_COMPLETO = item.NOMBRE + " " + item.APELLIDO_PATERNO + " " + item.APELLIDO_MATERNO;
+                v.RUT = IngresarPuntosEnRut(item.RUT);
+                v.FECHA_CARGA = item.FECHA_CARGA;
+                v.NOMBRE_TERMINAL = item.NOMBRE_TERMINAL;
+                v.NUMERO_JORNADA = item.NUMERO_JORNADA == 1 ? "Uno":"Dos";
+                v.FECHA_HORA_INICIO = item.FECHA_HORA_INICIO;
+                v.HORARIO_CUBIERTO = item.HORARIO_CUBIERTO ? "Cubierto": "No Cubierto";
+
+                Horario.Add(v);
+
+                i++;
+            }
+            IEnumerable<DTO_HorarioReporte> list = Horario;
+            DataTable boundTable = CreateDataTable(list);
+
+            boundTable.TableName = "Horarios Cargados"; //nombre no puede ser muy largo
+
+            //crea ruta para archivos excel si no existe
+            CreateFolderHelper.CreateFolders("Content/reports/Reportes");
+
+            string nombreArchivo = "Reporte_Horarios_Cargados_" + DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss") + ".xlsx";
+            string filepath = System.Web.HttpContext.Current.Server.MapPath(@"~\Content\reports\Reportes\" + nombreArchivo + "");
+
+            bool generate = ExportarExcelColor.CreateExcelDocument(boundTable, filepath);
+            FileInfo file = new FileInfo(filepath);
+
+
+            var json = new
+            {
+                error = true,
+                message = "Ocurrió un problema al generar el Excel"
+            };
+
+            if (generate)
+            {
+                json = new
+                {
+                    error = false,
+                    message = filepath
+                };
+            }
+
+            var jsonResult = Json(json, "text/html", System.Text.Encoding.UTF8,
+                                JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
 
         [HttpPost]
         public ActionResult SetIngresarSolictud(int idHorarioCambiar, int tipoSolicitud, string motivoSolictud, string motivoOpcional)
@@ -199,8 +357,8 @@ namespace ConductorEnRed.Controllers
             solicitud.ID_USUARIO_APRUEBA = null;
             solicitud.FECHA_REGISTRO_SOLICITUD = DateTime.Now;
             solicitud.FECHA_APROBACION = null;
-            solicitud.COMENTARIO_MOTIVO = motivoSolictud;
-            solicitud.COMENTARIO_ADICIONAL = motivoOpcional;
+            solicitud.COMENTARIO_MOTIVO = HashHelper.Base64Encode(motivoSolictud);
+            solicitud.COMENTARIO_ADICIONAL = HashHelper.Base64Encode(motivoOpcional);
             solicitud.ESTADO = true;
 
             int respuesta = _i_n_HorarioConductor.SetIngresaSolicitud(solicitud);
@@ -577,35 +735,7 @@ namespace ConductorEnRed.Controllers
 
         }
 
-        [HttpPost]
-        public ActionResult GetTipoSolicitudesCmb()
-        {
-            List<DTO_TipoSolicitud> listdto = _i_n_HorarioConductor.GetTipoSolicitudAll();
-            List<DTO_TipoSolicitud> list = new List<DTO_TipoSolicitud>();
 
-            DTO_TipoSolicitud tipoSolicitudselect = new DTO_TipoSolicitud();
-            tipoSolicitudselect.ID_TIPO_SOLICITUD = 0;
-            tipoSolicitudselect.NOMBRE_SOLICITUD = "Seleccione";
-            list.Add(tipoSolicitudselect);
-
-            foreach (var item in listdto)
-            {
-                DTO_TipoSolicitud tipoSolicitud = new DTO_TipoSolicitud();
-                tipoSolicitud.ID_TIPO_SOLICITUD = item.ID_TIPO_SOLICITUD;
-                tipoSolicitud.NOMBRE_SOLICITUD = item.NOMBRE_SOLICITUD;
-
-                list.Add(tipoSolicitud);
-            }
-
-
-            return Json(new
-            {
-                data = list,
-                ErrorMsg = "",
-                JsonRequestBehavior.AllowGet
-            });
-
-        }
 
     }
 }

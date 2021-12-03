@@ -37,5 +37,7 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
         int SetIngresaSolicitud(DTO_SolicitudCambioHorario list);
 
         List<DTO_TipoSolicitud> GetTipoSolicitudAll();
+
+        List<DTO_HorarioConductorMostrar> GetRegistroVueltasByAll(DateTime desde, DateTime hasta, int idterminal, string run);
     }
 }

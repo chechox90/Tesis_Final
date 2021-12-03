@@ -14,11 +14,11 @@
 
 <div class="page-title">
     <div class="content-title">
-        <h3>Ingresar ruta</h3>
+        <h3>Ingresar jornada</h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#">Registrar ruta</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Conductor</a></li>
             </ol>
         </nav>
     </div>
@@ -33,7 +33,7 @@
                         <div class="modal-body">
                             <div class="modal-title">
                                 <div class="form-group">
-                                    <h4>Registro de jornada</h4>
+                                    <h4 class="text-success">Registro de jornada</h4>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -60,8 +60,8 @@
                         </div>
                         <div class="modal-footer">
                             <label id="lblAviso1" style="display:none" class="text-danger bloqueo">Existe una vuelta sin finalizar, NO puede finalizar la jornada</label>
-                            <button id="btnRegistrarInicio" class="btn btn-success bloqueo borderInput" onclick="RegistrarInicioHorario();">Guardar</button>
-                            <button id="btnShowFin" class="btn btn-success bloqueo borderInput" onclick="ShowFinHorario();">Termino de jornada</button>
+                            <button id="btnRegistrarInicio" class="btn btn-success bloqueo borderInput" onclick="RegistrarInicioHorario();"><i class="fas fa-edit"></i> Guardar</button>
+                            <button id="btnShowFin" class="btn btn-success bloqueo borderInput" onclick="ShowFinHorario();"><i class="fas fa-edit"></i> Término de jornada</button>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                     <div class="card">
                         <div class="modal-body">
                             <div class="modal-title">
-                                <h4>Registro de Ruta</h4>
+                                <h4 class="text-success">Registro de Ruta</h4>
                             </div>
                             <div class="form-row">
                                 <div class="form-row form-group col-12">
@@ -111,12 +111,12 @@
                             </div>
                             <div class="borderInput">
                                 <div class="divFlot">
-                                    <button id="btnRegistrarIniVuelta" class="btn btn-success borderInput bloqueo" onclick="RegistrarInicioVuelta();">Guradar</button>
+                                    <button id="btnRegistrarIniVuelta" class="btn btn-success borderInput bloqueo" onclick="RegistrarInicioVuelta();"><i class="fas fa-edit"></i> Guardar</button>
                                 </div>
                             </div>
                             <div class="borderInput">
                                 <div class="divFlot">
-                                    <button id="btnRegistrarFinVuelta" class="btn btn-success borderInput bloqueo" style="display:none" onclick="ShowCerrarVuelta();">Finalizar Vuelta</button>
+                                    <button id="btnRegistrarFinVuelta" class="btn btn-success borderInput bloqueo" style="display:none" onclick="ShowCerrarVuelta();"><i class="fas fa-edit"></i> Finalizar Vuelta</button>
                                 </div>
                             </div>
                         </div>
@@ -160,7 +160,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnFinJornada" onclick="RegistrarFinJornada();">Guardar</button>
+                <button type="button" class="btn btn-success" id="btnFinJornada" onclick="RegistrarFinJornada();"><i class="fas fa-edit"></i> Guardar</button>
             </div>
         </div>
     </div>
@@ -203,7 +203,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnFinVuelta" onclick="RegistrarFinVuelta();">Guardar</button>
+                <button type="button" class="btn btn-success" id="btnFinVuelta" onclick="RegistrarFinVuelta();"><i class="fas fa-edit"></i> Guardar</button>
             </div>
         </div>
     </div>
@@ -327,7 +327,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <span class="text-primary">Se ha realizado la búsquda pero aún no hay turnos disponibles, para ingresar vueltas.</span>
+                <span class="text-primary">Se ha realizado la búsquda pero aún no se encuentran turnos <b class="text-danger">cubiertos</b> para ingresar el horario de inicio.</span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="btnEliminar" onclick="CerrarModal();"><i class="fas fa-check"></i> Aceptar</button>

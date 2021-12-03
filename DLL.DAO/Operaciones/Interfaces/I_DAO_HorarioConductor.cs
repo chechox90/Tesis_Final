@@ -39,5 +39,7 @@ namespace DLL.DAO.Operaciones.Interfaces
         
         string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, int idUusuario, string nombreCarga, DateTime fechaCarga, string descripcion);
 
+        List<DTO_HorarioConductorMostrar> GetRegistroVueltasByAll(DateTime desde, DateTime hasta, int idterminal, string run);
+
     }
 }

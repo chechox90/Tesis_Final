@@ -13,10 +13,6 @@
     .divFlot {
         text-align: right
     }
-
-    input:invalid {
-        border: 1px solid red;
-    }
 </style>
 
 <div class="page-title">
@@ -25,150 +21,159 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#">Usuario</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="#">Administración</a></li>
             </ol>
         </nav>
     </div>
 </div>
 
 <div class="card">
-    <div class="flex-fill">
-        <div class="col-12">
-            <div class="form-row">
-                <div class="col-sm-3 form-group">
-                    <label for="nombre">Nombre *</label>
-                    <input id="txtNombre" type="text" name="nombre" onkeyup="CamelCase(this);" placeholder="Pedro" class="form-control" required />
-                </div>
-                <div class="col-sm-3 form-group">
-                    <div class="form-group ">
-                        <label for="segNombre">Segundo Nombre *</label>
-                        <input id="txtSegNombre" type="text" name="segNombre" onkeyup="CamelCase(this);" placeholder="Antonio" class="form-control" required />
-                    </div>
-                </div>
-                <div class="col-sm-3 form-group">
-                    <div class="form-group ">
-                        <label for="APELIDO1">Apellido Paterno *</label>
-                        <input id="txtApePater" type="text" name="APELIDO1" onkeyup="CamelCase(this);" placeholder="Chaparro" class="form-control" required />
-                    </div>
-                </div>
-                <div class="col-sm-3 form-group">
-                    <div class="form-group ">
-                        <label for="ApeMate">Apellido Marterno *</label>
-                        <input id="txtApeMate" type="text" name="ApeMate" onkeyup="CamelCase(this);" placeholder="Chaparro" class="form-control" required />
-                    </div>
-                </div>
+    <div class="modal-body">
+        <div class="form-row container-title">
+            <div class="borderInput">
+                <h4 class="modal-title text-success">Nuevo Usuario</h4>
             </div>
+            <hr class="col-12" />
         </div>
-        <div class="col-12">
-            <div class="form-row">
-                <div class="col-sm-3 form-group">
-                    <div class="form-group ">
-                        <label for="rut">R.U.N. *</label>
-                        <input id="txtRut" type="text" name="rut" onblur="onBlurRut(this);" placeholder="9999999-0" class="form-control" required />
-                    </div>
-                </div>
-                <div class="col-sm-3 form-group">
-                    <div class="form-group">
-                        <label for="CodigoBarra">Codigo de Barra *</label>
-                        <input id="txtCodigoBarra" type="text" name="CodigoBarra" placeholder="0100220225" class="form-control" required />
-                    </div>
-                </div>
-                <div class="col-sm-3 form-group">
-                    <div class="form-group">
-                        <label for="Comuna">Comuna *</label>
-                        <select id="cmbComuna" type="text" name="Comuna" class="form-control"></select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-row">
-                <div class="col-sm-3 form-group">
-                    <div class="form-group">
-                        <label for="TipoContrato">Tipo Contrato *</label>
-                        <select id="cmbTipoContrato" type="text" name="TipoContrato" class="form-control" required></select>
-                    </div>
-                </div>
-                <div class="col-sm-3 form-group">
-                    <div class="form-group ">
-                        <label for="correo">Correo *</label>
-                        <input id="txtCorreo" type="email" name="correo" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" required />
-                    </div>
-                </div>
-                <div class="col-sm-3 form-group">
-                    <div class="form-group ">
-                        <label for="correoAlte">Correo Alternativo *</label>
-                        <input id="txtCorreoAlt" type="email" name="correoAlte" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" required />
-                    </div>
-                </div>
-                <div class="col-sm-3 form-group">
-                    <div class="form-group">
-                        <label for="PERFIL">Perfil *</label>
-                        <select id="cmbPerfil" type="text" name="PERFIL" class="form-control"></select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <div class="form-group">
-                        <label for="txtClave">Clave *</label>
-                        <div style="display:flex; text-align:center">
-                            <input id="txtClave" type="password" name="Clave" autocomplete="off" placeholder="Clave" class="form-control" required />
-                            <span onclick="VerClave()" class="input-group-text pr-01">
-                                <icon id="icon" class="fa fa-eye-slash"></icon>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3 form-group">
-                    <div class="form-group">
-                        <label for="repClave">Repita Clave *</label>
-                        <div style="display:flex; align-items:center">
-                            <input id="txtRepClave" type="password" name="repClave" autocomplete="off" onblur="onBlurClave(this);" placeholder="Repita Clave" class="form-control" required />
-                            <span onclick="VerClaveRep()" class="input-group-text pr-01">
-                                <icon id="iconRep" class="fa fa-eye-slash"></icon>
-                            </span>
-                        </div>
-                    </div>
+    </div>
+    <div class="card">
+        <div class="flex-fill">
+            <div class="col-12">
 
-                </div>
-                <div class="col-md-3 form-group">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <label>Cambio Password *</label>
+                <div class="form-row">
+                    <div class="col-sm-3 form-group">
+                        <label for="nombre">Nombre *</label>
+                        <input id="txtNombre" type="text" name="nombre" onkeyup="CamelCase(this);" placeholder="Pedro" class="form-control" />
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <div class="form-group ">
+                            <label for="segNombre">Segundo Nombre *</label>
+                            <input id="txtSegNombre" type="text" name="segNombre" onkeyup="CamelCase(this);" placeholder="Antonio" class="form-control" />
                         </div>
-                        <div class="input-group">
-                            <input type="text" class="form-control dateinput opacity-1" id="txtFechaVencePass" name="FechaVencePass" autocomplete="off" required readonly />
-                            <div class="input-group-prepend">
-                                <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <div class="form-group ">
+                            <label for="APELIDO1">Apellido Paterno *</label>
+                            <input id="txtApePater" type="text" name="APELIDO1" onkeyup="CamelCase(this);" placeholder="Chaparro" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <div class="form-group ">
+                            <label for="ApeMate">Apellido Marterno *</label>
+                            <input id="txtApeMate" type="text" name="ApeMate" onkeyup="CamelCase(this);" placeholder="Chaparro" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-row">
+                    <div class="col-sm-3 form-group">
+                        <div class="form-group ">
+                            <label for="rut">R.U.N. *</label>
+                            <input id="txtRut" type="text" name="rut" onblur="onBlurRut(this);" placeholder="9999999-0" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <div class="form-group">
+                            <label for="CodigoBarra">Codigo de Barra *</label>
+                            <input id="txtCodigoBarra" type="text" name="CodigoBarra" placeholder="0100220225" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <div class="form-group">
+                            <label for="Comuna">Comuna *</label>
+                            <select id="cmbComuna" type="text" name="Comuna" class="form-control"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-row">
+                    <div class="col-sm-3 form-group">
+                        <div class="form-group">
+                            <label for="TipoContrato">Tipo Contrato *</label>
+                            <select id="cmbTipoContrato" type="text" name="TipoContrato" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <div class="form-group ">
+                            <label for="correo">Correo *</label>
+                            <input id="txtCorreo" type="email" name="correo" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <div class="form-group ">
+                            <label for="correoAlte">Correo Alternativo *</label>
+                            <input id="txtCorreoAlt" type="email" name="correoAlte" onkeyup="LowerCase(this);" placeholder="ejemplo@ejemplo.cl" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <div class="form-group">
+                            <label for="PERFIL">Perfil *</label>
+                            <select id="cmbPerfil" type="text" name="PERFIL" class="form-control"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-row">
+                    <div class="col-md-3 form-group">
+                        <div class="form-group">
+                            <label for="txtClave">Clave *</label>
+                            <div style="display:flex; text-align:center">
+                                <input id="txtClave" type="password" name="Clave" autocomplete="off" placeholder="Clave" class="form-control" required />
+                                <span onclick="VerClave()" class="input-group-text pr-01">
+                                    <icon id="icon" class="fa fa-eye-slash"></icon>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <div class="form-group">
+                            <label for="repClave">Repita Clave *</label>
+                            <div style="display:flex; align-items:center">
+                                <input id="txtRepClave" type="password" name="repClave" autocomplete="off" onblur="onBlurClave(this);" placeholder="Repita Clave" class="form-control" required />
+                                <span onclick="VerClaveRep()" class="input-group-text pr-01">
+                                    <icon id="iconRep" class="fa fa-eye-slash"></icon>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label>Cambio Password *</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control dateinput opacity-1" id="txtFechaVencePass" name="FechaVencePass" autocomplete="off" readonly />
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-row" style="display:flex; align-items:center; padding:1rem">
+                            <div class="col-12">
+                                <input id="chkAdmin" type="checkbox" />
+                                <label for="correoAlte">Administrador</label>
+                                <i class="far fa-info-circle text-primary mr-2" data-toggle="tooltip" data-placement="right" title="Seleccionar casilla para asignar permisos administrador"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="form-row" style="display:flex; align-items:center">
-                        <div class="col-3">
-                            <i class="far fa-info-circle text-primary mr-2" data-toggle="tooltip" data-placement="left" title="Seleccionar casilla para asignar permisos administrador"></i>
-                            <input id="chkAdmin" type="checkbox" />
-                        </div>
-                        <div class="col-9">
-                            <label for="correoAlte">Administrador</label>
-                        </div>
-                    </div>
+                <div>
+                    <label class="text-danger">* Todos los compos son requeridos</label>
                 </div>
             </div>
-            <div>
-                <label class="text-danger">* Todos los compos son requeridos</label>
-            </div>
         </div>
-    </div>
 
-    <div class="col-md-12 ">
-        <div class="form-group text-right">
-            <button type="button" class="btn btn-outline-light" onclick="volver();">Volver</button>
-            <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoUsuario();"><i class="fas fa-edit"></i> Guardar</button>
+        <div class="col-md-12 ">
+            <div class="form-group text-right">
+                <button type="button" class="btn btn-outline-light" onclick="volver();">Volver</button>
+                <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="GuardarNuevoUsuario();"><i class="fas fa-edit"></i> Guardar</button>
+            </div>
         </div>
     </div>
 </div>
