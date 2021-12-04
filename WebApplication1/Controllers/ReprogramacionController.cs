@@ -4,9 +4,13 @@ using System.Data;
 using System.Data.OleDb;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using ConductorEnRed.EnvioCorreo;
 using ConductorEnRed.Models;
 using DLL.DTO.CargaHorario;
 using DLL.DTO.Seguridad;
@@ -274,7 +278,7 @@ namespace WebApplication1.Controllers
                     string filepath = "/ExcelFolder/" + filename;
                     file.SaveAs(Path.Combine(Server.MapPath("/excelfolder"), filename));
 
-                     DataTable resultadoTabla = InsertExceldata(filepath, filename);
+                    DataTable resultadoTabla = InsertExceldata(filepath, filename);
                     List<CargaArchivoModel> list = new List<CargaArchivoModel>();
                     for (int i = 1; i < resultadoTabla.Rows.Count; i++)
                     {
@@ -326,8 +330,6 @@ namespace WebApplication1.Controllers
 
                         list.Add(carga);
                     }
-
-                    list = list.OrderBy(x => x.FECHA_HORA_INICIO).ToList();
 
                     if (mensajeError != "")
                     {
@@ -528,7 +530,7 @@ namespace WebApplication1.Controllers
 
         }
 
-        [HttpPost]
+        //[HttpPost]
         public ActionResult SetGuardarHorarioConductor()
         {
             try
@@ -577,16 +579,91 @@ namespace WebApplication1.Controllers
                         list.Add(carga);
                     }
 
+
                     string resultado = _i_n_HorarioConductor.SetGuardarHorarioConductor(list, usuario.ID_USUARIO, NombreArchivo, DateTime.Parse(FechaCarga), comentario);
-
-
                     if (resultado != "")
+                    {
+                        List<DTO_HorarioConductorMostrar> conductorMostrar = new List<DTO_HorarioConductorMostrar>();
+                        EnviarEmail enviarEmail = new EnviarEmail();
+
+                        foreach (var item in list)
+                        {
+                            DTO_HorarioConductorMostrar dTO_Horario = new DTO_HorarioConductorMostrar();
+                            dTO_Horario.NOMBRE_COMPLETO = _i_n_usuario.GetUsuarioActivo(item.ID_CONDUCTOR).NOMBRE + " " + _i_n_usuario.GetUsuarioActivo(item.ID_CONDUCTOR).APELLIDO_PATERNO + " " + _i_n_usuario.GetUsuarioActivo(item.ID_CONDUCTOR).APELLIDO_MATERNO;
+                            dTO_Horario.RUT = IngresarPuntosEnRut(_i_n_usuario.GetUsuarioActivo(item.ID_CONDUCTOR).RUT);
+                            dTO_Horario.FECHA_CARGA = DateTime.Now;
+                            dTO_Horario.CORREO_CONDUCTOR = _i_n_usuario.GetUsuarioActivo(item.ID_CONDUCTOR).CORREO;
+                            
+                            var existe = conductorMostrar.Where(x => x.RUT == dTO_Horario.RUT).Select(x => x.RUT).FirstOrDefault();
+                            int contHorario = list.Where(x => x.ID_CONDUCTOR == dTO_Horario.ID_USUARIO).Select(x => x.ID_CONDUCTOR).Count();
+                           
+                            if (existe == null)
+                            {
+                                var body = "<!DOCTYPE html PUBLIC ' -//W3C//DTD XHTML 1.0 Transitional//EN''http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>"
+                               + "<html xmlns = 'http://www.w3.org/1999/xhtml'>"
+                               + "<body >"
+                               + "<style >"
+                               + "h1, h2, h3, h4, .text - logo #logo {"
+                               + "font - family: 'Montserrat', Arial, Tahoma, sans - serif;"
+                               + "color: #ffffff;}"
+                               + "label {font - family: 'Montserrat', Arial, Tahoma, sans - serif;"
+                               + "color: #213681;}"
+                               + "</style>"
+                               + "<div style='height:25px; background-color:#519856'></div>"
+                               + "<div style = 'text-align:center;margin:25px 0'>"
+                               + "<table cellspacing='0' cellpadding='0' border='0' style='margin: 0 auto'>"
+                               + "<tbody>"
+                               + "<tr>"
+                               + "<td colspan= '2' style='text-align:center' >"
+                               + "<img src='cid:ImgIncrustada'/>"
+                               + "</td>"
+                               + "</tr>"
+                               + "<tr>"
+                               + "<td colspan='2'>"
+                               + "<label style='display: inline-block;max-width: 100%;margin-bottom: 20px;font-weight: bold;font-size:25px;color:#084B8A;'>"
+                               + "Notificación de Carga de Horario"
+                               + "</label>"
+                               + "</td>"
+                               + "</tr>"
+                               + "<tr>"
+                               + "<td colspan='2'>"
+                               + "<label style = 'display: inline-block;max-width: 100%;margin-bottom: 5px;'>"
+                               + "Estimad@ <strong>" + dTO_Horario.NOMBRE_COMPLETO + "</strong > ," + " R.U.N <strong>" + dTO_Horario.RUT + " </strong> mediante el presente informamos"
+                               + " que se ha cargado el horario correspondiente a la semana: <strong>" + ObtenerFechaSemanasVoid()[0] + ". </strong>"
+                               + "</label>"
+                               + "</td>"
+                               + "</tr>"
+                               + "<tr>"
+                               + "<td colspan='2'>"
+                               + "<label style='display: inline-block;max-width: 100%;margin: 10px 0;'></label>"
+                               + "</td>"
+                               + "</tr>"
+                               + "</tbody>"
+                               + "</table>"
+                               + "</div>"
+                               + "<footer>"
+                               + "<div style='height:25px;line-height:25px; background-color:#519856;text-align:center;'><label style='color:white;overflow-x:hidden'>Conductor en RED</label></div>"
+                               + "</footer>"
+                               + "<div style='height:25px;line-height:25px; background-color:#E1C94D;text-align:center;'><label style='color:white;overflow-x:hidden'>Este es un correo autogenerado y fue enviado al destinatario señalado, "
+                               + "si usted no es el destinatario anteriormente identificado, favor eliminar este correo.</label></div>"
+                               + "</body>"
+                               + "</html>";
+                                resultado = enviarEmail.enviarEmail(dTO_Horario.CORREO_CONDUCTOR, "Notificación Carga de Horario.", body).ToString();
+                                conductorMostrar.Add(dTO_Horario);
+                            }
+
+                        }
+
+                    }
+
+
+                    if (resultado != "false")
                     {
                         return Json(new
                         {
                             EnableError = false,
                             ErrorTitle = "",
-                            ErrorMsg = resultado
+                            ErrorMsg = "Se han guardo los datos con <b>éxito.</b>"
                         });
                     }
                     else
@@ -609,7 +686,7 @@ namespace WebApplication1.Controllers
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Json(new
                 {
@@ -619,6 +696,7 @@ namespace WebApplication1.Controllers
                 });
             }
         }
+
 
         [HttpPost]
         public ActionResult SetGuaradarCambioHorario(List<CargaHorarioModel> ObjetoHorario)
@@ -650,5 +728,35 @@ namespace WebApplication1.Controllers
             });
         }
 
+        private List<string> ObtenerFechaSemanasVoid()
+        {
+            DateTime fechaHoy = DateTime.Now;
+
+            int dia = Convert.ToInt32(fechaHoy.DayOfWeek);
+            dia = dia - 1;
+
+            if (dia == -1)
+            {
+                dia = Convert.ToInt32(fechaHoy.AddDays(-1).DayOfWeek);
+            }
+
+            string fechaList = "";
+
+            List<string> list = new List<string>();
+
+            //semana siguiente a la semana actual
+            DateTime fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(7);
+            DateTime fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(13);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            string fechaFormaList = fechaHoy.AddDays((dia) * (-1)).ToString("dd/MM/yyyy");
+            list.Add(fechaFormaList);
+
+
+            return list;
+        }
     }
+
+
 }

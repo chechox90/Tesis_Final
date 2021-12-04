@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace ConductorEnRed.Helpers
+namespace WebApplication1.Helpers
 {
     public class RutHelper
     {
