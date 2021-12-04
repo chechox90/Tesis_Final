@@ -1,7 +1,24 @@
-﻿
+﻿@using DLL.DTO.Seguridad;
 @{
+    DTO_Usuario registro = WebApplication1.Models.Commons.FrontUser.Get();
     ViewBag.Title = "Dashboard";
 }
+
+<style>
+    .contiener-row {
+        align-items: end;
+    }
+
+    .borderInput {
+        margin: 10px;
+    }
+
+    .btn-x {
+        margin-left: auto
+    }
+</style>
+
+<input type="text" style="display:none" id="perfilUser" name="perfil" value="@registro.Perfiles[0].IdPerfil.ToString()" />
 
 <div class="page-title">
     <div class="content-title">
@@ -16,27 +33,33 @@
 </div>
 
 <div class="card">
-    <div class="" style="display:flex; align-items:flex-start">
-        <div class="col-8">
-            <div>
-                <span></span>
+    <div class="modal-body">
+        <div class="form-row contiener-row">
+            <div class="col-md-2">
             </div>
-        </div>
-        <div class="col-3" style="text-align:right;">
-            <div>
-                <label>Fecha Inicio</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
-                    </div>
-                    <input type="text" class="form-control dateinput opacity-1" id="txtFechaInicio" name="daterange" autocomplete="off" required="" readonly="" />
+            <div class="col-md-4 btn-x">
+                <div class="form-group text-right" id="divTerminal">
+                    <label for="Terminal">Terminal</label>
+                    <select id="ddlTerminal" name="Terminal" class="form-control"></select>
                 </div>
             </div>
-
-        </div>
-        <div class="col-1">
-            <div style="margin:30px">
-                <button class="btn btn-success" id="btnBuscar" onclick="BusquedaFiltroDahboard();">Filtrar</button>
+            <div class="col-md-4">
+                <div class="container text-right">
+                    <div class="form-group">
+                        <label>Fecha</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text pr-01"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                            <input type="text" class="form-control dateinput opacity-1" id="txtFechaInicio" name="daterange" autocomplete="off" required="" readonly="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <button class="btn btn-success" id="btnBuscar" onclick="BusquedaFiltroDahboard();">Filtrar</button>
+                </div>
             </div>
         </div>
     </div>
@@ -45,19 +68,40 @@
 <br />
 
 <div>
-    <div class="col-12">
+    <div class="col-12" id="divConduGraficos">
         <div class="form-row">
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body" height="100">
-                        <div id="VStrunos" class="h-100 d-flex"></div>
+                        <div id="VSturnos" class="h-100 d-flex"></div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body">
-                        <div id="PapelNoUsado" class="h-100 d-flex"></div>
+                        <div id="HorasTrabajadas" class="h-100 d-flex"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="col-12" style="display:none" id="divAdminGraficos">
+        <div class="form-row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body" height="100">
+                        <div id="TurnosCubiertos" class="h-100 d-flex"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="SinCubrirHoy" class="h-100 d-flex"></div>
                     </div>
                 </div>
             </div>
@@ -71,7 +115,7 @@
     </table>
 </div>
 
-<div class="loader-1" style="display:none;">
+<div class="loader-1" id="divTblVueltas" style="display:none;">
     <svg id="ev6nwws6zqlq1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 800" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
         <defs>
             <filter id="ev6nwws6zqlq4-filter" x="-400%" width="600%" y="-400%" height="600%"><feGaussianBlur id="ev6nwws6zqlq4-filter-blur-0" stdDeviation="0,0" result="result" /></filter>
@@ -103,13 +147,37 @@
 
 @section scripts
 {
-
     <script src="~/Plugins/package/dist/chart.js"></script>
 
     <script type="text/javascript">
         var tblVueltas;
 
         $(document).ready(function () {
+            var perfilId = $('#perfilUser').attr('value');
+
+            if (perfilId == 4) {
+                $("#divAdminGraficos").css("display", "");
+                $("#divTerminal").css("display", "");
+
+                $("#divConduGraficos").css("display", "none");
+                $("#divTablaHorarios").css("display", "none");
+                $("#divTablaHorarios").css("display", "none");
+            }
+
+            if (perfilId == 2) {
+                $("#divAdminGraficos").css("display", "none");
+                $("#divTerminal").css("display", "none");
+
+                $("#divConduGraficos").css("display", "");
+                $("#divTablaHorarios").css("display", "");
+
+            }
+
+            $(".ocultar").css("display", "none");
+
+            CargarCombos();
+
+            //datepicker range
             $(function () {
                 $('input[name="daterange"]').daterangepicker({
                     opens: "left",
@@ -169,6 +237,7 @@
             var cubiertos = 0;
             var noCubiertos = 0;
 
+            //grafico conductor-1
             $.ajax({
                 url: '../HorarioConductor/GetDatosDashboard',
                 type: 'post',
@@ -182,16 +251,54 @@
                     cubiertos = data.data[0];
                     noCubiertos = data.data[1];
 
-                    graficoTurnosCubiertos(cubiertos, noCubiertos);
+                    graficoConductor(cubiertos, noCubiertos);
                 }
-            });            
+            });
+
+            //grafico admin-1
+            $.ajax({
+                url: '../HorarioConductor/GetDatosDashboardAdmin',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {
+                    "fIni": "",
+                    "fFin": ""
+                },
+                success: function (data) {
+                    cubiertos = data.data[0];
+                    noCubiertos = data.data[1];
+
+                    graficoAdmin(cubiertos, noCubiertos);
+                }
+            });
+
 
             CargarVueltas();
         });
 
-        function graficoTurnosCubiertos(cubiertos, noCubiertos) {
-            
-            Highcharts.chart('VStrunos', {
+        function CargarCombos() {
+            $.ajax({
+                url: '../Mantenedor/GetCargarTerminalesCmb',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: {},
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var optionTer = $(document.createElement('option'));
+                        optionTer.val(data.data[i]["ID_TERMINAL"]);
+                        optionTer.text(data.data[i]["NOMBRE_TERMINAL"]);
+
+                        $("#ddlTerminal").append(optionTer);
+                    }
+                }
+            });
+        }
+
+        function graficoConductor(cubiertos, noCubiertos) {
+
+            Highcharts.chart('VSturnos', {
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -348,7 +455,7 @@
                 }
             });
 
-            Highcharts.chart('PapelNoUsado', {
+            Highcharts.chart('HorasTrabajadas', {
                 chart: {
                     plotBorderWidth: null,
                     plotShadow: false,
@@ -373,7 +480,7 @@
                     min: 0,
                     layout: 'vertical',
                     title: {
-                        text: 'Horas'
+                        text: ''
                     }
                 },
                 tooltip: {
@@ -462,6 +569,287 @@
                 credits: {
                     enabled: false
                 },
+            });
+        }
+
+        function graficoAdmin(cubiertos, noCubiertos) {
+
+            Highcharts.chart('TurnosCubiertos', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Resumen turnos cubiertos V/S turnos no cubiertos',
+                    align: 'left',
+                    style: {
+                        fontSize: '1.25rem'
+                    }
+                },
+                legend: {
+                    align: 'right',
+                    verticalAlign: 'top',
+                    layout: 'vertical',
+                    labelFormat: '{name} <span style="color:#34394F;"> {y}</span>',
+                    itemMarginBottom: 15,
+                    itemStyle: {
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        color: "#6E7B8F"
+                    },
+                    itemHoverStyle: {
+                        color: "#34394F"
+                    },
+                    itemHiddenStyle: {
+                        color: "rgba(110, 123, 143, .4)"
+                    },
+                    y: 80,
+                    x: -40
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:16px"></span><br>',
+                    pointFormat: '<span style="color:rgba(255,255,255,.75);">{point.name}: </span> <b> {point.y}</b>',
+                    padding: 8,
+                    borderRadius: 8,
+                    borderColor: '#34394F',
+                    backgroundColor: '#34394F',
+                    style: {
+                        fontSize: '12px',
+                        color: '#FFF'
+                    },
+                    shadow: false
+                },
+                lang: {
+                    printChart: '<i class="far fa-print mr-2"></i> Imprimir',
+                    downloadPNG: '<i class="far fa-file-image mr-2"></i> Descargar PNG',
+                    downloadJPEG: '<i class="fas fa-file-image mr-2"></i> Descargar JPG',
+                    downloadPDF: '<i class="far fa-file-pdf mr-2"></i> Descargar PDF',
+                    downloadXLS: '<i class="far fa-cloud-download mr-2"></i> Descargar Excel',
+                    exportData: {
+                        categoryHeader: 'Categoría'
+                    }
+                },
+                exporting: {
+                    buttons: {
+                        contextButton: {
+                            symbol: 'menuball',
+                            symbolSize: 13,
+                            symbolFill: '#6E7B8F',
+                            symbolStrokeWidth: 2,
+                            symbolStroke: '#6E7B8F',
+                            menuItems: ['downloadPNG', 'downloadJPEG', 'downloadPDF', 'separator', 'downloadXLS']
+                        }
+                    }
+                },
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                align: 'left',
+                                verticalAlign: 'top',
+                                layout: 'horizontal',
+                                itemMarginBottom: 6,
+                                y: 0,
+                                x: -8
+                            },
+                            yAxis: {
+                                labels: {
+                                    align: 'left',
+                                    x: 0,
+                                    y: -5
+                                },
+                                title: {
+                                    text: null
+                                }
+                            },
+                            subtitle: {
+                                text: null
+                            },
+                            credits: {
+                                enabled: false
+                            }
+                        }
+                    }]
+                },
+                plotOptions: {
+                    pie: {
+                        colors: [
+                            "#039F50",
+                            "#FFC300"
+                        ],
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            style: {
+                                fontSize: 13,
+                                fontFamily: 'Roboto',
+                                textOutline: 0,
+                            },
+                            format: '<b>{point.name}</b><br/> {point.percentage:.1f} %',
+                            distance: -40,
+                            y: -10
+                        }
+                    },
+                },
+                series: [{
+                    name: 'Turnos',
+                    colorByPoint: true,
+                    size: '80%',
+                    innerSize: '45%',
+                    showInLegend: true,
+                    data: [{
+                        name: 'Cubiertos',
+                        y: parseInt(cubiertos)
+                    }, {
+                        name: 'No cubiertos',
+                        y: parseInt(noCubiertos)
+                    }],
+                }],
+                credits: {
+                    enabled: false
+                },
+            });
+
+
+            var horasTra = 0;
+            var horasLibres = 0;
+            $.ajax({
+                url: '../HorarioConductor/GetDatosDashboardHoras',
+                type: 'post',
+                datatype: 'json',
+                async: false,
+                data: null,
+                success: function (data) {
+                    horasTra = data.data[0];
+                    horasLibres = data.data[1];
+                }
+            });
+
+            Highcharts.chart('SinCubrirHoy', {
+                chart: {
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'column'
+                },
+                title: {
+                    text: 'Turnos cubiertos V/S Turnos no cubierto, hoy',
+                },
+                accessibility: {
+                    announceNewData: {
+                        enabled: true
+                    }
+                },
+                xAxis: {
+                    categories: [
+                        'Turnos cubiertos',
+                        'Turnos no cubiertos',
+                    ],
+                    //crosshair: true
+                },
+                yAxis: {
+                    visible: true,
+                    offset: 0,
+                    title: {
+                        text: '',
+                        rotation: 10,
+                        offset: 50,
+                        margin: 0,
+                    },
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}: </span> <b> {point.y}</b>',
+                    padding: 8,
+                    borderRadius: 8,
+                    borderColor: '#34394F',
+                    backgroundColor: '#34394F',
+                    style: {
+                        fontSize: '12px',
+                        color: '#FFF'
+                    },
+                    shadow: false
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                lang: {
+                    printChart: '<i class="far fa-print mr-2"></i> Imprimir',
+                    downloadPNG: '<i class="far fa-file-image mr-2"></i> Descargar PNG',
+                    downloadJPEG: '<i class="fas fa-file-image mr-2"></i> Descargar JPG',
+                    downloadPDF: '<i class="far fa-file-pdf mr-2"></i> Descargar PDF',
+                    downloadXLS: '<i class="far fa-cloud-download mr-2"></i> Descargar Excel',
+                    exportData: {
+                        categoryHeader: 'Categoría'
+                    }
+                },
+                exporting: {
+                    buttons: {
+                        contextButton: {
+                            symbol: 'menuball',
+                            symbolSize: 13,
+                            symbolFill: '#6E7B8F',
+                            symbolStrokeWidth: 2,
+                            symbolStroke: '#6E7B8F',
+                            menuItems: ['downloadPNG', 'downloadJPEG', 'downloadPDF', 'separator', 'downloadXLS']
+                        }
+                    }
+                },
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                align: 'left',
+                                verticalAlign: 'top',
+                                layout: 'horizontal',
+                                itemMarginBottom: 6,
+                                y: 0,
+                                x: -8
+                            },
+                            yAxis: {
+                                labels: {
+                                    align: 'left',
+                                    x: 0,
+                                    y: -5
+                                },
+                                title: {
+                                    text: null
+                                }
+                            },
+                            subtitle: {
+                                text: null
+                            },
+                            credits: {
+                                enabled: false
+                            }
+                        }
+                    }]
+                },
+                series: [{
+                    name: 'Turnos cubiertos',
+                    drilldown: 'Turnos cubiertos',
+                    color: 'rgba(7,111,207,1)',
+                    data: [parseInt(90)],
+                }, {
+                    name: 'Turnos no cubiertos',
+                    drilldown: 'Turnos no cubiertos',
+                    color: 'rgba(0,173,118,1)',
+                    data: [parseInt(270)]
+                }],
+                credits: {
+                    enabled: false
+                }
             });
         }
 
@@ -619,7 +1007,7 @@
                     cubiertos = data.data[0];
                     noCubiertos = data.data[1];
 
-                    graficoTurnosCubiertos(cubiertos, noCubiertos);
+                    graficoConductor(cubiertos, noCubiertos);
                 }
             });
 

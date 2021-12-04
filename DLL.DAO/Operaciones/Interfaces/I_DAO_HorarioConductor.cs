@@ -11,11 +11,11 @@ namespace DLL.DAO.Operaciones.Interfaces
     public interface I_DAO_HorarioConductor
     {
 
-        int GetHorariosCubiertos(DateTime DateIni, DateTime dateFin);
+        int GetHorariosCubiertos(int idUsuario, DateTime DateIni, DateTime dateFin);
 
-        int GetHorariosNoCubiertos(DateTime DateIni, DateTime dateFin);
+        int GetHorariosNoCubiertos(int idUsuario, DateTime DateIni, DateTime dateFin);
 
-        List<int> GetHorasTrabajadasLibres(DateTime DateIni, DateTime dateFin);
+        List<int> GetHorasTrabajadasLibres(int idUsuario, DateTime DateIni, DateTime dateFin);
 
         List<DTO_HorarioConductorMostrar> GetHorarioConductorByRut(string rut, DateTime fechaIni, DateTime fechaFin);
 

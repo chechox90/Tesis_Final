@@ -18,36 +18,59 @@ namespace DLL.DAO.Operaciones
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 
-        public int GetHorariosCubiertos(DateTime DateIni, DateTime dateFin)
+        public int GetHorariosCubiertos(int idUsuario, DateTime DateIni, DateTime dateFin)
         {
             using (SolusegEntities context = new SolusegEntities())
             {
-                DateTime date = DateTime.Now;
-                return (from hc in context.HORARIO_CONDUCTOR
-                        where
-                          hc.FECHA_INICIO >= DateIni
-                           && hc.FECHA_INICIO <= dateFin
-                           && hc.HORARIO_CUBIERTO == true
-                           && hc.ESTADO == true
-                        select hc.HORARIO_CUBIERTO).Count();
+                if (idUsuario > 0)
+                {
+                    return (from hc in context.HORARIO_CONDUCTOR
+                            where hc.ID_USUARIO == idUsuario
+                               && hc.FECHA_INICIO >= DateIni
+                               && hc.FECHA_INICIO <= dateFin
+                               && hc.HORARIO_CUBIERTO == true
+                               && hc.ESTADO == true
+                            select hc.HORARIO_CUBIERTO).Count();
+                }
+                else
+                {
+                    return (from hc in context.HORARIO_CONDUCTOR
+                            where hc.FECHA_INICIO >= DateIni
+                               && hc.FECHA_INICIO <= dateFin
+                               && hc.HORARIO_CUBIERTO == true
+                               && hc.ESTADO == true
+                            select hc.HORARIO_CUBIERTO).Count();
+                }
+
             }
         }
 
-        public int GetHorariosNoCubiertos(DateTime DateIni, DateTime dateFin)
+        public int GetHorariosNoCubiertos(int idUsuario, DateTime DateIni, DateTime dateFin)
         {
             using (SolusegEntities context = new SolusegEntities())
             {
-                DateTime date = DateTime.Now;
-                return (from hc in context.HORARIO_CONDUCTOR
-                        where
-                         hc.FECHA_INICIO >= DateIni && hc.FECHA_INICIO <= dateFin
-                        && hc.HORARIO_CUBIERTO == false
-                        && hc.ESTADO == true
-                        select hc.ID_HORARIO).Count();
+                if (idUsuario > 0)
+                {
+                    return (from hc in context.HORARIO_CONDUCTOR
+                            where hc.ID_USUARIO == idUsuario
+                            && hc.FECHA_INICIO >= DateIni && hc.FECHA_INICIO <= dateFin
+                            && hc.HORARIO_CUBIERTO == false
+                            && hc.ESTADO == true
+                            select hc.ID_HORARIO).Count();
+                }
+                else
+                {
+                    return (from hc in context.HORARIO_CONDUCTOR
+                            where hc.FECHA_INICIO >= DateIni && hc.FECHA_INICIO <= dateFin
+                            && hc.HORARIO_CUBIERTO == false
+                            && hc.ESTADO == true
+                            select hc.ID_HORARIO).Count();
+                }
+
             }
         }
 
-        public List<int> GetHorasTrabajadasLibres(DateTime DateIni, DateTime dateFin)
+        public List<int> GetHorasTrabajadasLibres(int idUsuario, DateTime DateIni, DateTime dateFin)
         {
             using (SolusegEntities context = new SolusegEntities())
             {
@@ -75,7 +98,7 @@ namespace DLL.DAO.Operaciones
                                                                     join usr in context.USUARIOS_SISTEMA on hrcon.ID_USUARIO equals usr.ID_USUARIO
                                                                     join ter in context.TERMINAL on hrcon.ID_TERMINAL_INICIO equals ter.ID_TERMINAL
                                                                     join car in context.CARGA_HORARIO on hrcon.ID_CARGA_HORARIO equals car.ID_CARGA_HORARIO
-                                                                    where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin && usr.ESTADO == true)                                                                    
+                                                                    where (hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin && usr.ESTADO == true)
                                                                     select new DTO_HorarioConductorMostrar
                                                                     {
                                                                         ID_HORARIO = hrcon.ID_HORARIO,
@@ -641,7 +664,7 @@ namespace DLL.DAO.Operaciones
                 {
                     DateTime fechHoy = DateTime.Now;
                     int idUsuario = 0;
-                    
+
                     if (run != "")
                         idUsuario = context.USUARIOS_SISTEMA.Where(x => x.RUT == run).FirstOrDefault().ID_USUARIO;
 

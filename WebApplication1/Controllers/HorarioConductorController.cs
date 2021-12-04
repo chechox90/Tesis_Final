@@ -74,8 +74,9 @@ namespace ConductorEnRed.Controllers
 
                 }
 
-                int turnos_cubiertos = _i_n_HorarioConductor.GetHorariosCubiertos(fechaLunes, fechaDomingo);
-                int turnos_no_cubiertos = _i_n_HorarioConductor.GetHorariosNoCubiertos(fechaLunes, fechaDomingo);
+                int idUsuario = usuario.ID_USUARIO;
+                int turnos_cubiertos = _i_n_HorarioConductor.GetHorariosCubiertos(idUsuario, fechaLunes, fechaDomingo);
+                int turnos_no_cubiertos = _i_n_HorarioConductor.GetHorariosNoCubiertos(idUsuario, fechaLunes, fechaDomingo);
 
                 int[] lista = new int[2];
                 lista[0] = turnos_cubiertos;
@@ -136,6 +137,54 @@ namespace ConductorEnRed.Controllers
                                 JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
+        }
+
+        [HttpPost]
+        public ActionResult GetDatosDashboardAdmin(string fIni, string fFin)
+        {
+            try
+            {
+                DateTime fechaLunes;
+                DateTime fechaDomingo;
+                if (fIni == "")
+                {
+                    DateTime fechaHoy = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01);
+
+                    fechaLunes = new DateTime(fechaHoy.Year, fechaHoy.Month, 01, 00, 00, 00);
+                    fechaDomingo = new DateTime(fechaHoy.Year, fechaHoy.Month, fechaHoy.AddMonths(1).AddDays(-1).Day, 23, 59, 59);
+
+                }
+                else
+                {
+                    fechaLunes = Convert.ToDateTime(fIni);
+                    fechaDomingo = Convert.ToDateTime(fFin);
+
+                    fechaLunes = new DateTime(fechaLunes.Year, fechaLunes.Month, fechaLunes.Day, 00, 00, 00);
+                    fechaDomingo = new DateTime(fechaDomingo.Year, fechaDomingo.Month, fechaDomingo.AddMonths(1).AddDays(-1).Day, 23, 59, 59);
+
+                }
+
+                int turnos_cubiertos = _i_n_HorarioConductor.GetHorariosCubiertos(0, fechaLunes, fechaDomingo);
+                int turnos_no_cubiertos = _i_n_HorarioConductor.GetHorariosNoCubiertos(0, fechaLunes, fechaDomingo);
+
+                int[] lista = new int[2];
+                lista[0] = turnos_cubiertos;
+                lista[1] = turnos_no_cubiertos;
+
+                return Json(new
+                {
+                    data = lista,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+                });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         public static DataTable CreateDataTable<T>(IEnumerable<T> list)
@@ -224,6 +273,10 @@ namespace ConductorEnRed.Controllers
                 DateTime hasta = Convert.ToDateTime(Hasta);
                 hasta = new DateTime(hasta.Year, hasta.Month, hasta.Day, 23, 59, 59);
 
+                string idPerfil = usuario.Perfiles[0].Nombre;
+                if (idPerfil.Equals("Conductor"))
+                    run = usuario.RUT;
+
                 vueltas = _i_n_HorarioConductor.GetRegistroVueltasByAll(desde, hasta, idterminal, run);
 
                 int i = 1;
@@ -289,6 +342,10 @@ namespace ConductorEnRed.Controllers
             DateTime hasta = Convert.ToDateTime(Hasta);
             hasta = new DateTime(hasta.Year, hasta.Month, hasta.Day, 23, 59, 59);
 
+            string idPerfil = usuario.Perfiles[0].Nombre;
+            if (idPerfil.Equals("Conductor"))
+                run = usuario.RUT;
+
             vueltas = _i_n_HorarioConductor.GetRegistroVueltasByAll(desde, hasta, idterminal, run);
 
             int i = 1;
@@ -300,9 +357,9 @@ namespace ConductorEnRed.Controllers
                 v.RUT = IngresarPuntosEnRut(item.RUT);
                 v.FECHA_CARGA = item.FECHA_CARGA;
                 v.NOMBRE_TERMINAL = item.NOMBRE_TERMINAL;
-                v.NUMERO_JORNADA = item.NUMERO_JORNADA == 1 ? "Uno":"Dos";
+                v.NUMERO_JORNADA = item.NUMERO_JORNADA == 1 ? "Uno" : "Dos";
                 v.FECHA_HORA_INICIO = item.FECHA_HORA_INICIO;
-                v.HORARIO_CUBIERTO = item.HORARIO_CUBIERTO ? "Cubierto": "No Cubierto";
+                v.HORARIO_CUBIERTO = item.HORARIO_CUBIERTO ? "Cubierto" : "No Cubierto";
 
                 Horario.Add(v);
 
@@ -487,7 +544,7 @@ namespace ConductorEnRed.Controllers
         {
             try
             {
-
+                int idUsuario = usuario.ID_USUARIO;
                 string fechaSemana = "";
                 if (fechaSemanaActual == null)
                     fechaSemana = ObtenerFechaSemana();
@@ -497,7 +554,7 @@ namespace ConductorEnRed.Controllers
                 DateTime fechaIni = DateTime.Parse(fechaSemana.Split('-')[0].ToString());
                 DateTime fechaFin = DateTime.Parse(fechaSemana.Split('-')[1].ToString());
 
-                List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorById(1, fechaIni, fechaFin, 2);
+                List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorById(idUsuario, fechaIni, fechaFin, 2);
                 List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
 
                 if (dto_Horario.Count > 0)

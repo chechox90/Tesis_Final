@@ -1,6 +1,7 @@
-﻿
+﻿@using DLL.DTO.Seguridad;
 @{
-    ViewBag.Title = "Reporte_Horario_Cargado";
+    DTO_Usuario registro = WebApplication1.Models.Commons.FrontUser.Get();
+    ViewBag.Title = "Reporte";
 }
 
 <style>
@@ -30,6 +31,8 @@
     }
 </style>
 
+<input type="text" style="display:none" id="perfilUser" name="perfil" value="@registro.Perfiles[0].IdPerfil.ToString()" />
+
 <div class="page-title">
     <div class="content-title">
         <h3>Horario cargado</h3>
@@ -53,9 +56,9 @@
     <div class="modal-body">
         <div class="form-row contiener-row">
             <div class="col-md-4">
-                <div class="form-group">
-                    <label for="Terminal">Terminal</label>
-                    <select id="ddlTerminal" name="Terminal" class="form-control"></select>
+                <div class="form-group" id="divRun">
+                    <label for="txtNumeroInterno">R.U.N. Conductor</label>
+                    <input id="txtRunUsuario" type="text" name="txtRunUsuario" maxlength="10" placeholder="99888777-k" class="form-control" />
                 </div>
             </div>
             <div class="col-md-4">
@@ -73,14 +76,14 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="txtNumeroInterno">R.U.N. Conductor</label>
-                    <input id="txtRunUsuario" type="text" name="txtRunUsuario" maxlength="10" placeholder="99888777-k" class="form-control" />
+                    <label for="Terminal">Terminal</label>
+                    <select id="ddlTerminal" name="Terminal" class="form-control"></select>
                 </div>
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-light" onclick="Limpiar();">Limpiar</button>
+        <button type="button" class="btn btn-outline-light" onkeypress="ClicBuscar();" onclick="Limpiar();">Limpiar</button>
         <button type="button" class="btn btn-success" id="btnGuardarNuevo" onclick="Buscar();"><i class="fas fa-search"></i>  Buscar</button>
     </div>
 </div>
@@ -128,8 +131,21 @@
 @section scripts
     {
     <script>
+        var idUsuario = $('#idUser').attr('value');
         let tblHorariosCargados;
+
         $(document).ready(function () {
+            var perfilId = $('#perfilUser').attr('value');
+
+            if (perfilId == 4) {
+                $("#divRun").css("display", "");
+            }
+
+            if (perfilId == 2) {
+                $("#divRun").css("display", "none");
+
+            }
+
             $(function () {
                 $('input[name="daterange"]').daterangepicker({
                     opens: "left",
@@ -253,18 +269,7 @@
                     columns: [
                         { data: "ID_HORARIO", visible: false, searchable: false },
                         { data: "NOMBRE_COMPLETO", title: "Nombre Usuario", name: "NOMBRE_USUARIO", orderable: false },
-                        { data: "RUT", title: "R.U.N.", name: "RUN", orderable: false },
-                        {
-                            data: null, title: "Fecha Carga", name: "FECHA_CARGA", orderable: false,
-                            render: function (data, type, full, meta) {
-                                if (moment(full.FECHA_CARGA).format('DD/MM/YYYY') != '31/12/0000') {
-                                    return moment(full.FECHA_CARGA).format('DD/MM/YYYY HH:MM');
-                                } else {
-                                    return "";
-                                }
-
-                            }
-                        },
+                        { data: "RUT", title: "R.U.N.", name: "RUN", orderable: false },                        
                         { data: "NOMBRE_TERMINAL", title: "Nombre Terminal", name: "NOMBRE_TERMINAL", orderable: false },
                         {
                             data: null, title: "Número jornada", name: "NUMERO_JORNADA", orderable: false,
@@ -295,6 +300,17 @@
                                     return "Cubierto";
                                 } else {
                                     return "No Cubierto";
+                                }
+
+                            }
+                        },
+                        {
+                            data: null, title: "Fecha Carga", name: "FECHA_CARGA", orderable: false,
+                            render: function (data, type, full, meta) {
+                                if (moment(full.FECHA_CARGA).format('DD/MM/YYYY') != '31/12/0000') {
+                                    return moment(full.FECHA_CARGA).format('DD/MM/YYYY HH:MM');
+                                } else {
+                                    return "";
                                 }
 
                             }
@@ -379,8 +395,15 @@
             $("#ddlTerminal option[value='" + 0 + "']").attr("selected", "selected");
 
             $("#txtRunUsuario").val("");
-            //$("#txtSegNombre").val("");
+            $("#divTablaHorarios").css("display", "none");
 
+        }
+
+        function ClicBuscar(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                BuscarConductorHorarioClick();
+            }
         }
 
     </script>

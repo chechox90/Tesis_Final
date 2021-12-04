@@ -67,7 +67,7 @@
         <div class="col-md-4">
             <div class="form-row">
                 <div class="borderInput">
-                    <input type="text" id="txtRutConductor" maxlength="10" placeholder="Ingrese un R.U.N." onclick="Limpiar();" class="form-control borderInput" />
+                    <input type="text" id="txtRutConductor" maxlength="10" onkeypress="ClicBuscar(event);" placeholder="Ingrese un R.U.N." onclick="Limpiar();" class="form-control borderInput" />
                 </div>
                 <div class="borderInput">
                     <button id="btnBuscar" class="btn btn-success borderInput" onclick="BuscarConductorHorarioClick();"><i class="fas fa-search"></i> Buscar</button>
@@ -495,7 +495,6 @@
             CargaFechasLabel();
 
             CargarTerminalesCmb();
-
 
             $(".input-num").keypress(function (e) {
                 if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
@@ -984,6 +983,13 @@
             }
 
             BuscarConductorHorarioClick();
+        }
+
+        function ClicBuscar(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                BuscarConductorHorarioClick();
+            }
         }
 
     </script>

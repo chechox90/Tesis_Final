@@ -561,6 +561,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="ExcelFolder\" />
+    <Folder Include="Views\NotificacionCorreo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
