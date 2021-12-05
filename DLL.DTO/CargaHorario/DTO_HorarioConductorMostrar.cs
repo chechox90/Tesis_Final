@@ -11,6 +11,7 @@ namespace DLL.DTO.CargaHorario
         public string NOMBRE_DIA { get; set; }
         public int NUM_ROW { get; set; }
         public int ID_HORARIO { get; set; }
+        public int HORARIO_REGISTRADO { get; set; }
         public int ID_USUARIO { get; set; }
         public bool HORARIO_CUBIERTO { get; set; }
         public int ID_CARGA_HORARIO { get; set; }

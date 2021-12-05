@@ -41,5 +41,6 @@ namespace DLL.DAO.Operaciones.Interfaces
 
         List<DTO_HorarioConductorMostrar> GetRegistroVueltasByAll(DateTime desde, DateTime hasta, int idterminal, string run);
 
+        int SetCambiarEstadoCubierto(int idTurno);
     }
 }

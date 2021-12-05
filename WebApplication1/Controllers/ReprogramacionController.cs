@@ -70,7 +70,7 @@ namespace WebApplication1.Controllers
 
                                 carga.HORA_INICIO = dto_Horario[ind].FECHA_HORA_INICIO.ToString("dd/MM/yyyy HH:mm").Split(' ')[1];
                                 carga.RUT = IngresarPuntosEnRut(dto_Horario[ind].RUT);
-
+                                carga.HORARIO_REGISTRADO = dto_Horario[ind].HORARIO_REGISTRADO;
                                 carga.FECHA_HORA_INICIO = dto_Horario[ind].FECHA_HORA_INICIO;
                                 carga.ID_TERMINAL = dto_Horario[ind].ID_TERMINAL;
                                 carga.NOMBRE_COMPLETO = dto_Horario[ind].NOMBRE + " " + dto_Horario[0].SEGUNDO_NOMBRE + " " + dto_Horario[0].APELLIDO_PATERNO + " " + dto_Horario[0].APELLIDO_MATERNO;
@@ -206,13 +206,13 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                string Rutusuario = usuario.RUT;
+                int idUsuario = usuario.ID_USUARIO;
                 DateTime fechaHoy = DateTime.Now;
 
                 DateTime fechaIni = new DateTime(fechaHoy.Year, fechaHoy.Month, 01, 00, 00, 00);
-                DateTime fechaFin = new DateTime(fechaHoy.Year, fechaHoy.Month, fechaHoy.AddMonths(1).AddDays(-1).Day, 23, 59, 59);
+                DateTime fechaFin = new DateTime(fechaHoy.Year, fechaHoy.Month, fechaIni.AddMonths(1).AddDays(-1).Day, 23, 59, 59);
 
-                List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRut(Rutusuario, fechaIni, fechaFin);
+                List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByIdUser(idUsuario, fechaIni, fechaFin);
                 List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
 
                 if (dto_Horario.Count > 0)
@@ -229,7 +229,7 @@ namespace WebApplication1.Controllers
                         if (i <= dto_Horario.Count)
                         {
                             carga.ID_HORARIO = dto_Horario[i].ID_HORARIO;
-                            carga.HORA_INICIO = "Terminal de inicio: [" + dto_Horario[i].NOMBRE_TERMINAL + "]  " + " Hora de inicio: [" + dto_Horario[i].FECHA_HORA_INICIO.ToString("dd/MM/yyyy HH:mm").Split(' ')[1].Trim() + "]";
+                            carga.HORA_INICIO = "Terminal de inicio: [" + dto_Horario[i].NOMBRE_TERMINAL + "]  " + "Fecha y hora de inicio: [" + dto_Horario[i].FECHA_HORA_INICIO.ToString("dd/MM/yyyy HH:mm") + "]";
                             list.Add(carga);
                         }
                     }
@@ -490,7 +490,7 @@ namespace WebApplication1.Controllers
 
             //semana anterior a la fecha de la semana actual
             DateTime fechaSemActLunnes = fechaHoy.AddDays(dia * -1).AddDays(-7);
-            DateTime fechaSemActDomingo = fechaSemActLunnes.AddDays(dia * -1);
+            DateTime fechaSemActDomingo = fechaSemActLunnes.AddDays(6);
             fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
             list.Add(fechaList);
 
@@ -585,7 +585,7 @@ namespace WebApplication1.Controllers
                     {
                         List<DTO_HorarioConductorMostrar> conductorMostrar = new List<DTO_HorarioConductorMostrar>();
                         EnviarEmail enviarEmail = new EnviarEmail();
-
+                        list = list.GroupBy(x => x.ID_CONDUCTOR).Select(x => x.First()).ToList();
                         foreach (var item in list)
                         {
                             DTO_HorarioConductorMostrar dTO_Horario = new DTO_HorarioConductorMostrar();

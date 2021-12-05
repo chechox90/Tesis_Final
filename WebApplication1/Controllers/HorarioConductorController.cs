@@ -400,49 +400,7 @@ namespace ConductorEnRed.Controllers
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
-
-        [HttpPost]
-        public ActionResult SetIngresarSolictud(int idHorarioCambiar, int tipoSolicitud, string motivoSolictud, string motivoOpcional)
-        {
-
-            DTO_SolicitudCambioHorario solicitud = new DTO_SolicitudCambioHorario();
-            solicitud.ID_SOLICITUD_CAMBIO = 0;
-            solicitud.ID_HORARIO_CAMBIAR = idHorarioCambiar;
-            solicitud.ID_TIPO_SOLICITUD = tipoSolicitud;
-            solicitud.ID_ESTADO_SOLICITUD = 1;
-            solicitud.ID_USUARIO_SOLICITA = 1;
-            solicitud.ID_USUARIO_APRUEBA = null;
-            solicitud.FECHA_REGISTRO_SOLICITUD = DateTime.Now;
-            solicitud.FECHA_APROBACION = null;
-            solicitud.COMENTARIO_MOTIVO = HashHelper.Base64Encode(motivoSolictud);
-            solicitud.COMENTARIO_ADICIONAL = HashHelper.Base64Encode(motivoOpcional);
-            solicitud.ESTADO = true;
-
-            int respuesta = _i_n_HorarioConductor.SetIngresaSolicitud(solicitud);
-            string alert = "";
-
-            if (respuesta == 1)
-            {
-                alert = "success";
-                var message = "La solicitud ha sido enviada con éxito. Redirigiendo a la página anterior...";
-                return new JsonResult()
-                {
-                    Data = Json(new { alert = alert, message = message })
-                };
-            }
-            else
-            {
-                alert = "danger";
-                var message = "Ha ocurrido una incidencia, inténtelo más tarde";
-                return new JsonResult()
-                {
-                    Data = Json(new { alert = alert, message = message })
-                };
-            }
-
-
-        }
-
+                
         public static string IngresarPuntosEnRut(string RUN)
         {
             RUN = RUN.Replace("-", "");
@@ -792,7 +750,84 @@ namespace ConductorEnRed.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult SetCubrirHorario(string idHorario)
+        {
+            int respuesta = _i_n_HorarioConductor.SetCambiarEstadoCubierto(int.Parse(idHorario.Trim()));
 
+            string alert = "";
+
+            if (respuesta == 1)
+            {
+                alert = "success";
+                var message = "El turno fue marcado como cubierto.";
+                return new JsonResult()
+                {
+                    Data = Json(new { alert = alert, message = message })
+                };
+            }
+
+            if (respuesta == 2)
+            {
+                alert = "success";
+                var message = "El turno fue marcado como <b>no cubierto.</b>";
+                return new JsonResult()
+                {
+                    Data = Json(new { alert = alert, message = message })
+                };
+            }
+            else
+            {
+                alert = "danger";
+                var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                return new JsonResult()
+                {
+                    Data = Json(new { alert = alert, message = message })
+                };
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetIngresarSolictud(int idHorarioCambiar, int tipoSolicitud, string motivoSolictud, string motivoOpcional)
+        {
+
+            DTO_SolicitudCambioHorario solicitud = new DTO_SolicitudCambioHorario();
+            solicitud.ID_SOLICITUD_CAMBIO = 0;
+            solicitud.ID_HORARIO_CAMBIAR = idHorarioCambiar;
+            solicitud.ID_TIPO_SOLICITUD = tipoSolicitud;
+            solicitud.ID_ESTADO_SOLICITUD = 1;
+            solicitud.ID_USUARIO_SOLICITA = 1;
+            solicitud.ID_USUARIO_APRUEBA = null;
+            solicitud.FECHA_REGISTRO_SOLICITUD = DateTime.Now;
+            solicitud.FECHA_APROBACION = null;
+            solicitud.COMENTARIO_MOTIVO = HashHelper.Base64Encode(motivoSolictud);
+            solicitud.COMENTARIO_ADICIONAL = HashHelper.Base64Encode(motivoOpcional);
+            solicitud.ESTADO = true;
+
+            int respuesta = _i_n_HorarioConductor.SetIngresaSolicitud(solicitud);
+            string alert = "";
+
+            if (respuesta == 1)
+            {
+                alert = "success";
+                var message = "La solicitud ha sido enviada con éxito. Redirigiendo a la página anterior...";
+                return new JsonResult()
+                {
+                    Data = Json(new { alert = alert, message = message })
+                };
+            }
+            else
+            {
+                alert = "danger";
+                var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                return new JsonResult()
+                {
+                    Data = Json(new { alert = alert, message = message })
+                };
+            }
+
+
+        }
 
     }
 }

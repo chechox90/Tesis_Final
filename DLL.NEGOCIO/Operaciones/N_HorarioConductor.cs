@@ -75,6 +75,11 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_HorarioConductor.GetTipoSolicitudAll();
         }
 
+        public List<DTO_HorarioConductorMostrar> GetRegistroVueltasByAll(DateTime desde, DateTime hasta, int idterminal, string run)
+        {
+            return I_DAO_HorarioConductor.GetRegistroVueltasByAll(desde, hasta, idterminal, run);
+        }
+
         public string SetEditarHorarioConductor(List<DTO_HorarioConductorMostrar> list)
         {
             return I_DAO_HorarioConductor.SetEditarHorarioConductor(list);
@@ -90,10 +95,9 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_HorarioConductor.SetGuardarHorarioConductor(list, idUsuario, nombreCarga, fechaCarga, descripcion);
         }
 
-        public List<DTO_HorarioConductorMostrar> GetRegistroVueltasByAll(DateTime desde, DateTime hasta, int idterminal, string run)
+        public int SetCambiarEstadoCubierto(int idTurno)
         {
-            return I_DAO_HorarioConductor.GetRegistroVueltasByAll(desde, hasta, idterminal, run);
+            return I_DAO_HorarioConductor.SetCambiarEstadoCubierto(idTurno);
         }
-
     }
 }
