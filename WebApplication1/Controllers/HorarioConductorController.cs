@@ -46,22 +46,12 @@ namespace ConductorEnRed.Controllers
                 DateTime fechaDomingo;
                 if (fIni == "")
                 {
-
-
                     DateTime fechaHoy = DateTime.Now;
-                    int dia = Convert.ToInt32(fechaHoy.DayOfWeek);
-                    dia = dia - 1;
+                    fechaLunes = fechaHoy;
+                    fechaDomingo = fechaHoy;
 
-                    if (dia == -1)
-                    {
-                        dia = Convert.ToInt32(fechaHoy.AddDays(-1).DayOfWeek);
-                    }
-
-                    fechaLunes = Convert.ToDateTime(fechaHoy.AddDays((dia) * (-1)));
-                    fechaDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(6);
-
-                    fechaLunes = new DateTime(fechaLunes.Year, fechaLunes.Month, fechaLunes.Day, 00, 00, 00);
-                    fechaDomingo = new DateTime(fechaDomingo.Year, fechaDomingo.Month, fechaDomingo.Day, 23, 59, 59);
+                    fechaLunes = new DateTime(fechaLunes.Year, fechaLunes.Month, 01, 00, 00, 00);
+                    fechaDomingo = new DateTime(fechaDomingo.Year, fechaDomingo.Month, fechaLunes.AddMonths(1).AddDays(-1).Day, 23, 59, 59);
 
                 }
                 else
@@ -70,7 +60,7 @@ namespace ConductorEnRed.Controllers
                     fechaDomingo = Convert.ToDateTime(fFin);
 
                     fechaLunes = new DateTime(fechaLunes.Year, fechaLunes.Month, fechaLunes.Day, 00, 00, 00);
-                    fechaDomingo = new DateTime(fechaDomingo.Year, fechaDomingo.Month, fechaDomingo.AddMonths(1).AddDays(-1).Day, 23, 59, 59);
+                    fechaDomingo = new DateTime(fechaDomingo.Year, fechaDomingo.Month, fechaDomingo.Day, 23, 59, 59);
 
                 }
 

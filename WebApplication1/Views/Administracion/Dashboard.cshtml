@@ -181,8 +181,8 @@
             $(function () {
                 $('input[name="daterange"]').daterangepicker({
                     opens: "left",
-                    startDate: moment().startOf('hour'),
-                    endDate: moment().startOf('hour').add(30, 'day'),
+                    startDate: moment().startOf('month'),
+                    endDate: moment().endOf('month'),
                     minDate: "26/10/2020",
                     maxDate: "31/12/" + ((new Date).getFullYear() + 1),
                     dateLimit: {
@@ -233,6 +233,7 @@
                     },
                 });
             });
+
 
             var cubiertos = 0;
             var noCubiertos = 0;
