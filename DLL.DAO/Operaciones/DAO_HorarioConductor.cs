@@ -21,54 +21,34 @@ namespace DLL.DAO.Operaciones
             XmlConfigurator.Configure();
         }
 
-        public int GetHorariosCubiertos(int idUsuario, DateTime DateIni, DateTime dateFin)
+        public int GetHorariosCubiertosCount(int idUsuario, DateTime DateIni, DateTime dateFin, int IdTerminal)
         {
             using (SolusegEntities context = new SolusegEntities())
             {
-                if (idUsuario > 0)
-                {
-                    return (from hc in context.HORARIO_CONDUCTOR
-                            where hc.ID_USUARIO == idUsuario
-                               && hc.FECHA_INICIO >= DateIni
-                               && hc.FECHA_INICIO <= dateFin
-                               && hc.HORARIO_CUBIERTO == true
-                               && hc.ESTADO == true
-                            select hc.HORARIO_CUBIERTO).Count();
-                }
-                else
-                {
-                    return (from hc in context.HORARIO_CONDUCTOR
-                            where hc.FECHA_INICIO >= DateIni
-                               && hc.FECHA_INICIO <= dateFin
-                               && hc.HORARIO_CUBIERTO == true
-                               && hc.ESTADO == true
-                            select hc.HORARIO_CUBIERTO).Count();
-                }
+
+                return (from hc in context.HORARIO_CONDUCTOR
+                        where hc.ESTADO == true
+                        && ((hc.ID_USUARIO > 0 && hc.ID_USUARIO == idUsuario) || idUsuario == 0)
+                            && ((hc.ID_TERMINAL_INICIO > 0 && hc.ID_TERMINAL_INICIO == IdTerminal) || IdTerminal == 0)
+                                && hc.FECHA_INICIO >= DateIni && hc.FECHA_INICIO <= dateFin
+                                && hc.HORARIO_CUBIERTO == true
+                        select hc.HORARIO_CUBIERTO).Count();
+
 
             }
         }
 
-        public int GetHorariosNoCubiertos(int idUsuario, DateTime DateIni, DateTime dateFin)
+        public int GetHorariosNoCubiertosCount(int idUsuario, DateTime DateIni, DateTime dateFin, int IdTerminal)
         {
             using (SolusegEntities context = new SolusegEntities())
             {
-                if (idUsuario > 0)
-                {
-                    return (from hc in context.HORARIO_CONDUCTOR
-                            where hc.ID_USUARIO == idUsuario
-                            && hc.FECHA_INICIO >= DateIni && hc.FECHA_INICIO <= dateFin
-                            && hc.HORARIO_CUBIERTO == false
-                            && hc.ESTADO == true
-                            select hc.ID_HORARIO).Count();
-                }
-                else
-                {
-                    return (from hc in context.HORARIO_CONDUCTOR
-                            where hc.FECHA_INICIO >= DateIni && hc.FECHA_INICIO <= dateFin
-                            && hc.HORARIO_CUBIERTO == false
-                            && hc.ESTADO == true
-                            select hc.ID_HORARIO).Count();
-                }
+                return (from hc in context.HORARIO_CONDUCTOR
+                        where hc.ESTADO == true
+                        && ((hc.ID_USUARIO > 0 && hc.ID_USUARIO == idUsuario) || idUsuario == 0)
+                            && ((hc.ID_TERMINAL_INICIO > 0 && hc.ID_TERMINAL_INICIO == IdTerminal) || IdTerminal == 0)
+                                && hc.FECHA_INICIO >= DateIni && hc.FECHA_INICIO <= dateFin
+                                && hc.HORARIO_CUBIERTO == false
+                        select hc.HORARIO_CUBIERTO).Count();
 
             }
         }
@@ -105,7 +85,7 @@ namespace DLL.DAO.Operaciones
                                                                         SEGUNDO_NOMBRE = usr.SEGUNDO_NOMBRE,
                                                                         APELLIDO_PATERNO = usr.APELLIDO_PATERNO,
                                                                         APELLIDO_MATERNO = usr.APELLIDO_MATERNO,
-                                                                        ESTADO = usr.ESTADO,                                                                        
+                                                                        ESTADO = usr.ESTADO,
                                                                         ID_TERMINAL = hrcon.ID_TERMINAL_INICIO,
                                                                         NOMBRE_TERMINAL = ter.NOMBRE_TERMINAL,
                                                                         NUMERO_JORNADA = hrcon.NUMERO_JORNADA,
@@ -151,9 +131,9 @@ namespace DLL.DAO.Operaciones
                                                                     join usr in context.USUARIOS_SISTEMA on hrcon.ID_USUARIO equals usr.ID_USUARIO
                                                                     join ter in context.TERMINAL on hrcon.ID_TERMINAL_INICIO equals ter.ID_TERMINAL
                                                                     join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO
-                                                                    where hrcon.ESTADO == true 
+                                                                    where hrcon.ESTADO == true
                                                                     && hrcon.HORARIO_CUBIERTO == true
-                                                                    && hrcon.ID_USUARIO == idUsuario 
+                                                                    && hrcon.ID_USUARIO == idUsuario
                                                                     && hrcon.FECHA_INICIO >= fechaIni && hrcon.FECHA_INICIO <= fechaFin
                                                                     select new DTO_HorarioConductorMostrar
                                                                     {
@@ -726,7 +706,7 @@ namespace DLL.DAO.Operaciones
                             HORARIO_CONDUCTOR horarioOLD = context.HORARIO_CONDUCTOR.Where(x => x.ESTADO == true && x.ID_HORARIO == idTurno).FirstOrDefault();
                             horarioOLD.HORARIO_CUBIERTO = false;
                             respuesta = context.SaveChanges();
-                            
+
                             if (respuesta == 1)
                                 respuesta = 2;
                         }
@@ -739,7 +719,7 @@ namespace DLL.DAO.Operaciones
                             if (respuesta == 1)
                                 respuesta = 1;
                         }
-                        
+
                         contextTransaction.Commit();
                     }
                 }

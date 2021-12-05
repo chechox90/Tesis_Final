@@ -31,7 +31,7 @@
         </nav>
     </div>
 </div>
-
+<br />
 <div class="card">
     <div class="modal-body">
         <div class="form-row contiener-row">
@@ -87,7 +87,7 @@
         </div>
     </div>
 </div>
-
+<br />
 <div>
     <div class="col-12" style="display:none" id="divAdminGraficos">
         <div class="form-row">
@@ -155,6 +155,9 @@
         $(document).ready(function () {
             var perfilId = $('#perfilUser').attr('value');
 
+            var cubiertos = 0;
+            var noCubiertos = 0;
+
             if (perfilId == 4) {
                 $("#divAdminGraficos").css("display", "");
                 $("#divTerminal").css("display", "");
@@ -162,6 +165,25 @@
                 $("#divConduGraficos").css("display", "none");
                 $("#divTablaHorarios").css("display", "none");
                 $("#divTablaHorarios").css("display", "none");
+
+                //grafico admin-1
+                $.ajax({
+                    url: '../HorarioConductor/GetDatosDashboardAdmin',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "fIni": "",
+                        "fFin": "",
+                        "idTerminal": 0
+                    },
+                    success: function (data) {
+                        cubiertos = data.data[0];
+                        noCubiertos = data.data[1];
+
+                        graficoAdmin(cubiertos, noCubiertos);
+                    }
+                });
             }
 
             if (perfilId == 2) {
@@ -171,6 +193,71 @@
                 $("#divConduGraficos").css("display", "");
                 $("#divTablaHorarios").css("display", "");
 
+                //grafico conductor-1
+                $.ajax({
+                    url: '../HorarioConductor/GetDatosDashboard',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "fIni": "",
+                        "fFin": "",
+                        "idTerminal": 0
+                    },
+                    success: function (data) {
+                        cubiertos = data.data[0];
+                        noCubiertos = data.data[1];
+
+                        graficoConductor(cubiertos, noCubiertos);
+                    }
+                });
+            }
+
+            if (perfilId == 1) {
+                $("#divAdminGraficos").css("display", "");
+                $("#divTerminal").css("display", "");
+
+                $("#divConduGraficos").css("display", "");
+                $("#divTablaHorarios").css("display", "");
+                $("#divTablaHorarios").css("display", "");
+
+                //grafico conductor-1
+                $.ajax({
+                    url: '../HorarioConductor/GetDatosDashboard',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "fIni": "",
+                        "fFin": "",
+                        "idTerminal": 0
+                    },
+                    success: function (data) {
+                        cubiertos = data.data[0];
+                        noCubiertos = data.data[1];
+
+                        graficoConductor(cubiertos, noCubiertos);
+                    }
+                });
+
+                //grafico admin-1
+                $.ajax({
+                    url: '../HorarioConductor/GetDatosDashboardAdmin',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "fIni": "",
+                        "fFin": "",
+                        "idTerminal": 0
+                    },
+                    success: function (data) {
+                        cubiertos = data.data[0];
+                        noCubiertos = data.data[1];
+
+                        graficoAdmin(cubiertos, noCubiertos);
+                    }
+                });
             }
 
             $(".ocultar").css("display", "none");
@@ -233,47 +320,6 @@
                     },
                 });
             });
-
-
-            var cubiertos = 0;
-            var noCubiertos = 0;
-
-            //grafico conductor-1
-            $.ajax({
-                url: '../HorarioConductor/GetDatosDashboard',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: {
-                    "fIni": "",
-                    "fFin": ""
-                },
-                success: function (data) {
-                    cubiertos = data.data[0];
-                    noCubiertos = data.data[1];
-
-                    graficoConductor(cubiertos, noCubiertos);
-                }
-            });
-
-            //grafico admin-1
-            $.ajax({
-                url: '../HorarioConductor/GetDatosDashboardAdmin',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: {
-                    "fIni": "",
-                    "fFin": ""
-                },
-                success: function (data) {
-                    cubiertos = data.data[0];
-                    noCubiertos = data.data[1];
-
-                    graficoAdmin(cubiertos, noCubiertos);
-                }
-            });
-
 
             CargarVueltas();
         });
@@ -739,7 +785,7 @@
                     type: 'column'
                 },
                 title: {
-                    text: 'Turnos cubiertos V/S Turnos no cubierto, hoy',
+                    text: 'Turnos cubiertos V/S Turnos no cubiertos, hoy',
                 },
                 accessibility: {
                     announceNewData: {
@@ -924,6 +970,7 @@
             var fechaPorRango = $("#txtFechaInicio").val();
             var fIni = (fechaPorRango.split("-")[0]);
             var fFIn = (fechaPorRango.split("-")[1]);
+            var idTerminal = $("#ddlTerminal option:selected").val();
 
             $("#tblVueltas").DataTable();
 
@@ -952,7 +999,8 @@
                     dataType: "json",
                     data: {
                         Desde: fIni,
-                        Hasta: fFIn
+                        Hasta: fFIn,
+                        idTerminal: idTerminal
                     }
                 },
                 columns: [
@@ -994,23 +1042,84 @@
                 ],
             });
 
+            var perfilId = $('#perfilUser').attr('value');
 
-            $.ajax({
-                url: '../HorarioConductor/GetDatosDashboard',
-                type: 'post',
-                datatype: 'json',
-                async: false,
-                data: {
-                    "fIni": fIni,
-                    "fFin": fFIn
-                },
-                success: function (data) {
-                    cubiertos = data.data[0];
-                    noCubiertos = data.data[1];
+            if (perfilId == 4) {
+                //admin
+                $.ajax({
+                    url: '../HorarioConductor/GetDatosDashboardAdmin',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "fIni": fIni,
+                        "fFin": fFIn,
+                        "idTerminal": idTerminal
+                    },
+                    success: function (data) {
+                        cubiertos = data.data[0];
+                        noCubiertos = data.data[1];
 
-                    graficoConductor(cubiertos, noCubiertos);
-                }
-            });
+                        graficoAdmin(cubiertos, noCubiertos);
+                    }
+                });
+            }
+
+            //conductor
+            if (perfilId == 2) {
+                $.ajax({
+                    url: '../HorarioConductor/GetDatosDashboard',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "fIni": fIni,
+                        "fFin": fFIn
+                    },
+                    success: function (data) {
+                        cubiertos = data.data[0];
+                        noCubiertos = data.data[1];
+
+                        graficoConductor(cubiertos, noCubiertos);
+                    }
+                });
+            }
+
+            if (perfilId == 1) {
+                $.ajax({
+                    url: '../HorarioConductor/GetDatosDashboard',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "fIni": fIni,
+                        "fFin": fFIn
+                    },
+                    success: function (data) {
+                        cubiertos = data.data[0];
+                        noCubiertos = data.data[1];
+
+                        graficoConductor(cubiertos, noCubiertos);
+                    }
+                });
+
+                $.ajax({
+                    url: '../HorarioConductor/GetDatosDashboard',
+                    type: 'post',
+                    datatype: 'json',
+                    async: false,
+                    data: {
+                        "fIni": fIni,
+                        "fFin": fFIn
+                    },
+                    success: function (data) {
+                        cubiertos = data.data[0];
+                        noCubiertos = data.data[1];
+
+                        graficoConductor(cubiertos, noCubiertos);
+                    }
+                });
+            }
 
         }
 

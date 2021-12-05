@@ -13,6 +13,8 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
 
         List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idUsuario,DateTime desde, DateTime hasta);
 
+        List<DTO_RegistroVueltas> GetRegistroVueltasByAllIdTerminal(int idUsuario,DateTime desde, DateTime hasta,int idTerminal);
+
         DTO_RegistroVueltas GetRegistroVueltasByAllId(int idVuelta);
 
         DTO_RegistroHorario GetRegistroHorarioByAll(int idUsuario);

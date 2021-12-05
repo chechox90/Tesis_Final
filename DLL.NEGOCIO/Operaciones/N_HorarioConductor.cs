@@ -15,14 +15,14 @@ namespace DLL.NEGOCIO.Operaciones
         private readonly I_DAO_HorarioConductor I_DAO_HorarioConductor;
 
 
-        public int GetHorariosCubiertos(int idUsuario, DateTime DateIni, DateTime dateFin)
+        public int GetHorariosCubiertosCount(int idUsuario, DateTime DateIni, DateTime dateFin, int IdTerminal)
         {
-            return I_DAO_HorarioConductor.GetHorariosCubiertos(idUsuario, DateIni, dateFin);
+            return I_DAO_HorarioConductor.GetHorariosCubiertosCount(idUsuario, DateIni, dateFin,IdTerminal);
         }
 
-        public int GetHorariosNoCubiertos(int idUsuario, DateTime DateIni, DateTime dateFin)
+        public int GetHorariosNoCubiertosCount(int idUsuario, DateTime DateIni, DateTime dateFin,int Idterminal)
         {
-            return I_DAO_HorarioConductor.GetHorariosNoCubiertos(idUsuario, DateIni, dateFin);
+            return I_DAO_HorarioConductor.GetHorariosNoCubiertosCount(idUsuario, DateIni, dateFin,Idterminal);
         }
 
         public List<int> GetHorasTrabajadasLibres(int idUsuario, DateTime DateIni, DateTime dateFin)

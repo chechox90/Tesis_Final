@@ -1323,7 +1323,7 @@ namespace ConductorEnRed.Controllers
                 List<DTO_RegistroVueltas> vueltasM = new List<DTO_RegistroVueltas>();
                 int idUsuario = usuario.ID_USUARIO;
                 DateTime desde = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 00, 00, 00);
-                DateTime hasta = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddMonths(1).AddDays(-1).Day, 23, 59, 59);
+                DateTime hasta = new DateTime(DateTime.Now.Year, DateTime.Now.Month, desde.AddMonths(1).AddDays(-1).Day, 23, 59, 59);
 
                 vueltas = _i_n_RegistroHorario.GetRegistroVueltasByAll(idUsuario,desde, hasta);
 
@@ -1367,9 +1367,8 @@ namespace ConductorEnRed.Controllers
             }
         }
 
-
         [HttpPost]
-        public ActionResult GetRegistroVueltasFechaFiltro(string Desde, string Hasta)
+        public ActionResult GetRegistroVueltasFechaFiltro(string Desde, string Hasta, string idTerminal)
         {
             try
             {
@@ -1380,7 +1379,7 @@ namespace ConductorEnRed.Controllers
                 DateTime hasta = Convert.ToDateTime(Hasta);
                 hasta = new DateTime(hasta.Year, hasta.Month, hasta.Day, 23,59,59);
 
-                vueltas = _i_n_RegistroHorario.GetRegistroVueltasByAll(idUsuario,desde, hasta);
+                vueltas = _i_n_RegistroHorario.GetRegistroVueltasByAllIdTerminal(idUsuario,desde, hasta,int.Parse(idTerminal));
 
                 int i = 1;
                 foreach (var item in vueltas)
