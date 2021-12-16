@@ -63,6 +63,25 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public DateTime GetRegistroHorarioByIdUsarioFecha(int idUsuario, DateTime fecha)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    return context.HORARIO_CONDUCTOR.Where(x => x.ESTADO == true && x.FECHA_INICIO == fecha && x.ID_USUARIO == idUsuario).Select(x => x.FECHA_INICIO).FirstOrDefault();
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
+
         public List<DTO_RegistroVueltas> GetRegistroVueltasByAll(int idUsuario,DateTime desde, DateTime hasta)
         {
             try

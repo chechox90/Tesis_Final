@@ -435,7 +435,7 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="form-group form-row col-12" id="divDomingo1">
+                                <div class="form-group form-row col-12" id="divDomingo2">
                                     <div class="col-md-3">
                                         <label id="idHorarioDomingoT2" class="idHorario"></label>
                                         <label id="idDomingoT2"></label>
@@ -581,7 +581,7 @@
         function SiguienteSemana(btn) {
             let txtRun = $("#lblRutConductor").text();
             var fechaString = $(btn).text();
-
+            console.log(txtRun,fechaString)
             if (txtRun != "") {
                 $.ajax({
                     url: '../Reprogramacion/GetConductorHorario',
@@ -615,7 +615,7 @@
 
         function ObtenerFechaBotones(fecha) {
             $.ajax({
-                url: '../Reprogramacion/ObtenerFechaBotones',
+                url: '../Reprogramacion/ObtenerFechaBotonesClick',
                 type: 'post',
                 datatype: 'json',
                 async: false,
@@ -795,6 +795,9 @@
                     $("#chkLun1").attr('disabled', "disabled");
                     $(".enabledL1").attr('disabled', 'disabled');
                 }
+            } else {
+                $("#chkLun1").prop('checked', '');
+                $(".enabledL1").removeAttr('disabled');
             }
             if (data.data[1]["HORARIO_CUBIERTO"]) {
                 $("#chkMar1").prop('checked', 'checked');
@@ -807,6 +810,11 @@
                     $(".enabledMA1").attr('disabled', 'disabled');
                 }
             }
+            else {
+                $("#chkMar1").prop('checked', '');
+                $(".enabledMA1").removeAttr('disabled');
+            }
+
             if (data.data[2]["HORARIO_CUBIERTO"]) {
                 $("#chkMie1").prop('checked', 'checked');
 
@@ -818,7 +826,11 @@
                     $(".enabledMI1").attr('disabled', 'disabled');
                 }
                 
+            } else {
+                $("#chkMie1").prop('checked', '');
+                $(".enabledMI1").removeAttr('disabled');
             }
+
             if (data.data[3]["HORARIO_CUBIERTO"]) {
                 $("#chkJue1").prop('checked', 'checked');
 
@@ -830,7 +842,11 @@
                     $(".enabledJ1").attr('disabled', 'disabled');
                 }
                 
+            } else {
+                $("#chkJue1").prop('checked', '');
+                $(".enabledJ1").removeAttr('disabled');
             }
+
             if (data.data[4]["HORARIO_CUBIERTO"]) {
                 $("#chkVie1").prop('checked', 'checked');
 
@@ -842,7 +858,11 @@
                     $(".enabledV1").attr('disabled', 'disabled');
                 }
                 
+            } else {
+                $("#chkVie1").prop('checked', '');
+                $(".enabledV1").removeAttr('disabled');
             }
+
             if (data.data[5]["HORARIO_CUBIERTO"]) {
                 $("#chkSab1").prop('checked', 'checked');
 
@@ -853,7 +873,11 @@
                     $("#chkSab1").attr('disabled', 'disabled');
                     $(".enabledS1").attr('disabled', 'disabled');
                 }
+            } else {
+                $("#chkSab1").prop('checked', '');
+                $(".enabledS1").removeAttr('disabled');
             }
+
             if (data.data[6]["HORARIO_CUBIERTO"]) {
                 $("#chkDom1").prop('checked', 'checked');
 
@@ -865,6 +889,9 @@
                     $(".enabledD1").attr('disabled', 'disabled');
                 }
                 
+            } else {
+                $("#chkDom1").prop('checked', '');
+                $(".enabledD1").removeAttr('disabled');
             }
 
             if (data.data[7]["HORARIO_CUBIERTO"]) {
@@ -877,9 +904,12 @@
                     $("#chkLun2").attr('disabled', 'disabled');
                     $(".enabledL2").attr('disabled', 'disabled');
                 }
-
-                
+                                
+            } else {
+                $("#chkLun2").prop('checked', '');
+                $(".enabledL2").removeAttr('disabled');
             }
+
             if (data.data[8]["HORARIO_CUBIERTO"]) {
                 $("#chkMar2").prop('checked', 'checked');
 
@@ -890,7 +920,13 @@
                     $("#chkMar2").attr('disabled', 'disabled');
                     $(".enabledMA2").attr('disabled', 'disabled');
                 }
+            } else {
+                $("#chkMar2").prop('checked', '');
+                $(".enabledMA2").removeAttr('disabled');
             }
+
+
+
             if (data.data[9]["HORARIO_CUBIERTO"]) {
                 $("#chkMie2").prop('checked', 'checked');
 
@@ -901,6 +937,9 @@
                     $("#chkMie2").attr('disabled', 'disabled');
                     $(".enabledMI2").attr('disabled', 'disabled');
                 }
+            } else {
+                $("#chkMie2").prop('checked', '');
+                $(".enabledMI2").removeAttr('disabled');
             }
 
             if (data.data[10]["HORARIO_CUBIERTO"]) {
@@ -914,7 +953,11 @@
                     $(".enabledJ2").attr('disabled', 'disabled');
                 }
                 
+            } else {
+                $("#chkJue2").prop('checked', '');
+                $(".enabledJ2").removeAttr('disabled');
             }
+
             if (data.data[11]["HORARIO_CUBIERTO"]) {
                 $("#chkVie2").prop('checked', 'checked');
 
@@ -926,7 +969,11 @@
                     $(".enabledV2").attr('disabled', 'disabled');
                 }
                 
+            } else {
+                $("#chkVie2").prop('checked', '');
+                $(".enabledV2").removeAttr('disabled');
             }
+
             if (data.data[12]["HORARIO_CUBIERTO"]) {
                 $("#chkSab2").prop('checked', 'checked');
 
@@ -938,7 +985,11 @@
                     $(".enabledS2").attr('disabled', 'disabled');
                 }
                 
+            } else {
+                $("#chkSab2").prop('checked', '');
+                $(".enabledS2").removeAttr('disabled');
             }
+
             if (data.data[13]["HORARIO_CUBIERTO"]) {
                 $("#chkDom2").prop('checked', 'checked');
 
@@ -950,6 +1001,9 @@
                     $(".enabledD2").attr('disabled', 'disabled');
                 }
                 
+            } else {
+                $("#chkDom2").prop('checked', '');
+                $(".enabledD2").removeAttr('disabled');
             }
 
         }
@@ -1092,7 +1146,7 @@
 
             ]
 
-            if ($("#lblRutConductor").val() != "") {
+            if ($("#lblRutConductor").val() == "") {
                 $.ajax({
                     url: '../Reprogramacion/SetGuaradarCambioHorario',
                     type: 'post',

@@ -57,6 +57,8 @@ namespace WebApplication1.Controllers
                     List<DTO_HorarioConductorMostrar> dto_Horario = _i_n_HorarioConductor.GetHorarioConductorByRutAll(RutConductor, fechaIni, fechaFin);
                     List<DTO_HorarioConductorMostrar> list = new List<DTO_HorarioConductorMostrar>();
 
+                    DateTime UltimaHora = DateTime.Now;
+                    int ContDias = 0;
                     if (dto_Horario.Count > 0)
                     {
                         int ind = 0;
@@ -67,7 +69,6 @@ namespace WebApplication1.Controllers
                             {
                                 carga.ID_HORARIO = dto_Horario[ind].ID_HORARIO;
                                 carga.FECHA_INICIO = dto_Horario[ind].FECHA_HORA_INICIO.ToString().Split(' ')[0];
-
                                 carga.HORA_INICIO = dto_Horario[ind].FECHA_HORA_INICIO.ToString("dd/MM/yyyy HH:mm").Split(' ')[1];
                                 carga.RUT = IngresarPuntosEnRut(dto_Horario[ind].RUT);
                                 carga.HORARIO_REGISTRADO = dto_Horario[ind].HORARIO_REGISTRADO;
@@ -80,15 +81,15 @@ namespace WebApplication1.Controllers
                             }
                             else
                             {
+
                                 carga.ID_HORARIO = 0;
-                                carga.FECHA_INICIO = DateTime.Now.ToString("dd/MM/yyyy HH:mm").Split(' ')[0];
+                                carga.FECHA_INICIO = dto_Horario[0].FECHA_HORA_INICIO.AddDays(ContDias).ToString().Split(' ')[0];
                                 carga.HORA_INICIO = "";
                                 carga.RUT = "";
-
                                 carga.FECHA_HORA_INICIO = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
                                 carga.ID_TERMINAL = 0;
                                 carga.NOMBRE_COMPLETO = "";
-
+                                ContDias++;
                                 list.Add(carga);
                             }
                             ind++;
@@ -593,10 +594,10 @@ namespace WebApplication1.Controllers
                             dTO_Horario.RUT = IngresarPuntosEnRut(_i_n_usuario.GetUsuarioActivo(item.ID_CONDUCTOR).RUT);
                             dTO_Horario.FECHA_CARGA = DateTime.Now;
                             dTO_Horario.CORREO_CONDUCTOR = _i_n_usuario.GetUsuarioActivo(item.ID_CONDUCTOR).CORREO;
-                            
+
                             var existe = conductorMostrar.Where(x => x.RUT == dTO_Horario.RUT).Select(x => x.RUT).FirstOrDefault();
                             int contHorario = list.Where(x => x.ID_CONDUCTOR == dTO_Horario.ID_USUARIO).Select(x => x.ID_CONDUCTOR).Count();
-                           
+
                             if (existe == null)
                             {
                                 var body = "<!DOCTYPE html PUBLIC ' -//W3C//DTD XHTML 1.0 Transitional//EN''http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>"
@@ -697,6 +698,62 @@ namespace WebApplication1.Controllers
             }
         }
 
+        public ActionResult ObtenerFechaBotonesClick(string fechaSemanas)
+        {
+            DateTime fechaHoy = DateTime.Parse(fechaSemanas.Split('-')[0].ToString().Trim());
+
+
+            int dia = Convert.ToInt32(fechaHoy.DayOfWeek);
+            dia = dia - 1;
+
+
+            if (dia == -1)
+            {
+                dia = Convert.ToInt32(fechaHoy.AddDays(-1).DayOfWeek);
+            }
+
+            string fechaList = "";
+
+            List<string> list = new List<string>();
+
+            //semana anterior a la fecha de la semana actual
+            DateTime fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(-7);
+            DateTime fechaSemActDomingo = fechaSemActLunnes.AddDays((dia) * (-1)).AddDays(6);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            //semana actual de lunes a domingo
+            fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1));
+            fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(6);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            //semana siguiente a la semana actual
+            fechaSemActLunnes = fechaHoy.AddDays((dia) * (-1)).AddDays(7);
+            fechaSemActDomingo = fechaHoy.AddDays((dia) * (-1)).AddDays(13);
+            fechaList = fechaSemActLunnes.ToString("dd/MM/yyyy") + " - " + fechaSemActDomingo.ToString("dd/MM/yyyy");
+            list.Add(fechaList);
+
+            if (list.Count > 1)
+            {
+                return Json(new
+                {
+                    data = list,
+                    ErrorMsg = "",
+                    JsonRequestBehavior.AllowGet
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    EnableError = true,
+                    ErrorTitle = "Error",
+                    ErrorMsg = "Se ha producido un error por favor <b>vuelva a intentarlo</b>"
+                });
+            }
+
+        }
 
         [HttpPost]
         public ActionResult SetGuaradarCambioHorario(List<CargaHorarioModel> ObjetoHorario)

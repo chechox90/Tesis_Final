@@ -24,6 +24,11 @@
     .btn-x {
         margin-left: auto
     }
+
+    .titulos {
+        padding: 1rem;
+        border: 10px;
+    }
 </style>
 
 <div class="page-title">
@@ -41,53 +46,52 @@
 
 <div class="card">
     <div class="modal-body">
-        <div class="form-row container-title">
-            <div class="borderInput">
-                <h4 class="modal-title text-success">Comunas</h4>
-            </div>
-        </div>
-    </div>
-    <div class="modal-body">
         <div class="form-row contiener-row">
-            <hr class="col-12" />
-            <div class="col-md-6">
-                <div class="form-row" style="display:flex">
-                    <div class="col-10">
-                        <label for="NumeroServicio">Comunas</label>
-                        <select id="ddlComunas" name="NumeroServicio" class="form-control" onchange="HabilitarEdit();"></select>
-                        <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="right" title="Seleccione una comuna para eliminarla o editarla"></i>
-                    </div>
-                </div>
-                <div class="modal-footer" style="display:none" id="divBtonesEdit">
+            <div class="form-row col-12">
+                <div class="col-md-6">
                     <div>
-                        <button class="btn btn-success" type="button" id="btnEditComuna" onclick="ShowEditarComuna();"><i class="fas fa-edit"></i> Editar</button>
-                        <button class="btn btn-danger" id="btnEliminarComuna" onclick="ShowModalEliminar();"><i class="fas fa-trash"></i> Eliminar</button>
+                        <h4 class="text-success">Editar</h4>
+                    </div>
+                    <div class="form-row" style="display:flex">
+                        <div class="col-10">
+                            <label for="NumeroServicio">Comunas</label>
+                            <select id="ddlComunas" name="NumeroServicio" class="form-control" onchange="HabilitarEdit();"></select>
+                            <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="right" title="Seleccione una comuna para eliminarla o editarla"></i>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="display:none" id="divBtonesEdit">
+                        <div>
+                            <button class="btn btn-success" type="button" id="btnEditComuna" onclick="ShowEditarComuna();"><i class="fas fa-edit"></i> Editar</button>
+                            <button class="btn btn-danger" id="btnEliminarComuna" onclick="ShowModalEliminar();"><i class="fas fa-trash"></i> Eliminar</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-6">
-                <div id="divComunaNew" class="form-row" style="display:flex">
-                    <div class="col-10">
-                        <label for="NombreComuna">Nombre Comuna *</label>
-                        <input id="txtNomComuna" type="text" name="NombreComuna" onkeyup="CamelCase(this)" placeholder="Nombre Comuna" onblur="ValidarComunaExiste();" class="form-control" />
-                        <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="left" title="Comience a escribir para agregar una nueva comuna"></i>
+                <div class="col-6">
+                    <div>
+                        <h4 class="text-success">Nueva</h4>
+                    </div>
+                    <div id="divComunaNew" class="form-row" style="display:flex">
+                        <div class="col-10">
+                            <label for="NombreComuna">Nombre Comuna *</label>
+                            <input id="txtNomComuna" type="text" name="NombreComuna" onkeyup="CamelCase(this)" placeholder="Nombre Comuna" onblur="ValidarComunaExiste();" class="form-control" />
+                            <i class="far fa-info-circle text-primary mr-2 align-self-center" data-toggle="tooltip" data-placement="left" title="Comience a escribir para agregar una nueva comuna"></i>
+                        </div>
+                    </div>
+                    <div id="divComunaEdit" class="col-md-10" style="display:none">
+                        <label for="NombreComuna">Nombre Comuna</label>
+                        <input id="txtNomComunaEdit" type="text" maxlength="30" name="NombreComuna" onkeyup="CamelCase(this)" onblur="ValidarComunaExiste();" placeholder="Nombre Comuna" class="form-control" />
+                    </div>
+                    <div class="col-md-10">
+                        <div class="form-group ocultar">
+                            <label for="Motivo">Motivo de  Edición</label>
+                            <input id="txtMotivo" type="text" name="Motivo" maxlength="100" placeholder="Ingrese motivo" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="text-danger">* Todos los campos son requeridos</label>
                     </div>
                 </div>
-                <div id="divComunaEdit" class="col-md-10" style="display:none">
-                    <label for="NombreComuna">Nombre Comuna</label>
-                    <input id="txtNomComunaEdit" type="text" maxlength="30" name="NombreComuna" onkeyup="CamelCase(this)" onblur="ValidarComunaExiste();" placeholder="Nombre Comuna" class="form-control" />
-                </div>
-                <div class="col-md-10">
-                    <div class="form-group ocultar">
-                        <label for="Motivo">Motivo de  Edición</label>
-                        <input id="txtMotivo" type="text" name="Motivo" maxlength="100" placeholder="Ingrese motivo" class="form-control" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <label class="text-danger">* Todos los compos son requeridos</label>
             </div>
         </div>
     </div>
@@ -141,9 +145,12 @@
             $("#divMotivoEliminar").css('display', 'none');
             $("#btnEditarComuna").css('display', 'none');
             $("#divBtonesEdit").css('display', 'none');
+            $("#txtNomComunaEdit").css('display', 'none');
 
-            $("#txtNomComuna").val("");
+            $("#txtNomComuna").text("");
+            $("#txtNomComuna").css('display', '');
             $("#txtMotivo").val("");
+            $("#txtNomComunaEdit").val("");
 
             $("#btnGuardarComuna").css('display', '');
 
@@ -197,7 +204,7 @@
             $("#divComunaNew").css('display', 'none');
 
             $("#btnGuardarComuna").css('display', 'none');
-            $("#btnEliminar").css('display', 'none');
+            $("#btnEliminarComuna").css('display', 'none');
             $("#divComunaEdit").css('display', '');
             verMotivo();
         }
@@ -263,14 +270,14 @@
         }
 
         function GuardarEdicionComuna() {
-            var COMUNA =
+            var comuna =
             {
                 ID_COMUNA: $("#ddlComunas").val(),
                 NOMBRE_COMUNA: $("#txtNomComunaEdit").val(),
                 MOTIVO_EDICION: $("#txtMotivo").val(),
             };
 
-
+            console.log(comuna.ID_COMUNA,comuna.MOTIVO_EDICION,comuna.NOMBRE_COMUNA)
 
             $.ajax({
                 url: '../Mantenedor/SetEditarComuna',
@@ -278,10 +285,11 @@
                 datatype: 'json',
                 async: false,
                 data: {
-                    "COMUNA": COMUNA
+                    COMUNA: comuna
                 },
                 success: function (data) {
-                    if (data.Data.alert == "success") {
+                    console.log(data.Data.alerta)
+                    if (data.Data.alert == 'success') {
                         setTimeout(function () {
                             alertSuccess(data.Data.message);
                         }, 500);
@@ -290,7 +298,8 @@
                         Limpiar();
 
                     } else {
-                        alertSuccess(data.Data.message);
+                        CerrarModal();
+                        alertDanger(data.Data.message);
                     }
 
                 }, error: function () {
@@ -308,6 +317,8 @@
 
             if (respuesta == "") {
                 $("#txtMostrar").text("editar");
+
+                $("#btnAceptarEditar").css('display', '');
 
                 $("#btnEliminar").css('display', 'none');
                 $("#btnGuardarComuna").css('display', 'none');

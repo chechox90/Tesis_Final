@@ -32,7 +32,7 @@
 <div class="flex-fill">
     <div class="card">
         <div class="modal-title text-center">
-            <h3 class="text-success">Solicitud cambio de Horario</h3>
+            <h3 class="text-success">Solicitudes</h3>
         </div>
         <br />
         <div class="modal-body">
@@ -88,7 +88,7 @@
            
         </div>
         <div class="modal-footer">
-            <button class="btn btn-outline-light" id="btnCancelar">Cancelar</button>
+            <button class="btn btn-outline-light" onclick="Volver();" id="btnCancelar">Cancelar</button>
             <button class="btn btn-success" onclick="ShowEnviarSolictud();">Enviar Solicitud</button>
         </div>
     </div>
@@ -147,6 +147,13 @@
 
         function CerrarModal() {
             $("#modalConfirmacion").modal("hide");
+        }
+
+        function Volver() {
+            $("#lblIdHorario").val("");
+            $("#cmbTipoSolicitud option:selected").val("");
+            $("#txtMotivoCambio").val("");
+            window.location.href = "/RedirectVistas/HomeVerHorario"
         }
 
         function ShowEnviarSolictud() {

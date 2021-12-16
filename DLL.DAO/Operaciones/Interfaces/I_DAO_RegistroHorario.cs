@@ -16,6 +16,8 @@ namespace DLL.DAO.Operaciones.Interfaces
 
         DTO_RegistroHorario GetRegistroHorarioByAll(int idHorario);
 
+        DateTime GetRegistroHorarioByIdUsarioFecha(int idUsuraio,DateTime fecha);
+
         int SetIngresaHorario(DTO_RegistroHorario list);
 
         int SetIngresaVuelta(DTO_RegistroVueltas list);

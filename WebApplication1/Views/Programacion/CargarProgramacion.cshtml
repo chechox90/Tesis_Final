@@ -179,9 +179,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarModal();">Cancelar</button>
-                <a id="btnReenviar" href="~/Controllers/RedirectVistasController" class="btn btn-success"><i class="fas fa-arrow-alt-circle-right"></i> Ir a reporte</a>
-                <button type="button" class="btn btn-success" id="btnAceptarEditar"><i class="fas fa-check"></i> Aceptar</button>
+                <button type="button" class="btn btn-outline-light" id="btnCancelar" onclick="CerrarReload();">Cancelar</button>
+                <a id="btnReenviar" href="~/Controllers/RedirectVistasController" style="margin:auto" class="btn btn-success"><i class="fas fa-arrow-alt-circle-right"></i> Ir a reporte</a>
+                <button type="button" class="btn btn-success" onclick="CerrarReload();" id="btnAceptarEditar"><i class="fas fa-check"></i> Aceptar</button>
             </div>
         </div>
     </div>
@@ -342,7 +342,7 @@
                         if (data.ErrorMsg != '') {
                             if (data.ErrorMsg.length > 160) {
                                 $("#modalCargaRealiazada").modal("show");
-                                $("#txtMostrar").text(data.ErrorMsg)
+                                $("#txtMostrar").text(data.ErrorMsg)                                
                             } else {
                                 alertDanger1(data.ErrorMsg);
                             }                            
@@ -450,5 +450,9 @@
             $("#modalCargaRealiazada").modal("hide");
         }
 
+        function CerrarReload() {
+            location.reload();
+            $("#modalCargaRealiazada").modal("hide");
+        }
     </script>
 }

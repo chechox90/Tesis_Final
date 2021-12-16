@@ -59,13 +59,13 @@
             <hr class="col-12" />
             <div class="col-md-4">
                 <div class="form-group borderInput">
-                    <label for="NomTerminal">Nombre del terminal</label>
+                    <label for="NomTerminal">Nombre del terminal *</label>
                     <input id="txtNombreTer" type="text" name="NomTerminal" maxlength="50" onkeypress="return Sololetras(event);" onblur="ValidarTerminalExiste();" placeholder="Nombre" class="form-control" />
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group borderInput">
-                    <label for="Direcccion">Dirección del terminal</label>
+                    <label for="Direcccion">Dirección del terminal *</label>
                     <input id="txtDireccion" type="text" name="Direcccion" onkeypress="return Sololetras(event);" maxlength="100" placeholder="Diercción" class="form-control" />
                 </div>
             </div>
@@ -74,6 +74,11 @@
                     <label for="NumeroDirecccion">Número de dierección</label>
                     <input id="txtNumDire" type="number" name="NumeroDireccion" maxlength="6" placeholder="Número Dirección" class="form-control" />
                 </div>
+            </div>
+        </div>
+        <div class="form-row contiener-row">
+            <div class="col-md-4" id="divSentidoNew">
+                <label class="text-danger">* Todos los campos son requeridos</label>
             </div>
         </div>
     </div>

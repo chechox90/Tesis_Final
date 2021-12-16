@@ -19,6 +19,8 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
 
         DTO_RegistroHorario GetRegistroHorarioByAll(int idUsuario);
 
+        DateTime GetRegistroHorarioByIdUsarioFecha(int idUsuario, DateTime fechaConsulta);
+
         int SetIngresaHorario(DTO_RegistroHorario list);
 
         int SetIngresaVuelta(DTO_RegistroVueltas list);

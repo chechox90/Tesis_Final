@@ -775,24 +775,34 @@ namespace ConductorEnRed.Controllers
             try
             {
                 int response = _i_n_Comuna.SetEditarComuna(COMUNA);
-                string alert = "";
+                string alerta = "";
+
+                if (response == -1)
+                {
+                    alerta = "danger";
+                    var message = "No ha realizado ningún cambio";
+                    return new JsonResult()
+                    {
+                        Data = Json(new { alerta = alerta, message = message })
+                    };
+                }
 
                 if (response == 1)
                 {
-                    alert = "success";
+                    alerta = "success";
                     var message = "El Comuna ha sido editado con éxito";
                     return new JsonResult()
                     {
-                        Data = Json(new { alert = alert, message = message })
+                        Data = Json(new { alerta = alerta, message = message })
                     };
                 }
                 else
                 {
-                    alert = "danger";
+                    alerta = "danger";
                     var message = "Ha ocurrido una incidencia, inténtelo más tarde";
                     return new JsonResult()
                     {
-                        Data = Json(new { alert = alert, message = message })
+                        Data = Json(new { alert = alerta, message = message })
                     };
                 }
 
@@ -1325,7 +1335,7 @@ namespace ConductorEnRed.Controllers
                 DateTime desde = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 00, 00, 00);
                 DateTime hasta = new DateTime(DateTime.Now.Year, DateTime.Now.Month, desde.AddMonths(1).AddDays(-1).Day, 23, 59, 59);
 
-                vueltas = _i_n_RegistroHorario.GetRegistroVueltasByAll(idUsuario,desde, hasta);
+                vueltas = _i_n_RegistroHorario.GetRegistroVueltasByAll(idUsuario, desde, hasta);
 
                 int i = 1;
                 foreach (var item in vueltas)
@@ -1377,9 +1387,9 @@ namespace ConductorEnRed.Controllers
                 int idUsuario = usuario.ID_USUARIO;
                 DateTime desde = Convert.ToDateTime(Desde);
                 DateTime hasta = Convert.ToDateTime(Hasta);
-                hasta = new DateTime(hasta.Year, hasta.Month, hasta.Day, 23,59,59);
+                hasta = new DateTime(hasta.Year, hasta.Month, hasta.Day, 23, 59, 59);
 
-                vueltas = _i_n_RegistroHorario.GetRegistroVueltasByAllIdTerminal(idUsuario,desde, hasta,int.Parse(idTerminal));
+                vueltas = _i_n_RegistroHorario.GetRegistroVueltasByAllIdTerminal(idUsuario, desde, hasta, int.Parse(idTerminal));
 
                 int i = 1;
                 foreach (var item in vueltas)
@@ -1508,7 +1518,9 @@ namespace ConductorEnRed.Controllers
         {
             try
             {
+                int response = 0;
                 string alert = "";
+
                 DTO_RegistroVueltas newReg = new DTO_RegistroVueltas()
                 {
                     ID_REGISTRO_VUELTAS = 1,
@@ -1523,9 +1535,8 @@ namespace ConductorEnRed.Controllers
                     FECHA_HORA_FIN = null,
                     ESTADO = true
 
-
                 };
-                int response = _i_n_RegistroHorario.SetIngresaVuelta(newReg);
+                response = _i_n_RegistroHorario.SetIngresaVuelta(newReg);
 
                 if (response == 1)
                 {

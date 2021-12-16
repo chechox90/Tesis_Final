@@ -56,26 +56,31 @@
             </button>
         </div>
     </div>
-    <div class="modal-body">        
+    <div class="modal-body">
         <div class="form-row contiener-row">
             <hr style="width:100px; color:gray; background-color:gray;" class="col-12" />
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="TerminalPrincipal">Terminal Principal</label>
+                    <label for="TerminalPrincipal">Terminal Principal *</label>
                     <select id="ddlTerminalPrincipal" name="TerminalPrincipal" class="form-control"></select>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="txtPPU">Placa Patente Única</label>
+                    <label for="txtPPU">Placa Patente Única *</label>
                     <input id="txtPPU" type="text" name="txtPPU" maxlength="7" onkeypress="return Sololetras(event)" onkeyup="Format()" onblur="ValidarPPUExiste()" placeholder="CCRR-21" class="form-control" />
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="txtNumeroInterno">Número Interno</label>
+                    <label for="txtNumeroInterno">Número Interno *</label>
                     <input id="txtNumInterno" type="number" name="txtNumeroInterno" maxlength="6" placeholder="Número Interno" class="form-control" />
                 </div>
+            </div>
+        </div>
+        <div class="form-row contiener-row">
+            <div class="col-md-4" id="divSentidoNew">
+                <label class="text-danger">* Todos los campos son requeridos</label>
             </div>
         </div>
     </div>
@@ -104,7 +109,7 @@
             </div>
             <div class="modal-body">
                 <label>
-                    ¿Está seguro que desea <span id="txtMostrar"></span>  el Bus placa patentente única <sapan id="ppuEliminar" class="text-primary"></sapan>?
+                    ¿Está seguro que desea <span id="txtMostrar"></span>  el Bus placa patentente única <span id="ppuEliminar" class="text-primary"></span>?
                 </label>
 
 
@@ -247,6 +252,18 @@
             let idTerminal = $("#ddlTerminalPrincipal").val();
             let ppu = $("#txtPPU").val();
             let numeroBus = $("#txtNumInterno").val();
+
+            if (idTerminal == 0) {
+                alertDanger("Seleccione un terminal para continuar");
+                return false;
+            }
+
+            console.log(idTerminal,ppu)
+
+            if (ppu == "") {
+                alertDanger("Ingrese una P.P.U. para continuar");
+                return false;
+            }
 
             $.ajax({
                 url: '../Mantenedor/SetGuardarNuevoBus',

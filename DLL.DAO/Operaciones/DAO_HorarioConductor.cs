@@ -160,7 +160,7 @@ namespace DLL.DAO.Operaciones
                         foreach (var item in dtoHorario)
                         {
                             int r = 0;
-                            r = context.REGISTRO_HORARIO.Where(x => x.ID_HORARIO == item.ID_HORARIO && x.ESTADO == true).FirstOrDefault() == null ? 0 : 1;
+                            r = context.REGISTRO_HORARIO.Where(x => x.ID_HORARIO == item.ID_HORARIO && x.ID_TERMINAL_FIN != null && x.FECHA_HORA_FIN != null && x.ESTADO == true).FirstOrDefault() == null ? 0 : 1;
 
                             if (r == 0)
                             {
@@ -187,9 +187,14 @@ namespace DLL.DAO.Operaciones
                 {
                     List<DTO_HorarioConductorMostrar> dtoHorario = (from hrcon in context.HORARIO_CONDUCTOR
                                                                     join usr in context.USUARIOS_SISTEMA on hrcon.ID_USUARIO equals usr.ID_USUARIO
-                                                                    where (hrcon.FECHA_INICIO == fechaIni && usr.ESTADO == true)
-                                                                    join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO
-                                                                    where hrcon.ID_USUARIO == idUsuario && hrcon.ESTADO == true && hrcon.NUMERO_JORNADA == numeroJornada
+                                                                    join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO 
+                                                                    where hrcon.ID_USUARIO == idUsuario 
+                                                                    && hrcon.ESTADO == true 
+                                                                    && hrcon.NUMERO_JORNADA == numeroJornada
+                                                                    && hrcon.FECHA_INICIO.Day == fechaIni.Day 
+                                                                    && hrcon.FECHA_INICIO.Month == fechaIni.Month 
+                                                                    && hrcon.FECHA_INICIO.Year == fechaIni.Year 
+                                                                    && usr.ESTADO == true
                                                                     select new DTO_HorarioConductorMostrar
                                                                     {
                                                                         ID_HORARIO = hrcon.ID_HORARIO,
@@ -204,25 +209,25 @@ namespace DLL.DAO.Operaciones
                                                                         FECHA_HORA_INICIO = hrcon.FECHA_INICIO,
                                                                         TIPO_CONTRATO = tic.NOMBRE_TIPO_CONTRATO,
                                                                         HORARIO_CUBIERTO = hrcon.HORARIO_CUBIERTO
-                                                                    }).Where(x => x.ESTADO == true && x.HORARIO_CUBIERTO == true).ToList();
+                                                                    }).Where(x => x.ESTADO == true).ToList();
 
-                    List<DTO_HorarioConductorMostrar> dtoHorario2 = new List<DTO_HorarioConductorMostrar>();
+                    //List<DTO_HorarioConductorMostrar> dtoHorario2 = new List<DTO_HorarioConductorMostrar>();
 
-                    if (dtoHorario.Count > 0)
-                    {
+                    //if (dtoHorario.Count > 0)
+                    //{
 
-                        foreach (var item in dtoHorario)
-                        {
-                            int r = 0;
-                            r = context.REGISTRO_HORARIO.Where(x => x.ID_HORARIO == item.ID_HORARIO && x.ESTADO == true).Select(x => x.ID_HORARIO).FirstOrDefault();
-                            if (r == 0)
-                            {
-                                dtoHorario2.Add(item);
-                            }
-                        }
-                    }
+                    //    foreach (var item in dtoHorario)
+                    //    {
+                    //        int r = 0;
+                    //        r = context.REGISTRO_HORARIO.Where(x => x.ID_HORARIO == item.ID_HORARIO && x.ESTADO == true).Select(x => x.ID_HORARIO).FirstOrDefault();
+                    //        if (r == 0)
+                    //        {
+                    //            dtoHorario2.Add(item);
+                    //        }
+                    //    }
+                    //}
 
-                    return dtoHorario2;
+                    return dtoHorario;
                 }
             }
             catch (Exception ex)
@@ -656,7 +661,7 @@ namespace DLL.DAO.Operaciones
 
                             horario.ID_TERMINAL_INICIO = item.ID_TERMINAL;
                             horario.FECHA_INICIO = DateTime.Parse(horario.FECHA_INICIO.ToString().Substring(0, 10) + " " + item.HORA_INICIO);
-                            horario.HORARIO_CUBIERTO = false;
+                            horario.HORARIO_CUBIERTO = item.ESTADO;
                             horario.ESTADO = true;
                         }
 
@@ -666,9 +671,9 @@ namespace DLL.DAO.Operaciones
                     int filasTotales = list.Count;
 
 
-                    if (res == filasTotales)
+                    if (res > 0)
                     {
-                        respuesta = "<b>Se ha guardado con éxito los horarios</b>, el total de filas almacenadas es " + filasTotales;
+                        respuesta = "<b>Se ha guardado con éxito los horarios</b>, el total de filas modificada(s) es " + res;
                         return respuesta;
                     }
                     else

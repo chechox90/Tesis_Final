@@ -155,7 +155,10 @@ namespace DLL.DAO.Operaciones
 
                     }
                 }
-
+                if (respuesta == 0)
+                {
+                    respuesta = -1;
+                }
                 return respuesta;
             }
             catch (Exception)

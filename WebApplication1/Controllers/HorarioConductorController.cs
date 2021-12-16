@@ -38,12 +38,18 @@ namespace ConductorEnRed.Controllers
 
 
         [HttpPost]
-        public ActionResult GetDatosDashboard(string fIni, string fFin,string idTerminal)
+        public ActionResult GetDatosDashboard(string fIni, string fFin, string idTerminal)
         {
             try
             {
                 DateTime fechaLunes;
                 DateTime fechaDomingo;
+
+                if (idTerminal == null)
+                {
+                    idTerminal = "0";
+                }
+
                 if (fIni == "")
                 {
                     DateTime fechaHoy = DateTime.Now;
@@ -65,8 +71,8 @@ namespace ConductorEnRed.Controllers
                 }
 
                 int idUsuario = usuario.ID_USUARIO;
-                int turnos_cubiertos = _i_n_HorarioConductor.GetHorariosCubiertosCount(idUsuario, fechaLunes, fechaDomingo,int.Parse(idTerminal));
-                int turnos_no_cubiertos = _i_n_HorarioConductor.GetHorariosNoCubiertosCount(idUsuario, fechaLunes, fechaDomingo,int.Parse(idTerminal));
+                int turnos_cubiertos = _i_n_HorarioConductor.GetHorariosCubiertosCount(idUsuario, fechaLunes, fechaDomingo, int.Parse(idTerminal));
+                int turnos_no_cubiertos = _i_n_HorarioConductor.GetHorariosNoCubiertosCount(idUsuario, fechaLunes, fechaDomingo, int.Parse(idTerminal));
 
                 int[] lista = new int[2];
                 lista[0] = turnos_cubiertos;
@@ -155,7 +161,7 @@ namespace ConductorEnRed.Controllers
                 }
 
                 int turnos_cubiertos = _i_n_HorarioConductor.GetHorariosCubiertosCount(0, fechaLunes, fechaDomingo, int.Parse(idTerminal));
-                int turnos_no_cubiertos = _i_n_HorarioConductor.GetHorariosNoCubiertosCount(0, fechaLunes, fechaDomingo,int.Parse(idTerminal));
+                int turnos_no_cubiertos = _i_n_HorarioConductor.GetHorariosNoCubiertosCount(0, fechaLunes, fechaDomingo, int.Parse(idTerminal));
 
                 int[] lista = new int[2];
                 lista[0] = turnos_cubiertos;
@@ -390,7 +396,7 @@ namespace ConductorEnRed.Controllers
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
-                
+
         public static string IngresarPuntosEnRut(string RUN)
         {
             RUN = RUN.Replace("-", "");
@@ -714,7 +720,7 @@ namespace ConductorEnRed.Controllers
         }
 
         [HttpGet]
-        public ActionResult SetEditHorario(int idHorario)
+        public ActionResult SetSolicitudHorario(int idHorario)
         {
             DTO_HorarioConductorMostrar dto_horario = new DTO_HorarioConductorMostrar();
             dto_horario = _i_n_HorarioConductor.GetHorarioConductorByIdHorario(idHorario);
