@@ -10,12 +10,18 @@ namespace DLL.DTO.Mantenedor
     {
         public int ID_SOLICITUD_CAMBIO { get; set; }
         public int ID_TIPO_SOLICITUD { get; set; }
+        public int ID_HORARIO { get; set; }
+        public string NOMBRE_SOLICITA { get; set; }
+        public string RUN_SOLICITA { get; set; }
+        public string ESTADO_SOLICITUD { get; set; }
+        public string NOMBRE_TERMINAL { get; set; }
         public int ID_HORARIO_CAMBIAR { get; set; }
         public int ID_ESTADO_SOLICITUD { get; set; }
         public int ID_USUARIO_SOLICITA { get; set; }
         public int? ID_USUARIO_APRUEBA { get; set; }
         public System.DateTime FECHA_REGISTRO_SOLICITUD { get; set; }
         public Nullable<System.DateTime> FECHA_APROBACION { get; set; }
+        public DateTime FECHA_PROGRAMADA { get; set; }
         public string COMENTARIO_MOTIVO { get; set; }
         public string COMENTARIO_ADICIONAL { get; set; }
         public bool ESTADO { get; set; }

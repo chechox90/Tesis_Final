@@ -574,6 +574,82 @@ namespace ConductorEnRed.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult GetTipoSolicitudesRespuesta()
+        {
+            List<DTO_EstadoSolicitud> list = new List<DTO_EstadoSolicitud>();
+            
+            DTO_EstadoSolicitud dto_estado = new DTO_EstadoSolicitud();
+            dto_estado.ID_ESTADO_SOLICITUD = 0;
+            dto_estado.NOMBRE_ESTADO = "Seleccione";
+            list.Add(dto_estado);
+
+            List<DTO_EstadoSolicitud> listDTO = _i_n_HorarioConductor.GetTipoSolicitudesRespuesta();
+
+            foreach (var item in listDTO)
+            {
+                if (!item.NOMBRE_ESTADO.Equals("Envíada"))
+                {
+                    DTO_EstadoSolicitud dto_estadoN = new DTO_EstadoSolicitud();
+                    dto_estadoN.ID_ESTADO_SOLICITUD = item.ID_ESTADO_SOLICITUD;
+                    dto_estadoN.NOMBRE_ESTADO = item.NOMBRE_ESTADO;
+
+                    list.Add(dto_estadoN);
+                }
+                
+            }
+            
+            return Json(new
+            {
+                data = list.OrderBy(x => x.ID_ESTADO_SOLICITUD),
+                ErrorMsg = "",
+                JsonRequestBehavior.AllowGet
+            });
+
+
+        }
+
+        [HttpPost]
+        public ActionResult GetSolictudes(DateTime fechaIni, DateTime fechaFin, int tipoSolicitud, int idTerminal)
+        {
+            if (fechaFin.ToString().Equals("01/01/2021 0:00:00"))
+            {
+                fechaIni = DateTime.Parse("01/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString());
+                fechaFin = DateTime.Parse(fechaIni.AddMonths(1).AddDays(-1).Day.ToString()+ "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString());
+            }
+            List<DTO_SolicitudCambioHorario> dTO_Solicitud = new List<DTO_SolicitudCambioHorario>();
+            List<DTO_SolicitudCambioHorario> list = new List<DTO_SolicitudCambioHorario>();
+
+            dTO_Solicitud = _i_n_HorarioConductor.GetSolicitudAllFilter(fechaIni, fechaFin, tipoSolicitud, idTerminal);
+
+            foreach (var item in dTO_Solicitud)
+            {
+                DTO_SolicitudCambioHorario soli = new DTO_SolicitudCambioHorario();
+                soli.ID_SOLICITUD_CAMBIO = item.ID_SOLICITUD_CAMBIO;
+                soli.NOMBRE_SOLICITA = item.NOMBRE_SOLICITA;
+                soli.RUN_SOLICITA = IngresarPuntosEnRut(item.RUN_SOLICITA);
+                soli.ESTADO_SOLICITUD = item.ESTADO_SOLICITUD;
+                soli.FECHA_REGISTRO_SOLICITUD = item.FECHA_REGISTRO_SOLICITUD;
+                soli.COMENTARIO_MOTIVO = HashHelper.Base64Decode(item.COMENTARIO_MOTIVO);
+                soli.COMENTARIO_ADICIONAL = HashHelper.Base64Decode(item.COMENTARIO_ADICIONAL) == "" ? "Sin comentario adicional" : HashHelper.Base64Decode(item.COMENTARIO_ADICIONAL);
+                soli.ID_HORARIO = item.ID_HORARIO;
+                soli.FECHA_PROGRAMADA = item.FECHA_PROGRAMADA;
+                soli.NOMBRE_TERMINAL = item.NOMBRE_TERMINAL;
+                soli.ESTADO = item.ESTADO;
+                list.Add(soli);
+
+            }
+
+            return Json(new
+            {
+                data = list,
+                ErrorMsg = "",
+                JsonRequestBehavior.AllowGet
+            });
+
+
+        }
+
         public static string ObtenerFechaSemana()
         {
             DateTime fechaHoy = DateTime.Now;
@@ -825,5 +901,32 @@ namespace ConductorEnRed.Controllers
 
         }
 
+
+        [HttpPost]
+        public ActionResult SetIngresaRespuestaSolictud(int idSolicitud, int idEstadoSolicitud)
+        {
+            DTO_SolicitudCambioHorario solicitud = new DTO_SolicitudCambioHorario();
+            int respuesta = _i_n_HorarioConductor.SetIngresaRespuestaSolicitud(idSolicitud, idEstadoSolicitud);
+            string alert = "";
+
+            if (respuesta == 1)
+            {
+                alert = "success";
+                var message = "La solicitud ha sido contestada y notificada al destinatario.";
+                return new JsonResult()
+                {
+                    Data = Json(new { alert = alert, message = message })
+                };
+            }
+            else
+            {
+                alert = "danger";
+                var message = "Ha ocurrido una incidencia, inténtelo más tarde";
+                return new JsonResult()
+                {
+                    Data = Json(new { alert = alert, message = message })
+                };
+            }
+        }
     }
 }

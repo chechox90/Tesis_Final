@@ -32,6 +32,10 @@ namespace DLL.DAO.Operaciones.Interfaces
         DTO_HorarioConductorMostrar GetHorarioConductorByIdHorario(int idHorario);
 
         List<DTO_TipoSolicitud> GetTipoSolicitudAll();
+
+        List<DTO_EstadoSolicitud> GetTipoSolicitudesRespuesta();
+
+        List<DTO_SolicitudCambioHorario> GetSolicitudAllFilter(DateTime fechaIni, DateTime fechaFin, int tipoSolicitud, int idTerminal);
         
         string SetEditarHorarioConductor(List<DTO_HorarioConductorMostrar> list);
 
@@ -42,5 +46,7 @@ namespace DLL.DAO.Operaciones.Interfaces
         List<DTO_HorarioConductorMostrar> GetRegistroVueltasByAll(DateTime desde, DateTime hasta, int idterminal, string run);
 
         int SetCambiarEstadoCubierto(int idTurno);
+
+        int SetIngresaRespuestaSolicitud(int idSolicitud, int idEstadoSolicitud);
     }
 }

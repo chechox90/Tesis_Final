@@ -82,6 +82,7 @@
     <Compile Include="Mantenedor\DTO_Bus.cs" />
     <Compile Include="Mantenedor\DTO_Comuna.cs" />
     <Compile Include="Mantenedor\DTO_Empresa.cs" />
+    <Compile Include="Mantenedor\DTO_EstadoSolicitud.cs" />
     <Compile Include="Mantenedor\DTO_RegistroHorario.cs" />
     <Compile Include="Mantenedor\DTO_RegistroVueltas.cs" />
     <Compile Include="Mantenedor\DTO_Sentido.cs" />

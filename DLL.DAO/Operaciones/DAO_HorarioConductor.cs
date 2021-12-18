@@ -187,13 +187,13 @@ namespace DLL.DAO.Operaciones
                 {
                     List<DTO_HorarioConductorMostrar> dtoHorario = (from hrcon in context.HORARIO_CONDUCTOR
                                                                     join usr in context.USUARIOS_SISTEMA on hrcon.ID_USUARIO equals usr.ID_USUARIO
-                                                                    join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO 
-                                                                    where hrcon.ID_USUARIO == idUsuario 
-                                                                    && hrcon.ESTADO == true 
+                                                                    join tic in context.TIPO_CONTRATO on usr.ID_TIPO_CONTRATO equals tic.ID_TIPO_CONTRATO
+                                                                    where hrcon.ID_USUARIO == idUsuario
+                                                                    && hrcon.ESTADO == true
                                                                     && hrcon.NUMERO_JORNADA == numeroJornada
-                                                                    && hrcon.FECHA_INICIO.Day == fechaIni.Day 
-                                                                    && hrcon.FECHA_INICIO.Month == fechaIni.Month 
-                                                                    && hrcon.FECHA_INICIO.Year == fechaIni.Year 
+                                                                    && hrcon.FECHA_INICIO.Day == fechaIni.Day
+                                                                    && hrcon.FECHA_INICIO.Month == fechaIni.Month
+                                                                    && hrcon.FECHA_INICIO.Year == fechaIni.Year
                                                                     && usr.ESTADO == true
                                                                     select new DTO_HorarioConductorMostrar
                                                                     {
@@ -534,6 +534,74 @@ namespace DLL.DAO.Operaciones
             }
         }
 
+        public List<DTO_SolicitudCambioHorario> GetSolicitudAllFilter(DateTime fechaIni, DateTime fechaFin, int tipoSolicitud,int idTerminal)
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    List<DTO_SolicitudCambioHorario> dtoHorario = (from sch in context.SOLICITUD_CAMBIO_HORARIO
+                                                                   join usr in context.USUARIOS_SISTEMA on sch.ID_USUARIO_SOLICITA equals usr.ID_USUARIO
+                                                                   join tsc in context.TIPO_SOLICITUD_CAMBIO on sch.ID_TIPO_SOLICITUD equals tsc.ID_TIPO_SOLICITUD
+                                                                   join es in context.ESTADO_SOLICITUD on sch.ID_ESTADO_SOLICITUD equals es.ID_ESTADO_SOLICITUD
+                                                                   join hc in context.HORARIO_CONDUCTOR on sch.ID_HORARIO equals hc.ID_HORARIO
+                                                                   join ter in context.TERMINAL on hc.ID_TERMINAL_INICIO equals ter.ID_TERMINAL
+                                                                   where ((sch.ID_TIPO_SOLICITUD > 0 && sch.ID_TIPO_SOLICITUD == tipoSolicitud) || tipoSolicitud == 0)
+                                                                   && ((hc.ID_TERMINAL_INICIO > 0 && hc.ID_TERMINAL_INICIO == idTerminal) || idTerminal == 0)
+                                                                   && sch.FECHA_REGISTRO_SOLICITUD >= fechaIni && sch.FECHA_REGISTRO_SOLICITUD <= fechaFin
+                                                                   select new DTO_SolicitudCambioHorario
+                                                                   {
+                                                                       ID_SOLICITUD_CAMBIO = sch.ID_SOLICITUD_CAMBIO,
+                                                                       NOMBRE_SOLICITA = usr.NOMBRE + " " + usr.APELLIDO_PATERNO + " " + usr.APELLIDO_MATERNO,
+                                                                       RUN_SOLICITA = usr.RUT,
+                                                                       ESTADO_SOLICITUD = es.NOMBRE_ESTADO.Equals("Envíada") ? "Activa" : es.NOMBRE_ESTADO,
+                                                                       FECHA_REGISTRO_SOLICITUD = sch.FECHA_REGISTRO_SOLICITUD,
+                                                                       COMENTARIO_MOTIVO = sch.COMENTARIO_MOTIVO,
+                                                                       COMENTARIO_ADICIONAL = sch.COMENTARIO_ADICIONAL,
+                                                                       ID_HORARIO = hc.ID_HORARIO,
+                                                                       FECHA_PROGRAMADA = hc.FECHA_INICIO,
+                                                                       NOMBRE_TERMINAL = ter.NOMBRE_TERMINAL,
+                                                                       ESTADO = sch.ESTADO
+                                                                   }).Where(x => x.ESTADO == true).ToList();
+
+
+                    return dtoHorario;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
+        public List<DTO_EstadoSolicitud> GetTipoSolicitudesRespuesta()
+        {
+            try
+            {
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    List<DTO_EstadoSolicitud> solicitud = (from es in context.ESTADO_SOLICITUD
+                                                           where es.ESTADO == true
+                                                           select new DTO_EstadoSolicitud
+                                                           {
+                                                               ID_ESTADO_SOLICITUD = es.ID_ESTADO_SOLICITUD,
+                                                               NOMBRE_ESTADO = es.NOMBRE_ESTADO,
+                                                               ESTADO = es.ESTADO
+                                                           }
+                                                         ).ToList();
+
+                    return solicitud;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+        }
+
+
         public int SetIngresaSolicitud(DTO_SolicitudCambioHorario list)
         {
             try
@@ -724,6 +792,36 @@ namespace DLL.DAO.Operaciones
                             if (respuesta == 1)
                                 respuesta = 1;
                         }
+
+                        contextTransaction.Commit();
+                    }
+                }
+
+                return respuesta;
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.StackTrace);
+                throw;
+            }
+
+
+        }
+
+        public int SetIngresaRespuestaSolicitud(int idSolicitud, int idEstadoSolicitud)
+        {
+            try
+            {
+                int respuesta = 0;
+
+                using (SolusegEntities context = new SolusegEntities())
+                {
+                    using (var contextTransaction = context.Database.BeginTransaction())
+                    {
+                        SOLICITUD_CAMBIO_HORARIO estado = context.SOLICITUD_CAMBIO_HORARIO.Where(x => x.ESTADO == true && x.ID_SOLICITUD_CAMBIO == idSolicitud).FirstOrDefault();
+                        estado.ID_ESTADO_SOLICITUD = idEstadoSolicitud;
+                        respuesta = context.SaveChanges();
 
                         contextTransaction.Commit();
                     }

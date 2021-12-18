@@ -75,10 +75,23 @@ namespace DLL.NEGOCIO.Operaciones
             return I_DAO_HorarioConductor.GetTipoSolicitudAll();
         }
 
+        public List<DTO_SolicitudCambioHorario> GetSolicitudAllFilter(DateTime fechaIni, DateTime fechaFin, int tipoSolicitud, int idTerminal)
+        {
+            return I_DAO_HorarioConductor.GetSolicitudAllFilter(fechaIni, fechaFin, tipoSolicitud, idTerminal);
+        }
+
         public List<DTO_HorarioConductorMostrar> GetRegistroVueltasByAll(DateTime desde, DateTime hasta, int idterminal, string run)
         {
             return I_DAO_HorarioConductor.GetRegistroVueltasByAll(desde, hasta, idterminal, run);
         }
+
+        public List<DTO_EstadoSolicitud> GetTipoSolicitudesRespuesta()
+        {
+            return I_DAO_HorarioConductor.GetTipoSolicitudesRespuesta();
+        }
+
+
+
 
         public string SetEditarHorarioConductor(List<DTO_HorarioConductorMostrar> list)
         {
@@ -98,6 +111,11 @@ namespace DLL.NEGOCIO.Operaciones
         public int SetCambiarEstadoCubierto(int idTurno)
         {
             return I_DAO_HorarioConductor.SetCambiarEstadoCubierto(idTurno);
+        }
+
+        public int SetIngresaRespuestaSolicitud(int idSolicitud,int idEstadoSolicitud)
+        {
+            return I_DAO_HorarioConductor.SetIngresaRespuestaSolicitud(idSolicitud, idEstadoSolicitud);
         }
     }
 }

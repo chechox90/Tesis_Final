@@ -32,6 +32,10 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
 
         List<DTO_TipoSolicitud> GetTipoSolicitudAll();
 
+        List<DTO_EstadoSolicitud> GetTipoSolicitudesRespuesta();
+
+        List<DTO_SolicitudCambioHorario> GetSolicitudAllFilter(DateTime fechaIni, DateTime fechaFin, int tipoSolicitud, int idTerminal);
+
         List<DTO_HorarioConductorMostrar> GetRegistroVueltasByAll(DateTime desde, DateTime hasta, int idterminal, string run);
 
         string SetEditarHorarioConductor(List<DTO_HorarioConductorMostrar> list);
@@ -41,5 +45,7 @@ namespace DLL.NEGOCIO.Operaciones.Interfaces
         string SetGuardarHorarioConductor(List<DTO_CargarHorarioConductor> list, int idUsuario, string nombreCarga, DateTime fechaCarga, string descripcion);
 
         int SetCambiarEstadoCubierto(int idTurno);
+
+        int SetIngresaRespuestaSolicitud(int idSolicitud, int idEstadoSolicitud);
     }
 }
