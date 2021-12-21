@@ -414,7 +414,7 @@ namespace DLL.DAO.Operaciones
                     {
                         REGISTRO_HORARIO reg = new REGISTRO_HORARIO();
                         reg = context.REGISTRO_HORARIO.Where(x => x.ID_REGISTRO_HORARIO == list.ID_REGISTRO_HORARIO).FirstOrDefault();
-                        reg.ID_USUARIO = 1;
+                        reg.ID_USUARIO = list.ID_USUARIO;
                         reg.ID_TERMINAL_INICIO = reg.ID_TERMINAL_INICIO;
                         reg.FECHA_HORA_INICIO = reg.FECHA_HORA_INICIO;
                         reg.ID_TERMINAL_FIN = list.ID_TERMINAL_FIN;

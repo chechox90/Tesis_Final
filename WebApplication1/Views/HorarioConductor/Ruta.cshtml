@@ -673,6 +673,11 @@
                 },
             ]
 
+            if (vuelta[0].ID_TERMINAL_INICIO == 0) {
+                alertDanger("Seleccione un terminal de inicio para continuar.");
+                return;
+            }
+
             if (vuelta[0].HORA_INICIO == "") {
                 alertDanger("Ingrese una hora de salida para continuar.");
                 return;
@@ -700,11 +705,6 @@
 
             if (vuelta[0].ID_SENTIDO_INICIO == 0) {
                 alertDanger("Seleccione un sentido de la salida para continuar.");
-                return;
-            }
-
-            if (vuelta[0].ID_TERMINAL_INICIO == 0) {
-                alert("Seleccione un terminal de inicio para continuar.");
                 return;
             }
 
@@ -767,7 +767,7 @@
                         alertSuccess(data.Data.message)
                         tblRuta.ajax.reload(null, false);
 
-                        
+
                     } else {
                         alertDanger(data.Data.message)
                         tblRuta.ajax.reload(null, false);
@@ -887,7 +887,7 @@
                         alertSuccess(data.Data.message)
                         LimpiarTodo();
 
-                        GetInicioTurno();
+                        setInterval(function() { location.reload(); },4000);
                     }
                 }
             });

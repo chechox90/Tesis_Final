@@ -807,7 +807,7 @@ namespace ConductorEnRed.Controllers
             Horario.ID_CARGA_HORARIO = dto_horario.ID_CARGA_HORARIO;
             Horario.NOMBRE = dto_horario.NOMBRE;
             Horario.SEGUNDO_NOMBRE = dto_horario.SEGUNDO_NOMBRE;
-            Horario.RUT = dto_horario.RUT;
+            Horario.RUT = IngresarPuntosEnRut(dto_horario.RUT);
             Horario.APELLIDO_PATERNO = dto_horario.APELLIDO_PATERNO;
             Horario.APELLIDO_MATERNO = dto_horario.APELLIDO_MATERNO;
             Horario.NOMBRE_TERMINAL = dto_horario.NOMBRE_TERMINAL;

@@ -346,12 +346,13 @@
                             } else {
                                 alertDanger1(data.ErrorMsg);
                             }                            
-                            $(".files input").css("color", "");
-                            $(".files").removeClass('added').removeAttr('data-content', '').css("border-color", "");
-                            $("#cargaImagen").show().addClass('added').attr('data-content', 'Ajuntar nuevo archivo...').css("border-color", "#00CA18");
-                            $("#txtNombreCarga").val('');
-                            $("#txtComenatrio").val('');
-                            $("#FILE-ARCHIVO").val("");
+                            //$(".files input").css("color", "");
+                            //$(".files").removeClass('added').removeAttr('data-content', '').css("border-color", "");
+                            //$("#cargaImagen").show().addClass('added').attr('data-content', 'Ajuntar nuevo archivo...').css("border-color", "#00CA18");
+                            //$("#txtNombreCarga").val('');
+                            //$("#txtComenatrio").val('');
+                            //$("#FILE-ARCHIVO").val("");
+                            setInterval(function(){ CerrarReload() }, 4000);
                         } else {
                             $(".files input").css("color", "");
                             $(".files").removeClass('added').removeAttr('data-content', '').css("border-color", "");

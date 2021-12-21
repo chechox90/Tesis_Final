@@ -285,51 +285,54 @@ namespace WebApplication1.Controllers
                     {
                         CargaArchivoModel carga = new CargaArchivoModel();
 
-                        string rutString = resultadoTabla.Rows[i][0].ToString().Replace(".", "");
-                        int sinGuion = int.Parse(rutString.Split('-')[0]);
-                        string guion = resultadoTabla.Rows[i][0].ToString().Split('-')[1];
-
-                        if (!ValidarRutCompleto(rutString))
+                        if (resultadoTabla.Rows[i][0].ToString() != "")
                         {
-                            mensajeError = "Se ha detecato que la fila " + (i + 1) + " no contiene un formato valido de R.U.N.";
-                            break;
-                        }
+                            string rutString = resultadoTabla.Rows[i][0].ToString().Replace(".", "");
+                            int sinGuion = int.Parse(rutString.Split('-')[0]);
+                            string guion = resultadoTabla.Rows[i][0].ToString().Split('-')[1];
 
-                        if (resultadoTabla.Rows[i][5].ToString().Trim().ToUpper().Equals("UNO") || resultadoTabla.Rows[i][5].ToString().Trim().ToLower().Equals("uno"))
-                            carga.NUMERO_JORNADA = 1;
-                        else
-                            carga.NUMERO_JORNADA = 2;
-
-                        if (!Digito(sinGuion).ToUpper().Equals(guion.ToUpper()))
-                        {
-                            mensajeError = "Por favor revise la fila " + (i + 1) + " el dígito verificador no es correcto";
-                            break;
-                        }
-                        else
-                        {
-                            int idUsuario = _i_n_usuario.GetUsuarioByRut(rutString);
-                            var HorarioActual = _i_n_HorarioConductor.GetHorarioConductorByIdUserNumJor(idUsuario, DateTime.Parse(resultadoTabla.Rows[i][6].ToString() + " " + resultadoTabla.Rows[i][7].ToString()), carga.NUMERO_JORNADA);
-                            if (HorarioActual.Count > 0)
+                            if (!ValidarRutCompleto(rutString))
                             {
-                                mensajeError = "Por favor revise el R.U.N. " + rutString + " El R.U.N. tiene horario cargado, si necesita saber cuál " +
-                                    "es la programación cargada, revise el reporte Listado de programación cargada";
+                                mensajeError = "Se ha detecato que la fila " + (i + 1) + " no contiene un formato valido de R.U.N.";
                                 break;
                             }
 
-                            carga.RUT = IngresarPuntosEnRut(rutString);
+                            if (resultadoTabla.Rows[i][5].ToString().Trim().ToUpper().Equals("UNO") || resultadoTabla.Rows[i][5].ToString().Trim().ToLower().Equals("uno"))
+                                carga.NUMERO_JORNADA = 1;
+                            else
+                                carga.NUMERO_JORNADA = 2;
 
+                            if (!Digito(sinGuion).ToUpper().Equals(guion.ToUpper()))
+                            {
+                                mensajeError = "Por favor revise la fila " + (i + 1) + " el dígito verificador no es correcto";
+                                break;
+                            }
+                            else
+                            {
+                                int idUsuario = _i_n_usuario.GetUsuarioByRut(rutString);
+                                var HorarioActual = _i_n_HorarioConductor.GetHorarioConductorByIdUserNumJor(idUsuario, DateTime.Parse(resultadoTabla.Rows[i][6].ToString() + " " + resultadoTabla.Rows[i][7].ToString()), carga.NUMERO_JORNADA);
+                                if (HorarioActual.Count > 0)
+                                {
+                                    mensajeError = "Por favor revise el R.U.N. " + rutString + " El R.U.N. tiene horario cargado, si necesita saber cuál " +
+                                        "es la programación cargada, revise el reporte Listado de programación cargada";
+                                    break;
+                                }
+
+                                carga.RUT = IngresarPuntosEnRut(rutString);
+
+                            }
+
+                            carga.NOMBRE = resultadoTabla.Rows[i][1].ToString();
+                            carga.APELLIDO = resultadoTabla.Rows[i][2].ToString();
+                            carga.NOMBRE_TERMINAL = resultadoTabla.Rows[i][3].ToString();
+
+                            carga.BUS_INICIO = resultadoTabla.Rows[i][4].ToString();
+                            carga.NOMBRE_JORNADA = resultadoTabla.Rows[i][5].ToString();
+                            carga.FECHA_INICIO = resultadoTabla.Rows[i][6].ToString();
+                            carga.HORA_INICIO = resultadoTabla.Rows[i][7].ToString();
+
+                            list.Add(carga);
                         }
-
-                        carga.NOMBRE = resultadoTabla.Rows[i][1].ToString();
-                        carga.APELLIDO = resultadoTabla.Rows[i][2].ToString();
-                        carga.NOMBRE_TERMINAL = resultadoTabla.Rows[i][3].ToString();
-
-                        carga.BUS_INICIO = resultadoTabla.Rows[i][4].ToString();
-                        carga.NOMBRE_JORNADA = resultadoTabla.Rows[i][5].ToString();
-                        carga.FECHA_INICIO = resultadoTabla.Rows[i][6].ToString();
-                        carga.HORA_INICIO = resultadoTabla.Rows[i][7].ToString();
-
-                        list.Add(carga);
                     }
 
                     if (mensajeError != "")
@@ -371,7 +374,7 @@ namespace WebApplication1.Controllers
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Json(new
                 {
@@ -555,34 +558,37 @@ namespace WebApplication1.Controllers
                     for (int i = 1; i < resultadoTabla.Rows.Count; i++)
                     {
                         DTO_CargarHorarioConductor carga = new DTO_CargarHorarioConductor();
+                        if (resultadoTabla.Rows[i][0].ToString() != "")
+                        {
+                            string rutString = resultadoTabla.Rows[i][0].ToString().Replace(".", "");
+                            int sinGuion = int.Parse(rutString.Split('-')[0]);
+                            string guion = resultadoTabla.Rows[i][0].ToString().Split('-')[1];
+                            if (ValidarRutCompleto(rutString))
+                                carga.ID_CONDUCTOR = _i_n_usuario.GetUsuarioByRut(rutString);
 
-                        string rutString = resultadoTabla.Rows[i][0].ToString().Replace(".", "");
-                        int sinGuion = int.Parse(rutString.Split('-')[0]);
-                        string guion = resultadoTabla.Rows[i][0].ToString().Split('-')[1];
-                        if (ValidarRutCompleto(rutString))
-                            carga.ID_CONDUCTOR = _i_n_usuario.GetUsuarioByRut(rutString);
+                            carga.TERMINAL_INICIO = _i_n_Terminal.GetTerminalByNombre(resultadoTabla.Rows[i][3].ToString(), 1);
 
-                        carga.TERMINAL_INICIO = _i_n_Terminal.GetTerminalByNombre(resultadoTabla.Rows[i][3].ToString(), 1);
+                            if (resultadoTabla.Rows[i][4].ToString() != "")
+                                carga.BUS_INICIO = int.Parse(resultadoTabla.Rows[i][4].ToString().Trim());
+                            else
+                                carga.BUS_INICIO = 0;
 
-                        if (resultadoTabla.Rows[i][4].ToString() != "")
-                            carga.BUS_INICIO = int.Parse(resultadoTabla.Rows[i][4].ToString().Trim());
-                        else
-                            carga.BUS_INICIO = 0;
+                            if (resultadoTabla.Rows[i][5].ToString().Trim().ToUpper().Equals("UNO") || resultadoTabla.Rows[i][5].ToString().Trim().ToLower().Equals("uno"))
+                                carga.NUMERO_JORNADA = 1;
+                            else
+                                carga.NUMERO_JORNADA = 2;
 
-                        if (resultadoTabla.Rows[i][5].ToString().Trim().ToUpper().Equals("UNO") || resultadoTabla.Rows[i][5].ToString().Trim().ToLower().Equals("uno"))
-                            carga.NUMERO_JORNADA = 1;
-                        else
-                            carga.NUMERO_JORNADA = 2;
-
-                        carga.FECHA_HORA_INICIO = DateTime.Parse(resultadoTabla.Rows[i][6].ToString() + " " + resultadoTabla.Rows[i][7].ToString());
+                            carga.FECHA_HORA_INICIO = DateTime.Parse(resultadoTabla.Rows[i][6].ToString() + " " + resultadoTabla.Rows[i][7].ToString());
 
 
-                        list.Add(carga);
+                            list.Add(carga);
+                        }
                     }
 
 
                     string resultado = _i_n_HorarioConductor.SetGuardarHorarioConductor(list, usuario.ID_USUARIO, NombreArchivo, DateTime.Parse(FechaCarga), comentario);
-                    if (resultado != "")
+                   
+                    if (resultado == "")
                     {
                         List<DTO_HorarioConductorMostrar> conductorMostrar = new List<DTO_HorarioConductorMostrar>();
                         EnviarEmail enviarEmail = new EnviarEmail();

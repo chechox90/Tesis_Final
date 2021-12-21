@@ -193,7 +193,7 @@
                         render: function (data, type, full, meta) {
                             var html = '';
                             if (moment(full.FECHA_HORA_INICIO).format('DD/MM/YYYY HH:mm') >= moment(new Date).format('DD/MM/YYYY HH:mm')) {
-                                html = '<a href="/HorarioConductor/SetEditHorario?idHorario=' + full.ID_HORARIO + '"><i class="far fa-edit text-success"></i>\</a>';
+                                html = '<a href="/HorarioConductor/SetSolicitudHorario?idHorario=' + full.ID_HORARIO + '"><i class="far fa-edit text-success"></i>\</a>';
 
                             }
 
@@ -269,7 +269,7 @@
                         render: function (data, type, full, meta) {
                             var html = '';
                             if (full.ID_HORARIO > 0) {
-                                html = '<a href="/HorarioConductor/SetEditHorario?idHorario=' + full.ID_HORARIO + '"><i class="far fa-edit text-success"></i>\</a>';
+                                html = '<a href="/HorarioConductor/SetSolicitudHorario?idHorario=' + full.ID_HORARIO + '"><i class="far fa-edit text-success"></i>\</a>';
 
                             }
 

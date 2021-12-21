@@ -1242,7 +1242,7 @@ namespace ConductorEnRed.Controllers
         {
             try
             {
-                int idUsuario = 1;
+                int idUsuario = usuario.ID_USUARIO;
 
                 DTO_RegistroHorario registroHorarios = new DTO_RegistroHorario();
                 VM_Registro_Horario vmRegistro = new VM_Registro_Horario();
@@ -1440,7 +1440,7 @@ namespace ConductorEnRed.Controllers
                 DTO_RegistroHorario newReg = new DTO_RegistroHorario()
                 {
                     ID_HORARIO = idHorarioCond,
-                    ID_USUARIO = 1,
+                    ID_USUARIO = usuario.ID_USUARIO,
                     ID_TERMINAL_INICIO = Idterminal,
                     FECHA_HORA_INICIO = DateTime.Parse(DateTime.Now.ToString().Substring(0, 10) + " " + HoraInicio),
                     ID_TERMINAL_FIN = null,
@@ -1621,6 +1621,7 @@ namespace ConductorEnRed.Controllers
                 {
                     ID_REGISTRO_HORARIO = IdJornada,
                     ID_TERMINAL_FIN = Idterminal,
+                    ID_USUARIO = usuario.ID_USUARIO,
                     FECHA_HORA_FIN = DateTime.Parse(DateTime.Now.ToString().Substring(0, 10) + " " + HoraFin),
                     ESTADO = true
 

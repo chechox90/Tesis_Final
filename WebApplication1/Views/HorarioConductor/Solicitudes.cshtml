@@ -48,9 +48,9 @@
                 <span id="lblFechaHoy">&nbsp @Model.FECHA_INICIO &nbsp</span>
 
                 <span>y hora</span>
-                <span id="idHoraActual">&nbsp @Model.HORA_INICIO</span>,&nbsp
+                <span id="idHoraActual">&nbsp @Model.HORA_INICIO</span>.&nbsp
 
-                <span> por medio del presente solicito </span>&nbsp
+                <span> Por medio del presente solicito </span>&nbsp
 
                 <select id="cmbTipoSolicitud" class="form-control col-4"></select>
 
@@ -65,27 +65,24 @@
         </div>
         <br />
         <div class="modal-body" style="font-size:15px">
-            <span class="text-danger"><b>Nota importante:</b></span>
+            <span class="text-danger"><b>Importante:</b></span>
             <p class="text-primary" style="font-size:12px">
                 Para asegurar que esta solicitud sea de carácter reservado, el equipo de <b>Conductor en RED ha cifrado la solicitud</b> y solo puede ser leída
                 por el destinatario; nadie del equipo de Conductor en RED puede leer, modificar o reenviar esta solicitud. <b class="text-primary">¡Su privacidad es lo más importante!</b>
-                Notificaremos al destinatario que tiene una solicitud pendiente.
             </p>
         </div>
         <div class="modal-body">
-            <span>Antecedentes del día solicitado que implica el cambio</span>
-
+            <span><b>Antecedentes del día solicitado que implica el cambio</b></span>
             <div class="form-row form-group col-12">
                 <div class="form-row borderInput">
-                    <label>Terminal de Inicio</label>
+                    <label>Terminal de inicio</label>
                     <input class="form-control" style="opacity:1" id="lblTerminalInicio" readonly value="@Model.NOMBRE_TERMINAL" />
                 </div>
                 <div class="form-row borderInput">
-                    <label>Fecha y hora de Inicio</label>
+                    <label>Fecha y hora de inicio</label>
                     <input class="form-control" style="opacity:1" id="lblFechaYhora" readonly value="@Model.FECHA_HORA_INICIO" />
                 </div>
             </div>
-           
         </div>
         <div class="modal-footer">
             <button class="btn btn-outline-light" onclick="Volver();" id="btnCancelar">Cancelar</button>

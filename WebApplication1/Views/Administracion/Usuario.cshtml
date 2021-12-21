@@ -447,7 +447,10 @@
                 return "Debe ingresar el segundo apellido para continuar";
 
             if (rut == undefined || rut == "" || rut.length < 3 || rut == null)
-                return "Debe ingrese un R.U.N. para continuar";
+                return "Debe ingresar un R.U.N. para continuar";          
+
+            if (idComuna == 0)
+                return "Debe rellenar todos los campos de manera correcta";
 
             if (idComuna == 0)
                 return "Debe seleccionar una comuna para continuar";
